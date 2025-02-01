@@ -1,0 +1,3 @@
+-használjam a firebase webapiját
+-a fakeapi json-ét tegyem fel realtime database-be
+-realtime database használata
