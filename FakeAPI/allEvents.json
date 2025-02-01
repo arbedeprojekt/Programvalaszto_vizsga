@@ -1,0 +1,66 @@
+{
+    "esemenyek": [
+         
+            {"id":1,
+            "picture":"assets/Pictures/CatPictures/cat1.jpg",
+            "name":"TerraPlaza 55th",
+            "startDate":"2024.12.15",
+            "startTime":"12:00",
+            "endTime":"14:00",
+            "locationcity":"Budapest",
+            "locationcountry":"Hungary",
+            "locationstreet":"Lurdy Házsúv utca 10.",
+            "locationzip":"1011"},
+
+            {"id":2,
+            "name":"Siralom",
+            "startDate":"2024.12.15",
+            "startTime":"12:00",
+            "endTime":"14:00",
+            "locationcity":"Budapest",
+            "locationcountry":"Hungary",
+            "locationstreet":"Lurdy Házsúv utca 10.",
+            "locationzip":"1011"},
+
+            {"id":3,
+            "name":"borzalom 55th",
+            "startDate":"2024.12.15",
+            "startTime":"12:00",
+            "endTime":"14:00",
+            "locationcity":"Budapest",
+            "locationcountry":"Hungary",
+            "locationstreet":"Lurdy Házsúv utca 10.",
+            "locationzip":"1011"},
+
+            {"id":4,
+            "name":"pinki 55th",
+            "startDate":"2024.12.15",
+            "startTime":"12:00",
+            "endTime":"14:00",
+            "locationcity":"Budapest",
+            "locationcountry":"Hungary",
+            "locationstreet":"Lurdy Házsúv utca 10.",
+            "locationzip":"1011"},
+
+            {"id":5,
+            "name":"TerraPlaza 55th",
+            "startDate":"2024.12.15",
+            "startTime":"12:00",
+            "endTime":"14:00",
+            "locationcity":"Budapest",
+            "locationcountry":"Hungary",
+            "locationstreet":"Lurdy Házsúv utca 10.",
+            "locationzip":"1011"},
+
+            {"id":6,
+            "name":"TerraPlaza 55th",
+            "startDate":"2024.12.15",
+            "startTime":"12:00",
+            "endTime":"14:00",
+            "locationcity":"Budapest",
+            "locationcountry":"Hungary",
+            "locationstreet":"Lurdy Házsúv utca 10.",
+            "locationzip":"1011"}
+    ]
+}
+

@@ -11,6 +11,8 @@ import { LogoutComponent } from './logout/logout.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule } from '@angular/forms';
 import { provideHttpClient } from '@angular/common/http';
+import { AllEventsComponent } from './all-events/all-events.component';
+import { DetailedEventComponent } from './detailed-event/detailed-event.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { provideHttpClient } from '@angular/common/http';
     HomeComponent,
     LoginComponent,
     LogoutComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    AllEventsComponent,
+    DetailedEventComponent
 
   ],
   imports: [
