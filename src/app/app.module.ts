@@ -13,6 +13,9 @@ import { FormsModule } from '@angular/forms';
 import { provideHttpClient } from '@angular/common/http';
 import { AllEventsComponent } from './all-events/all-events.component';
 import { DetailedEventComponent } from './detailed-event/detailed-event.component';
+import { EventsAdminListComponent } from './events-admin-list/events-admin-list.component';
+import { TagsListComponent } from './tags-list/tags-list.component';
+import { TagsLinkComponent } from './tags-link/tags-link.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { DetailedEventComponent } from './detailed-event/detailed-event.componen
     LogoutComponent,
     RegistrationComponent,
     AllEventsComponent,
-    DetailedEventComponent
+    DetailedEventComponent,
+    EventsAdminListComponent,
+    TagsListComponent,
+    TagsLinkComponent
 
   ],
   imports: [

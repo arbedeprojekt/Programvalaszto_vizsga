@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
 export class HomeComponent implements OnInit {
 
   
-  allEventUrl="http://localhost:3000/esemenyek"
+  allEventUrl="http://localhost:3000/esemenyek/"
   eventDetails=new Subject()
   events:any 
   cols =["picture","name", "startDate", "startTime", "endTime", "locationcity", "locationcountry", "locationstreet", "locationzip"]
