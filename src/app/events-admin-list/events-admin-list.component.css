@@ -1,0 +1,10 @@
+.row {
+    padding-bottom: 3px;
+}
+.col {
+    padding-bottom:3px;
+    padding-left: 3px;
+}
+#updateDelete{
+    display:inline-flex;
+}
