@@ -3,33 +3,34 @@
 <div class="row">
     <div *ngFor="let oszlop of oszlopok" class="col">
         {{oszlop}}
-
-
     </div>
 </div>
   <!-- Fejléc Kiíratás vége -->
 
   <!-- Új rekord felvétele -->
   <div  class="row">
-
     <div *ngFor="let oszlop of oszlopok" class="col" id="fejlec">
 
         <input [(ngModel)]="newCikk[oszlop]" type="text" class="form-control form-control-sm" id="newCikk">
     </div>
-    <div  class="col">
-        <button  (click)="newData()" type="button" class="btn btn-primary btn-sm">Mentés</button>
+    <div class="col-actions">
+      <div  class="button-group">
+          <button  (click)="newData()" type="button" class="btn btn-primary btn-sm">Mentés</button>
+      </div>
     </div>
   </div>
 
   <!-- Táblázat megjelenítése -->
-  <div *ngFor="let cikk of cikkek" class="row">
-    <div *ngFor="let oszlop of oszlopok" class="col" >
+    <div *ngFor="let cikk of cikkek; let i = index" class="row align-items-center">
+      <div *ngFor="let oszlop of oszlopok" class="col word-wrap" id="esemenyek">
         <input [(ngModel)]="cikk[oszlop]" type="text" class="form-control form-control-sm">
+      </div>
+      <div class="col-actions">
+        <div class="button-group">
+          <button class="btn btn-primary btn-sm" (click)="updateData(i)">Módosít</button>
+          <button class="btn btn-secondary btn-sm ms-2" (click)="deleteData(i)">Törlés</button>
+        </div>
     </div>
-    <br>
-    <div  class="nav-item" class="col" id="updateDelete">
-      <button  (click)="updateData(cikk)" type="button" class="btn btn-primary btn-sm" id="update">Módosítás</button>
-      <button  (click)="deleteData(cikk)" type="button" class="btn btn-primary btn-sm ms-2" id="delete">Törlés</button>
     </div>
 
-  </div>
+
