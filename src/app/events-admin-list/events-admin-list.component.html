@@ -1,4 +1,4 @@
-Adatsub tartalm {{cikkek|json}}
+<!-- Adatsub tartalm {{cikkek|json}} -->
 
 <div class="row">
     <div *ngFor="let oszlop of oszlopok" class="col" >
@@ -6,11 +6,11 @@ Adatsub tartalm {{cikkek|json}}
     </div>
 </div>
   <!-- Fejléc Kiíratás vége -->
-  
+
   <!-- Új rekord felvétele -->
   <div  class="row">
     <div *ngFor="let oszlop of oszlopok" class="col" id="fejlec">
-        
+
         <input [(ngModel)]="newCikk[oszlop]" type="text" class="form-control">
     </div>
     <div  class="col">
@@ -18,7 +18,7 @@ Adatsub tartalm {{cikkek|json}}
     </div>
   </div>
   <br><br>
-  
+
   <!-- Táblázat megjelenítése -->
   <div *ngFor="let cikk of cikkek" class="row">
     <div *ngFor="let oszlop of oszlopok" class="col" >
@@ -33,5 +33,5 @@ Adatsub tartalm {{cikkek|json}}
       <button  (click)="deleteData(cikk)" type="button" class="btn btn-primary">Törlés</button>
     </div>
     <br>
-  
+
   </div>
