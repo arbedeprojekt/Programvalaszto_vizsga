@@ -1,10 +1,75 @@
+.container {
+    max-width: 90%;
+}
+
 .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin:7px;
     padding-bottom: 3px;
 }
+
+.header-row {
+    display: flex;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+  }
+
 .col {
-    padding-bottom:3px;
+    flex-grow: 1;
+    padding-bottom: 3px;
     padding-left: 3px;
+    text-align: center;
+    border-bottom: thin solid #dee2e6;
+    min-width: 50px;
 }
-#updateDelete{
-    display:inline-flex;
+
+.form-control {
+    border: none;
 }
+
+.form-control:focus {
+    border: none; /* Fókuszáláskor is eltűnik a border */
+    box-shadow: none; /* Nincs árnyék sem */
+}
+
+/*szweretném tördelni a sorokat*/
+#newCikk, #esemenyek {
+    word-wrap: break-word;
+    white-space: normal;
+    overflow-wrap: break-word;
+    max-width: 150px;
+}
+
+
+#newCikk {
+    border: 1px solid #dee2e6;
+}
+
+#fejlec, #ures {
+    border-bottom: none;
+}
+
+.col-actions {
+    width: 150px;
+    display: flex;
+    justify-content: left;
+    gap: 5px;
+    padding-bottom: 4px;
+    border-bottom: thin solid #dee2e6;
+}
+
+input {
+    width: 100%;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 5px;
+  }  
