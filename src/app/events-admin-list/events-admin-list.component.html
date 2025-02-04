@@ -1,37 +1,35 @@
-<!-- Adatsub tartalm {{cikkek|json}} -->
+
 
 <div class="row">
-    <div *ngFor="let oszlop of oszlopok" class="col" >
-        {{oszlop|json}}
+    <div *ngFor="let oszlop of oszlopok" class="col">
+        {{oszlop}}
+
+
     </div>
 </div>
   <!-- Fejléc Kiíratás vége -->
 
   <!-- Új rekord felvétele -->
   <div  class="row">
+
     <div *ngFor="let oszlop of oszlopok" class="col" id="fejlec">
 
-        <input [(ngModel)]="newCikk[oszlop]" type="text" class="form-control">
+        <input [(ngModel)]="newCikk[oszlop]" type="text" class="form-control form-control-sm" id="newCikk">
     </div>
     <div  class="col">
-        <button  (click)="newData()" type="button" class="btn btn-primary">Mentés</button>
+        <button  (click)="newData()" type="button" class="btn btn-primary btn-sm">Mentés</button>
     </div>
   </div>
-  <br><br>
 
   <!-- Táblázat megjelenítése -->
   <div *ngFor="let cikk of cikkek" class="row">
     <div *ngFor="let oszlop of oszlopok" class="col" >
-        <input [(ngModel)]="cikk[oszlop]" type="text" class="form-control">
+        <input [(ngModel)]="cikk[oszlop]" type="text" class="form-control form-control-sm">
     </div>
     <br>
-    <div  class="nav-item" class="col">
-      <button  (click)="updateData(cikk)" type="button" class="btn btn-primary">Módosítás</button>
+    <div  class="nav-item" class="col" id="updateDelete">
+      <button  (click)="updateData(cikk)" type="button" class="btn btn-primary btn-sm" id="update">Módosítás</button>
+      <button  (click)="deleteData(cikk)" type="button" class="btn btn-primary btn-sm ms-2" id="delete">Törlés</button>
     </div>
-    <br>
-    <div class="nav-item" class="col">
-      <button  (click)="deleteData(cikk)" type="button" class="btn btn-primary">Törlés</button>
-    </div>
-    <br>
 
   </div>

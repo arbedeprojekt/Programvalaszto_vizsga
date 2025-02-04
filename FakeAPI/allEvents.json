@@ -14,6 +14,7 @@
     },
     {
       "id": "2",
+      "picture": "assets/Pictures/CatPictures/cat1.jpg",
       "name": "Siralom",
       "startDate": "2024.12.15",
       "startTime": "12:00",
@@ -25,6 +26,7 @@
     },
     {
       "id": "3",
+      "picture": "assets/Pictures/CatPictures/cat1.jpg",
       "name": "borzalom 55th",
       "startDate": "2024.12.15",
       "startTime": "12:00",
@@ -36,6 +38,7 @@
     },
     {
       "id": "4",
+      "picture": "assets/Pictures/CatPictures/cat1.jpg",
       "name": "pinki 55th",
       "startDate": "2024.12.15",
       "startTime": "12:00",
@@ -47,6 +50,7 @@
     },
     {
       "id": "5",
+      "picture": "assets/Pictures/CatPictures/cat1.jpg",
       "name": "TerraPlaza 55th",
       "startDate": "2024.12.15",
       "startTime": "12:00",
@@ -58,6 +62,7 @@
     },
     {
       "id": "6",
+      "picture": "assets/Pictures/CatPictures/cat1.jpg",
       "name": "TerraPlaza 55th",
       "startDate": "2024.12.15",
       "startTime": "12:00",
