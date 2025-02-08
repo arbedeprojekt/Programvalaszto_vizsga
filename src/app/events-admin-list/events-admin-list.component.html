@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!-- Adatsub tartalma {{cikkek|json}} -->
 
 <div class="container">
@@ -10,6 +11,22 @@
         <label class="form-label form-label-sm">{{newEvent}}</label>  
         <input [(ngModel)]="newCikk[newEvent]" type="text" class="form-control form-control-sm input-common" [id]="'input-' + y" placeholder="">
       </div>
+=======
+
+
+<div class="row">
+    <div *ngFor="let oszlop of oszlopok" class="col">
+        {{oszlop}}
+    </div>
+</div>
+  <!-- Fejléc Kiíratás vége -->
+
+  <!-- Új rekord felvétele -->
+  <div  class="row">
+    <div *ngFor="let oszlop of oszlopok" class="col" id="fejlec">
+
+        <input [(ngModel)]="newCikk[oszlop]" type="text" class="form-control form-control-sm" id="newCikk">
+>>>>>>> 2f55ac34bc10fbb811be8119fff6bebed2d1dafa
     </div>
     <div class="button" id="saveButton">
       <div  class="button-group">
@@ -17,6 +34,7 @@
       </div>
     </div>
   </div>
+<<<<<<< HEAD
   <br>  
   
   <div class="table-container">
@@ -25,6 +43,18 @@
       <div class="row header-row">
         <div *ngFor="let oszlop of oszlopok" class="col" id="fejlec">
             {{oszlop}}
+=======
+
+  <!-- Táblázat megjelenítése -->
+    <div *ngFor="let cikk of cikkek; let i = index" class="row align-items-center">
+      <div *ngFor="let oszlop of oszlopok" class="col word-wrap" id="esemenyek">
+        <input [(ngModel)]="cikk[oszlop]" type="text" class="form-control form-control-sm">
+      </div>
+      <div class="col-actions">
+        <div class="button-group">
+          <button class="btn btn-primary btn-sm" (click)="updateData(i)">Módosít</button>
+          <button class="btn btn-secondary btn-sm ms-2" (click)="deleteData(i)">Törlés</button>
+>>>>>>> 2f55ac34bc10fbb811be8119fff6bebed2d1dafa
         </div>
         <div class="col-actions" id="ures"></div>
       </div>
@@ -43,14 +73,12 @@
         </div>
       </div>
     </div>
+<<<<<<< HEAD
   </div>
 
 </div>
+=======
+    </div>
+>>>>>>> 2f55ac34bc10fbb811be8119fff6bebed2d1dafa
 
 
-
-<!-- MEntés magamnak későbbi felhasználásra, Bea -->
-<!-- <div class="col-auto">
-  <label for="inputPassword2" class="visually-hidden">Password</label>
-  <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
-</div> -->
