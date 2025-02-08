@@ -1,4 +1,0 @@
-node_modules/
-*.local
-functions/package.json
-src/app/environments/*
