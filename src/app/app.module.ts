@@ -21,7 +21,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { RegistrationComponent } from './registration/registration.component';
-import { environment } from './environments/environment.prod';
+import { environment } from '../environments/environment.prod';
 
 @NgModule({
   declarations: [

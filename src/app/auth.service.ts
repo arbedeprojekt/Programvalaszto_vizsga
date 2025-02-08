@@ -11,11 +11,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class AuthService {
   private userSub= new Subject()
   // api="https://api-53im34xaqq-uc.a.run.app/"
-  api = "https://macskak-fe6d9.web.app"
+  api = "https://macskak-fe6d9.web.app/"
   // api="http://127.0.0.1:5001/osztalyzatokauth/us-central1/api/"
   private token:any
 
-  constructor(private afAuth:AngularFireAuth, private router:Router, private http:HttpClient) { 
+  constructor(private afAuth:AngularFireAuth, private router:Router, private http:HttpClient) {
 
     this.afAuth.authState.subscribe(
       (user:any)=>{
@@ -24,7 +24,7 @@ export class AuthService {
           // user._delegate.accessToken
           this.userSub.next(user._delegate)
           console.log(user._delegate)
-          
+
         }
         else{
           this.token=null
@@ -47,7 +47,7 @@ export class AuthService {
   }
   setClaims(uid:any){
     let body={
-        uid:uid, 
+        uid:uid,
         claims:{user:true, admin:true, superAdmin:false}
       }
     const headers = new HttpHeaders().set("Authorization", this.token)
@@ -60,7 +60,7 @@ export class AuthService {
   }
 
   getClaims(uid:any){
- 
+
     const headers = new HttpHeaders().set("Authorization", this.token)
     return this.http.get(this.api+"users/"+uid+"/claims",{headers}).subscribe(
       {
@@ -91,9 +91,9 @@ export class AuthService {
           })
         }
       })}
-      
-      
-  
+
+
+
   sendVerificationEmail(){
     return this.afAuth.currentUser.then(
       (user)=>user?.sendEmailVerification()

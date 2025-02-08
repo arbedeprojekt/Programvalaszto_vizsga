@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
+
+  // Ebben tárolom el a user adatait
+  user:any
+  constructor(public auth:AuthService){
+    this.auth.getLoggedUser().subscribe(
+      (u)=>this.user=u
+    )
+
+  }
 
 }

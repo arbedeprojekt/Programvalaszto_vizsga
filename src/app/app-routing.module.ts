@@ -8,6 +8,7 @@ import { EventsAdminListComponent } from './events-admin-list/events-admin-list.
 
 const routes: Routes = [
   {path:"home",component:HomeComponent},
+  {path:"",component:HomeComponent},
   {path:"login",component:LoginComponent},
   {path:"registration",component:RegistrationComponent},
   {path:"all-events",component:AllEventsComponent},
