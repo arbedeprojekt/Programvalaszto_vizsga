@@ -24,7 +24,8 @@ export class EventsAdminListComponent {
   TorlesSzoveg="Tőrlés"
 
 // A táblázat megjelenítéséhez
-  oszlopok =["picture","name", "startDate", "startTime", "endTime", "locationcity", "locationcountry", "locationstreet", "locationzip"]
+  oszlopok =["picture","name", "description", "startDate", "endDate", "startTime", "endTime", "locationName", "locationcountry", "address", "state", "gpsLink", "weblink"]
+  newEvents =["name", "description", "locationName", "locationcountry", "address", "gpsLink", "weblink", "startDate", "endDate", "startTime", "endTime"]
 
 // A kétnyelvűséghez
   links:any
