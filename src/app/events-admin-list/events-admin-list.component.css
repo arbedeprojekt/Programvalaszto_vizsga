@@ -2,29 +2,92 @@
     max-width: 90%;
 }
 
-.row {
+#titleNewEvent {
+    margin-bottom: 5px;
+    color: #dee2e6;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Vízszintes görgetés */
+    position: relative; /* Megakadályozza a gombok elcsúszását */
+}
+
+.scrollable-content {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin:7px;
+    flex-direction: column;
+    min-width: fit-content; /* Ezt változtatjuk! */
+    padding-bottom: 10px;
+}
+
+.row {
+    margin: 5px;
     padding-bottom: 3px;
+    display: flex;
+    flex-wrap: nowrap;
+    min-width: max-content;
 }
 
 .header-row {
     display: flex;
     font-weight: bold;
-    text-align: center;
+    text-align: left;
     border-bottom: 2px solid #ddd;
     padding-bottom: 5px;
-  }
+}
 
 .col {
-    flex-grow: 1;
-    padding-bottom: 3px;
-    padding-left: 3px;
-    text-align: center;
+    flex: 0 1 auto;
+    text-align: left;
     border-bottom: thin solid #dee2e6;
-    min-width: 50px;
+    min-width: 100px;
+    max-width: 300px;
+    padding-bottom: 5px
+}
+
+#eventsData {
+    max-width: 300px;
+    min-width: 100px;
+    word-wrap: break-word !important; /* Tördelje a hosszú szöveget */
+    overflow-wrap: break-word !important; /* Biztosítja a tördelést */
+    white-space: normal !important; /* Engedi a több sorba törést */
+    overflow: hidden; /* Rejtse el a kilógó szöveget */
+    text-overflow: ellipsis; /* Ha túl sok a szöveg, a végén "..." legyen */
+    display: block;
+    height: auto; /* Az input magassága a tartalomhoz igazodik */
+    line-height: 1.2em;
+    padding: 5px;
+}
+
+#newDataInputsContainer {
+    background-color: bisque;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#newDataInputs {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10px;
+}
+
+.col-common {
+    flex: content;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    text-align: left;
+    border-bottom: thin solid #dee2e6;
+    width: auto;
+}
+
+label {
+    margin: 0 0 3px;
+}
+
+#newEvents {
+    border-bottom: none;
+    width: 250px;
 }
 
 .form-control {
@@ -32,21 +95,33 @@
 }
 
 .form-control:focus {
-    border: none; /* Fókuszáláskor is eltűnik a border */
-    box-shadow: none; /* Nincs árnyék sem */
-}
-
-/*szweretném tördelni a sorokat*/
-#newCikk, #esemenyek {
-    word-wrap: break-word;
-    white-space: normal;
-    overflow-wrap: break-word;
-    max-width: 150px;
-}
-
-
-#newCikk {
     border: 1px solid #dee2e6;
+    box-shadow: none;
+}
+
+#input-0, #input-2, #input-3, #input-4 {
+    min-width: 250px;
+    max-width: 100%;
+}
+
+#input-1 {
+    min-width: 400px;
+    max-width: 100%;
+}
+
+#input-4,#input-5, #input-6 {
+    min-width: 350px;
+    max-width: 100%;
+}
+
+#input-7, #input-8, #input-9, #input-10 {
+    min-width: 150px;
+    max-width: 100%;
+}
+
+.input-common {
+    border: 1px solid #dee2e6;
+    width: 100%;
 }
 
 #fejlec, #ures {
@@ -56,20 +131,33 @@
 .col-actions {
     width: 150px;
     display: flex;
-    justify-content: left;
     gap: 5px;
-    padding-bottom: 4px;
     border-bottom: thin solid #dee2e6;
+    padding-bottom: 5px;
 }
 
-input {
-    width: 100%;
-    white-space: normal;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-  }
+.sticky-actions {
+    position: sticky;
+    right: 0;
+    background-color: white;
+    z-index: 10;
+    padding-left: 10px;
+    min-width: 150px;
+    max-width: 150px;
+}
 
-  .button-group {
+#saveButton {
+    align-content: flex-end;
+    justify-content: flex-end;
+    padding-top: 10px;
+}
+
+.button-group {
     display: flex;
     gap: 5px;
-  }  
+    justify-content: flex-end;
+}  
+
+#save {
+    justify-content: baseline;
+}

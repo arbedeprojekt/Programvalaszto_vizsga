@@ -1,40 +1,50 @@
-<!-- Adatsub tartalm {{cikkek|json}} -->
+<!-- Adatsub tartalma {{cikkek|json}} -->
 
 <div class="container">
-  <div class="row header-row">
-      <div *ngFor="let oszlop of oszlopok" class="col text-center" id="fejlec">
-          {{oszlop}}
-      </div>
-      <div class="col-actions" id="ures">
-
-      </div>
-  </div>
-  <!-- Fejléc Kiíratás vége -->
-  
+  <!-- <h1 class="">Programok</h1> -->
+  <div id="titleNewEvent">ÚJ PROGRAM FELVÉTELE</div>
   <!-- Új rekord felvétele -->
-  <div  class="row align-items-center">
-    <div *ngFor="let oszlop of oszlopok" class="col">  
-        <input [(ngModel)]="newCikk[oszlop]" type="text" class="form-control form-control-sm word-wrap" id="newCikk">
+  <div class="" id="newDataInputsContainer">
+    <div  class="" id="newDataInputs">
+      <div *ngFor="let newEvent of newEvents; let y =index" class="col-common" id="newEvents">  
+        <label class="form-label form-label-sm">{{newEvent}}</label>  
+        <input [(ngModel)]="newCikk[newEvent]" type="text" class="form-control form-control-sm input-common" [id]="'input-' + y" placeholder="">
+      </div>
     </div>
-    <div class="col-actions">
+    <div class="button" id="saveButton">
       <div  class="button-group">
           <button  (click)="newData()" type="button" class="btn btn-primary btn-sm">Mentés</button>
       </div>
     </div>
   </div>
+  <br>  
   
-  <!-- Táblázat megjelenítése -->
-    <div *ngFor="let cikk of cikkek; let i = index" class="row align-items-center">
-      <div *ngFor="let oszlop of oszlopok" class="col word-wrap" id="esemenyek">
-        <input [(ngModel)]="cikk[oszlop]" type="text" class="form-control form-control-sm">
-      </div>
-      <div class="col-actions">
-        <div class="button-group">
-          <button class="btn btn-primary btn-sm" (click)="updateData(i)">Módosít</button>
-          <button class="btn btn-secondary btn-sm ms-2" (click)="deleteData(i)">Törlés</button>
+  <div class="table-container">
+    <div class="scrollable-content"> 
+      <!-- Fejléc Kiíratás -->
+      <div class="row header-row">
+        <div *ngFor="let oszlop of oszlopok" class="col" id="fejlec">
+            {{oszlop}}
         </div>
+        <div class="col-actions" id="ures"></div>
+      </div>
+    
+    <!-- Táblázat megjelenítése -->
+  
+      <div *ngFor="let cikk of cikkek; let i = index" class="row align-items-center">
+        <div *ngFor="let oszlop of oszlopok" class="col word-wrap" id="eventsDataCol">
+          <input [(ngModel)]="cikk[oszlop]" type="text" class="form-control form-control-sm" id="eventsData">
+        </div>
+        <div class="col-actions sticky-actions">
+          <div class="button-group" id="updateDelete">
+            <button class="btn btn-primary btn-sm" (click)="updateData(i)">Módosít</button>
+            <button class="btn btn-secondary btn-sm ms-2" (click)="deleteData(i)">Törlés</button>
+          </div>
+        </div>
+      </div>
     </div>
-    </div>
+  </div>
+
 </div>
 
 
