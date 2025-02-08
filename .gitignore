@@ -43,4 +43,4 @@ Thumbs.db
 
 #érzékeny fájlok
 functions/*
-src/app/environments/*
+src/environments/*
