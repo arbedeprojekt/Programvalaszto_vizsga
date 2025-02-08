@@ -42,5 +42,5 @@ testem.log
 Thumbs.db
 
 #érzékeny fájlok
-functions
+functions/*
 src/app/environments/*
