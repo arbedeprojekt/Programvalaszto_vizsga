@@ -19,12 +19,8 @@
     {
       "id": "2",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
-      "name": "TerraPlaza 55th",
-      "description": " ",
-=======
       "name": "Siralom",
->>>>>>> 2f55ac34bc10fbb811be8119fff6bebed2d1dafa
+      "description": " ",
       "startDate": "2024.12.15",
       "endDate": " ",
       "startTime": "12:00",
@@ -39,12 +35,8 @@
     {
       "id": "3",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
-      "name": "TerraPlaza 98th",
-      "description": " ",
-=======
       "name": "borzalom 55th",
->>>>>>> 2f55ac34bc10fbb811be8119fff6bebed2d1dafa
+      "description": " ",
       "startDate": "2024.12.15",
       "endDate": " ",
       "startTime": "12:00",
@@ -59,12 +51,8 @@
     {
       "id": "4",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
-      "name": "Kismalac találkozó",
-      "description": " ",
-=======
       "name": "pinki 55th",
->>>>>>> 2f55ac34bc10fbb811be8119fff6bebed2d1dafa
+      "description": " ",
       "startDate": "2024.12.15",
       "endDate": " ",
       "startTime": "12:00",
@@ -79,12 +67,8 @@
     {
       "id": "5",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
-      "name": "Badacsony körtúra",
-      "description": " ",
-=======
       "name": "TerraPlaza 55th",
->>>>>>> 2f55ac34bc10fbb811be8119fff6bebed2d1dafa
+      "description": " ",
       "startDate": "2024.12.15",
       "endDate": " ",
       "startTime": "12:00",
@@ -99,12 +83,8 @@
     {
       "id": "6",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
-      "name": "Mozi maraton",
-      "description": " ",
-=======
       "name": "TerraPlaza 55th",
->>>>>>> 2f55ac34bc10fbb811be8119fff6bebed2d1dafa
+      "description": " ",
       "startDate": "2024.12.15",
       "endDate": " ",
       "startTime": "12:00",
@@ -127,6 +107,20 @@
       "endDate": "2025.07.15",
       "startTime": "17:00",
       "endTime": "22:00"
+    },
+    {
+      "id": "2c94",
+      "name": "dezső tesztel",
+      "description": "meglátjuk működik e",
+      "locationName": "budapest",
+      "locationcountry": "magyaros",
+      "address": "itt",
+      "gpsLink": "a",
+      "weblink": "a",
+      "startDate": "ma",
+      "endDate": "holnap",
+      "startTime": "mostan",
+      "endTime": "majdan"
     }
   ]
 }
