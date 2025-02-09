@@ -8,7 +8,8 @@ import { AuthService } from '../auth.service';
 })
 export class NavbarComponent {
 
-  // Ebben tárolom el a user adatait
+  // Ebben tárolom el a user adatait, és ezen keresztül jelzem a felhasználónak
+  //a sikeres belépését.
   user:any
   constructor(public auth:AuthService){
     this.auth.getLoggedUser().subscribe(
