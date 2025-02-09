@@ -1,3 +1,4 @@
+import { UsersComponent } from './users/users.component';
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path:"registration",component:RegistrationComponent},
   {path:"all-events",component:AllEventsComponent},
   {path:"admin",component:EventsAdminListComponent},
+  {path:"users",component:UsersComponent},
 
 
 

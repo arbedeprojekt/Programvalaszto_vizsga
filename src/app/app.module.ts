@@ -22,6 +22,7 @@ import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { environment } from '../environments/environment.prod';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { environment } from '../environments/environment.prod';
     DetailedEventComponent,
     EventsAdminListComponent,
     TagsListComponent,
-    TagsLinkComponent
+    TagsLinkComponent,
+    UsersComponent
 
   ],
   imports: [
