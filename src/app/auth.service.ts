@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { GoogleAuthProvider } from '@angular/fire/auth';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -9,10 +9,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthService {
-  private userSub= new Subject()
-  // api="https://api-53im34xaqq-uc.a.run.app/"
+  private userSub= new BehaviorSubject <any>(null)
+
   api = "https://macskak-fe6d9.web.app/"
-  // api="http://127.0.0.1:5001/osztalyzatokauth/us-central1/api/"
+
   private token:any
 
   constructor(private afAuth:AngularFireAuth, private router:Router, private http:HttpClient) {
@@ -21,7 +21,7 @@ export class AuthService {
       (user:any)=>{
         if (user) {
           this.token=user._delegate.accessToken
-          // user._delegate.accessToken
+
           this.userSub.next(user._delegate)
           console.log(user._delegate)
 
@@ -102,7 +102,7 @@ export class AuthService {
 
   googleAuth(){
     return this.afAuth.signInWithPopup(new GoogleAuthProvider())
-    // return this.afAuth.signInWithRedirect(new GoogleAuthProvider())
+
   }
 
   forgotPassword(email:string){

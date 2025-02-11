@@ -16,7 +16,7 @@
 
       <div class="input-group mb-3">
          <button [disabled]="isNotValidSignUp()" type="button" (click)="signInMailPassword()" class="btn btn-primary">Bejelentkezés</button>
-         <a class="ms-4 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" routerLink="/forgotpassword">Forgot Password</a>
+         <a class="ms-4 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" (click)="sendforgotPasswordEmail(this.email)" routerLink="/forgotpassword">Elfelejtett jelszó</a>
       </div>
 
       <div *ngIf="mailRegError" class="alert alert-danger" role="alert">

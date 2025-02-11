@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-all-events',
@@ -9,12 +10,17 @@ import { Component, OnInit } from '@angular/core';
 export class AllEventsComponent  {
   clickedEventDetails:any={};
   url = "./jsonFiles/allEvents.json";
-  
-  
+
+  //user tárolása
+  user:any
 
 
-  constructor(privatehttpClient:HttpClient) {
-    
+
+  constructor(private httpClient:HttpClient, private auth:AuthService ) {
+    // user lecsekkolása
+    this.auth.getLoggedUser().subscribe(
+      (u)=>this.user=u
+    )
   }
 
   getClickedEventDetails() {
@@ -31,4 +37,9 @@ export class AllEventsComponent  {
   //       console.log(data);
   //   })
   // }
+
+
+
+
+
 }

@@ -9,7 +9,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class BaseService {
-  // A tanár webapijának elérési útja
+  // A fake API elérési útja
   url="http://localhost:3000/esemenyek/"
 
   // Ebben az objektum típusú változóban tároljuk a downloadAll metódusban megszerzett adatokat
@@ -33,14 +33,7 @@ export class BaseService {
   private downloadAll(){
     this.http.get(this.url).subscribe(
       (res:any)=>{
-          // let adattomb=[]
-          // for (const key in res) {
-          //   adattomb.push({id:key, ...res[key]})
-          //   }
-          // this.adatSub.next(adattomb)
           this.adatSub.next(res)}
-
-
     )
   }
 
