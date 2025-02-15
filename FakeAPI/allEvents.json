@@ -19,7 +19,11 @@
     {
       "id": "2",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
+<<<<<<< HEAD
       "name": "TerraPlaza 55th",
+=======
+      "name": "Siralom",
+>>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
       "description": " ",
       "startDate": "2024.12.15",
       "endDate": " ",
@@ -35,7 +39,11 @@
     {
       "id": "3",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
+<<<<<<< HEAD
       "name": "TerraPlaza 98th",
+=======
+      "name": "borzalom 55th",
+>>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
       "description": " ",
       "startDate": "2024.12.15",
       "endDate": " ",
@@ -51,7 +59,11 @@
     {
       "id": "4",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
+<<<<<<< HEAD
       "name": "Kismalac találkozó",
+=======
+      "name": "pinki 55th",
+>>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
       "description": " ",
       "startDate": "2024.12.15",
       "endDate": " ",
@@ -67,7 +79,11 @@
     {
       "id": "5",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
+<<<<<<< HEAD
       "name": "Badacsony körtúra",
+=======
+      "name": "TerraPlaza 55th",
+>>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
       "description": " ",
       "startDate": "2024.12.15",
       "endDate": " ",
@@ -83,7 +99,11 @@
     {
       "id": "6",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
+<<<<<<< HEAD
       "name": "Mozi maraton",
+=======
+      "name": "TerraPlaza 55th",
+>>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
       "description": " ",
       "startDate": "2024.12.15",
       "endDate": " ",
@@ -109,6 +129,7 @@
       "endTime": "22:00"
     },
     {
+<<<<<<< HEAD
       "id": "b72a",
       "name": "Bakonyrun",
       "description": "Ez bizony egy baromira kimerítő terep- és akadályfutó verseny",
@@ -128,6 +149,37 @@
       "locationcountry": "Magyarország",
       "address": "Budapest",
       "startDate": "2025.03.25"
+=======
+      "id": "e217",
+      "name": "dezso",
+      "description": "teszt",
+      "locationName": "macska",
+      "locationcountry": "kutya",
+      "address": "eb",
+      "gpsLink": "ben",
+      "startDate": "0606"
+    },
+    {
+      "id": "9d91",
+      "name": "ez",
+      "description": "egy",
+      "locationName": "teszt",
+      "locationcountry": "az",
+      "address": "iskolában",
+      "gpsLink": "pihi",
+      "weblink": "helyett",
+      "startDate": "na ",
+      "endDate": "ezt",
+      "startTime": "értékeld",
+      "endTime": "!!!!"
+    },
+    {
+      "id": "adcb",
+      "startDate": "0",
+      "endDate": "1",
+      "startTime": "2",
+      "endTime": "3"
+>>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
     }
   ]
 }

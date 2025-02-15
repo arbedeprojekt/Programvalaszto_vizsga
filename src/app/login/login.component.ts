@@ -49,4 +49,13 @@ export class LoginComponent {
       return !this.email || !this.password
     }
 
+    sendforgotPasswordEmail(email:string){
+      if(email == null){
+        console.log("Az email rész üres.");
+      }
+      else{
+        this.auth.forgotPassword(email);
+      }
+    }
+
 }

@@ -21,7 +21,12 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { RegistrationComponent } from './registration/registration.component';
+<<<<<<< HEAD
 import { environment } from '../environments/environment';
+=======
+import { environment } from '../environments/environment.prod';
+import { UsersComponent } from './users/users.component';
+>>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
 
 @NgModule({
   declarations: [
@@ -35,7 +40,8 @@ import { environment } from '../environments/environment';
     DetailedEventComponent,
     EventsAdminListComponent,
     TagsListComponent,
-    TagsLinkComponent
+    TagsLinkComponent,
+    UsersComponent
 
   ],
   imports: [

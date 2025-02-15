@@ -31,7 +31,8 @@ export class HomeComponent implements OnInit {
 
         }
           this.eventDetails.next(adattomb)
-      //     console.log(adattomb)
+          console.log("response: ",response)
+          console.log(adattomb)
     }
   )
 

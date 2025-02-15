@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { BaseService } from '../base.service';
 import { BehaviorSubject } from 'rxjs';
+=======
+import { AuthService } from '../auth.service';
+import { BaseService } from '../base.service';
+>>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
 
 @Component({
   selector: 'app-all-events',
@@ -15,6 +20,7 @@ export class AllEventsComponent  {
   eventDetails=new BehaviorSubject<any>(null)
   
   clickedEventDetails:any={};
+<<<<<<< HEAD
   events:any
 
 
@@ -27,6 +33,31 @@ export class AllEventsComponent  {
 
     }
       this.eventDetails.next(adattomb)
+=======
+  // url = "./jsonFiles/allEvents.json";
+
+  //user tárolása
+  user:any
+  dataFromApi:any
+
+
+
+  constructor(private httpClient:HttpClient, private auth:AuthService, private base:BaseService ) {
+    // user lecsekkolása
+    this.auth.getLoggedUser().subscribe(
+      (u)=>this.user=u
+    )
+
+    this.getDataFromApi()
+  }
+
+  getDataFromApi(){
+    this.base.adatSub.subscribe(
+      (res:any) => {
+        this.dataFromApi = res
+      }
+    )
+>>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
   }
 )
 
@@ -66,4 +97,9 @@ export class AllEventsComponent  {
   //       console.log(data);
   //   })
   // }
+
+
+
+
+
 }

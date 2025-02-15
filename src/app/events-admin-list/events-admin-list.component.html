@@ -1,13 +1,13 @@
 <!-- Adatsub tartalma {{cikkek|json}} -->
 
-<div class="container">
-  <!-- <h1 class="">Programok</h1> -->
-  <div id="titleNewEvent">ÚJ PROGRAM FELVÉTELE</div>
+<div class="container"> 
+   <h1 class="">Programok</h1> 
+  <div id="titleNewEvent">ÚJ PROGRAM FELVÉTELE</div> 
   <!-- Új rekord felvétele -->
   <div class="" id="newDataInputsContainer">
     <div  class="" id="newDataInputs">
-      <div *ngFor="let newEvent of newEvents; let y =index" class="col-common" id="newEvents">  
-        <label class="form-label form-label-sm">{{newEvent}}</label>  
+      <div *ngFor="let newEvent of newEvents; let y =index" class="col-common" id="newEvents">
+        <label class="form-label form-label-sm">{{newEvent}}</label>
         <input [(ngModel)]="newCikk[newEvent]" type="text" class="form-control form-control-sm input-common" [id]="'input-' + y" placeholder="">
       </div>
     </div>
@@ -17,6 +17,7 @@
       </div>
     </div>
   </div>
+<<<<<<< HEAD
   <br>  
   
   <!-- <div class="" id="newDataInputsContainer">
@@ -75,6 +76,12 @@
   <div class="table-container">
     <div class="scrollable-content"> 
       
+=======
+  <br>
+
+  <div class="table-container">
+    <div class="scrollable-content">
+>>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
       <!-- Fejléc Kiíratás -->
       <div class="row header-row">
         <div *ngFor="let oszlop of oszlopok" class="col" id="fejlec">
@@ -82,17 +89,22 @@
         </div>
         <div class="col-actions" id="ures"></div>
       </div>
-    
+
     <!-- Táblázat megjelenítése -->
+<<<<<<< HEAD
   
       <div *ngFor="let cikk of cikkek; let i = index" class="row align-items-center" id="enetsDataRow">
+=======
+
+      <div *ngFor="let cikk of cikkek; let i = index" class="row align-items-center">
+>>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
         <div *ngFor="let oszlop of oszlopok" class="col word-wrap" id="eventsDataCol">
           <textarea [(ngModel)]="cikk[oszlop]" type="text" class="form-control form-control-sm" id="eventsData"></textarea>
         </div>
         <div class="col-actions sticky-actions">
           <div class="button-group" id="updateDelete">
-            <button class="btn btn-primary btn-sm" (click)="updateData(i)">Módosít</button>
-            <button class="btn btn-secondary btn-sm ms-2" (click)="deleteData(i)">Törlés</button>
+            <button class="btn btn-primary btn-sm" (click)="updateData(cikk)">Módosít</button>
+            <button class="btn btn-secondary btn-sm ms-2" (click)="deleteData(cikk)">Törlés</button>
           </div>
         </div>
       </div>
@@ -100,5 +112,9 @@
   </div>
 
 </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
 
+<app-users></app-users>

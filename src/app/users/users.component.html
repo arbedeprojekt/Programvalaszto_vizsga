@@ -1,0 +1,12 @@
+<div *ngFor="let user of users" class="row">
+  <div class="col">{{user.email}}</div>
+  <div class="col">
+     <button  type="button" (click)="addAdmin(user.uid)" class="btn btn-primary">Admin</button>
+  </div>
+  <div class="col">
+     <button  type="button" (click)="getCleims(user.uid)" class="btn btn-primary">Get Claims</button>
+  </div>
+</div>
+
+users működik
+{{users}}
