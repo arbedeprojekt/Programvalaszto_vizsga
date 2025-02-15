@@ -17,71 +17,10 @@
       </div>
     </div>
   </div>
-<<<<<<< HEAD
-  <br>  
-  
-  <!-- <div class="" id="newDataInputsContainer">
-    <form class="row g-4" id="newDataRow">
-      <div class="col-md-6">
-        <label for="inputName" class="form-label">Name</label>
-        <input type="text" class="form-control-sm" id="inputName">
-      </div>
-      <div class="col-md-6">
-        <label for="inputDescripton" class="form-label">Description</label>
-        <input type="textarea" class="form-control-sm" id="inputDescription">
-      </div>
-      <div class="col-12">
-        <label for="inputLocationName" class="form-label">Location name</label>
-        <input type="text" class="form-control-sm" id="inputLocationName" placeholder="Lurdy Ház">
-      </div>
-      <div class="col-12">
-        <label for="inputAddress" class="form-label">Address</label>
-        <input type="text" class="form-control-sm" id="inputAddress" placeholder="Apartment, studio, or floor">
-      </div>
-      <div class="col-md-6">
-        <label for="inputCountry" class="form-label">Country</label>
-        <input type="text" class="form-control-sm" id="inputCountry">
-      </div>
-      <div class="col-md-4">
-        <label for="inputGPSLink" class="form-label">GPS link</label>
-        <input type="text" class="form-control-sm" id="inputGPSLink">
-      </div>
-      <div class="col-md-2">
-        <label for="inputWeblink" class="form-label">Web link</label>
-        <input type="text" class="form-control-sm" id="inputWeblink">
-      </div>
-      <div class="col-md-2">
-        <label for="inputStartDate" class="form-label">Date from</label>
-        <input type="text" class="form-control-sm" id="inputStartDate">
-      </div>
-      <div class="col-md-2">
-        <label for="inputEndDate" class="form-label">Date to</label>
-        <input type="text" class="form-control-sm" id="inputWeblink">
-      </div>
-      <div class="col-md-2">
-        <label for="inputStartTime" class="form-label">Opening time</label>
-        <input type="text" class="form-control-sm" id="inputStartTime">
-      </div>
-      <div class="col-md-2">
-        <label for="inputEndTime" class="form-label">Closing time</label>
-        <input type="text" class="form-control-sm" id="inputEndTime">
-      </div>
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary btn-sm">Mentés</button>
-      </div>
-    </form>
-  </div> -->
- 
-
-  <div class="table-container">
-    <div class="scrollable-content"> 
-      
-=======
   <br>
 
   <div class="table-container">
     <div class="scrollable-content">
->>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
       <!-- Fejléc Kiíratás -->
       <div class="row header-row">
         <div *ngFor="let oszlop of oszlopok" class="col" id="fejlec">
@@ -91,13 +30,8 @@
       </div>
 
     <!-- Táblázat megjelenítése -->
-<<<<<<< HEAD
-  
-      <div *ngFor="let cikk of cikkek; let i = index" class="row align-items-center" id="enetsDataRow">
-=======
 
       <div *ngFor="let cikk of cikkek; let i = index" class="row align-items-center">
->>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
         <div *ngFor="let oszlop of oszlopok" class="col word-wrap" id="eventsDataCol">
           <textarea [(ngModel)]="cikk[oszlop]" type="text" class="form-control form-control-sm" id="eventsData"></textarea>
         </div>
@@ -112,9 +46,5 @@
   </div>
 
 </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
 
 <app-users></app-users>

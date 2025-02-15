@@ -17,33 +17,9 @@
       "weblink": "www.terraplaza.hu"
     },
     {
-      "id": "2",
-      "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
-      "name": "TerraPlaza 55th",
-=======
-      "name": "Siralom",
->>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
-      "description": " ",
-      "startDate": "2024.12.15",
-      "endDate": " ",
-      "startTime": "12:00",
-      "endTime": "14:00",
-      "locationName": "Lurdy Ház",
-      "locationcountry": "Hungary",
-      "address": "1011 Budapest, Lurdy utca 10.",
-      "state": "aktív",
-      "gpsLink": "",
-      "weblink": "www.terraplaza.hu"
-    },
-    {
       "id": "3",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
-      "name": "TerraPlaza 98th",
-=======
-      "name": "borzalom 55th",
->>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
+      "name": "TerraPlaza 198th",
       "description": " ",
       "startDate": "2024.12.15",
       "endDate": " ",
@@ -59,11 +35,7 @@
     {
       "id": "4",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
       "name": "Kismalac találkozó",
-=======
-      "name": "pinki 55th",
->>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
       "description": " ",
       "startDate": "2024.12.15",
       "endDate": " ",
@@ -78,12 +50,8 @@
     },
     {
       "id": "5",
-      "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
+      "picture": "assets/Pictures/kirandulas_01.jpg",
       "name": "Badacsony körtúra",
-=======
-      "name": "TerraPlaza 55th",
->>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
       "description": " ",
       "startDate": "2024.12.15",
       "endDate": " ",
@@ -99,11 +67,7 @@
     {
       "id": "6",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
       "name": "Mozi maraton",
-=======
-      "name": "TerraPlaza 55th",
->>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
       "description": " ",
       "startDate": "2024.12.15",
       "endDate": " ",
@@ -118,6 +82,7 @@
     },
     {
       "id": "640d",
+      "picture": "assets/Pictures/kirandulas_01.jpg",
       "name": "Szentjánosbogár rajzás",
       "description": "Szentjánosbogár rajzás egész júniusban",
       "locationName": "Felcsúti Arborétum",
@@ -129,8 +94,8 @@
       "endTime": "22:00"
     },
     {
-<<<<<<< HEAD
       "id": "b72a",
+      "picture": "assets/Pictures/kirandulas_01.jpg",
       "name": "Bakonyrun",
       "description": "Ez bizony egy baromira kimerítő terep- és akadályfutó verseny",
       "locationName": "Bakony",
@@ -143,43 +108,23 @@
     },
     {
       "id": "4409",
+      "picture": "assets/Pictures/kirandulas_01.jpg",
       "name": "Gumikacsa úsztatás",
       "description": "Úsztassunk együtt gumikacsákat a Dunán!",
       "locationName": "Margit-híd",
       "locationcountry": "Magyarország",
       "address": "Budapest",
-      "startDate": "2025.03.25"
-=======
-      "id": "e217",
-      "name": "dezso",
-      "description": "teszt",
-      "locationName": "macska",
-      "locationcountry": "kutya",
-      "address": "eb",
-      "gpsLink": "ben",
-      "startDate": "0606"
+      "startDate": "2025.03.25",
+      "endDate": "",
+      "startTime": "06:00",
+      "endTime": "19:00"
     },
     {
-      "id": "9d91",
-      "name": "ez",
-      "description": "egy",
-      "locationName": "teszt",
-      "locationcountry": "az",
-      "address": "iskolában",
-      "gpsLink": "pihi",
-      "weblink": "helyett",
-      "startDate": "na ",
-      "endDate": "ezt",
-      "startTime": "értékeld",
-      "endTime": "!!!!"
-    },
-    {
-      "id": "adcb",
-      "startDate": "0",
-      "endDate": "1",
-      "startTime": "2",
-      "endTime": "3"
->>>>>>> a444c9eef5620011f74ba6035bc18fa2b0f0a8e9
+      "id": "f8f3",
+      "name": "fgvdfvdf",
+      "description": "bdfgsbsfdgb",
+      "locationcountry": "cxxvbxcvb",
+      "weblink": "xcvbxcbv"
     }
   ]
 }
