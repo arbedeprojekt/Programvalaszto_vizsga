@@ -83,11 +83,11 @@ export class EventsAdminListComponent {
     this.base.updateDataWeb(data)
   }
 
- deleteData(data:any){
+  deleteData(data:any){
     this.base.deleteDataWeb(data)
   }
 
- newData(){
+  newData(){
     this.base.newDataWeb(this.newCikk)
     this.newCikk={}
   }

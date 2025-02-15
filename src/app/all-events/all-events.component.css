@@ -1,0 +1,107 @@
+/* .g10 {
+  margin-left: -3rem;
+  margin-right: -3rem;
+} */
+
+/* Fő tartalom (kártyák) */
+@media only screen and (min-width: 1260px) {
+  .g10-xl-8 {
+    flex: 0 0 80%;
+    max-width: 80%;
+  }
+}
+
+/* Szűrőpanel */
+@media only screen and (min-width: 1260px) {
+  .g10-xl-2 {
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+}
+
+.row-cols-md-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Oszlopok dinamikus igazítása */
+}
+
+/* Row legyen teljes szélességű és flexbox alapú */
+.row {
+  width: 100%;
+}
+
+/* Kártyák középre igazítása */
+.content-cards .row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* Kártyák */
+.card {
+  min-width: 250px; /* Minimum méret */
+  max-width: 250px; /* Maximum méret */
+  width: 100%;
+  margin: auto; /* Középre igazítás */
+  display: flex;
+  flex-direction: column;
+  height: 350px;
+  overflow: hidden; 
+}
+
+.card-body {
+  flex-grow: 1; /* Kitölti a rendelkezésre álló helyet */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+  /* line-height: 1.2rem; */
+}
+
+.card-text {
+  margin: 0 0 7px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: calc(1.2em * 3); /* 3 sorig engedi a szöveget */
+  word-break: break-word;
+}
+
+#discription {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 50%;
+}
+
+/* Kis kijelzőn egy oszlopba kerüljenek a kártyák és a szűrő */
+@media (max-width: 768px) {
+  .row-cols-md-4 {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  .g10-xl-2 {
+    order: 2;
+    flex: 100%;
+    max-width: 100%;
+  }
+
+  .g10-xl-8 {
+    order: 1;
+    flex: 100%;
+    max-width: 100%;
+  }
+
+}
+
+
+/*navigációs sáv - oldalak*/
+#pageNavigation {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+  justify-items: center;
+}
+
+.pagination {
+  border: none;
+}

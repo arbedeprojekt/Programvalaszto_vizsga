@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   //Az eventDetails által megszerzett adatok tárolása, hogy a weboldalon megjelenhessen
   events:any
   //oszlopok neveinek megjelenítéséhez
-  cols =["picture","name", "startDate", "startTime", "endTime", "locationcity", "locationcountry", "locationstreet", "locationzip"]
+  //cols =["name", "description", "locationName", "locationcountry", "address", "gpsLink", "weblink", "startDate", "endDate", "startTime", "endTime"]
 
 
   constructor(private http:HttpClient, private base:BaseService) {

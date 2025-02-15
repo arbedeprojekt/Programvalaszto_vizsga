@@ -19,12 +19,8 @@
     {
       "id": "2",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
       "name": "TerraPlaza 55th",
       "description": " ",
-=======
-      "name": "Siralom",
->>>>>>> 2f55ac34bc10fbb811be8119fff6bebed2d1dafa
       "startDate": "2024.12.15",
       "endDate": " ",
       "startTime": "12:00",
@@ -39,12 +35,8 @@
     {
       "id": "3",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
       "name": "TerraPlaza 98th",
       "description": " ",
-=======
-      "name": "borzalom 55th",
->>>>>>> 2f55ac34bc10fbb811be8119fff6bebed2d1dafa
       "startDate": "2024.12.15",
       "endDate": " ",
       "startTime": "12:00",
@@ -59,12 +51,8 @@
     {
       "id": "4",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
       "name": "Kismalac találkozó",
       "description": " ",
-=======
-      "name": "pinki 55th",
->>>>>>> 2f55ac34bc10fbb811be8119fff6bebed2d1dafa
       "startDate": "2024.12.15",
       "endDate": " ",
       "startTime": "12:00",
@@ -79,12 +67,8 @@
     {
       "id": "5",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
       "name": "Badacsony körtúra",
       "description": " ",
-=======
-      "name": "TerraPlaza 55th",
->>>>>>> 2f55ac34bc10fbb811be8119fff6bebed2d1dafa
       "startDate": "2024.12.15",
       "endDate": " ",
       "startTime": "12:00",
@@ -99,12 +83,8 @@
     {
       "id": "6",
       "picture": "assets/Pictures/CatPictures/cat1.jpg",
-<<<<<<< HEAD
       "name": "Mozi maraton",
       "description": " ",
-=======
-      "name": "TerraPlaza 55th",
->>>>>>> 2f55ac34bc10fbb811be8119fff6bebed2d1dafa
       "startDate": "2024.12.15",
       "endDate": " ",
       "startTime": "12:00",
@@ -127,6 +107,27 @@
       "endDate": "2025.07.15",
       "startTime": "17:00",
       "endTime": "22:00"
+    },
+    {
+      "id": "b72a",
+      "name": "Bakonyrun",
+      "description": "Ez bizony egy baromira kimerítő terep- és akadályfutó verseny",
+      "locationName": "Bakony",
+      "locationcountry": "Magyarország",
+      "address": "Bakony utca 34",
+      "startDate": "2025.03.12",
+      "endDate": "",
+      "startTime": "06:00",
+      "endTime": "19:00"
+    },
+    {
+      "id": "4409",
+      "name": "Gumikacsa úsztatás",
+      "description": "Úsztassunk együtt gumikacsákat a Dunán!",
+      "locationName": "Margit-híd",
+      "locationcountry": "Magyarország",
+      "address": "Budapest",
+      "startDate": "2025.03.25"
     }
   ]
 }

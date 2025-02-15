@@ -26,6 +26,7 @@
     display: flex;
     flex-wrap: nowrap;
     min-width: max-content;
+    text-transform: capitalize;
 }
 
 .header-row {
@@ -46,17 +47,19 @@
 }
 
 #eventsData {
-    max-width: 300px;
-    min-width: 100px;
-    word-wrap: break-word !important; /* Tördelje a hosszú szöveget */
-    overflow-wrap: break-word !important; /* Biztosítja a tördelést */
-    white-space: normal !important; /* Engedi a több sorba törést */
+    display: block;
+    word-wrap: break-word; /* Tördelje a hosszú szöveget */
+    overflow-wrap: break-word; /* Biztosítja a tördelést */
+    white-space: normal; /* Engedi a több sorba törést */
     overflow: hidden; /* Rejtse el a kilógó szöveget */
     text-overflow: ellipsis; /* Ha túl sok a szöveg, a végén "..." legyen */
-    display: block;
-    height: auto; /* Az input magassága a tartalomhoz igazodik */
+    max-height: 40px; /* Az input magassága a tartalomhoz igazodik */
     line-height: 1.2em;
     padding: 5px;
+}
+
+textarea {
+    resize: none;
 }
 
 #newDataInputsContainer {
@@ -83,6 +86,7 @@
 
 label {
     margin: 0 0 3px;
+    text-transform: capitalize;
 }
 
 #newEvents {
