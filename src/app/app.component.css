@@ -2,6 +2,21 @@ body {
     background-color:#f0f0f0;
 }
 
-.container-lg {
-    margin-top: 30px;
+@media (min-width: 992px) {
+    .container-lg, .container-md, .container-sm, .container {
+        max-width: 960px;
+    }
 }
+
+@media only screen and (min-width: 1260px) {
+    :root {
+        --container: $container-xl;
+    }
+  }
+
+@media (min-width: 1260px) {
+    .container-xl, .container-lg, .container-md, .container-sm, .container {
+        max-width: 1232px;
+    }
+}
+

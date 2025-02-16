@@ -1,7 +1,7 @@
 <!-- Újdonságok -->
 
 <!--Beltartalom alap befoglaló-->
-<div class="container-lg">
+<div class="container p-lg-0">
 	<!--Beltartalom befoglaló-->
 	<div class="row g10">
 
@@ -40,9 +40,12 @@
                   <h3 class="section-header"></h3>
                 <div class="section-content">
                   <div class="filter-item -search">
-                    <div class="search-form">
-                      <input type="text" placeholder="Keresés" class="field">
-                    </div>  
+                    <div class="input-group rounded">
+                      <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                      <span class="input-group-text border-0" id="search-addon">
+                        <i class="bi bi-search"></i>
+                      </span>
+                    </div> 
                   </div>
                 </div>
               </div>
@@ -55,25 +58,35 @@
 
     <!--fő tartalom - jobb oldal-->
 		<div class="col-12 g10-xl-8 order-2">
+      <div>
+        <h1>Programok</h1>
+      </div>
+      <!--kártyák feletti sáv-->
       <div class="pager-top">
         <div class="pager" id="pager-lapozo-top"></div>
         <div class="pl-sorter">
           <span>Rendezés:</span>
           <div class="select-wrapper">
-            <select class="-compact">
-              <option value=""></option>
+            <select class="form-select">
+              <option value="">ABC szerint növekvő</option>
+              <option value="">ABC szerint csökkenő</option>
+              <option value="">Dátum szerint növekvő</option>
+              <option value="">Dátum szerint csökkenő</option>
+              <option value="">Népszerűség</option> <!--ha marad időnk, lehetne egy népszerűség szerint növekvő is: a legtöbb felhasználó által feliratkozott; aktív státuszú események;-->
             </select>
           </div>
         </div>
       </div>
-			<!--Kártyák felépítése-->
-			<div class="content-cards">
-				<div class="row row-cols-1 row-cols-md-4 g-4">
-					<div *ngFor="let event of events" class="col">
+      <!--kártyák-->
+      <div class="content-cards">
+				<div class="row events -grid">
+					<div *ngFor="let event of events" class="e-item -box col-6 col-md-4 col-lg-3">
 					<div  class="card">
-						<div class="inner">
-							<img src={{event.picture}} class="card-img-top" alt="...">
-						</div>
+            <a href="itt kell megadni a program részletes oldalát" class="img" onlcick=";">   <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
+              <div class="inner">
+                <img src={{event.picture}} class="card-img-top" alt={{event.name}}>
+              </div>
+            </a>
 						<div class="card-body">
 						<h5 class="card-title">{{event.name}}</h5>
 							<p class="card-text" style="display: inline-block"><small class="text-body-secondary">{{event.startDate}}-{{event.endDate}}</small></p>	<!--be kell állítani, hogy csak akkor jelenjen meg, ha van adat. Ha nincs dátum adat, akkor valami általános dolgot írjon ki..Pl: Állandó..vagy ilyesmi -->
