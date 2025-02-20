@@ -2,12 +2,19 @@
 
 <!--Beltartalom alap befoglaló-->
 <div class="container p-lg-0">
+  <div class="yahoobar">
+    <div>
+        <a routerLink="/home" class="nav-link active" aria-current="page" href="#" title="Kezdőoldal">
+          <i class="bi bi-house"></i>Kezdőoldal
+        </a>
+    </div>
+  </div>
 	<!--Beltartalom befoglaló-->
 	<div class="row g10">
 
     <!--szűrőpanel sáv - bal oldal-->
 		<div class="col-12 g10-xl-2 order-1">
-      <div class="filterpanel-wrapper">
+      <div class="filterpanel-wrapper -desktop">
         <div class="filterpanel">  
           <div class="sections">
             <div class="section">
@@ -53,6 +60,68 @@
           </div>
         </div>
       </div>
+      <div class="filterpanel-wrapper -mobile">
+        <div>
+          <div class="filterpanel-toggler">
+            <button class="btn btn-primary" type="button" id="filterButton" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+              <span><i data-icon="" class="icon mr-2"></i>Szűrések</span>
+          </button>
+          </div>
+          <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdroped with scrolling</h5>
+              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <p>Try scrolling the rest of the page to see this option in action.</p>
+              <div class="filterpanel">  
+                <div class="sections">
+                  <div class="section">
+                    <div class="section-inner">
+                        <h3 class="section-header"></h3>
+                      <div class="section-content">
+                        <div class="filter-item -checkbox">
+                          <input type="checkbox" id="tag-1">
+                          <label for="tag-1" class="form-check-label">
+                            sport
+                          </label>
+                        </div>
+                        <div class="filter-item -checkbox">
+                          <input type="checkbox" id="tag-2">
+                          <label for="tag-2" class="form-check-label">
+                            kultúra
+                          </label>
+                        </div>
+                        <div class="filter-item -checkbox">
+                          <input type="checkbox" id="tag-3">
+                          <label for="tag-3" class="form-check-label">
+                            tag-3 tartalom
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="section">
+                    <div class="section-inner">
+                        <h3 class="section-header"></h3>
+                      <div class="section-content">
+                        <div class="filter-item -search">
+                          <div class="input-group rounded">
+                            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                            <span class="input-group-text border-0" id="search-addon">
+                              <i class="bi bi-search"></i>
+                            </span>
+                          </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 		</div>
 
 
@@ -63,7 +132,9 @@
       </div>
       <!--kártyák feletti sáv-->
       <div class="pager-top">
-        <div class="pager" id="pager-lapozo-top"></div>
+        <div class="pager" id="pager-lapozo-top">
+          <div class="count" id="pagerCount">15 találat</div>   <!--itt vissza kell adnia, hogy hány db aktív státuszú eseményt talált az adatbázisban (vagyis hány darabot lehet megnézni az oldalon)-->
+        </div>
         <div class="pl-sorter">
           <span>Rendezés:</span>
           <div class="select-wrapper">
@@ -84,7 +155,10 @@
 					<div  class="card">
             <a href="itt kell megadni a program részletes oldalát" class="img" onlcick=";">   <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
               <div class="inner">
-                <img src={{event.picture}} class="card-img-top" alt={{event.name}}>
+                <img *ngIf="event.picture; else noImage" src={{event.picture}} class="card-img-top" alt={{event.name}}>
+                <ng-template #noImage>
+                  <img src="assets/Pictures/no-image.jpg" class="card-img-top" alt="No Image Available">
+                </ng-template>
               </div>
             </a>
 						<div class="card-body">

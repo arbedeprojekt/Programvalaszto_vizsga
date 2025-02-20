@@ -15,6 +15,7 @@ const routes: Routes = [
   {path:"all-events",component:AllEventsComponent},
   {path:"admin",component:EventsAdminListComponent},
   {path:"users",component:UsersComponent},
+  {path:"galeries",component:AllEventsComponent}
 
 
 

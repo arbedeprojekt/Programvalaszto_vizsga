@@ -116,6 +116,27 @@ h1{
 }
 
 /* Szűrőpanel */
+
+@media (min-width: 0px), (max-width:992px) {
+  .filterpanel-wrapper.-desktop {
+    display: none;
+  }
+
+  .filterpanel-wrapper.-mobile {
+    display: block;
+  }
+}
+
+@media (min-width: 1260px) {
+  .filterpanel-wrapper.-desktop {
+    display: block;
+  }
+
+  .filterpanel-wrapper.-mobile {
+    display: none;
+  }
+}
+
 @media only screen and (min-width: 1260px) {
   .g10-xl-2 {
     flex: 0 0 20%;
@@ -135,6 +156,11 @@ h1{
   .p-lg-0 {
       padding: 0 !important;
   }
+
+  /* .col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  } */
 }
 
 .container, .container-fluid, .container-xl, .container-lg, .container-md, .container-sm {
@@ -160,18 +186,54 @@ h1{
   width: 100%;
 }
 
+/*Yahoobar*/
+.yahoobar {
+  margin: 2rem 0;
+}
+
+.bi.bi-house {
+  padding-right: 0.5rem;
+}
+
+.yahoobar>div>* {
+  color: #101010;
+  font-size: .813rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  /*height: 16px;*/
+}
+
 /*Rendezés*/
-.pager-top .size, .pager-top .pl-sorter {
+.pager-top {
   display: flex;
   align-items: center;
   justify-content:flex-end;
   flex-direction: row;
+  margin-bottom: 0.5rem;
+}
+
+.pager-top .pl-sorter {
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+  flex-direction: row;
+  font-size: 15px;
 }
 
 .pl-sorter {
   flex-wrap: wrap;
   flex: 0 0 auto;
   margin-left: .5rem;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-grow: 1;
 }
 
 .pl-sorter span {
@@ -271,6 +333,43 @@ h1{
   color: #3c3c3b;
   padding-bottom: .5rem;
   width: 100%;
+}
+
+.filterpanel-toggler {
+  margin-bottom: 1.5rem;
+}
+
+.filterpanel-toggler> button {
+  width: 100%;
+  padding: 0;
+  gap: .5rem;
+}
+
+button#filterButton {
+  background: #6ca443;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: .875rem;
+  font-weight: 600;
+  padding: 1rem;
+  height: 3rem;
+  position: relative;
+  text-align: center;
+  transition: background-color .2sease-in-out, border-color .2sease-in-out;
+  white-space: nowrap;
+  line-height: normal;
+}
+
+.szuropanel-toggler> button> span:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex-grow: 1;
 }
 
 input[type=checkbox] {

@@ -1,0 +1,54 @@
+.container, .container-fluid, .container-xl, .container-lg, .container-md, .container-sm {
+    width: 100%;
+    padding-right: .75rem;
+    padding-left: .75rem;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -.75rem;
+    margin-left: -.75rem;
+}
+
+.col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    position: relative;
+    width: 100%;
+    padding-right: .75rem;
+    padding-left: .75rem;
+}
+
+header.header .header-inner {
+    display: flex;
+    padding: 1.5rem 0;
+    align-items: center;
+    justify-content: space-between;
+    transition: padding .2sease-in-out;
+    transition-delay: 250ms;
+}
+
+header.header .header-inner .header-left {
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+}
+
+header.header .header-inner .header-center {
+    flex: 1 1 auto;
+    padding: 0 2rem;
+}
+
+header.header .header-inner .header-right {
+    flex: 0 1 auto;
+    position: relative;
+}
+
+header.header .header-icons {
+    display: flex;
+    flex-wrap: nowrap;
+    column-gap: 2rem;
+}

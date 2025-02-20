@@ -125,6 +125,128 @@
       "description": "bdfgsbsfdgb",
       "locationcountry": "cxxvbxcvb",
       "weblink": "xcvbxcbv"
+    },
+    {
+      "id": "d879",
+      "name": "sdfsdfdfsdf",
+      "description": "sdfsdfsd",
+      "locationName": "sdfsdfs",
+      "locationcountry": "giviv",
+      "address": "ivizv",
+      "gpsLink": "iviuv",
+      "weblink": "iviuv",
+      "startDate": "",
+      "endDate": ""
+    }
+  ],
+
+  "galleries": [
+    {
+      "id": "1",
+      "eventId":"1",
+      "image_1": "assets/Pictures/CatPictures/cat1.jpg",
+      "image_2": "",
+      "image_3": "",
+      "image_4": "",
+      "image_5": ""
+    },
+    {
+      "id": "2",
+      "eventId":"2",
+      "image_1": "assets/Pictures/CatPictures/cat1.jpg",
+      "image_2": "",
+      "image_3": "",
+      "image_4": "",
+      "image_5": ""
+    },
+    {
+      "id": "3",
+      "eventId":"3",
+      "image_1": "assets/Pictures/kirandulas_01.jpg",
+      "image_2": "",
+      "image_3": "",
+      "image_4": "",
+      "image_5": ""
+    },
+    {
+      "id": "4",
+      "eventId":"4",
+      "image_1": "assets/Pictures/kirandulas_01.jpg",
+      "image_2": "",
+      "image_3": "",
+      "image_4": "",
+      "image_5": ""
+    },
+    {
+      "id": "5",
+      "eventId":"5",
+      "image_1": "assets/Pictures/CatPictures/cat1.jpg",
+      "image_2": "",
+      "image_3": "",
+      "image_4": "",
+      "image_5": ""
+    },
+    {
+      "id": "6",
+      "eventId":"6",
+      "image_1": "assets/Pictures/kirandulas_01.jpg",
+      "image_2": "",
+      "image_3": "",
+      "image_4": "",
+      "image_5": ""
+    },
+    {
+      "id": "7",
+      "eventId":"7",
+      "image_1": "assets/Pictures/CatPictures/cat1.jpg",
+      "image_2": "",
+      "image_3": "",
+      "image_4": "",
+      "image_5": ""
+    },
+    {
+      "id": "1",
+      "eventId":"8",
+      "image_1": "assets/Pictures/CatPictures/cat1.jpg",
+      "image_2": "",
+      "image_3": "",
+      "image_4": "",
+      "image_5": ""
+    }
+  ],
+
+  "tags": [
+    {
+      "id": "1",
+      "name": "sport"
+    },
+    {
+      "id": "2",
+      "name": "kultúra"
+    },
+    {
+      "id": "3",
+      "name": "szórakozás"
+    },
+    {
+      "id": "4",
+      "name": "kikapcsolódás"
+    },
+    {
+      "id": "5",
+      "name": "kültér"
+    },
+    {
+      "id": "6",
+      "name": "beltér"
+    },
+    {
+      "id": "7",
+      "name": "egész napos"
+    },
+    {
+      "id": "8",
+      "name": "fél napos"
     }
   ]
 }

@@ -11,23 +11,44 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 export class BaseService {
   // A fake API elérési útja
   url="http://localhost:3000/esemenyek/"
+  IMGUrl="http://localhost:3000/galleries/"    //galériához kapcsolódik lásd all-events.component.ts
 
   // Ebben az objektum típusú változóban tároljuk a downloadAll metódusban megszerzett adatokat
   adatSub=new BehaviorSubject<any>(null)
+  
+  galleriesData=new BehaviorSubject<any>(null) //galériához kapcsolódik lásd all-events.component.ts
 
-  refData:AngularFireList<any>
+  //refData:AngularFireList<any>
 
 
   constructor(private http:HttpClient,private db:AngularFireDatabase) {
     //A termékek lap megnyitásakor lefut a downloadAll metódus
     this.downloadAll()
-    this.refData=db.list("adatok")
+    //this.refData=db.list("adatok")
+
+    //galériához kapcsolódik lásd all-events.component.ts
+    this.downloadGalleries()
   }
 
   //visszatér az adatSub metódussal, ami a tanár webapijából kinyert adatokat tartalmazza
   getAll(){
     return this.adatSub
   }
+
+  //galériához kapcsolódik lásd all-events.component.ts
+  getAllGaleries(){
+    return this.galleriesData
+  }
+
+  //galériához kapcsolódik lásd all-events.component.ts
+  private downloadGalleries(){
+    this.http.get(this.IMGUrl).subscribe(
+      (res:any)=>{
+        this.galleriesData.next(res)
+      }
+    )
+  }
+
 
   //lekéri a tanár webapijából az adatokat, majd megszűrve betölti az adatSub változóba
   private downloadAll(){
@@ -59,21 +80,21 @@ export class BaseService {
   }
 
 
-  getDatas(){
-    return this.refData
-  }
-  pushData(body:any){
-    // let body ={name:"Jáger Attila", grade:4}
-    this.refData.push(body)
-  }
+  // getDatas(){
+  //   return this.refData
+  // }
+  // pushData(body:any){
+  //   // let body ={name:"Jáger Attila", grade:4}
+  //   this.refData.push(body)
+  // }
 
-  deleteData(body:any){
-    this.refData.remove(body.key)
-  }
+  // deleteData(body:any){
+  //   this.refData.remove(body.key)
+  // }
 
-  updateData(body:any){
-    let key = body.key
-    delete body.key
-    this.refData.update(key, body)
-  }
+  // updateData(body:any){
+  //   let key = body.key
+  //   delete body.key
+  //   this.refData.update(key, body)
+  // }
 }
