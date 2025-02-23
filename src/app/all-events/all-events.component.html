@@ -11,7 +11,107 @@
   </div>
 	<!--Beltartalom befoglaló-->
 	<div class="row g10">
-
+    <div>
+      <h1>Programok</h1>
+    </div>
+    <!--kártyák feletti sáv-->
+    <div class="pg-top">
+      <div class="pg-2 order-1"></div>
+      <div class="pg-8 order-2">
+        <div class="pager-top">
+          <div class="pager" id="pager-lapozo-top">
+            <div class="count" id="pagerCount">15 találat</div>   <!--itt vissza kell adnia, hogy hány db aktív státuszú eseményt talált az adatbázisban (vagyis hány darabot lehet megnézni az oldalon)-->
+          </div>
+          <div class="pl-sorter">
+            <span>Rendezés:</span>
+            <div class="select-wrapper">
+              <select class="form-select">
+                <option value="">ABC szerint növekvő</option>
+                <option value="">ABC szerint csökkenő</option>
+                <option value="">Dátum szerint növekvő</option>
+                <option value="">Dátum szerint csökkenő</option>
+                <option value="">Népszerűség</option> <!--ha marad időnk, lehetne egy népszerűség szerint növekvő is: a legtöbb felhasználó által feliratkozott; aktív státuszú események;-->
+              </select>
+            </div>
+          </div>
+          <div class="filterpanel -mobile">
+            <div class="filterpanel-wrapper -mobile">
+              <div>
+                <div class="filterpanel-toggler">
+                  <button class="btn btn-primary" type="button" id="filterButton" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                    <span><i data-icon="" class="icon mr-2"></i>Szűrések</span>
+                </button>
+                </div>
+                <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                  <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Szűrések</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                  </div>
+                  <div class="offcanvas-body">
+                    <!-- <p>Try scrolling the rest of the page to see this option in action.</p> -->
+                    <div class="filterpanel">  
+                      <div class="sections">
+                        <div class="section">
+                          <div class="section-inner">
+                              <h3 class="section-header"></h3>
+                            <div class="section-content">
+                              <div class="filter-item -checkbox">
+                                <input type="checkbox" id="tag-1">
+                                <label for="tag-1" class="form-check-label">
+                                  sport
+                                </label>
+                              </div>
+                              <div class="filter-item -checkbox">
+                                <input type="checkbox" id="tag-2">
+                                <label for="tag-2" class="form-check-label">
+                                  kultúra
+                                </label>
+                              </div>
+                              <div class="filter-item -checkbox">
+                                <input type="checkbox" id="tag-3">
+                                <label for="tag-3" class="form-check-label">
+                                  tag-3 tartalom
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="section">
+                          <div class="section-inner">
+                              <h3 class="section-header"></h3>
+                            <div class="section-content">
+                              <div class="filter-item -search">
+                                <div class="input-group rounded">
+                                  <input type="search" class="form-control rounded" placeholder="Keresés" aria-label="Search" aria-describedby="search-addon" />
+                                  <span class="input-group-text border-0" id="search-addon">
+                                    <i class="bi bi-search"></i>
+                                  </span>
+                                </div> 
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Dátumválasztó-->
+                        <div class="section">
+                          <div class="section-inner">
+                              <h3 class="section-header"></h3>
+                            <div class="section-content">
+                              <div class="content">
+                                <app-datepicker-range-popup></app-datepicker-range-popup>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!--szűrőpanel sáv - bal oldal-->
 		<div class="col-12 g10-xl-2 order-1">
       <div class="filterpanel-wrapper -desktop">
@@ -48,7 +148,7 @@
                 <div class="section-content">
                   <div class="filter-item -search">
                     <div class="input-group rounded">
-                      <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                      <input type="search" class="form-control rounded" placeholder="Keresés" aria-label="Search" aria-describedby="search-addon" />
                       <span class="input-group-text border-0" id="search-addon">
                         <i class="bi bi-search"></i>
                       </span>
@@ -57,64 +157,13 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="filterpanel-wrapper -mobile">
-        <div>
-          <div class="filterpanel-toggler">
-            <button class="btn btn-primary" type="button" id="filterButton" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
-              <span><i data-icon="" class="icon mr-2"></i>Szűrések</span>
-          </button>
-          </div>
-          <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdroped with scrolling</h5>
-              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-              <p>Try scrolling the rest of the page to see this option in action.</p>
-              <div class="filterpanel">  
-                <div class="sections">
-                  <div class="section">
-                    <div class="section-inner">
-                        <h3 class="section-header"></h3>
-                      <div class="section-content">
-                        <div class="filter-item -checkbox">
-                          <input type="checkbox" id="tag-1">
-                          <label for="tag-1" class="form-check-label">
-                            sport
-                          </label>
-                        </div>
-                        <div class="filter-item -checkbox">
-                          <input type="checkbox" id="tag-2">
-                          <label for="tag-2" class="form-check-label">
-                            kultúra
-                          </label>
-                        </div>
-                        <div class="filter-item -checkbox">
-                          <input type="checkbox" id="tag-3">
-                          <label for="tag-3" class="form-check-label">
-                            tag-3 tartalom
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="section">
-                    <div class="section-inner">
-                        <h3 class="section-header"></h3>
-                      <div class="section-content">
-                        <div class="filter-item -search">
-                          <div class="input-group rounded">
-                            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                            <span class="input-group-text border-0" id="search-addon">
-                              <i class="bi bi-search"></i>
-                            </span>
-                          </div> 
-                        </div>
-                      </div>
-                    </div>
+            <!--Dátumválasztó-->
+            <div class="section">
+              <div class="section-inner">
+                  <h3 class="section-header"></h3>
+                <div class="section-content">
+                  <div class="content">
+                    <app-datepicker-range-popup></app-datepicker-range-popup>
                   </div>
                 </div>
               </div>
@@ -127,31 +176,10 @@
 
     <!--fő tartalom - jobb oldal-->
 		<div class="col-12 g10-xl-8 order-2">
-      <div>
-        <h1>Programok</h1>
-      </div>
-      <!--kártyák feletti sáv-->
-      <div class="pager-top">
-        <div class="pager" id="pager-lapozo-top">
-          <div class="count" id="pagerCount">15 találat</div>   <!--itt vissza kell adnia, hogy hány db aktív státuszú eseményt talált az adatbázisban (vagyis hány darabot lehet megnézni az oldalon)-->
-        </div>
-        <div class="pl-sorter">
-          <span>Rendezés:</span>
-          <div class="select-wrapper">
-            <select class="form-select">
-              <option value="">ABC szerint növekvő</option>
-              <option value="">ABC szerint csökkenő</option>
-              <option value="">Dátum szerint növekvő</option>
-              <option value="">Dátum szerint csökkenő</option>
-              <option value="">Népszerűség</option> <!--ha marad időnk, lehetne egy népszerűség szerint növekvő is: a legtöbb felhasználó által feliratkozott; aktív státuszú események;-->
-            </select>
-          </div>
-        </div>
-      </div>
       <!--kártyák-->
       <div class="content-cards">
 				<div class="row events -grid">
-					<div *ngFor="let event of events" class="e-item -box col-6 col-md-4 col-lg-3">
+					<div *ngFor="let event of paginatedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
 					<div  class="card">
             <a href="itt kell megadni a program részletes oldalát" class="img" onlcick=";">   <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
               <div class="inner">
@@ -163,10 +191,30 @@
             </a>
 						<div class="card-body">
 						<h5 class="card-title">{{event.name}}</h5>
-							<p class="card-text" style="display: inline-block"><small class="text-body-secondary">{{event.startDate}}-{{event.endDate}}</small></p>	<!--be kell állítani, hogy csak akkor jelenjen meg, ha van adat. Ha nincs dátum adat, akkor valami általános dolgot írjon ki..Pl: Állandó..vagy ilyesmi -->
-							<!-- <p class="card-text" style="display: inline-block; padding-left: 3.8rem;">{{event.startTime}}-{{event.endTime}}</p> be kell állítani, hogy csak akkor jelenjen meg, ha van adat-->
-							<p class="card-text" style="text-align: left; display: inline-block;"><small class="text-body-secondary">{{event.locationName}}</small></p>
-							<!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
+            <ul class="list-unstyled list-inline mb-0">
+              <li class="list-inline-item">
+                <i class="bi bi-star-fill text-warning"></i>    <!--bi-star, bi-star-fill, bi-star-half-->
+              </li>
+              <li class="list-inline-item">
+                <i class="bi bi-star-fill text-warning"></i>   <!--a csillagokat aszerint kell "teltté" változtatni, ahogy arányaiban kijön az értékelések alapján. Lényegében az átlag adja-->
+              </li>
+              <li class="list-inline-item">
+                <i class="bi bi-star-fill text-warning"></i>
+              </li>
+              <li class="list-inline-item">
+                <i class="bi bi-star-fill text-warning"></i>
+              </li>
+              <li class="list-inline-item">
+                <i class="bi bi-star-half text-warning"></i>
+              </li>
+              <li class="list-inline-item">
+                <p class="text-muted">4.5 (413)</p>   <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
+              </li>
+            </ul>
+						<p class="card-text" style="display: inline-block"><small class="text-body-secondary">{{event.startDate}}-{{event.endDate}}</small></p>	<!--be kell állítani, hogy csak akkor jelenjen meg, ha van adat. Ha nincs dátum adat, akkor valami általános dolgot írjon ki..Pl: Állandó..vagy ilyesmi -->
+						<!-- <p class="card-text" style="display: inline-block; padding-left: 3.8rem;">{{event.startTime}}-{{event.endTime}}</p> be kell állítani, hogy csak akkor jelenjen meg, ha van adat-->
+						<p class="card-text" style="text-align: left; display: inline-block;"><small class="text-body-secondary">{{event.locationName}}</small></p>
+						<!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
 						<p class="card-text" style="display: inline-block;" id="description"><small class="text-body-secondary">{{event.description}}</small></p>
 						</div>
 					</div>
@@ -177,23 +225,14 @@
 
 			<!--Navigációs sáv-->
 			<!--Be kell majd még kötni az adatok megjelenítését, hogy egy oldalon max hány db esemény kártyája jelenjen meg-->
-			<nav aria-label="Page navigation" id="pageNavigation">
-				<ul class="pagination">
-				<li class="page-item">
-					<a class="page-link" href="#" aria-label="Previous">
-					<span aria-hidden="true">&laquo;</span>
-					</a>
-				</li>
-				<li class="page-item"><a class="page-link" href="#">1</a></li>
-				<li class="page-item"><a class="page-link" href="#">2</a></li>
-				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item">
-					<a class="page-link" href="#" aria-label="Next">
-					<span aria-hidden="true">&raquo;</span>
-					</a>
-				</li>
-				</ul>
-			</nav>
+      <div class="pager-pagination">
+        <app-card-pagination 
+          [totalItems]="events.length" 
+          [itemsPerPage]="itemsPerPage"
+          [currentPage]="currentPage"
+          (onClick)="changePage($event)"
+        ></app-card-pagination>
+      </div>
 			<!--Navigációs sáv vége-->
 		</div>
 

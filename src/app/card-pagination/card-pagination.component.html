@@ -1,0 +1,28 @@
+<nav aria-label="Page navigation" id="pageNavigation">
+    <ul class="pagination">
+      <!-- Előző gomb -->
+      <li class="page-item" [ngClass]="{disabled: currentPage === 1}" style="cursor: pointer">
+        <a class="page-link" href="#" (click)="pageClicked(currentPage - 1)" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+  
+      <!-- Dinamikus oldalszámok -->
+      <li 
+        (click)="pageClicked(page)"
+        *ngFor="let page of pages" 
+        class="page-item"
+        [ngClass]="{'active': currentPage === page }">
+        <a class="page-link" href="#">
+          {{ page }}
+        </a>
+      </li>
+  
+      <!-- Következő gomb -->
+      <li class="page-item" [ngClass]="{disabled: currentPage === totalPages}" style="cursor: pointer">
+        <a (click)="pageClicked(currentPage + 1)" class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+</nav>

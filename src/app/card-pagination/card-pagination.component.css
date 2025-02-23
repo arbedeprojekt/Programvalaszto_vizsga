@@ -1,0 +1,11 @@
+/*navigációs sáv - oldalak*/
+#pageNavigation {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+    justify-items: center;
+  }
+  
+  .pagination {
+    border: none;
+  }

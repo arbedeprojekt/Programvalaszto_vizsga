@@ -31,6 +31,10 @@ header.header .header-inner {
     transition-delay: 250ms;
 }
 
+header.header {
+    background-color: #fff;
+}
+
 header.header .header-inner .header-left {
     flex: 0 1 auto;
     display: flex;

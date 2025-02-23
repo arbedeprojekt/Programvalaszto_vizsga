@@ -23,6 +23,8 @@ import { LogoutComponent } from './logout/logout.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { environment } from '../environments/environment.prod';
 import { UsersComponent } from './users/users.component';
+import { DatepickerRangePopupComponent } from './datepicker-range-popup/datepicker-range-popup.component';
+import { CardPaginationComponent } from './card-pagination/card-pagination.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { UsersComponent } from './users/users.component';
     EventsAdminListComponent,
     TagsListComponent,
     TagsLinkComponent,
-    UsersComponent
+    UsersComponent,
+    DatepickerRangePopupComponent,
+    CardPaginationComponent
 
   ],
   imports: [

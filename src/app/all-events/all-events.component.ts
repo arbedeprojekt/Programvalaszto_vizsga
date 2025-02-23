@@ -16,8 +16,12 @@ export class AllEventsComponent  {
   eventDetails=new BehaviorSubject<any>(null)
   
   clickedEventDetails:any={};
-  events:any
+  events:any[]=[];
   galleries:any
+
+  //oldal lapozóhoz kapcsolódik
+  currentPage = 1;
+  itemsPerPage = 12;
 
   //user tárolása
   user:any
@@ -25,9 +29,9 @@ export class AllEventsComponent  {
 
   constructor(private httpClient:HttpClient, private auth:AuthService, private base:BaseService ) {
     // user lecsekkolása
-    this.auth.getLoggedUser().subscribe(
-      (u)=>this.user=u
-    )
+  //   this.auth.getLoggedUser().subscribe(
+  //     (u)=>this.user=u
+  //   )
 
     this.getDataFromApi()
   }
@@ -38,6 +42,19 @@ export class AllEventsComponent  {
         this.events = res
       }
     )
+  }
+
+  // Oldalszám beállítása
+  changePage(page: number) {
+    this.currentPage = page;
+  }
+
+  // Csak az aktuális oldalhoz tartozó elemeket adjuk vissza
+  get paginatedEvents(): any[] {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+
+    return this.events.slice(start, end);       //valamiért hibát dob erre, de szerintem azért, mert a user most félig be van kérve, félig nem működik..ha az meg lesz csinálva, akkor meg kell nézni, hogy ez jó-e..
   }
 
 
