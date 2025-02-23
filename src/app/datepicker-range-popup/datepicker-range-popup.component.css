@@ -23,8 +23,7 @@
 .custom-day.focused {
     background-color: #e6e6e6;
 }
-.custom-day.range,
-.custom-day:hover {
+.custom-day.range, .custom-day:hover {
     background-color: rgb(2, 117, 216);
     color: white;
 }

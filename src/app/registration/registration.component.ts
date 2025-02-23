@@ -71,13 +71,13 @@ export class RegistrationComponent {
 
           if (res) {
 
-            if (res.data) {
+            if (res.error) {
               this.erEmail = ""
               this.erName = ""
               this.erPassword = ""
-              this.erEmail = res.data["email"]
-              this.erName = res.data["name"]
-              this.erPassword = res.data["password"]
+              this.erEmail = res.error["email"]
+              this.erName = res.error["name"]
+              this.erPassword = res.error["password"]
 
             }
             else {

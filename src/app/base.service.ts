@@ -11,6 +11,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 export class BaseService {
   // A fake API elérési útja
   url="http://localhost:3000/esemenyek/"
+  //url="http://localhost:8000/api/events"
   IMGUrl="http://localhost:3000/galleries/"    //galériához kapcsolódik lásd all-events.component.ts
 
   // Ebben az objektum típusú változóban tároljuk a downloadAll metódusban megszerzett adatokat

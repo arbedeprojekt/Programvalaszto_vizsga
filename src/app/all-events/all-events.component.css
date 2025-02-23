@@ -53,9 +53,9 @@ h1{
     flex: 0 0 100%;
     max-width: 100%;
   }
-  .card {
-    max-width: 240px;
-  }
+  /*.card {
+    max-width: 240px;   /*ha ez nincs kikommentelve, akkor mobil képernyőn 1 db kártya lesz; NE töröld
+  }*/
 }
 
 @media (min-width: 0px) {

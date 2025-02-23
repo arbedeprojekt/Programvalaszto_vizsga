@@ -54,7 +54,7 @@ export class AllEventsComponent  {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
 
-    return this.events.slice(start, end);       //valamiért hibát dob erre, de szerintem azért, mert a user most félig be van kérve, félig nem működik..ha az meg lesz csinálva, akkor meg kell nézni, hogy ez jó-e..
+    return this.events.slice(start, end);       //valamiért hibát dob erre..
   }
 
 

@@ -101,8 +101,8 @@ export class LoginComponent {
               }
               else {
                 this.loginError = true
-                this.errorNameMessage = res.data['name']
-                this.errorPasswordMessage = res.data['password']
+                this.errorNameMessage = res.error['name']
+                this.errorPasswordMessage = res.error['password']
                 this.unknownErrorMessageBool = false
 
                 console.log("hiba", res.data)
