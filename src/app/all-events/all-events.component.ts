@@ -10,11 +10,11 @@ import { BehaviorSubject } from 'rxjs';
   styleUrl: './all-events.component.css'
 })
 export class AllEventsComponent  {
-  
+
   allEventUrl = "http://localhost:3000/esemenyek/";
-  
+
   eventDetails=new BehaviorSubject<any>(null)
-  
+
   clickedEventDetails:any={};
   events:any[]=[];
   galleries:any
@@ -70,17 +70,26 @@ export class AllEventsComponent  {
   // getEventImage(eventId: any): string {
   //   console.log('Keresett eventId:', eventId);
   //   console.log('Galeries adatok:', this.galleries);
-  
+
   //   if (!this.galleries || this.galleries.length === 0) {
   //     console.warn('Nincsenek galériaadatok!');
   //     return 'assets/Pictures/no-image.jpg';
   //   }
-  
+
   //   const galleryItem = this.galleries.find?((g: any) => String(g.eventId) === String(eventId));
-  
+
   //   console.log('Talált galéria elem:', galleryItem);
-  
+
   //   return galleryItem && galleryItem.image_1 ? galleryItem.image_1 : 'assets/Pictures/no-image.jpg';
   // }
+
+  filterByABCAsc(){
+    console.log("növekvő sorrend!!")
+  }
+
+  filterByABCDesc(){
+    console.log("csökkenő sorrend!!")
+
+  }
 
 }

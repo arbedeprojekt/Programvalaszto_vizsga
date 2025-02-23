@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { GoogleAuthProvider } from '@angular/fire/auth';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +14,24 @@ export class AuthService {
 
   api = "https://macskak-fe6d9.web.app/"
 
+  //backend az autentikáció miatt
+  backendUrl = "http://127.0.0.1:8000/api/"
+
+  //Ezt a Regisztrációnál fellépő hibák tárolására használom
+  saveBackendMessage = new BehaviorSubject<any>(null)
+  //A felhasználó bejelentkezésénél használom
+  public saveUserNameBehaveSub = new BehaviorSubject <any>(null)
+  public saveUserTokenBehaveSub = new BehaviorSubject <any>(null)
+  public userName:Observable<any|null> = this.saveUserNameBehaveSub.asObservable()
+  public userToken:Observable<any|null> = this.saveUserTokenBehaveSub.asObservable()
+  saveLoginData = new BehaviorSubject<any>(null)
+
+
+
   private token:any
 
-  constructor(private afAuth:AngularFireAuth, private router:Router, private http:HttpClient) {
+  constructor(private afAuth:AngularFireAuth, private router:Router, private http:HttpClient,
+    private localStorage:LocalStorageService) {
 
     this.afAuth.authState.subscribe(
       (user:any)=>{
@@ -116,4 +132,76 @@ export class AuthService {
       ()=>this.router.navigate(['home'])
     )
   }
+
+  registrationUserOnlaravel(nameArg : string, emailArg :string, passwordArg :string
+    , confirm_passwordArg:string
+  ){
+    let body ={
+      name:nameArg,
+      email:emailArg,
+      password:passwordArg,
+      confirm_password:confirm_passwordArg
+    }
+    this.http.post(this.backendUrl+"register",body).subscribe(
+      {
+        next: (res:any)=> {
+
+          // console.log("res: ",res['success'])
+          if(res['success']){
+            // console.log("Token: ",this.token)
+            console.log("res: ",res)
+            this.saveBackendMessage.next(res)
+
+          }
+          else{
+            // console.log("hiba",res)
+            if(res.error){
+              this.saveBackendMessage.next(res)
+            }
+            else{
+              console.log("másik",res.data)
+              this.saveBackendMessage.next(res)
+
+            }
+            // console.log("res: ",res)
+
+
+          }
+
+
+        },
+        error:(res) =>{
+            // console.log("Hiba",res)
+            // this.saveBackendMessage.next(res)
+        }
+      }
+    )
+    // this.router.navigate(['registration'])
+
+
+  }
+
+  loginWithLaravel(nameArg:string, passwordArg:string){
+    let body={
+      name:nameArg,
+      password:passwordArg,
+
+    }
+    return this.http.post("http://localhost:8000/api/login",body)
+
+  }
+
+  getUserNameToDisplay(){
+    this.saveUserNameBehaveSub.next(this.localStorage.getItem("user"))
+  }
+
+  getUserToken(){
+    this.saveUserTokenBehaveSub.next(this.localStorage.getItem("token"))
+  }
+  //elfeledtetem a felhasználó nevét és törlöm a localstorage-ból is.
+  logoutUserFromLaravel(){
+    this.saveUserNameBehaveSub.next(null)
+    this.localStorage.clear()
+  }
+
 }

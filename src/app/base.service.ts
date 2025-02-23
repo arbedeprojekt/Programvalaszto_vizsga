@@ -15,7 +15,7 @@ export class BaseService {
 
   // Ebben az objektum típusú változóban tároljuk a downloadAll metódusban megszerzett adatokat
   adatSub=new BehaviorSubject<any>(null)
-  
+
   galleriesData=new BehaviorSubject<any>(null) //galériához kapcsolódik lásd all-events.component.ts
 
   //refData:AngularFireList<any>
