@@ -53,19 +53,19 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  //most csak az összes eseményből vesz 10 db-ot, de itt meg kell írni, hogy a legnépszerűbb programokból adja vissza a top10-et
+  //most csak az összes eseményből vesz 8 db-ot, de itt meg kell írni, hogy a legnépszerűbb programokból adja vissza a top10-et
   get bestEvents() {
     if (this.events) { // Ellenőrizzük, hogy az events létezik-e
-      return this.events.slice(0, 10); // Az első 10 elemet adjuk vissza
+      return this.events.slice(0, 8); // Az első 8 elemet adjuk vissza
     } else {
       return []; // Ha nincs adat, akkor egy üres tömböt adunk vissza
     }
   }
 
-  //most csak az összes eseményből vesz 5 db-ot, de itt meg kell írni, hogy a legújabb programokból adja vissza a legújabb 5-öt
+  //most csak az összes eseményből vesz 4 db-ot, de itt meg kell írni, hogy a legújabb programokból adja vissza a legújabb 5-öt
   get newEvents() {
     if (this.events) { // Ellenőrizzük, hogy az events létezik-e
-      return this.events.slice(0, 5); // Az első 10 elemet adjuk vissza
+      return this.events.slice(0, 4); // Az első 4 elemet adjuk vissza
     } else {
       return []; // Ha nincs adat, akkor egy üres tömböt adunk vissza
     }

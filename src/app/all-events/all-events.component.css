@@ -96,22 +96,22 @@ h1{
 
 @media (min-width: 576px) {
   .col-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 }
 
 @media (min-width: 768px) {
   .col-md-4 {
-      flex: 0 0 33.3333333333%;
-      max-width: 33.3333333333%;
+      flex: 0 0 50%;
+      max-width: 50%;
   }
 }
 
 @media (min-width: 992px) {
   .col-lg-3 {
-      flex: 0 0 25%;
-      max-width: 25%;
+      flex: 0 0 33.3333333333%;
+      max-width: 33.3333333333%;
   }
 }
 
@@ -169,30 +169,30 @@ h1{
 
 @media only screen and (min-width: 1260px) {
   .g10-xl-2 {
-    flex: 0 0 20%;
-    max-width: 20%;
+    flex: 0 0 25%;
+    max-width: 25%;
   }
 }
 
 @media only screen and (min-width: 1260px) {
   .pg-2 {
-    flex: 0 0 20%;
-    max-width: 20%;
+    flex: 0 0 25%;
+    max-width: 25%;
   }
 }
 
 @media only screen and (min-width: 1260px) {
   .pg-8 {
-    flex: 0 0 80%;
-    max-width: 80%;
+    flex: 0 0 75%;
+    max-width: 75%;
   }
 }
 
 /* Fő tartalom (kártyák) */
 @media only screen and (min-width: 1260px) {
   .g10-xl-8 {
-    flex: 0 0 80%;
-    max-width: 80%;
+    flex: 0 0 75%;
+    max-width: 75%;
   }
 }
 
@@ -220,10 +220,10 @@ h1{
   margin-right: -.5rem;
 }
 
-.col-12 {
+/* .col-12 {
   position: relative;
   width: 100%;
-}
+} */
 
 /*Yahoobar*/
 .yahoobar {
@@ -283,7 +283,7 @@ h1{
 .pager {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   flex-direction: row;
   flex-grow: 1;
 }
@@ -301,10 +301,14 @@ h1{
   font-size: 0.875em;
 }
 
+.separator {
+  margin-left: 0.5rem;
+}
+
 /*Kártyák*/
 .inner {
   display: block;
-  height: 150px;
+  height: 160px;
   width: 100%;
   overflow: hidden;
 }
@@ -321,7 +325,7 @@ h1{
   margin: auto;
   display: flex;
   flex-direction: column;
-  height: 350px;
+  height: 360px;
   overflow: hidden; 
   border-color: #f0f0f0;
 }
@@ -330,7 +334,7 @@ h1{
   flex-grow: 1; /* Kitölti a rendelkezésre álló helyet */
   display: flex;
   flex-direction: column;
-  padding: 12px;
+  padding: 1.2rem;
   line-height: 1.2rem;
 }
 
@@ -358,7 +362,7 @@ h1{
 }
 
 .card-title {
-  font-size: 17px;
+  font-size: 1.3rem;
 }
 
 #discription {

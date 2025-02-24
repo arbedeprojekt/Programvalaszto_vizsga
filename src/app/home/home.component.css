@@ -20,29 +20,29 @@ h1{
     flex: 0 0 100%;
     max-width: 100%;
   }
-  /* .card {
+  /*.card {
     max-width: 240px;   /*ha ez nincs kikommentelve, akkor mobil képernyőn 1 db kártya lesz; NE töröld
-  } */
+  }*/
 }
 
 @media (min-width: 768px) {
   .col-md-4 {
-      flex: 0 0 33.3333333333%;
-      max-width: 33.3333333333%;
+      flex: 0 0 50%;
+      max-width: 50%;
   }
 }
 
 @media (min-width: 992px) {
   .col-lg-3 {
-      flex: 0 0 25%;
-      max-width: 25%;
+      flex: 0 0 33.3333333333%;
+      max-width: 33.3333333333%;
   }
 }
 
 @media only screen and (min-width: 1260px) {
   .g10-xl-2 {
-      flex: 0 0 20%;
-      max-width: 20%;
+      flex: 0 0 25%;
+      max-width: 25%;
   }
 }
 
@@ -115,15 +115,18 @@ h1{
 /*Carousel*/
 
 #carouselExampleIndicators {
-  height: 700px;
+  height: 600px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
   overflow: hidden;
 }
 
 .carousel-item {
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: 900px;
   object-fit: cover;
-  display: block;
 }
 
 .carousel-item img {
@@ -168,16 +171,29 @@ h1{
   display: none;
 }*/
 
-.e-item .into-bucket-list {
-  position: relative;
+.split {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
+
+/* .e-item .into-bucket-list {
+  position: absolute;
+  bottom: 1.2rem;
+  right: 1.2rem;
+} */
 
 .btn-primary {
   text-transform: none;
   background: #fff;
+  align-items: center;
+  margin-left: .5rem;
+  height: 45px;
+  width: 45px;
+  /* position: absolute;          ez lenne a szép elhelyezése a gomnak, de egyelőre nem jött össze..
+  bottom: 1.2rem;
+  right: 1.2rem; */
 }
 
 .bi-plus-lg {
@@ -186,23 +202,13 @@ h1{
   font-style: normal;
   font-weight: 900 !important;
   font-size: 1.3rem;
+  padding: auto;
+
 }
 
-/* .button:not(.-border) {
-  background-image: linear-gradient(90deg, #8fc73e, #6ca443);
-  background-size: 100% 100%;
-  background-position: 0% 0%;
-  transition: background-position .2sease-in-out, background-size .2sease-in-out;
-} */
-
-/* button:not(:disabled), [type=button]:not(:disabled) {
-  cursor: pointer;
-} */
-
-/* button, [type=button]{
-  -webkit-appearance: button;
-} */
-
+p {
+  margin: 0 0 .75rem;
+}
 
 .row {
   display: flex;
@@ -211,9 +217,9 @@ h1{
 
 .inner {
   display: block;
-  height: 150px;
+  height: 160px;
   width: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .card-img-top {
@@ -228,8 +234,8 @@ h1{
   margin: auto;
   display: flex;
   flex-direction: column;
-  height: 350px;
-  overflow: hidden; 
+  height: 100%;
+  /* overflow: hidden;  */
   border-color: #f0f0f0;
 }
 
@@ -237,17 +243,15 @@ h1{
   flex-grow: 1; /* Kitölti a rendelkezésre álló helyet */
   display: flex;
   flex-direction: column;
-  padding: 12px;
+  padding: 1.2rem;
   line-height: 1.2rem;
 }
 
 .card-text {
-  margin: 0 0 7px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-height: calc(1.2em * 3); /* 3 sorig engedi a szöveget */
+  /* margin: 0 0 7px; */
+  max-height: calc(1.2rem * 2); /* 3 sorig engedi a szöveget */
   word-break: break-word;
-  font-size: 1rem;
+  font-size: .875rem;
   justify-content: space-between;
 }
 
@@ -265,10 +269,19 @@ h1{
 }
 
 .card-title {
-  font-size: 17px;
+  font-size: 1.3rem;
 }
 
-#discription {
-  overflow: hidden;
+#description {
+  /* white-space: nowrap; */
   text-overflow: ellipsis;
+  overflow: hidden;
 }
+
+/* #description::after {
+  content: "...";
+  position: absolute;
+  right: 80px; 
+  bottom: 30px;
+  background: white;
+} */
