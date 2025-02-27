@@ -22,8 +22,11 @@ export class AuthService {
   //A felhasználó bejelentkezésénél használom
   public saveUserNameBehaveSub = new BehaviorSubject <any>(null)
   public saveUserTokenBehaveSub = new BehaviorSubject <any>(null)
+  public saveUserAdminBehaveSub = new BehaviorSubject <any>(null)
+
   public userName:Observable<any|null> = this.saveUserNameBehaveSub.asObservable()
   public userToken:Observable<any|null> = this.saveUserTokenBehaveSub.asObservable()
+  public userAdminAccessCode:Observable<any|null> = this.saveUserAdminBehaveSub.asObservable()
   saveLoginData = new BehaviorSubject<any>(null)
 
 
@@ -198,9 +201,16 @@ export class AuthService {
   getUserToken(){
     this.saveUserTokenBehaveSub.next(this.localStorage.getItem("token"))
   }
+
+  getUserAdminAccessCode(){
+    this.saveUserAdminBehaveSub.next(this.localStorage.getItem("admin"))
+  }
+
   //elfeledtetem a felhasználó nevét és törlöm a localstorage-ból is.
   logoutUserFromLaravel(){
     this.saveUserNameBehaveSub.next(null)
+    this.saveUserAdminBehaveSub.next(null)
+    this.saveUserTokenBehaveSub.next(null)
     this.localStorage.clear()
   }
 

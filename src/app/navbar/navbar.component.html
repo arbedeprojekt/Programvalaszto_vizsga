@@ -37,7 +37,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand"><span *ngIf="loggedIn">Hello {{userName$|async}}! ||</span></a>
+      <a class="navbar-brand"><span *ngIf="loggedIn">Hello {{userName$|async}}!||</span></a>
       <a routerLink="/home" class="navbar-brand" href="#">Szabadidő Választó</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,8 +61,12 @@
             <a routerLink="/registration" class="nav-link">Regisztráció</a>
           </li>
 
-          <li *ngIf="loggedIn" class="nav-item">
+          <li *ngIf="loggedIn && (userAdmin.source._value == 1 || userAdmin.source._value == 2)" class="nav-item">
             <a routerLink="/admin" class="nav-link">Admin</a>
+          </li>
+
+          <li *ngIf="loggedIn && (userAdmin.source._value == 1 || userAdmin.source._value == 2)" class="nav-item">
+            <a routerLink="/tags" class="nav-link">Tegek listája</a>
           </li>
 
           <li *ngIf="loggedIn" class="nav-item">

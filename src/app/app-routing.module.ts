@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { AllEventsComponent } from './all-events/all-events.component';
 import { EventsAdminListComponent } from './events-admin-list/events-admin-list.component';
+import { TagsListComponent } from './tags-list/tags-list.component';
 
 const routes: Routes = [
   {path:"home",component:HomeComponent},
@@ -15,7 +16,8 @@ const routes: Routes = [
   {path:"all-events",component:AllEventsComponent},
   {path:"admin",component:EventsAdminListComponent},
   {path:"users",component:UsersComponent},
-  {path:"galeries",component:AllEventsComponent}
+  {path:"galeries",component:AllEventsComponent},
+  {path:"tags",component:TagsListComponent}
 
 
 

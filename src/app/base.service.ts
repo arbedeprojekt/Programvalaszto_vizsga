@@ -14,12 +14,28 @@ export class BaseService {
   //url="http://localhost:8000/api/events"
   IMGUrl="http://localhost:3000/galleries/"    //galériához kapcsolódik lásd all-events.component.ts
 
+  //Backend elérése
+  backendUrl = "http://127.0.0.1:8000/api/"
+
+
   // Ebben az objektum típusú változóban tároljuk a downloadAll metódusban megszerzett adatokat
   adatSub=new BehaviorSubject<any>(null)
+
+  //Ebben fognak tárolódni a backend tags adatok
+  tagsSub = new BehaviorSubject<any>(null)
 
   galleriesData=new BehaviorSubject<any>(null) //galériához kapcsolódik lásd all-events.component.ts
 
   //refData:AngularFireList<any>
+
+
+  //errorüzenetek:
+  //hibaüzenet új teg sikertelen felvétele esetén
+  newTagErrorMessage: any
+  //bool az uj teg felvétele esetén
+  newTagErrorBool = false
+  newTagErrorSub = new BehaviorSubject<any>(null)
+  newTagErrorObs: Observable<any | null> = this.newTagErrorSub.asObservable()
 
 
   constructor(private http:HttpClient,private db:AngularFireDatabase) {
@@ -59,6 +75,15 @@ export class BaseService {
     )
   }
 
+   //backend adatok lekérése
+   downloadAllTags() {
+    this.http.get(this.backendUrl + "tags").subscribe(
+      (res: any) => {
+        this.tagsSub.next(res)
+      }
+    )
+  }
+
   //új cikk felvétele
   newDataWeb(data:any){
     this.http.post(this.url,data).forEach(
@@ -78,6 +103,23 @@ export class BaseService {
     this.http.delete(this.url+data.id).forEach(
       ()=>this.downloadAll()
     )
+  }
+
+  //új tag felvétele
+  newTagWeb(data: any) {
+
+    return this.http.post(this.backendUrl + "newtags", data)
+  }
+
+  deleteTagWeb(data: any) {
+
+    return this.http.delete(this.backendUrl + "deletetags/"+data.id)
+
+  }
+
+  //a már meglévő cikk módosítása
+  updateTagWeb(data: any) {
+    return this.http.put(this.backendUrl + "updatetags",data)
   }
 
 

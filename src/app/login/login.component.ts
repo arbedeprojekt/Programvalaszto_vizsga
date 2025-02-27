@@ -35,6 +35,9 @@ export class LoginComponent {
   //bejelentkezés utáni név elmentése
   nameAfterLogin: any
 
+  //bejelentkezés utáni jogosultság elmentése (0-nem admin, 1-admin, 2-superadmin)
+  adminAccessCode:any
+
   constructor(private auth:AuthService, private router:Router, private localStorage: LocalStorageService){}
 
   visiblePassword(){
@@ -87,9 +90,11 @@ export class LoginComponent {
                 this.errorPasswordMessage = ""
                 this.mailRegError = false
                 this.token = res.data.token
+                this.adminAccessCode = res.data.admin
                 this.nameAfterLogin = res.data.name
                 this.localStorage.setItem("token", this.token)
                 this.localStorage.setItem("user", this.nameAfterLogin)
+                this.localStorage.setItem("admin", this.adminAccessCode)
                 this.auth.saveLoginData = res.data
                 // console.log(this.auth.saveLoginData)
 

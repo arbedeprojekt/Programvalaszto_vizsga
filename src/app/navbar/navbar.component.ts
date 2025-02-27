@@ -15,6 +15,7 @@ export class NavbarComponent {
 
   userName$:any
   userToken:any
+  userAdmin:any
   loggedIn = false
   constructor(public auth:AuthService, private localStorage:LocalStorageService){
     this.auth.getLoggedUser().subscribe(
@@ -32,26 +33,28 @@ export class NavbarComponent {
         console.log("A localstorage nem üres, tartalma: ",this.localStorage.getItem("user"))
         this.auth.getUserNameToDisplay()
         this.auth.getUserToken()
+        this.auth.getUserAdminAccessCode()
         this.userName$ = this.auth.userName
+        this.userAdmin = this.auth.userAdminAccessCode
         this.loggedIn = true
 
       }
     }
 
     ,20000)
-    if(this.localStorage.getItem("user")==null ){
-      console.log("A localstorage üres")
-      this.loggedIn = false
-    }
-    else{
+    // if(this.localStorage.getItem("user")==null ){
+    //   console.log("A localstorage üres")
+    //   this.loggedIn = false
+    // }
+    // else{
 
-      console.log("A localstorage nem üres, tartalma: ",this.localStorage.getItem("user"))
-      this.auth.getUserNameToDisplay()
-      this.auth.getUserToken()
-      this.userName$ = this.auth.userName
-      this.loggedIn = true
+    //   console.log("A localstorage nem üres, tartalma: ",this.localStorage.getItem("user"))
+    //   this.auth.getUserNameToDisplay()
+    //   this.auth.getUserToken()
+    //   this.userName$ = this.auth.userName
+    //   this.loggedIn = true
 
-    }
+    // }
 
   }
 
