@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
 // import { AngularFireDatabase } from '@angular/fire/compat/database';
@@ -77,15 +77,21 @@ export class BaseService {
 
    //backend adatok lekérése
    downloadAllTags() {
-    this.http.get(this.backendUrl + "tags").subscribe(
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+    this.http.get(this.backendUrl + "tags", {headers}).subscribe(
       (res: any) => {
         this.tagsSub.next(res)
+        console.log("üzenet a tegek betöltése során a base-ben: ",res)
+        console.log("üzenet a tegek betöltése során a base-ben: ",headers)
+
       }
     )
   }
 
   //új cikk felvétele
   newDataWeb(data:any){
+
     this.http.post(this.url,data).forEach(
       ()=>this.downloadAll()
     )
@@ -108,18 +114,25 @@ export class BaseService {
   //új tag felvétele
   newTagWeb(data: any) {
 
-    return this.http.post(this.backendUrl + "newtags", data)
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+
+    return this.http.post(this.backendUrl + "newtags", data,{headers})
   }
 
   deleteTagWeb(data: any) {
 
-    return this.http.delete(this.backendUrl + "deletetags/"+data.id)
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+    return this.http.delete(this.backendUrl + "deletetags/"+data.id,{headers})
 
   }
 
   //a már meglévő cikk módosítása
   updateTagWeb(data: any) {
-    return this.http.put(this.backendUrl + "updatetags",data)
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+    return this.http.put(this.backendUrl + "updatetags",data ,{headers})
   }
 
 

@@ -208,10 +208,59 @@ export class AuthService {
 
   //elfeledtetem a felhasználó nevét és törlöm a localstorage-ból is.
   logoutUserFromLaravel(){
+    let token = localStorage.getItem("token")
+
+    // let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+    let headers = new HttpHeaders({
+      "Authorization": `Bearer ${token}`,
+      "Accept": "application/json"
+  });
+
+    this.http.post(this.backendUrl + "logout",{},{headers:headers}).subscribe(
+      {
+        next: (res:any)=>{
+          console.log("headers: ",headers)
+        },
+        error: (error:any) => {
+          console.log("hiba: ", headers)
+        }
+      }
+
+    )
     this.saveUserNameBehaveSub.next(null)
     this.saveUserAdminBehaveSub.next(null)
     this.saveUserTokenBehaveSub.next(null)
     this.localStorage.clear()
+
+
+
+
   }
+
+  // logoutUserFromLaravel(){
+  //   let token = localStorage.getItem("token")
+
+  //   let headers = new HttpHeaders().set("Authorization",`${token}`)
+
+  //   this.http.post(this.backendUrl + "logout",{},{headers: headers, withCredentials: true }).subscribe(
+  //     {
+  //       next: (res:any)=>{
+  //         console.log("headers: ",headers)
+  //       },
+  //       error: (error:any) => {
+  //         console.log("hiba: ", headers)
+  //       }
+  //     }
+
+  //   )
+  //   this.saveUserNameBehaveSub.next(null)
+  //   this.saveUserAdminBehaveSub.next(null)
+  //   this.saveUserTokenBehaveSub.next(null)
+  //   this.localStorage.clear()
+
+
+
+
+  // }
 
 }
