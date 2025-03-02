@@ -25,6 +25,7 @@ import { environment } from '../environments/environment.prod';
 import { UsersComponent } from './users/users.component';
 import { DatepickerRangePopupComponent } from './datepicker-range-popup/datepicker-range-popup.component';
 import { CardPaginationComponent } from './card-pagination/card-pagination.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { CardPaginationComponent } from './card-pagination/card-pagination.compo
     TagsLinkComponent,
     UsersComponent,
     DatepickerRangePopupComponent,
-    CardPaginationComponent
+    CardPaginationComponent,
+    FooterComponent
 
   ],
   imports: [

@@ -106,10 +106,13 @@ h1{
   margin-right: -.5rem;
 }
 
-
 .col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
   position: relative;
   width: 100%;
+  padding-right: .75rem;
+  padding-left: .75rem;
 }
 
 /*Carousel*/
@@ -133,10 +136,42 @@ h1{
   object-fit: contain;
 }
 
+/*USP-k*/
+.highlighted {
+  margin-top: 2.5rem;
+}
+
+.calling-words, .word-item {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.calling-words {
+  background: #fff;
+  padding: 2rem 1.75rem;
+  border-radius: .375rem;
+}
+
+.word-item {
+  font-size: .875rem;
+  font-weight: 500;
+}
+
+.bi {
+  margin-right: .5rem;
+}
+
+.usp {
+  margin-bottom: 0;
+}
+
 /*Kártyák*/
 
-.newest-events {
-  margin: 1.5rem 0;
+.newest-events, .best-events {
+  margin: 2.5rem 0;
 }
 
 .events.-grid {
@@ -213,6 +248,9 @@ p {
 .row {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
+  margin-right: -.75rem;
+  margin-left: -.75rem;
 }
 
 .inner {
