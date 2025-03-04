@@ -12,7 +12,7 @@ import { BaseService } from '../base.service';
 export class HomeComponent implements OnInit {
 
   //A fake api-n lévő adatok eléréséhez szükségs
-  allEventUrl="http://localhost:3000/esemenyek/"
+  // allEventUrl="http://localhost:3000/esemenyek/"
 
   //A fake Api adatainak tárolása
   eventDetails=new BehaviorSubject<any>(null)
@@ -24,26 +24,39 @@ export class HomeComponent implements OnInit {
 
   constructor(private http:HttpClient, private base:BaseService) {
     //Az fake-api-ból megszerezzük az adatokat
-    this.http.get(this.allEventUrl).subscribe((response:any)=>{
-          let adattomb=[]
-          for (const key in response) {
-            adattomb.push({id:key, ...response[key]})
+  //   this.http.get(this.allEventUrl).subscribe((response:any)=>{
+  //         let adattomb=[]
+  //         for (const key in response) {
+  //           adattomb.push({id:key, ...response[key]})
 
-        }
-          this.eventDetails.next(adattomb)
-          console.log("response: ",response)
-          console.log(adattomb)
-    }
-  )
+  //       }
+  //         this.eventDetails.next(adattomb)
+  //         console.log("response: ",response)
+  //         console.log(adattomb)
+  //   }
+  // )
+
+  // this.base.getAll().subscribe()
+  this.getDataFromApi()
 
   //a fake-api-ból szerzett adatokat kiíratjuk
-  this.getFromEventDetails()
+  // this.getFromEventDetails()
 
 
   }
 
   ngOnInit(): void {
 
+  }
+
+  getDataFromApi(){
+    this.base.adatSub.subscribe(
+      (res:any) => {
+
+
+        this.events = res.data
+      }
+    )
   }
 
   //eventDeatils-ből az adatok kinyerése

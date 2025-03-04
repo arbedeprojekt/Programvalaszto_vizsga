@@ -74,12 +74,12 @@
     </div>
 		<div class="row g10">
       <!--kártyák-->
-      
+
 				<div *ngFor="let event of newEvents" class="e-item -box col-6 col-md-4 col-lg-3 g10-xl-2">
 					<div  class="card">
             <a href="itt kell megadni a program részletes oldalát" class="img" onlcick=";">   <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
               <div class="inner">
-                <img *ngIf="event.picture; else noImage" src={{event.picture}} class="card-img-top" alt={{event.name}}>
+                <img *ngIf="event.image; else noImage" src={{event.image}} class="card-img-top" alt={{event.name}}>
                 <ng-template #noImage>
                   <img src="assets/Pictures/no-image.jpg" class="card-img-top" alt="No Image Available">
                 </ng-template>
@@ -129,7 +129,7 @@
 						</div>
 					</div>
 				</div>
-			
+
 			<!--Kártyák felépítésének vége-->
 
 	<!-- Legnépszerűbb programok -->
@@ -143,7 +143,7 @@
 					<div  class="card">
             <a href="itt kell megadni a program részletes oldalát" class="img" onlcick=";">   <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
               <div class="inner">
-                <img *ngIf="event.picture; else noImage" src={{event.picture}} class="card-img-top" alt={{event.name}}>
+                <img *ngIf="event.image; else noImage" src={{event.image}} class="card-img-top" alt={{event.name}}>
                 <ng-template #noImage>
                   <img src="assets/Pictures/no-image.jpg" class="card-img-top" alt="No Image Available">
                 </ng-template>
@@ -191,7 +191,7 @@
 						</div>
 					</div>
 				</div>
-			
+
 			<!--Kártyák felépítésének vége-->
 
 		</div>

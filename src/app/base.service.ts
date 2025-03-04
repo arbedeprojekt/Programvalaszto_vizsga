@@ -62,16 +62,27 @@ export class BaseService {
     this.http.get(this.IMGUrl).subscribe(
       (res:any)=>{
         this.galleriesData.next(res)
+
       }
     )
   }
 
 
   //lekéri a tanár webapijából az adatokat, majd megszűrve betölti az adatSub változóba
-  private downloadAll(){
-    this.http.get(this.url).subscribe(
+  // private downloadAll(){
+  //   this.http.get(this.url).subscribe(
+  //     (res:any)=>{
+  //         this.adatSub.next(res)}
+  //   )
+  // }
+   //lekéri a backendről az adatokat, majd megszűrve betölti az adatSub változóba
+  downloadAll(){
+    // let token = localStorage.getItem("token")
+    // let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+    this.http.get(this.backendUrl+"events").subscribe(
       (res:any)=>{
           this.adatSub.next(res)}
+
     )
   }
 
@@ -91,24 +102,24 @@ export class BaseService {
 
   //új cikk felvétele
   newDataWeb(data:any){
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
 
-    this.http.post(this.url,data).forEach(
-      ()=>this.downloadAll()
-    )
+    return this.http.post(this.backendUrl+"newevents",data,{headers})
   }
 
   //a már meglévő cikk módosítása
   updateDataWeb(data:any){
-    this.http.put(this.url+data.id,data).forEach(
-      ()=>this.downloadAll()
-    )
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+    return this.http.put(this.backendUrl+"updateevents",data,{headers})
   }
 
   //a törölni kívánt cikk eltávolítása
   deleteDataWeb(data:any){
-    this.http.delete(this.url+data.id).forEach(
-      ()=>this.downloadAll()
-    )
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+    return this.http.delete(this.backendUrl+"deleteevents/"+data.id,{headers})
   }
 
   //új tag felvétele

@@ -184,7 +184,7 @@
 					<div  class="card">
             <a href="itt kell megadni a program részletes oldalát" class="img" onlcick=";">   <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
               <div class="inner">
-                <img *ngIf="event.picture; else noImage" src={{event.picture}} class="card-img-top" alt={{event.name}}>
+                <img *ngIf="event.image; else noImage" src={{event.image}} class="card-img-top" alt={{event.name}}>
                 <ng-template #noImage>
                   <img src="assets/Pictures/no-image.jpg" class="card-img-top" alt="No Image Available">
                 </ng-template>
