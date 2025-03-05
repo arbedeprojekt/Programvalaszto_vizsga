@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
   //   }
   // )
 
-      // this.base.getAll().subscribe()
+  // this.base.getAll().subscribe()
   this.getDataFromApi()
 
   //a fake-api-ból szerzett adatokat kiíratjuk
@@ -58,7 +58,6 @@ export class HomeComponent implements OnInit {
       }
     )
   }
-
 
   //eventDeatils-ből az adatok kinyerése
   getFromEventDetails(){

@@ -50,12 +50,18 @@ export class AllEventsComponent  {
   }
 
   // Csak az aktuális oldalhoz tartozó elemeket adjuk vissza
+  // get paginatedEvents(): any[] {
+  //   const start = (this.currentPage - 1) * this.itemsPerPage;
+  //   const end = start + this.itemsPerPage;
+
+  //   return this.events.slice(start, end);       //valamiért hibát dob erre..
+  // }
+
   get paginatedEvents(): any[] {
     if (!this.events || !Array.isArray(this.events)) {
       console.log("az events üres vót, tartalma: ", this.events);
       return [];
     }
-
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
 

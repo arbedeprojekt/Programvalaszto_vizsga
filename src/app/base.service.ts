@@ -62,6 +62,7 @@ export class BaseService {
     this.http.get(this.IMGUrl).subscribe(
       (res:any)=>{
         this.galleriesData.next(res)
+
       }
     )
   }
@@ -74,9 +75,14 @@ export class BaseService {
   //         this.adatSub.next(res)}
   //   )
   // }
+<<<<<<< HEAD
 
     //lekéri a backendről az adatokat, majd megszűrve betölti az adatSub változóba
     downloadAll(){
+=======
+   //lekéri a backendről az adatokat, majd megszűrve betölti az adatSub változóba
+  downloadAll(){
+>>>>>>> af2f6675e247dd285ecd20b83c7b37d5ff9a8773
     // let token = localStorage.getItem("token")
     // let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
     this.http.get(this.backendUrl+"events").subscribe(
