@@ -12,13 +12,6 @@
   margin-right: auto;
   margin-left: auto;
 }
-.container, .container-fluid, .container-xl, .container-lg, .container-md, .container-sm {
-  width: 100%;
-  padding-right: .75rem;
-  padding-left: .75rem;
-  margin-right: auto;
-  margin-left: auto;
-}
 
 .g10 div[class*=" g10-"] {
   padding-left: .5rem;
@@ -28,6 +21,11 @@
 .g10 {
   margin-left: -.5rem;
   margin-right: -.5rem;
+}
+
+#fullContent {
+  background: #fff;
+  border-radius: .375rem;
 }
 
 .col-12 {
@@ -43,6 +41,18 @@ p {
     margin: 0 0 .75rem;
 }
 
+h4 {
+  text-align: center;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
 .row {
     display: flex;
     flex-wrap: wrap;
@@ -51,7 +61,11 @@ p {
     margin-left: -.75rem;
 }
 
-
+.information-unit-inner {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+}
 
 /*Yahoobar*/
 .yahoobar {
@@ -71,6 +85,63 @@ p {
     flex-direction: row;
     /*height: 16px;*/
 }
+
+/*Bal oldali blokk*/
+.part-left {
+  padding: 1rem 1rem;
+  flex: 0 0 70%;
+  width: 70%;
+}
+
+/*Jobb oldali blokk*/
+.part-right {
+  padding: 1rem 1rem;
+  flex: 0 0 30%;
+  width: 30%;
+}
+
+.dates, .times {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.dates, .location-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.times, .event-address {
+  margin-bottom: .5rem;
+}
+
+.time-location {
+  margin-bottom: 2rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.tag-item-box {
+  background: #acacac;
+  margin: .375rem auto .375rem;
+  border-radius: .175rem;
+  text-align: center;
+  padding: .375rem .75rem;
+}
+
+.tag-state {
+  background: #acacac;
+  margin-bottom: .375rem;
+  border-radius: .175rem;
+  text-align: center;
+  padding: .375rem .75rem;
+}
+
 
   /*Kártyák*/
 .same-events {
@@ -112,7 +183,7 @@ p {
     justify-content: space-between;
 }
 
-.btn-primary {
+#bucketlistButton {
     text-transform: none;
     background: #fff;
     align-items: center;
@@ -198,3 +269,18 @@ p {
   }
 
 
+  /*Vélemények*/
+  .star-rating {
+    font-size: 1.5rem;
+    color: #ffc107;
+    cursor: pointer;
+  }
+  
+  .star-rating .bi-star-fill {
+    color: #ffc107;
+  }
+  
+  .rating-star:hover,
+  .rating-star:hover ~ .rating-star {
+    color: #ffc107;
+  }

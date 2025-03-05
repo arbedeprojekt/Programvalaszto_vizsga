@@ -1,14 +1,24 @@
-errormessage: {{updateTagErrorMessage|json}}
+<!-- errormessage: {{updateTagErrorMessage|json}} -->
 <div class="container">
-  <h1 class="">Tegek</h1>
-  <div id="titleNewEvent">ÚJ teg felvétele</div>
+  <h1 class="">Címkék</h1>
+  <div id="titleNewEvent">ÚJ címke felvétele</div>
   <!-- Új rekord felvétele -->
   <div class="" id="newDataInputsContainer">
     <div class="" id="newDataInputs">
-      <div *ngFor="let newtag of tagNameColumn; let y =index" class="col-common" id="newEvents">
-        <label class="form-label form-label-sm"><!--{{newTag|json}}--></label>
-        <input [(ngModel)]="newTag[newtag]" type="text" class="form-control form-control-sm input-common"
-          [id]="'input-' + y" placeholder="">
+      <div class="col-common" id="newTagName">
+        <label class="form-label form-label-sm">Címke neve</label>
+        <input [(ngModel)]="newTagItem.name" type="text" class="form-control form-control-sm input-common" [id]="" placeholder="Címke neve">
+          <label class="form-label form-label-sm">Címke csoportja</label>
+        <div class="input-group mb-3">
+          <select class="form-select" id="inputGroupSelect02" [(ngModel)]="newTagItem.group">
+            <!-- <option selected>Válassz...</option> -->
+            <option value="Típus">Típus</option>
+            <option value="Jelleg">Jelleg</option>
+            <option value="Időtartam">Időtartam</option>
+            <option value="Részvétel módja">Részvétel módja</option>
+            <option value="Belépés">Belépés</option>
+          </select>
+        </div>
       </div>
     </div>
     <div class="button" id="saveButton">
@@ -19,7 +29,7 @@ errormessage: {{updateTagErrorMessage|json}}
         {{newTagErrorMessage}}
       </div>
       <div *ngIf="newTagErrorBool == true" class="errormsg">
-        Sikeres tegfelvétel
+        Sikeres címke felvétel
       </div>
     </div>
   </div>
@@ -38,9 +48,20 @@ errormessage: {{updateTagErrorMessage|json}}
       <!-- Táblázat megjelenítése -->
 
       <div *ngFor="let tag of tags; let i = index" class="row align-items-center">
-        <div *ngFor="let oszlop of oszlopok" class="col word-wrap" id="eventsDataCol">
-          <textarea [(ngModel)]="tag[oszlop]" type="text" class="form-control form-control-sm"
-            id="eventsData"></textarea>
+        <div class="col word-wrap" id="eventsDataCol">
+          <input [(ngModel)]="tag.name" type="text" class="form-control form-control-sm" id="eventsData">
+        </div>
+        <div class="col">
+          <div class="input-group mb-3">
+            <select class="form-select" id="inputGroupSelect02" [(ngModel)]="tag.group">
+              <!-- <option selected>Válassz...</option> -->
+              <option value="Típus">Típus</option>
+              <option value="Jelleg">Jelleg</option>
+              <option value="Időtartam">Időtartam</option>
+              <option value="Részvétel módja">Részvétel módja</option>
+              <option value="Belépés">Belépés</option>
+            </select>
+          </div>
         </div>
         <div class="col-actions sticky-actions">
           <div class="button-group" id="updateDelete">

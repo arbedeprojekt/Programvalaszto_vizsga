@@ -43,15 +43,40 @@ export class DetailedEventComponent {
   }
 
 
+  activeSection: string = 'eventDescription'; // Kezdő érték
 
-  scrollToSection(sectionId: string) {
-    const element = document.getElementById(sectionId);
-    if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-        console.warn('Elem nem található:', sectionId);
-    }
+  setActiveSection(section: string) {
+    this.activeSection = section;
   }
+
+  //Vélemények
+  // document.addEventListener('DOMContentLoaded', function() {
+  //   const stars = document.querySelectorAll('.rating-star');
+  //   const ratingInput = document.getElementById('rating');
+  
+  //   stars.forEach(star => {
+  //     star.addEventListener('click', function() {
+  //       const rating = this.getAttribute('data-rating');
+  //       ratingInput.value = rating;
+  //       resetStars();
+  //       for (let i = 0; i < rating; i++) {
+  //         stars[i].classList.remove('bi-star');
+  //         stars[i].classList.add('bi-star-fill');
+  //       }
+  //     });
+  //   });
+  
+  //   function resetStars() {
+  //     stars.forEach(star => {
+  //       star.classList.remove('bi-star-fill');
+  //       star.classList.add('bi-star');
+  //     });
+  //   }
+  // });
+
+
+
+
 }
 
 //be kell kérni annak az adott eseménynek a részletes adatait, amelyre kattintott a felhasználó

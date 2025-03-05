@@ -13,7 +13,7 @@
                 <a class="nav-link active" aria-current="page" href="#" title="Adott program neve">Mindig az adott program neve</a> <!--az adott program nevének kell itt lennie-->
             </div>
         </div>
-        <div class="row" data-eventid="">
+        <div class="row" data-eventid="" id="fullContent">
             <div class="col-12 pg-top">
                 <h1>Az esemény neve</h1>
                 <div class="rating">
@@ -53,31 +53,33 @@
                         <div class="information-navbar">
                             <ul class="nav justify-content-center">
                                 <li class="nav-item">
-                                  <a (click)="scrollToSection('eventDescription')" class="nav-link active" aria-current="page" role="button">Leírás</a>
+                                    <a (click)="setActiveSection('eventDescription')" 
+                                        class="nav-link" 
+                                        [class.active]="activeSection === 'eventDescription'" 
+                                        aria-current="page" 
+                                        role="button">Leírás
+                                    </a>
                                 </li>
                                 <li class="nav-item">
-                                  <a (click)="scrollToSection('eventDetailes')" class="nav-link" role="button">Részletek</a>
+                                    <a (click)="setActiveSection('eventDetails')" 
+                                        class="nav-link" 
+                                        [class.active]="activeSection === 'eventDetails'" 
+                                        aria-current="page" 
+                                        role="button">Részletek</a>
                                 </li>
                                 <li class="nav-item">
-                                  <a class="nav-link" href="#">Vélemények</a>
+                                    <a (click)="setActiveSection('eventReviews')" 
+                                        class="nav-link" 
+                                        [class.active]="activeSection === 'eventReviews'" 
+                                        aria-current="page" 
+                                        role="button">Vélemények</a>
                                 </li>
                                 <!-- <li class="nav-item">
                                   <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                                 </li> -->
                             </ul>
-                            <ul class="nav nav-tabs">
-                                <li class="nav-item">
-                                  <a class="nav-link active" aria-current="page" href="#eventDescription">Leírás</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" href="#eventDetailes">Információk</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" href="#">Vélemények</a>
-                                </li>
-                              </ul>
                         </div>
-                        <div class="event-description" >
+                        <div class="event-description" *ngIf="activeSection === 'eventDescription'">
                             <div class="event-description-inner" id="eventDescription">
                                 <h4 class="">Leírás</h4>
                                     <p>Mi is a TerraPlaza?
@@ -95,20 +97,132 @@
                                     </p>
                             </div>
                         </div>
-                        <div class="event-details" >
-                            <div class="event-details-inner" id="eventDetailes">
-                                <h4 class="">Információk</h4>
-                                    <p>Információk</p>
+                        <div class="event-details" *ngIf="activeSection === 'eventDetails'">
+                            <div class="event-details-inner" id="eventDetails">
+                                <h4 class="parameters">Részletek</h4>
+                                <ul class="parameter-list">
+                                    <li class="parameter-item">Ez egy részlet lista elem</li>
+                                </ul>  
                             </div>
                         </div>
-                        <div class="event-user-rating">
-                            <div>
-                                <h4 class="">Vélemények</h4>
+                            <!--Vélemények kezdet-->
+                            <div class="event-user-reviews" *ngIf="activeSection === 'eventReviews'">
+                                <div>
+                                    <h4 class="">Vélemények</h4>
+                                    <!-- Rating Modal -->
+                                    <div class="container mt-5">
+                                        <h2 class="mb-3"></h2>
+                                        <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                            <div class="col-md-4 text-center">
+                                                <h1 class="display-4 mt-3 mb-4">4.8</h1>
+                                                <div class="mb-3">
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                                <i class="bi bi-star-half text-warning"></i>
+                                                </div>
+                                                <h6 class="text-muted">Based on 245 reviews</h6>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="rating-bars">
+                                                <div class="rating-bar mb-3">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                    <span>5 stars</span>
+                                                    <small class="text-muted">70%</small>
+                                                    </div>
+                                                    <div class="progress" style="height: 10px;">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="rating-bar mb-3">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                    <span>4 stars</span>
+                                                    <small class="text-muted">20%</small>
+                                                    </div>
+                                                    <div class="progress" style="height: 10px;">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="rating-bar mb-3">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                    <span>3 stars</span>
+                                                    <small class="text-muted">5%</small>
+                                                    </div>
+                                                    <div class="progress" style="height: 10px;">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 5%;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="rating-bar mb-3">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                    <span>2 stars</span>
+                                                    <small class="text-muted">3%</small>
+                                                    </div>
+                                                    <div class="progress" style="height: 10px;">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 3%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="rating-bar">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                    <span>1 star</span>
+                                                    <small class="text-muted">2%</small>
+                                                    </div>
+                                                    <div class="progress" style="height: 10px;">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 2%;" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <hr>
+                                            <div class="text-center mt-4">
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ratingModal">Write a Review</button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Rating Modal -->
+                                    <div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title" id="ratingModalLabel">Write a Review</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <form>
+                                                <div class="mb-3">
+                                                <label for="rating" class="form-label">Your Rating</label>
+                                                <div class="star-rating">
+                                                    <i class="bi bi-star rating-star" data-rating="1"></i>
+                                                    <i class="bi bi-star rating-star" data-rating="2"></i>
+                                                    <i class="bi bi-star rating-star" data-rating="3"></i>
+                                                    <i class="bi bi-star rating-star" data-rating="4"></i>
+                                                    <i class="bi bi-star rating-star" data-rating="5"></i>
+                                                </div>
+                                                <input type="hidden" id="rating" name="rating" value="0">
+                                                </div>
+                                                <div class="mb-3">
+                                                <label for="review" class="form-label">Your Review</label>
+                                                <textarea class="form-control" id="review" rows="3" required></textarea>
+                                                </div>
+                                            </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Submit Review</button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
                     <div class="part-right">
-                        <div class="">
+                        <div class="time-location">
                             <div class="time-datas">
                                 <div class="dates">
                                     <div class="start-date">2025.03.01 </div>
@@ -127,13 +241,25 @@
                             </div>
                         </div>
                         <div class="tags-unit">
-                            <ul class="tags">
+                            <div class="tag-state">
                                 <li class="tag-item event-state">aktív</li>
-                                <li class="tag-item event-category">kiállítás</li>
-                                <li class="tag-item event-type">beltér</li>
-                                <li class="tag-item event-duration">2-3 óra</li>
-                                <li class="tag-item event-participation">egyéni, csoportos</li>
-                                <li class="tag-item event-access">fizetős</li>
+                            </div>
+                            <ul class="tags">
+                                <div class="tag-item-box">
+                                    <li class="tag-item event-category">kiállítás</li>
+                                </div>
+                                <div class="tag-item-box">
+                                    <li class="tag-item event-type">beltér</li>
+                                </div>
+                                <div class="tag-item-box">
+                                    <li class="tag-item event-duration">2-3 óra</li>
+                                </div>
+                                <div class="tag-item-box">
+                                    <li class="tag-item event-participation">egyéni, csoportos</li>
+                                </div>
+                                <div class="tag-item-box">
+                                    <li class="tag-item event-access">fizetős</li>
+                                </div>
                             </ul>
                         </div>
                     </div>
@@ -141,53 +267,54 @@
             </div>
         </div>
         <!-- Hasonló programok -->
-	<div class="same-events">
-        <div>
-          <h1>Hasonló programok</h1>
-        </div>
-        <div class="row g10">
-          <!--kártyák-->
-            <div *ngFor="let event of sameEvents" class="e-item -box col-6 col-md-4 col-lg-3 g10-xl-2">  <!--ide be kell kötni a backendet. Olyan kártyákat kell hozni, amik legalább 3 címkében egyeznek azokkal, amik az adott eseményre vonatkoznak-->
-                <div  class="card">
-                    <a href="itt kell megadni a program részletes oldalát" class="img" onlcick=";">   <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
-                    <div class="inner">
-                        <img *ngIf="event.picture; else noImage" src={{event.picture}} class="card-img-top" alt={{event.name}}>
-                        <ng-template #noImage>
-                        <img src="assets/Pictures/no-image.jpg" class="card-img-top" alt="No Image Available">
-                        </ng-template>
-                    </div>
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-title">{{event.name}}</h5>
-                        <ul class="list-unstyled list-inline mb-0">
-                            <li class="list-inline-item">
-                            <i class="bi bi-star-fill text-warning"></i>    <!--bi-star, bi-star-fill, bi-star-half-->
-                            </li>
-                            <li class="list-inline-item">
-                            <i class="bi bi-star-fill text-warning"></i>   <!--a csillagokat aszerint kell "teltté" változtatni, ahogy arányaiban kijön az értékelések alapján. Lényegében az átlag adja-->
-                            </li>
-                            <li class="list-inline-item">
-                            <i class="bi bi-star-fill text-warning"></i>
-                            </li>
-                            <li class="list-inline-item">
-                            <i class="bi bi-star-fill text-warning"></i>
-                            </li>
-                            <li class="list-inline-item">
-                            <i class="bi bi-star-half text-warning"></i>
-                            </li>
-                            <li class="list-inline-item">
-                            <p class="text-muted">4.5 (413)</p>   <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
-                            </li>
-                        </ul>
-                        <p class="card-text" style="display: inline-block">{{event.startDate}}-{{event.endDate}}</p>	<!--be kell állítani, hogy csak akkor jelenjen meg, ha van adat. Ha nincs dátum adat, akkor valami általános dolgot írjon ki..Pl: Állandó..vagy ilyesmi -->
-                        <!-- <p class="card-text" style="display: inline-block; padding-left: 3.8rem;">{{event.startTime}}-{{event.endTime}}</p> be kell állítani, hogy csak akkor jelenjen meg, ha van adat-->
-                        <p class="card-text" style="text-align: left; display: inline-block;">{{event.locationName}}</p>
-                        <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
-                        <div class="split">
-                            <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
-                            <button class="btn btn-primary" type="button" title="Bakancslistára tesz">
-                            <i class="bi bi-plus-lg"></i>
-                            </button>
+        <div class="same-events">
+            <div>
+            <h1>Hasonló programok</h1>
+            </div>
+            <div class="row g10">
+            <!--kártyák-->
+                <div *ngFor="let event of sameEvents" class="e-item -box col-6 col-md-4 col-lg-3 g10-xl-2">  <!--ide be kell kötni a backendet. Olyan kártyákat kell hozni, amik legalább 3 címkében egyeznek azokkal, amik az adott eseményre vonatkoznak-->
+                    <div  class="card">
+                        <a href="itt kell megadni a program részletes oldalát" class="img" onlcick=";">   <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
+                        <div class="inner">
+                            <img *ngIf="event.picture; else noImage" src={{event.picture}} class="card-img-top" alt={{event.name}}>
+                            <ng-template #noImage>
+                            <img src="assets/Pictures/no-image.jpg" class="card-img-top" alt="No Image Available">
+                            </ng-template>
+                        </div>
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{event.name}}</h5>
+                            <ul class="list-unstyled list-inline mb-0">
+                                <li class="list-inline-item">
+                                <i class="bi bi-star-fill text-warning"></i>    <!--bi-star, bi-star-fill, bi-star-half-->
+                                </li>
+                                <li class="list-inline-item">
+                                <i class="bi bi-star-fill text-warning"></i>   <!--a csillagokat aszerint kell "teltté" változtatni, ahogy arányaiban kijön az értékelések alapján. Lényegében az átlag adja-->
+                                </li>
+                                <li class="list-inline-item">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                <i class="bi bi-star-half text-warning"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                <p class="text-muted">4.5 (413)</p>   <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
+                                </li>
+                            </ul>
+                            <p class="card-text" style="display: inline-block">{{event.startDate}}-{{event.endDate}}</p>	<!--be kell állítani, hogy csak akkor jelenjen meg, ha van adat. Ha nincs dátum adat, akkor valami általános dolgot írjon ki..Pl: Állandó..vagy ilyesmi -->
+                            <!-- <p class="card-text" style="display: inline-block; padding-left: 3.8rem;">{{event.startTime}}-{{event.endTime}}</p> be kell állítani, hogy csak akkor jelenjen meg, ha van adat-->
+                            <p class="card-text" style="text-align: left; display: inline-block;">{{event.locationName}}</p>
+                            <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
+                            <div class="split">
+                                <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
+                                <button class="btn btn-primary" type="button" title="Bakancslistára tesz" id="bucketlistButton">
+                                <i class="bi bi-plus-lg"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

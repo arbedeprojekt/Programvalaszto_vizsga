@@ -9,9 +9,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class BaseService {
-  // A fake API elérési útja
-  url="http://localhost:3000/esemenyek/"
-  //url="http://localhost:8000/api/events"
+ 
   IMGUrl="http://localhost:3000/galleries/"    //galériához kapcsolódik lásd all-events.component.ts
 
   //Backend elérése
@@ -23,6 +21,7 @@ export class BaseService {
 
   //Ebben fognak tárolódni a backend tags adatok
   tagsSub = new BehaviorSubject<any>(null)
+  // groupsSub = new BehaviorSubject<any>(null)
 
   galleriesData=new BehaviorSubject<any>(null) //galériához kapcsolódik lásd all-events.component.ts
 
@@ -30,9 +29,9 @@ export class BaseService {
 
 
   //errorüzenetek:
-  //hibaüzenet új teg sikertelen felvétele esetén
+  //hibaüzenet új tag sikertelen felvétele esetén
   newTagErrorMessage: any
-  //bool az uj teg felvétele esetén
+  //bool az uj tag felvétele esetén
   newTagErrorBool = false
   newTagErrorSub = new BehaviorSubject<any>(null)
   newTagErrorObs: Observable<any | null> = this.newTagErrorSub.asObservable()
@@ -44,7 +43,7 @@ export class BaseService {
     //this.refData=db.list("adatok")
 
     //galériához kapcsolódik lásd all-events.component.ts
-    this.downloadGalleries()
+    // this.downloadGalleries()
   }
 
   //visszatér az adatSub metódussal, ami a tanár webapijából kinyert adatokat tartalmazza
@@ -53,36 +52,23 @@ export class BaseService {
   }
 
   //galériához kapcsolódik lásd all-events.component.ts
-  getAllGaleries(){
-    return this.galleriesData
-  }
+  // getAllGaleries(){
+  //   return this.galleriesData
+  // }
 
   //galériához kapcsolódik lásd all-events.component.ts
-  private downloadGalleries(){
-    this.http.get(this.IMGUrl).subscribe(
-      (res:any)=>{
-        this.galleriesData.next(res)
-
-      }
-    )
-  }
-
-
-  //lekéri a tanár webapijából az adatokat, majd megszűrve betölti az adatSub változóba
-  // private downloadAll(){
-  //   this.http.get(this.url).subscribe(
+  // private downloadGalleries(){
+  //   this.http.get(this.IMGUrl).subscribe(
   //     (res:any)=>{
-  //         this.adatSub.next(res)}
+  //       this.galleriesData.next(res)
+
+  //     }
   //   )
   // }
-<<<<<<< HEAD
 
-    //lekéri a backendről az adatokat, majd megszűrve betölti az adatSub változóba
-    downloadAll(){
-=======
-   //lekéri a backendről az adatokat, majd megszűrve betölti az adatSub változóba
+
+  //lekéri a backendről az adatokat, majd megszűrve betölti az adatSub változóba
   downloadAll(){
->>>>>>> af2f6675e247dd285ecd20b83c7b37d5ff9a8773
     // let token = localStorage.getItem("token")
     // let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
     this.http.get(this.backendUrl+"events").subscribe(
@@ -91,7 +77,6 @@ export class BaseService {
   
       )
     }
-
 
 
    //backend adatok lekérése
@@ -108,7 +93,7 @@ export class BaseService {
     )
   }
 
-  //új cikk felvétele
+  //új esemény felvétele
   newDataWeb(data:any){
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
@@ -116,14 +101,14 @@ export class BaseService {
     return this.http.post(this.backendUrl+"newevents",data,{headers})
   }
 
-  //a már meglévő cikk módosítása
+  //a már meglévő esemény módosítása
   updateDataWeb(data:any){
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
     return this.http.put(this.backendUrl+"updateevents",data,{headers})
   }
 
-  //a törölni kívánt cikk eltávolítása
+  //a törölni kívánt esemény eltávolítása
   deleteDataWeb(data:any){
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
@@ -147,7 +132,7 @@ export class BaseService {
 
   }
 
-  //a már meglévő cikk módosítása
+  //a már meglévő tag módosítása
   updateTagWeb(data: any) {
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)

@@ -32,7 +32,7 @@
 
     <!-- Táblázat megjelenítése -->
 
-      <div *ngFor="let cikk of cikkek; let i = index" class="row align-items-center">
+      <div *ngFor="let cikk of cikkek.data; let i = index" class="row align-items-center">
         <div *ngFor="let oszlop of oszlopok" class="col word-wrap" id="eventsDataCol">
           <textarea [(ngModel)]="cikk[oszlop]" type="text" class="form-control form-control-sm" id="eventsData"></textarea>
         </div>
@@ -47,5 +47,3 @@
   </div>
 
 </div>
-
-<app-users></app-users>

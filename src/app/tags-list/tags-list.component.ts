@@ -9,8 +9,9 @@ import { BaseService } from '../base.service';
 export class TagsListComponent {
 
   tags: any
+  groups: any
 
-  newTag: any = {}
+  newTagItem: any = {}
 
 
   //errorok tárolása
@@ -19,16 +20,21 @@ export class TagsListComponent {
   updateTagErrorMessage=""
   updateTagErrorBool=false
 
+  //csoportok dropdownhoz
+  //groups = ["típus", "jelleg", "időtartam", "részvétel módja", "belépés"]
 
-  //fejléc kiíratásához
-  oszlopok = ["name"]
-  tagNameColumn = ["name"]
+  //fejléc kiíratásához címkék
+  oszlopok = ["name", "group"]
+  // newTags = []
 
   constructor(private base: BaseService,) {
     this.getTags()
     this.base.downloadAllTags()
     this.newTagErrorMessage = this.base.newTagErrorMessage
+    //this.getGroups()
   }
+
+
 
   //tag-ek betöltése
   getTags() {
@@ -44,7 +50,8 @@ export class TagsListComponent {
     let body =
     {
       id:data.id,
-      name:data.name
+      name:data.name,
+      group:data.group
     }
     this.base.updateTagWeb(body).subscribe(
       (res:any)=>{
@@ -82,7 +89,7 @@ export class TagsListComponent {
   }
 
   newData() {
-    this.base.newTagWeb(this.newTag).subscribe(
+    this.base.newTagWeb(this.newTagItem).subscribe(
       {
         next: (res: any) => {
 
@@ -112,7 +119,7 @@ export class TagsListComponent {
         }
       }
     )
-    this.newTag = {}
+    this.newTagItem = {}
 
   }
 

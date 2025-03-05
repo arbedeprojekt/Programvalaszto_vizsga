@@ -2,7 +2,7 @@
     <ul class="pagination">
       <!-- Előző gomb -->
       <li class="page-item" [ngClass]="{disabled: currentPage === 1}" style="cursor: pointer">
-        <a class="page-link" href="#" (click)="pageClicked(currentPage - 1)" aria-label="Previous">
+        <a class="page-link" href="#" routerLink="/all-events" (click)="pageClicked(currentPage - 1)" aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
@@ -13,14 +13,14 @@
         *ngFor="let page of pages" 
         class="page-item"
         [ngClass]="{'active': currentPage === page }">
-        <a class="page-link" href="#">
+        <a class="page-link" href="#" routerLink="/all-events">
           {{ page }}
         </a>
       </li>
   
       <!-- Következő gomb -->
       <li class="page-item" [ngClass]="{disabled: currentPage === totalPages}" style="cursor: pointer">
-        <a (click)="pageClicked(currentPage + 1)" class="page-link" href="#" aria-label="Next">
+        <a (click)="pageClicked(currentPage + 1)" class="page-link" href="#" routerLink="/all-events" aria-label="Next" >
           <span aria-hidden="true">&raquo;</span>
         </a>
       </li>
