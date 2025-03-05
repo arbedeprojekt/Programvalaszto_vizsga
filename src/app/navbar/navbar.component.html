@@ -1,44 +1,17 @@
 <header class="header unfixed">
-  <div class="container p-lg-0">
-    <div class="row">
-      <div class="col-12">
-        <div class="header-inner">
-          <div class="header-left">
-            <div class="logo"></div>
-          </div>
-          <div class="header-center">
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Keresés" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Keresés</button>
-            </form>
-          </div>
-          <div class="header-right">
-            <div class="header-icons">
-              <div>
-                <a class="login-button" href="" title="Bejelentkezés">
-                  <i class="bi bi-person"></i>
-                </a>
-              </div>
-              <div class="kedvencek">
-                <a class="" href="" title="Kedvencek">
-                  <i class="bi bi-heart">
-                    <div class="number-bubble"></div>
-                    <!--vissza kell adnia a bejelentkezett fejhasználó feliratkozott eseményeinek számát-->
-                  </i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand"><span *ngIf="loggedIn">Hello {{userName$|async}}!||</span></a>
-      <a routerLink="/home" class="navbar-brand" href="#">Szabadidő Választó</a>
+      <div class="logo-unit">
+        <div class="logo">
+          <a routerLink="/home" class="navbar-brand" href="#" style="cursor:pointer">
+            <img src="" atl="logo">LOGO
+          </a>
+        </div>
+      </div>
+      <div class="hello-user">
+        <a class="navbar-brand"><span *ngIf="loggedIn">Hello {{userName$|async}}!</span></a>
+      </div>
+      
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -51,29 +24,60 @@
           <li *ngIf="loggedIn" class="nav-item">
             <a routerLink="/all-events" class="nav-link">Események</a>
           </li>
-          <li *ngIf="!loggedIn" class="nav-item">
-            <a routerLink="/login" class="nav-link">Bejelentkezés</a>
+          <li *ngIf="loggedIn" class="nav-item">
+            <a routerLink="/detailed-event" class="nav-link">Részletes esemény oldal</a>
           </li>
-
-
-
+          <!--ÁTKERÜLT A JOBB OLDALRA A USER IKONHOZ!!! TÖRÖLHETŐ, HA MINDENKI MEGJEGYEZTE-->
+          <!-- <li *ngIf="!loggedIn" class="nav-item">
+            <a routerLink="/login" class="nav-link">Bejelentkezés</a>
+          </li> -->
           <li *ngIf="!loggedIn" class="nav-item">
             <a routerLink="/registration" class="nav-link">Regisztráció</a>
           </li>
-
           <li *ngIf="loggedIn && (userAdmin.source._value == 1 || userAdmin.source._value == 2)" class="nav-item">
-            <a routerLink="/admin" class="nav-link">Admin</a>
+            <a routerLink="/admin" class="nav-link">Események (admin)</a>
           </li>
-
           <li *ngIf="loggedIn && (userAdmin.source._value == 1 || userAdmin.source._value == 2)" class="nav-item">
-            <a routerLink="/tags" class="nav-link">Tegek listája</a>
+            <a routerLink="/tags" class="nav-link">Címkék (admin)</a>
           </li>
-
-          <li *ngIf="loggedIn" class="nav-item">
+          <!--Itt meg kell csinálni, hogy csak superadmin vehessen fel ADMIN jogú felhasználót-->
+          <li *ngIf="loggedIn && (userAdmin.source._value == 1 || userAdmin.source._value == 2)" class="nav-item">
+            <a routerLink="/tags" class="nav-link">Felhasználók (admin)</a>
+          </li>
+          <!--ÁTKERÜLT A JOBB OLDALRA A USER IKONHOZ!!! TÖRÖLHETŐ, HA MINDENKI MEGJEGYEZTE-->
+          <!-- <li *ngIf="loggedIn" class="nav-item">
             <a routerLink="/home" class="nav-link" (click)="this.auth.logoutUserFromLaravel()">Kijelentkezés</a>
-          </li>
-
+          </li> -->
         </ul>
+        <!--Navbar jobb oldal-->
+        <div class="navbar-right">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Keresés..." aria-label="Keresés..." aria-describedby="button-addon2">
+            <a href="" class="btn btn-outline-secondary" type="button" id="search-button" >
+              <i class="bi bi-search" style="cursor:pointer"></i>
+            </a>
+          </div>
+          <div class="navbar-right-icons">
+            <div *ngIf="!loggedIn" class="user-login">
+              <a routerLink="/login" class="login-button" href="" title="Bejelentkezés">
+                <i class="bi bi-person-circle" style="font-size: 1.2rem;"></i>
+              </a>
+            </div>
+            <div *ngIf="loggedIn" class="dropdown user-menu logged-in">
+                <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" title="Személyes menü">
+                  <i class="bi bi-person-circle" style="font-size: 1.2rem;"></i>
+                </a>
+              
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <!--Ezt majd úgy kell megcsinálni, hogy csak "szimpla" felhasználónak jelenjen meg-->
+                <li><a routerLink="/events-subscribed" class="dropdown-item" href="#" title="Feliratkozásaim">Feliratkozásaim</a></li> <!--vissza kell adnia a bejelentkezett fejhasználó feliratkozott eseményeinek számát-->
+                <li><a class="dropdown-item" href="#" title="Beállításaim">Beállításaim</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a routerLink="/home" (click)="this.auth.logoutUserFromLaravel()" class="dropdown-item" href="#" title="Kijelentkezés">Kijelentkezés</a></li> 
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </nav>

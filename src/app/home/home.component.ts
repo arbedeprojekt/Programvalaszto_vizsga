@@ -12,7 +12,7 @@ import { BaseService } from '../base.service';
 export class HomeComponent implements OnInit {
 
   //A fake api-n lévő adatok eléréséhez szükségs
-  allEventUrl="http://localhost:3000/esemenyek/"
+  // allEventUrl="http://localhost:3000/esemenyek/"
 
   //A fake Api adatainak tárolása
   eventDetails=new BehaviorSubject<any>(null)
@@ -24,20 +24,23 @@ export class HomeComponent implements OnInit {
 
   constructor(private http:HttpClient, private base:BaseService) {
     //Az fake-api-ból megszerezzük az adatokat
-    this.http.get(this.allEventUrl).subscribe((response:any)=>{
-          let adattomb=[]
-          for (const key in response) {
-            adattomb.push({id:key, ...response[key]})
+  //   this.http.get(this.allEventUrl).subscribe((response:any)=>{
+  //         let adattomb=[]
+  //         for (const key in response) {
+  //           adattomb.push({id:key, ...response[key]})
 
-        }
-          this.eventDetails.next(adattomb)
-          console.log("response: ",response)
-          console.log(adattomb)
-    }
-  )
+  //       }
+  //         this.eventDetails.next(adattomb)
+  //         console.log("response: ",response)
+  //         console.log(adattomb)
+  //   }
+  // )
+
+      // this.base.getAll().subscribe()
+  this.getDataFromApi()
 
   //a fake-api-ból szerzett adatokat kiíratjuk
-  this.getFromEventDetails()
+  // this.getFromEventDetails()
 
 
   }
@@ -46,6 +49,17 @@ export class HomeComponent implements OnInit {
 
   }
 
+  getDataFromApi(){
+    this.base.adatSub.subscribe(
+      (res:any) => {
+
+
+        this.events = res.data
+      }
+    )
+  }
+
+
   //eventDeatils-ből az adatok kinyerése
   getFromEventDetails(){
     this.eventDetails.subscribe((response:any)=>{
@@ -53,7 +67,7 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  //most csak az összes eseményből vesz 8 db-ot, de itt meg kell írni, hogy a legnépszerűbb programokból adja vissza a top10-et
+  //most csak az összes eseményből vesz 8 db-ot, de itt meg kell írni, hogy a legnépszerűbb programokból adja vissza a top8-at
   get bestEvents() {
     if (this.events) { // Ellenőrizzük, hogy az events létezik-e
       return this.events.slice(0, 8); // Az első 8 elemet adjuk vissza
@@ -62,7 +76,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  //most csak az összes eseményből vesz 4 db-ot, de itt meg kell írni, hogy a legújabb programokból adja vissza a legújabb 5-öt
+  //most csak az összes eseményből vesz 4 db-ot, de itt meg kell írni, hogy a legújabb programokból adja vissza a legújabb 4-et
   get newEvents() {
     if (this.events) { // Ellenőrizzük, hogy az events létezik-e
       return this.events.slice(0, 4); // Az első 4 elemet adjuk vissza

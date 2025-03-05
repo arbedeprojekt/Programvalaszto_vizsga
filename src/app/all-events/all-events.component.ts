@@ -11,7 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AllEventsComponent  {
 
-  allEventUrl = "http://localhost:3000/esemenyek/";
+  // allEventUrl = "http://localhost:3000/esemenyek/";
 
   eventDetails=new BehaviorSubject<any>(null)
 
@@ -39,7 +39,7 @@ export class AllEventsComponent  {
   getDataFromApi(){
     this.base.adatSub.subscribe(
       (res:any) => {
-        this.events = res
+        this.events = res.data
       }
     )
   }
@@ -51,6 +51,11 @@ export class AllEventsComponent  {
 
   // Csak az aktuális oldalhoz tartozó elemeket adjuk vissza
   get paginatedEvents(): any[] {
+    if (!this.events || !Array.isArray(this.events)) {
+      console.log("az events üres vót, tartalma: ", this.events);
+      return [];
+    }
+
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
 

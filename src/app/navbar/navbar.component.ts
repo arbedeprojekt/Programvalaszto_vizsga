@@ -41,7 +41,7 @@ export class NavbarComponent {
       }
     }
 
-    ,20000)
+    ,3000)
     // if(this.localStorage.getItem("user")==null ){
     //   console.log("A localstorage üres")
     //   this.loggedIn = false
@@ -55,6 +55,7 @@ export class NavbarComponent {
     //   this.loggedIn = true
 
     // }
+
 
   }
 

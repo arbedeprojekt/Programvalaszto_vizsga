@@ -103,6 +103,8 @@ export class LoginComponent {
                 this.auth.getUserNameToDisplay()
                 this.auth.getUserToken()
                 this.unknownErrorMessageBool = false
+
+                window.location.href = '/home'
               }
               else {
                 this.loginError = true

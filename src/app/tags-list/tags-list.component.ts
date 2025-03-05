@@ -26,6 +26,7 @@ export class TagsListComponent {
 
   constructor(private base: BaseService,) {
     this.getTags()
+    this.base.downloadAllTags()
     this.newTagErrorMessage = this.base.newTagErrorMessage
   }
 

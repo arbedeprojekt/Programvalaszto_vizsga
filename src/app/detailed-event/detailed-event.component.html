@@ -1,1 +1,198 @@
-<p>detailed-event works!</p>
+<!--Beltartalom alap befoglaló-->
+<div class="container p-lg-0">
+    <div class="pg">
+        <div class="yahoobar">
+            <div>
+                <a routerLink="/home" class="nav-link active" aria-current="page" href="#" title="Kezdőoldal">
+                    <i class="bi bi-house"></i>Kezdőoldal
+                </a>
+                <span>/</span>
+                <a routerLink="/all-events" class="nav-link active" aria-current="page" href="#" title="Események">Események</a>     <!--Abban az esetben jelenjen meg ez, ha az események listájából lépett az adott részletes nézetre-->
+                <a routerLink="/events-subscribed" class="nav-link active" aria-current="page" href="#" title="Feliratkozásaim">Feliratkozásaim</a>     <!--Abban az esetben jelenjen meg ez, ha a Feliratkozásaim listájából lépett az adott részletes nézetre-->
+                <span>/</span>
+                <a class="nav-link active" aria-current="page" href="#" title="Adott program neve">Mindig az adott program neve</a> <!--az adott program nevének kell itt lennie-->
+            </div>
+        </div>
+        <div class="row" data-eventid="">
+            <div class="col-12 pg-top">
+                <h1>Az esemény neve</h1>
+                <div class="rating">
+                    <ul class="list-unstyled list-inline mb-0">
+                        <li class="list-inline-item">
+                          <i class="bi bi-star-fill text-warning"></i>    <!--bi-star, bi-star-fill, bi-star-half-->
+                        </li>
+                        <li class="list-inline-item">
+                          <i class="bi bi-star-fill text-warning"></i>   <!--a csillagokat aszerint kell "teltté" változtatni, ahogy arányaiban kijön az értékelések alapján. Lényegében az átlag adja-->
+                        </li>
+                        <li class="list-inline-item">
+                          <i class="bi bi-star-fill text-warning"></i>
+                        </li>
+                        <li class="list-inline-item">
+                          <i class="bi bi-star-fill text-warning"></i>
+                        </li>
+                        <li class="list-inline-item">
+                          <i class="bi bi-star-half text-warning"></i>
+                        </li>
+                        <li class="list-inline-item">
+                            <p class="text-muted">Értékeld elsőként</p>   <!--Ha még egyetlen értékelés sem érkezett az eseményre, ennek kell megjelennie-->
+                          </li>
+                        <li class="list-inline-item">
+                          <p class="text-muted">4.5 (413)</p>   <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 gallery-preview">
+                <ul class="gallery-content-slider">
+
+                </ul>
+            </div>
+            <div class="col-12 event-informations-unit">
+                <div class="information-unit-inner">
+                    <div class="part-left">
+                        <div class="information-navbar">
+                            <ul class="nav justify-content-center">
+                                <li class="nav-item">
+                                  <a (click)="scrollToSection('eventDescription')" class="nav-link active" aria-current="page" role="button">Leírás</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a (click)="scrollToSection('eventDetailes')" class="nav-link" role="button">Részletek</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="#">Vélemények</a>
+                                </li>
+                                <!-- <li class="nav-item">
+                                  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                                </li> -->
+                            </ul>
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                  <a class="nav-link active" aria-current="page" href="#eventDescription">Leírás</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="#eventDetailes">Információk</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="#">Vélemények</a>
+                                </li>
+                              </ul>
+                        </div>
+                        <div class="event-description" >
+                            <div class="event-description-inner" id="eventDescription">
+                                <h4 class="">Leírás</h4>
+                                    <p>Mi is a TerraPlaza?
+                                    A TerraPlaza egyedülálló esemény, ahol az egzotikus állatok iránt érdeklődők találkozhatnak. Közép-Európa egyik legjelentősebb terrarisztikai és akvarisztikai kiállításaként egyaránt vonzza a szakértőket és a hobbiállattartókat. A kiállítás nem csupán egy vásár, hanem közösségi élmény, ahol az állatok iránti szeretet és felelős gondoskodás találkozik.
+                                        
+                                    Válogatott kiállítókkal
+                                    Több mint 150 gondosan kiválasztott nemzetközi kiállító biztosítja, hogy a látogatók csak a legmagasabb színvonalú és szakértők által bemutatott állatokkal és termékekkel találkozzanak. A TerraPlaza elkötelezett az állatjólét mellett, kiállítóink szigorúan odafigyelnek arra, hogy minden állat a lehető legjobb körülmények között legyen bemutatva.
+                                        
+                                    15 éve az egzotikus állattartás szolgálatában
+                                    Az esemény 2009 óta, immár 15 éve folyamatosan fejlődik és bővül, köszönhetően a több ezer hazai és nemzetközi látogatónak. A nemzetközi színtér első perctől kezdve gazdagítja a TerraPlaza-t mind a látogatók, mind a kiállítók számára.
+                                    Évente 5 alkalommal kerül megrendezésre Budapesten, a Lurdy Házban, ahol a látogatók különleges élményekben részesülhetnek az egzotikus állatok és szakértőik világában.
+                                        
+                                    Nem csak egy terrarisztikai börze
+                                    A TerraPlaza alapjaiban terrarisztikai esemény. Azonban az évek során számos új területtel gazdagodott. Az egyik legnagyobb bővülés az akvarisztika területén történt, melynek köszönhetően ma már ez Magyarország legjelentősebb találkozóhelye mind a terrarisztika, mind az akvarisztika rajongói számára. Emellett a látogatók izgalmas kiállításokkal, programokkal, valamint természetvédelmi és állatvédelmi ismeretterjesztéssel is találkozhatnak.
+                                    </p>
+                            </div>
+                        </div>
+                        <div class="event-details" >
+                            <div class="event-details-inner" id="eventDetailes">
+                                <h4 class="">Információk</h4>
+                                    <p>Információk</p>
+                            </div>
+                        </div>
+                        <div class="event-user-rating">
+                            <div>
+                                <h4 class="">Vélemények</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="part-right">
+                        <div class="">
+                            <div class="time-datas">
+                                <div class="dates">
+                                    <div class="start-date">2025.03.01 </div>
+                                    <span>-</span> 
+                                    <div class="end-date">2025.03.31</div>
+                                </div>
+                                <div class="times">
+                                    <div class="start-time">09:00</div>
+                                    <span>-</span>
+                                    <div class="end-time">17:00</div>
+                                </div>
+                            </div>
+                            <div class="location-datas">
+                                <div class="location-name">Ludry ház</div>
+                                <div class="event-address">Budapest, Könyves Kálmán krt. 12-14, 1097</div>
+                            </div>
+                        </div>
+                        <div class="tags-unit">
+                            <ul class="tags">
+                                <li class="tag-item event-state">aktív</li>
+                                <li class="tag-item event-category">kiállítás</li>
+                                <li class="tag-item event-type">beltér</li>
+                                <li class="tag-item event-duration">2-3 óra</li>
+                                <li class="tag-item event-participation">egyéni, csoportos</li>
+                                <li class="tag-item event-access">fizetős</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Hasonló programok -->
+	<div class="same-events">
+        <div>
+          <h1>Hasonló programok</h1>
+        </div>
+        <div class="row g10">
+          <!--kártyák-->
+            <div *ngFor="let event of sameEvents" class="e-item -box col-6 col-md-4 col-lg-3 g10-xl-2">  <!--ide be kell kötni a backendet. Olyan kártyákat kell hozni, amik legalább 3 címkében egyeznek azokkal, amik az adott eseményre vonatkoznak-->
+                <div  class="card">
+                    <a href="itt kell megadni a program részletes oldalát" class="img" onlcick=";">   <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
+                    <div class="inner">
+                        <img *ngIf="event.picture; else noImage" src={{event.picture}} class="card-img-top" alt={{event.name}}>
+                        <ng-template #noImage>
+                        <img src="assets/Pictures/no-image.jpg" class="card-img-top" alt="No Image Available">
+                        </ng-template>
+                    </div>
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{event.name}}</h5>
+                        <ul class="list-unstyled list-inline mb-0">
+                            <li class="list-inline-item">
+                            <i class="bi bi-star-fill text-warning"></i>    <!--bi-star, bi-star-fill, bi-star-half-->
+                            </li>
+                            <li class="list-inline-item">
+                            <i class="bi bi-star-fill text-warning"></i>   <!--a csillagokat aszerint kell "teltté" változtatni, ahogy arányaiban kijön az értékelések alapján. Lényegében az átlag adja-->
+                            </li>
+                            <li class="list-inline-item">
+                            <i class="bi bi-star-fill text-warning"></i>
+                            </li>
+                            <li class="list-inline-item">
+                            <i class="bi bi-star-fill text-warning"></i>
+                            </li>
+                            <li class="list-inline-item">
+                            <i class="bi bi-star-half text-warning"></i>
+                            </li>
+                            <li class="list-inline-item">
+                            <p class="text-muted">4.5 (413)</p>   <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
+                            </li>
+                        </ul>
+                        <p class="card-text" style="display: inline-block">{{event.startDate}}-{{event.endDate}}</p>	<!--be kell állítani, hogy csak akkor jelenjen meg, ha van adat. Ha nincs dátum adat, akkor valami általános dolgot írjon ki..Pl: Állandó..vagy ilyesmi -->
+                        <!-- <p class="card-text" style="display: inline-block; padding-left: 3.8rem;">{{event.startTime}}-{{event.endTime}}</p> be kell állítani, hogy csak akkor jelenjen meg, ha van adat-->
+                        <p class="card-text" style="text-align: left; display: inline-block;">{{event.locationName}}</p>
+                        <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
+                        <div class="split">
+                            <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
+                            <button class="btn btn-primary" type="button" title="Bakancslistára tesz">
+                            <i class="bi bi-plus-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  

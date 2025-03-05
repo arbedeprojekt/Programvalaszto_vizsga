@@ -26,6 +26,7 @@ import { UsersComponent } from './users/users.component';
 import { DatepickerRangePopupComponent } from './datepicker-range-popup/datepicker-range-popup.component';
 import { CardPaginationComponent } from './card-pagination/card-pagination.component';
 import { FooterComponent } from './footer/footer.component';
+import { EventsSubscribedComponent } from './events-subscribed/events-subscribed.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { FooterComponent } from './footer/footer.component';
     UsersComponent,
     DatepickerRangePopupComponent,
     CardPaginationComponent,
-    FooterComponent
+    FooterComponent,
+    EventsSubscribedComponent
 
   ],
   imports: [

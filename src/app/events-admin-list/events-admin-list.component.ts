@@ -37,18 +37,24 @@ export class EventsAdminListComponent {
   cikkek:any
   newCikk:any={}
 
-  constructor(
-      public base:BaseService,
+  //módosításkor fellépő hibaüzenetek elmentése
+  errModfyMsg : any
+  //új esemény felvételekor fellépő hibaüzenetek tárolása
+  errNewEventMsg:any
+
+  constructor(public base:BaseService,
       // private config:ConfigService,
-      private http:HttpClient)
-      {
+      private http:HttpClient) {
 
 
     //a base service getAll metódusát meghívva átadjuk a cikkeket
+    // this.base.getAll().subscribe(
+    //   (res)=>this.cikkek=res
+    // )
+
     this.base.getAll().subscribe(
       (res)=>this.cikkek=res
     )
-
 
 
     // this.config.getLinks().subscribe(
@@ -75,22 +81,76 @@ export class EventsAdminListComponent {
     //   (res:any)=>this.errMessage=res["hibauzenet"],
 
     // )
-    console.log(this.links)
+    // console.log(this.links)
 
   }
 
+  getDataFromApi(){
+    this.base.adatSub.subscribe(
+      (res:any) => {
+
+
+        this.cikkek = res.data
+      }
+    )
+  }
+
   updateData(data:any){
-    this.base.updateDataWeb(data)
+    this.base.updateDataWeb(data).subscribe(
+      {
+        next:(res:any)=>{
+          if(res.success == false){
+            console.log("hibaüzenetek: ",res.error)
+            this.errModfyMsg = res.error
+          }
+          console.log(res)
+          // this.base.downloadAll()
+        },
+        error:(error:any)=>{
+          console.log("Valami hiba: ",error)
+        }
+      }
+    )
     console.log("data" + data);
   }
 
   deleteData(data:any){
-    this.base.deleteDataWeb(data)
+    this.base.deleteDataWeb(data).subscribe(
+      {
+        next:(res:any)=>{
+          console.log("sikeres tőrlés: ",res)
+          this.base.downloadAll()
+        },
+        error:(error:any)=>{
+          console.log("Valami hiba: ",error)
+        }
+      }
+    )
     console.log("data" + data);
+
   }
 
   newData(){
-    this.base.newDataWeb(this.newCikk)
+    this.base.newDataWeb(this.newCikk).subscribe(
+      {
+        next:(res:any)=>{
+          // console.log("új esemény felvétele: ",res)
+          if(res.success == false){
+            console.log("hibaüzenetek: ",res.error)
+            this.errNewEventMsg = res.error
+          }
+          //ahoz hogy az oldal újrafrissüljön.
+          else{
+            console.log("Sikeres új esemény felvétel: ",res)
+            this.base.downloadAll()
+          }
+
+        },
+        error:(error:any)=>{
+          // console.log("Valami hiba történt az új esemény felvétele során: ",error)
+        }
+      }
+    )
     this.newCikk={}
   }
 
@@ -99,7 +159,6 @@ export class EventsAdminListComponent {
       (res)=>this.cikkek=res
     )
   }
-
 
   // gombBeallitasa(lang:string){
   //   this.lang=lang=="hu"?"Magyar":"English"

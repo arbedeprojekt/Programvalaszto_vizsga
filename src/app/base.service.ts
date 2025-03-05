@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
 // import { AngularFireDatabase } from '@angular/fire/compat/database';
@@ -68,76 +68,83 @@ export class BaseService {
 
 
   //lekéri a tanár webapijából az adatokat, majd megszűrve betölti az adatSub változóba
-  private downloadAll(){
-    this.http.get(this.url).subscribe(
+  // private downloadAll(){
+  //   this.http.get(this.url).subscribe(
+  //     (res:any)=>{
+  //         this.adatSub.next(res)}
+  //   )
+  // }
+
+    //lekéri a backendről az adatokat, majd megszűrve betölti az adatSub változóba
+    downloadAll(){
+    // let token = localStorage.getItem("token")
+    // let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+    this.http.get(this.backendUrl+"events").subscribe(
       (res:any)=>{
-          this.adatSub.next(res)}
-    )
-  }
+        this.adatSub.next(res)}
+  
+      )
+    }
+
+
 
    //backend adatok lekérése
    downloadAllTags() {
-    this.http.get(this.backendUrl + "tags").subscribe(
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+    this.http.get(this.backendUrl + "tags", {headers}).subscribe(
       (res: any) => {
         this.tagsSub.next(res)
+        console.log("üzenet a tegek betöltése során a base-ben: ",res)
+        console.log("üzenet a tegek betöltése során a base-ben: ",headers)
+
       }
     )
   }
 
   //új cikk felvétele
   newDataWeb(data:any){
-    this.http.post(this.url,data).forEach(
-      ()=>this.downloadAll()
-    )
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+
+    return this.http.post(this.backendUrl+"newevents",data,{headers})
   }
 
   //a már meglévő cikk módosítása
   updateDataWeb(data:any){
-    this.http.put(this.url+data.id,data).forEach(
-      ()=>this.downloadAll()
-    )
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+    return this.http.put(this.backendUrl+"updateevents",data,{headers})
   }
 
   //a törölni kívánt cikk eltávolítása
   deleteDataWeb(data:any){
-    this.http.delete(this.url+data.id).forEach(
-      ()=>this.downloadAll()
-    )
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+    return this.http.delete(this.backendUrl+"deleteevents/"+data.id,{headers})
   }
 
   //új tag felvétele
   newTagWeb(data: any) {
 
-    return this.http.post(this.backendUrl + "newtags", data)
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+
+    return this.http.post(this.backendUrl + "newtags", data,{headers})
   }
 
   deleteTagWeb(data: any) {
 
-    return this.http.delete(this.backendUrl + "deletetags/"+data.id)
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+    return this.http.delete(this.backendUrl + "deletetags/"+data.id,{headers})
 
   }
 
   //a már meglévő cikk módosítása
   updateTagWeb(data: any) {
-    return this.http.put(this.backendUrl + "updatetags",data)
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+    return this.http.put(this.backendUrl + "updatetags",data ,{headers})
   }
-
-
-  // getDatas(){
-  //   return this.refData
-  // }
-  // pushData(body:any){
-  //   // let body ={name:"Jáger Attila", grade:4}
-  //   this.refData.push(body)
-  // }
-
-  // deleteData(body:any){
-  //   this.refData.remove(body.key)
-  // }
-
-  // updateData(body:any){
-  //   let key = body.key
-  //   delete body.key
-  //   this.refData.update(key, body)
-  // }
 }

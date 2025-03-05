@@ -7,6 +7,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { AllEventsComponent } from './all-events/all-events.component';
 import { EventsAdminListComponent } from './events-admin-list/events-admin-list.component';
 import { TagsListComponent } from './tags-list/tags-list.component';
+import { DetailedEventComponent } from './detailed-event/detailed-event.component';
+import { EventsSubscribedComponent } from './events-subscribed/events-subscribed.component';
 
 const routes: Routes = [
   {path:"home",component:HomeComponent},
@@ -17,9 +19,9 @@ const routes: Routes = [
   {path:"admin",component:EventsAdminListComponent},
   {path:"users",component:UsersComponent},
   {path:"galeries",component:AllEventsComponent},
-  {path:"tags",component:TagsListComponent}
-
-
+  {path:"tags",component:TagsListComponent},
+  {path:"detailed-event",component:DetailedEventComponent},
+  {path:"events-subscribed",component:EventsSubscribedComponent}
 
 
 ];
