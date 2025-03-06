@@ -9,6 +9,7 @@ import { BaseService } from '../base.service';
 })
 export class CardPaginationComponent implements OnInit {
 
+  // @Input() totalItemsSearch: any;
   @Input() totalItems: any;
   @Input() currentPage: any;
   @Input() itemsPerPage: any;
@@ -23,6 +24,10 @@ export class CardPaginationComponent implements OnInit {
       this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
       this.pages = Array.from({length: this.totalPages}, (_, i) => i + 1)
     }
+    // else if (this.totalItemsSearch) {
+    //   this.totalPages = Math.ceil(this.totalItemsSearch / this.itemsPerPage);
+    //   this.pages = Array.from({length: this.totalPages}, (_, i) => i + 1)
+    // }
   }
 
   pageClicked(page: number) {

@@ -1,7 +1,7 @@
 <!-- Adatsub tartalma {{cikkek|json}} -->
 <!-- {{errNewEventMsg|json}}-->  <!--hibaüzenetek megleséséhez új esemény felvétele esetén-->
 <!-- {{errModfyMsg|json}} -->   <!--hibaüzenetek megleséséhez esemény módosítása esetén-->
-<div class="container">
+<div class="container" *ngIf='localStorage.getItem("admin") != "0"'>
    <h1 class="">Programok</h1>
   <div id="titleNewEvent">ÚJ PROGRAM FELVÉTELE</div>
   <!-- Új rekord felvétele -->

@@ -9,7 +9,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class BaseService {
- 
+
   IMGUrl="http://localhost:3000/galleries/"    //galériához kapcsolódik lásd all-events.component.ts
 
   //Backend elérése
@@ -35,6 +35,10 @@ export class BaseService {
   newTagErrorBool = false
   newTagErrorSub = new BehaviorSubject<any>(null)
   newTagErrorObs: Observable<any | null> = this.newTagErrorSub.asObservable()
+
+  //dátum kimentése a dátumválasztóból
+  dateBehaveSub = new BehaviorSubject<any>(null)
+  dateObs : Observable<any | null> = this.dateBehaveSub.asObservable()
 
 
   constructor(private http:HttpClient,private db:AngularFireDatabase) {
@@ -74,7 +78,7 @@ export class BaseService {
     this.http.get(this.backendUrl+"events").subscribe(
       (res:any)=>{
         this.adatSub.next(res)}
-  
+
       )
     }
 
@@ -137,5 +141,16 @@ export class BaseService {
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
     return this.http.put(this.backendUrl + "updatetags",data ,{headers})
+  }
+
+  searchEvent(data:any){
+    let header ={
+
+    }
+    this.http.get(this.backendUrl+"searchevents",data)
+  }
+
+  getDateFromDatePicker(date:any){
+    this.dateBehaveSub.next(date)
   }
 }

@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../local-storage.service';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { BaseService } from '../base.service';
@@ -44,7 +45,8 @@ export class EventsAdminListComponent {
 
   constructor(public base:BaseService,
       // private config:ConfigService,
-      private http:HttpClient) {
+      private http:HttpClient,
+      public localStorage:LocalStorageService) {
 
 
     //a base service getAll metódusát meghívva átadjuk a cikkeket
@@ -140,6 +142,7 @@ export class EventsAdminListComponent {
           //ahoz hogy az oldal újrafrissüljön.
           else{
             console.log("Sikeres új esemény felvétel: ",res)
+            alert("Sikeres eseményfelvétel!")
             this.base.downloadAll()
           }
 

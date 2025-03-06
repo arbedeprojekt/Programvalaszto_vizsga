@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { BaseService } from '../base.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, map, Observable, switchMap } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-all-events',
@@ -34,37 +35,42 @@ export class AllEventsComponent {
 
   //Az ábc sorrend megvalósításához
   selectedOption: any
-  eventsArray = [
-
-    // {name:"dinnye"},
-    // {name:"körte"},
-    // {name:"barack"},
-    // {name:"cinege"}
-
-
-
-    // "dinnye",
-    // "körte",
-    // "barack",
-    // "cinege"
-    // 5,
-    // 33,
-    // 4,
-    // 2,
-    // 15,
-    // 30,
-  ]
+  eventsArray = []
   sortedEventsArray: any
 
+  //tegeknek
+  tags: any
+  groups: any
+
+  //A szabadszavas kereséshez
+  searchControl = new FormControl();
+  searchResults: any[] = [];
+  backendUrl = "http://127.0.0.1:8000/api/"
+  isSearch = false;
 
 
-  constructor(private httpClient: HttpClient, private auth: AuthService, private base: BaseService) {
+
+  constructor(private http: HttpClient, private auth: AuthService, private base: BaseService) {
     // user lecsekkolása
     //   this.auth.getLoggedUser().subscribe(
     //     (u)=>this.user=u
     //   )
 
     this.getDataFromApi()
+    this.getTags()
+    this.base.downloadAllTags()
+    this.toSort("ascByABC");
+
+
+    //szabadszavas szűrés
+    // this.searchControl.valueChanges
+    //   .pipe(
+    //     debounceTime(300), // Vár 300ms-t, hogy ne indítson keresést minden billentyűleütésnél
+    //     distinctUntilChanged(), // Csak akkor indít új keresést, ha változott az input érték
+    //     switchMap(value => this.search(value) ) // Keresési szolgáltatás meghívása
+    //   )
+    //   .subscribe(results => this.searchResults = results);
+
   }
 
   getDataFromApi() {
@@ -100,6 +106,16 @@ export class AllEventsComponent {
     const end = start + this.itemsPerPage;
 
     return this.events.slice(start, end);       //valamiért hibát dob erre..
+  }
+  get paginatedSearchedEvents(): any[] {
+    if (!this.searchResults || !Array.isArray(this.searchResults)) {
+      console.log("az events üres vót, tartalma: ", this.searchResults);
+      return [];
+    }
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+
+    return this.searchResults.slice(start, end);       //valamiért hibát dob erre..
   }
 
 
@@ -139,37 +155,71 @@ export class AllEventsComponent {
 
   toSort(terms: any) {
     if (terms === "ascByABC") {
-      console.log("ascByABC")
+      // console.log("ascByABC")
+
       this.sortedEventsArray = this.eventsArray
       this.sortedEventsArray = this.sortedEventsArray.sort(
         (a: any, b: any) => {
 
-          console.log("a értéke: ", a)
-          console.log("b értéke: ", b)
+          // console.log("a értéke: ", a)
+          // console.log("b értéke: ", b)
           return a.name.localeCompare(b.name)
 
-        }
 
+
+        }
       )
+      //a keresett tartalmak szűréséhez
+      if(this.isSearch == true){
+        this.searchResults = this.searchResults.sort(
+          (a: any, b: any) => {
+
+            // console.log("a értéke: ", a)
+            // console.log("b értéke: ", b)
+            return a.name.localeCompare(b.name)
+
+
+
+          }
+
+        )
+      }
     }
 
     else if (terms === "descByABC") {
-      console.log("descByABC")
+      // console.log("descByABC")
       this.sortedEventsArray = this.eventsArray
       this.sortedEventsArray = this.sortedEventsArray.sort(
         (a: any, b: any) => {
 
-          console.log("a értéke: ", a)
-          console.log("b értéke: ", b)
+          // console.log("a értéke: ", a)
+          // console.log("b értéke: ", b)
           return b.name.localeCompare(a.name)
 
         }
 
       )
+
+      //a keresett tartalmak szűréséhez
+
+      if(this.isSearch == true){
+        this.searchResults = this.searchResults.sort(
+          (a: any, b: any) => {
+
+            // console.log("a értéke: ", a)
+            // console.log("b értéke: ", b)
+            return b.name.localeCompare(a.name)
+
+
+
+          }
+
+        )
+      }
     }
 
     else if (terms === "ascByDate") {
-      console.log("ascByDate")
+      // console.log("ascByDate")
       this.sortedEventsArray = this.eventsArray
       this.sortedEventsArray = this.sortedEventsArray.sort(
         (a: any, b: any) => {
@@ -181,10 +231,28 @@ export class AllEventsComponent {
         }
 
       )
+
+      //a keresett tartalmak szűréséhez
+
+      if(this.isSearch == true){
+        this.searchResults = this.searchResults.sort(
+          (a: any, b: any) => {
+
+            // console.log("a értéke: ", a)
+            // console.log("b értéke: ", b)
+            return new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+
+
+
+          }
+
+        )
+      }
+
     }
 
     else if (terms === "descByDate") {
-      console.log("descByDate")
+      // console.log("descByDate")
       this.sortedEventsArray = this.eventsArray
       this.sortedEventsArray = this.sortedEventsArray.sort(
         (a: any, b: any) => {
@@ -197,9 +265,75 @@ export class AllEventsComponent {
         }
 
       )
+
+      //a keresett tartalmak szűréséhez
+
+      if(this.isSearch == true){
+        this.searchResults = this.searchResults.sort(
+          (a: any, b: any) => {
+
+            // console.log("a értéke: ", a)
+            // console.log("b értéke: ", b)
+            return new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+
+
+
+          }
+
+        )
+      }
+
     }
 
-    console.log("szortírozás után : ", this.sortedEventsArray)
+    // console.log("szortírozás után : ", this.sortedEventsArray)
+    if(this.searchControl.value ===''){
+      this.searchResults = []
+    }
   }
+
+  getTags() {
+    this.base.tagsSub.subscribe(
+      (tag: any) => {
+        this.tags = tag.data
+        console.log("res a tag componensből: ", tag)
+      }
+    )
+  }
+
+  search(query: string): Observable<string[]> {
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+    if (!query.trim()) {
+      return new Observable(observer => observer.next([])); // Ha üres a kereső, ne küldjön kérést
+    }
+    return this.http.get<string[]>(`${this.backendUrl}searchevents/?query=${query}`, { headers }).pipe(
+      map((response: any) => response.data),
+      // distinctUntilChanged()
+    )
+    // GET kérés küldése a backendnek
+  }
+
+  searchOnPress() {
+    console.log("keresés")
+    if(this.searchControl.value === ''){
+      this.isSearch = false
+    }
+    else{
+      this.isSearch = true
+      this.search(this.searchControl.value).subscribe(
+        {
+          next: (res: any) => {
+            console.log("az eredmény: ", res)
+            this.searchResults = res
+          }
+        }
+
+      )
+    }
+
+  }
+
+
+
 
 }

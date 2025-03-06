@@ -27,6 +27,7 @@ import { DatepickerRangePopupComponent } from './datepicker-range-popup/datepick
 import { CardPaginationComponent } from './card-pagination/card-pagination.component';
 import { FooterComponent } from './footer/footer.component';
 import { EventsSubscribedComponent } from './events-subscribed/events-subscribed.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { EventsSubscribedComponent } from './events-subscribed/events-subscribed
     FormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    ReactiveFormsModule
   ],
   providers: [
     provideHttpClient()
