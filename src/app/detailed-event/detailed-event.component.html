@@ -50,56 +50,58 @@
             <div class="col-12 event-informations-unit">
                 <div class="information-unit-inner">
                     <div class="part-left">
-                        <div class="information-navbar">
-                            <ul class="nav justify-content-center">
-                                <li class="nav-item">
+                        <div class="information-navbar col-12">
+                            <div class="nav justify-content-center">
+                                <div class="nav-item">
                                     <a (click)="setActiveSection('eventDescription')" 
                                         class="nav-link" 
                                         [class.active]="activeSection === 'eventDescription'" 
                                         aria-current="page" 
                                         role="button">Leírás
                                     </a>
-                                </li>
-                                <li class="nav-item">
+                                </div>
+                                <span class="nav-item-separator">|</span>
+                                <div class="nav-item">
                                     <a (click)="setActiveSection('eventDetails')" 
                                         class="nav-link" 
                                         [class.active]="activeSection === 'eventDetails'" 
                                         aria-current="page" 
-                                        role="button">Részletek</a>
-                                </li>
-                                <li class="nav-item">
+                                        role="button">Információk</a>
+                                </div>
+                                <span class="nav-item-separator">|</span>
+                                <div class="nav-item">
                                     <a (click)="setActiveSection('eventReviews')" 
                                         class="nav-link" 
                                         [class.active]="activeSection === 'eventReviews'" 
                                         aria-current="page" 
                                         role="button">Vélemények</a>
-                                </li>
+                                </div>
                                 <!-- <li class="nav-item">
                                   <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                                 </li> -->
-                            </ul>
+                            </div>
                         </div>
                         <div class="event-description" *ngIf="activeSection === 'eventDescription'">
                             <div class="event-description-inner" id="eventDescription">
                                 <h4 class="">Leírás</h4>
-                                    <p>Mi is a TerraPlaza?
-                                    A TerraPlaza egyedülálló esemény, ahol az egzotikus állatok iránt érdeklődők találkozhatnak. Közép-Európa egyik legjelentősebb terrarisztikai és akvarisztikai kiállításaként egyaránt vonzza a szakértőket és a hobbiállattartókat. A kiállítás nem csupán egy vásár, hanem közösségi élmény, ahol az állatok iránti szeretet és felelős gondoskodás találkozik.
+                                    <p>Mi is a TerraPlaza?</p>
+                                    <p>A TerraPlaza egyedülálló esemény, ahol az egzotikus állatok iránt érdeklődők találkozhatnak. Közép-Európa egyik legjelentősebb terrarisztikai és akvarisztikai kiállításaként egyaránt vonzza a szakértőket és a hobbiállattartókat. A kiállítás nem csupán egy vásár, hanem közösségi élmény, ahol az állatok iránti szeretet és felelős gondoskodás találkozik.</p>
                                         
-                                    Válogatott kiállítókkal
-                                    Több mint 150 gondosan kiválasztott nemzetközi kiállító biztosítja, hogy a látogatók csak a legmagasabb színvonalú és szakértők által bemutatott állatokkal és termékekkel találkozzanak. A TerraPlaza elkötelezett az állatjólét mellett, kiállítóink szigorúan odafigyelnek arra, hogy minden állat a lehető legjobb körülmények között legyen bemutatva.
+                                    <p>Válogatott kiállítókkal</p>
+                                    <p>Több mint 150 gondosan kiválasztott nemzetközi kiállító biztosítja, hogy a látogatók csak a legmagasabb színvonalú és szakértők által bemutatott állatokkal és termékekkel találkozzanak. A TerraPlaza elkötelezett az állatjólét mellett, kiállítóink szigorúan odafigyelnek arra, hogy minden állat a lehető legjobb körülmények között legyen bemutatva.</p>
                                         
-                                    15 éve az egzotikus állattartás szolgálatában
-                                    Az esemény 2009 óta, immár 15 éve folyamatosan fejlődik és bővül, köszönhetően a több ezer hazai és nemzetközi látogatónak. A nemzetközi színtér első perctől kezdve gazdagítja a TerraPlaza-t mind a látogatók, mind a kiállítók számára.
-                                    Évente 5 alkalommal kerül megrendezésre Budapesten, a Lurdy Házban, ahol a látogatók különleges élményekben részesülhetnek az egzotikus állatok és szakértőik világában.
+                                    <p>15 éve az egzotikus állattartás szolgálatában</p>
+                                    <p>Az esemény 2009 óta, immár 15 éve folyamatosan fejlődik és bővül, köszönhetően a több ezer hazai és nemzetközi látogatónak. A nemzetközi színtér első perctől kezdve gazdagítja a TerraPlaza-t mind a látogatók, mind a kiállítók számára.
+                                    Évente 5 alkalommal kerül megrendezésre Budapesten, a Lurdy Házban, ahol a látogatók különleges élményekben részesülhetnek az egzotikus állatok és szakértőik világában.</p>
                                         
-                                    Nem csak egy terrarisztikai börze
-                                    A TerraPlaza alapjaiban terrarisztikai esemény. Azonban az évek során számos új területtel gazdagodott. Az egyik legnagyobb bővülés az akvarisztika területén történt, melynek köszönhetően ma már ez Magyarország legjelentősebb találkozóhelye mind a terrarisztika, mind az akvarisztika rajongói számára. Emellett a látogatók izgalmas kiállításokkal, programokkal, valamint természetvédelmi és állatvédelmi ismeretterjesztéssel is találkozhatnak.
+                                    <p>Nem csak egy terrarisztikai börze</p>
+                                    <p>A TerraPlaza alapjaiban terrarisztikai esemény. Azonban az évek során számos új területtel gazdagodott. Az egyik legnagyobb bővülés az akvarisztika területén történt, melynek köszönhetően ma már ez Magyarország legjelentősebb találkozóhelye mind a terrarisztika, mind az akvarisztika rajongói számára. Emellett a látogatók izgalmas kiállításokkal, programokkal, valamint természetvédelmi és állatvédelmi ismeretterjesztéssel is találkozhatnak.
                                     </p>
                             </div>
                         </div>
                         <div class="event-details" *ngIf="activeSection === 'eventDetails'">
                             <div class="event-details-inner" id="eventDetails">
-                                <h4 class="parameters">Részletek</h4>
+                                <h4 class="parameters">Információk</h4>
                                 <ul class="parameter-list">
                                     <li class="parameter-item">Ez egy részlet lista elem</li>
                                 </ul>  
@@ -107,7 +109,7 @@
                         </div>
                             <!--Vélemények kezdet-->
                             <div class="event-user-reviews" *ngIf="activeSection === 'eventReviews'">
-                                <div>
+                                <div class="event-reviews-inner">
                                     <h4 class="">Vélemények</h4>
                                     <!-- Rating Modal -->
                                     <div class="container mt-5">
@@ -236,31 +238,21 @@
                                 </div>
                             </div>
                             <div class="location-datas">
-                                <div class="location-name">Ludry ház</div>
+                                <div class="location-name">Lurdy ház</div>
                                 <div class="event-address">Budapest, Könyves Kálmán krt. 12-14, 1097</div>
                             </div>
                         </div>
                         <div class="tags-unit">
-                            <div class="tag-state">
-                                <li class="tag-item event-state">aktív</li>
+                            <div class="tag-state col-6">
+                                <div class="event-state">aktív</div>
                             </div>
-                            <ul class="tags">
-                                <div class="tag-item-box">
-                                    <li class="tag-item event-category">kiállítás</li>
-                                </div>
-                                <div class="tag-item-box">
-                                    <li class="tag-item event-type">beltér</li>
-                                </div>
-                                <div class="tag-item-box">
-                                    <li class="tag-item event-duration">2-3 óra</li>
-                                </div>
-                                <div class="tag-item-box">
-                                    <li class="tag-item event-participation">egyéni, csoportos</li>
-                                </div>
-                                <div class="tag-item-box">
-                                    <li class="tag-item event-access">fizetős</li>
-                                </div>
-                            </ul>
+                            <div class="tag-item-box col-6">
+                                <div class="tag-item">kiállítás</div>
+                                <div class="tag-item">beltér</div>
+                                <div class="tag-item">2-3 óra</div>
+                                <div class="tag-item">egyéni, csoportos</div>
+                                <div class="tag-item">fizetős</div>
+                            </div>
                         </div>
                     </div>
                 </div>

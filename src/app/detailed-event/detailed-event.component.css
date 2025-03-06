@@ -43,14 +43,7 @@ p {
 
 h4 {
   text-align: center;
-}
-
-ul {
-  padding: 0;
-}
-
-li {
-  list-style: none;
+  margin-bottom: 1rem;
 }
 
 .row {
@@ -93,6 +86,61 @@ li {
   width: 70%;
 }
 
+.nav {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  text-align: center;
+  gap: .5rem;
+  align-items: center;
+}
+
+.nav-link {
+  padding: 0;
+  vertical-align: middle;
+  color: #919191;
+}
+
+.nav-link:hover {
+  color: #202020;
+}
+
+.nav-link.active {
+  position: relative;
+  display: inline-block;
+  color: #202020;
+}
+
+/*ez a nav link aláhúzása*/
+.nav-link.active::after {
+  content: "";
+  display: block ;
+  position: absolute;
+  bottom: -2px; /* Finomhangolás */
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% + 1.5rem); /* Egy fix hosszúságú vonal */
+  height: .135rem;
+  background-color: #969696;
+}
+
+.nav-item {
+  flex-grow: 1;
+  text-transform: uppercase;
+  align-items: center;
+  /* font-weight: 400; */
+}
+
+.nav-item-separator {
+  font-weight: 300;
+  font-size: 2rem;
+  align-items: center;
+}
+
+.event-description-inner, .event-details-inner, .event-reviews-inner {
+  padding: 1rem;
+}
+
 /*Jobb oldali blokk*/
 .part-right {
   padding: 1rem 1rem;
@@ -114,32 +162,46 @@ li {
   margin-bottom: .5rem;
 }
 
+.time-datas {
+  margin-bottom: 1rem;
+}
+
 .time-location {
   margin-bottom: 2rem;
 }
 
-.tags {
+.tags-unit {
+  width: 100%;
+  font-size: .875rem;
+}
+
+.tag-item-box {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-between;
-
+  width: 100%;
+  gap: .5rem;
 }
 
-.tag-item-box {
-  background: #acacac;
-  margin: .375rem auto .375rem;
+.tag-item {
+  flex-grow: 1;   /*kitöltik a rendelkezésre álló helyet*/
+  white-space: normal;
+  min-width: 100px;
+  background: #cccccc;
   border-radius: .175rem;
   text-align: center;
-  padding: .375rem .75rem;
+  padding: .275rem .75rem;
+  /* margin-bottom: .375rem; */
 }
 
 .tag-state {
-  background: #acacac;
+  background: #cccccc;
   margin-bottom: .375rem;
   border-radius: .175rem;
   text-align: center;
   padding: .375rem .75rem;
+  width: 100%;
 }
 
 
