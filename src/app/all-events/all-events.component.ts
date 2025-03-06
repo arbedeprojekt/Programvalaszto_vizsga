@@ -9,37 +9,71 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './all-events.component.html',
   styleUrl: './all-events.component.css'
 })
-export class AllEventsComponent  {
+
+// interface groupBy{
+//   id : number,
+//   name:string
+// }
+export class AllEventsComponent {
 
   // allEventUrl = "http://localhost:3000/esemenyek/";
 
-  eventDetails=new BehaviorSubject<any>(null)
+  eventDetails = new BehaviorSubject<any>(null)
 
-  clickedEventDetails:any={};
-  events:any[]=[];
-  galleries:any
+  clickedEventDetails: any = {};
+  events: any[] = [];
+  galleries: any
 
   //oldal lapozóhoz kapcsolódik
   currentPage = 1;
   itemsPerPage = 12;
 
   //user tárolása
-  user:any
-  dataFromApi:any
+  user: any
+  dataFromApi: any
 
-  constructor(private httpClient:HttpClient, private auth:AuthService, private base:BaseService ) {
+  //Az ábc sorrend megvalósításához
+  selectedOption: any
+  eventsArray = [
+
+    // {name:"dinnye"},
+    // {name:"körte"},
+    // {name:"barack"},
+    // {name:"cinege"}
+
+
+
+    // "dinnye",
+    // "körte",
+    // "barack",
+    // "cinege"
+    // 5,
+    // 33,
+    // 4,
+    // 2,
+    // 15,
+    // 30,
+  ]
+  sortedEventsArray: any
+
+
+
+  constructor(private httpClient: HttpClient, private auth: AuthService, private base: BaseService) {
     // user lecsekkolása
-  //   this.auth.getLoggedUser().subscribe(
-  //     (u)=>this.user=u
-  //   )
+    //   this.auth.getLoggedUser().subscribe(
+    //     (u)=>this.user=u
+    //   )
 
     this.getDataFromApi()
   }
 
-  getDataFromApi(){
+  getDataFromApi() {
     this.base.adatSub.subscribe(
-      (res:any) => {
+      (res: any) => {
         this.events = res.data
+        this.eventsArray = res.data
+        this.sortedEventsArray = this.eventsArray
+
       }
     )
   }
@@ -94,13 +128,78 @@ export class AllEventsComponent  {
   //   return galleryItem && galleryItem.image_1 ? galleryItem.image_1 : 'assets/Pictures/no-image.jpg';
   // }
 
-  filterByABCAsc(){
+  filterByABCAsc() {
     console.log("növekvő sorrend!!")
   }
 
-  filterByABCDesc(){
+  filterByABCDesc() {
     console.log("csökkenő sorrend!!")
 
+  }
+
+  toSort(terms: any) {
+    if (terms === "ascByABC") {
+      console.log("ascByABC")
+      this.sortedEventsArray = this.eventsArray
+      this.sortedEventsArray = this.sortedEventsArray.sort(
+        (a: any, b: any) => {
+
+          console.log("a értéke: ", a)
+          console.log("b értéke: ", b)
+          return a.name.localeCompare(b.name)
+
+        }
+
+      )
+    }
+
+    else if (terms === "descByABC") {
+      console.log("descByABC")
+      this.sortedEventsArray = this.eventsArray
+      this.sortedEventsArray = this.sortedEventsArray.sort(
+        (a: any, b: any) => {
+
+          console.log("a értéke: ", a)
+          console.log("b értéke: ", b)
+          return b.name.localeCompare(a.name)
+
+        }
+
+      )
+    }
+
+    else if (terms === "ascByDate") {
+      console.log("ascByDate")
+      this.sortedEventsArray = this.eventsArray
+      this.sortedEventsArray = this.sortedEventsArray.sort(
+        (a: any, b: any) => {
+
+          // console.log("a értéke: ", a)
+          // console.log("b értéke: ", b)
+          return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+
+        }
+
+      )
+    }
+
+    else if (terms === "descByDate") {
+      console.log("descByDate")
+      this.sortedEventsArray = this.eventsArray
+      this.sortedEventsArray = this.sortedEventsArray.sort(
+        (a: any, b: any) => {
+
+
+
+
+          return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+
+        }
+
+      )
+    }
+
+    console.log("szortírozás után : ", this.sortedEventsArray)
   }
 
 }

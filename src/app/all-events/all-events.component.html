@@ -1,4 +1,11 @@
 <!-- Újdonságok -->
+<!-- {{eventsArray|json}} -->
+
+  <!-- sorted Events : {{sortedEventsArray|json}} -->
+
+
+  <!-- <button (click)="toSort()">Gomb</button> -->
+
 
 <!--Beltartalom alap befoglaló-->
 <div class="container p-lg-0">
@@ -26,14 +33,25 @@
           <div class="pl-sorter">
             <span>Rendezés:</span>
             <div class="select-wrapper">
-              <select class="form-select">
+              <!-- <select class="form-select">
                 <option value="">ABC szerint növekvő</option>
                 <option value="">ABC szerint csökkenő</option>
                 <option value="">Dátum szerint növekvő</option>
                 <option value="">Dátum szerint csökkenő</option>
+                <option value="">Népszerűség</option> --> <!--ha marad időnk, lehetne egy népszerűség szerint növekvő is: a legtöbb felhasználó által feliratkozott; aktív státuszú események;-->
+              <!--</select> -->
+
+              <select [(ngModel)] = "selectedOption" (change)="toSort(selectedOption)" class="form-select">
+                <option  value="ascByABC">ABC szerint növekvő</option>
+                <option  value="descByABC">ABC szerint csökkenő</option>
+                <option value="ascByDate">Dátum szerint növekvő</option>
+                <option value="descByDate">Dátum szerint csökkenő</option>
                 <option value="">Népszerűség</option> <!--ha marad időnk, lehetne egy népszerűség szerint növekvő is: a legtöbb felhasználó által feliratkozott; aktív státuszú események;-->
+
               </select>
+
             </div>
+
           </div>
           <div class="filterpanel -mobile">
             <div class="filterpanel-wrapper -mobile">
