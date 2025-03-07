@@ -52,8 +52,8 @@ export class AllEventsComponent {
   backendUrl = "http://127.0.0.1:8000/api/"
   isSearch = false;
 
-// Felíratkozások megtekintése
-saveSuscribedEvents:any=[]
+  // Feliratkozások megtekintése
+  saveSubscribedEvents:any=[]
 
 
 
@@ -318,7 +318,7 @@ saveSuscribedEvents:any=[]
   }
 
 
-  //felíratkozás az eseményre
+  //feliratkozás az eseményre
   subscribeEvent(data: any) {
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
@@ -338,7 +338,7 @@ saveSuscribedEvents:any=[]
           else {
             console.log("Sikeres új esemény felvétel: ", res)
 
-            alert("Sikeres felíratkozás!")
+            alert("Sikeres feliratkozás!")
 
 
           }
@@ -346,7 +346,7 @@ saveSuscribedEvents:any=[]
         },
         error: (error: any) => {
           //  console.log("Valami hiba történt az új esemény felvétele során: ",error)
-           alert("Már fel vagy íratkozva!")
+           alert("Már fel vagy iratkozva!")
         }
       }
     )
@@ -360,8 +360,8 @@ saveSuscribedEvents:any=[]
     this.http.delete(this.backendUrl+`unsubscribe/${data.id}`,{headers}).subscribe(
       {
         next:(res:any)=>{
-          console.log("sikeres leíratkozás: ",res)
-          alert("Sikeresen leíratkoztál!")
+          console.log("sikeres leiratkozás: ",res)
+          alert("Sikeresen leiratkoztál!")
 
         },
         error:(error:any)=>{
@@ -371,7 +371,5 @@ saveSuscribedEvents:any=[]
       }
     )
   }
-
-
 
 }

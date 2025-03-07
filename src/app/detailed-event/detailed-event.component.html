@@ -42,11 +42,11 @@
                     </ul>
                 </div>
             </div>
+            <!--Galéria-->
             <div class="col-12 gallery-preview">
-                <ul class="gallery-content-slider">
-
-                </ul>
+                <app-gallery></app-gallery>
             </div>
+            
             <div class="col-12 event-informations-unit">
                 <div class="information-unit-inner">
                     <div class="part-left">
@@ -138,7 +138,7 @@
                                         <h2 class="mb-3"></h2>
                                         <div class="card">
                                         <div class="card-body">
-                                            <div class="row">
+                                            <div class="row nowrap">
                                             <div class="col-md-4 text-center">
                                                 <h1 class="display-4 mt-3 mb-4">4.8</h1>
                                                 <div class="mb-3">
@@ -201,7 +201,7 @@
                                             </div>
                                             </div>
                                             <hr>
-                                            <div class="text-center mt-4">
+                                            <div class="write-review mt-4">
                                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ratingModal">Write a Review</button>
                                             </div>
                                         </div>
@@ -329,7 +329,7 @@
                             <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
                             <div class="split">
                                 <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
-                                <button class="btn btn-primary" type="button" title="Bakancslistára tesz" id="bucketlistButton">
+                                <button (click)="subscribeEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="bucketlistButton">
                                 <i class="bi bi-plus-lg"></i>
                                 </button>
                             </div>

@@ -105,13 +105,14 @@
   }
 }
 
-/* @media only screen and (min-width: 992px), (max-width: 1260px) {
-  .tag-group {
-      width: 33.33%;
+/*Vélemények blokk*/
+
+@media (min-width: 768px) {
+  .text-center {
+      flex: 0 0 33.33%;
+      max-width: 33.33%;
   }
-} */
-
-
+}
 
 
 
@@ -150,6 +151,10 @@
 
 p {
     margin: 0 0 .75rem;
+}
+
+h1 {
+  padding: 1rem 1rem 0 1rem;
 }
 
 h4 {
@@ -193,6 +198,16 @@ h4 {
     flex-direction: row;
     /*height: 16px;*/
 }
+
+/*Felső blokk*/
+
+.rating {
+  display: flex;
+  padding: 0 1rem 0 1rem;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
 
 /*Bal oldali blokk*/
 .part-left {
@@ -285,6 +300,16 @@ h4 {
 ul .group-value, ul .other-data-value {
   font-weight: 700;
   margin-left: 1.5rem;
+}
+
+.row .nowrap {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-grow: 1;
+}
+
+.write-review {
+  text-align: center;
 }
 
 /*Bal oldali blokk vége*/
@@ -462,6 +487,7 @@ ul .group-value, ul .other-data-value {
   .text-muted {
     /* margin: 0 0 10px; */
     font-size: 0.875em;
+    margin-bottom: 0;
   }
   
   .bi .bi-star, .bi-star-fill, .bi-star-half {

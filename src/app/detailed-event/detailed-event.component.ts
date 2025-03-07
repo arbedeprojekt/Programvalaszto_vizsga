@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { BaseService } from '../base.service';
 import { ActivatedRoute } from '@angular/router';
+import Lightbox from 'bs5-lightbox';
 
 @Component({
   selector: 'app-detailed-event',
@@ -10,6 +11,9 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './detailed-event.component.css'
 })
 export class DetailedEventComponent {
+
+  backendUrl = "http://127.0.0.1:8000/api/"
+
 
   events:any
   tags: any
@@ -24,7 +28,7 @@ export class DetailedEventComponent {
   //Ez az információs blokkhoz kell, mert nem akarom az összes adatot visszaadni az events-ből
   otherDatas = ["weblink", "gpx"]
 
-  constructor(private http:HttpClient, private base:BaseService, private route: ActivatedRoute,) {
+  constructor(private http:HttpClient, private base:BaseService, private route: ActivatedRoute) {
 
     //a restApi-ból szerzett adatokat kiíratjuk
     this.getDataFromApi()
@@ -110,6 +114,59 @@ export class DetailedEventComponent {
     )
   }
 
+//feliratkozás az eseményre
+  subscribeEvent(data: any) {
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+    let body = {
+      events_id: data.id,
+      comment: ""
+    }
+    this.http.post(this.backendUrl+"subscribe", body, { headers }).subscribe(
+      {
+        next: (res: any) => {
+          // console.log("új esemény felvétele: ",res)
+          if (res.success == false) {
+            console.log("hibaüzenetek: ", res.error)
+
+          }
+          //ahoz hogy az oldal újrafrissüljön.
+          else {
+            console.log("Sikeres új esemény felvétel: ", res)
+
+            alert("Sikeres feliratkozás!")
+
+
+          }
+
+        },
+        error: (error: any) => {
+          //  console.log("Valami hiba történt az új esemény felvétele során: ",error)
+           alert("Már fel vagy iratkozva!")
+        }
+      }
+    )
+    data = {}
+  }
+
+  unsubscribeEvent(data:any){
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+
+    this.http.delete(this.backendUrl+`unsubscribe/${data.id}`,{headers}).subscribe(
+      {
+        next:(res:any)=>{
+          console.log("sikeres leiratkozás: ",res)
+          alert("Sikeresen leiratkoztál!")
+
+        },
+        error:(error:any)=>{
+          console.log("Valami hiba: ",error)
+          alert("Nem vagy még felíratkozva az adott eseményre!")
+        }
+      }
+    )
+  }
 
 
 

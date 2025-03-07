@@ -28,6 +28,7 @@ import { CardPaginationComponent } from './card-pagination/card-pagination.compo
 import { FooterComponent } from './footer/footer.component';
 import { EventsSubscribedComponent } from './events-subscribed/events-subscribed.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GalleryComponent } from './gallery/gallery.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     DatepickerRangePopupComponent,
     CardPaginationComponent,
     FooterComponent,
-    EventsSubscribedComponent
+    EventsSubscribedComponent,
+    GalleryComponent
 
   ],
   imports: [
