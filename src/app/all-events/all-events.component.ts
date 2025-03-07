@@ -52,6 +52,10 @@ export class AllEventsComponent {
   backendUrl = "http://127.0.0.1:8000/api/"
   isSearch = false;
 
+// Felíratkozások megtekintése
+saveSuscribedEvents:any=[]
+
+
 
 
   constructor(private http: HttpClient, private auth: AuthService, private base: BaseService) {
@@ -106,7 +110,7 @@ export class AllEventsComponent {
 
   get paginatedEvents(): any[] {
     if (!this.events || !Array.isArray(this.events)) {
-      console.log("az events üres vót, tartalma: ", this.events);
+      // console.log("az events üres vót, tartalma: ", this.events);
       return [];
     }
     const start = (this.currentPage - 1) * this.itemsPerPage;
@@ -116,7 +120,7 @@ export class AllEventsComponent {
   }
   get paginatedSearchedEvents(): any[] {
     if (!this.searchResults || !Array.isArray(this.searchResults)) {
-      console.log("az events üres vót, tartalma: ", this.searchResults);
+      // console.log("az events üres vót, tartalma: ", this.searchResults);
       return [];
     }
     const start = (this.currentPage - 1) * this.itemsPerPage;
@@ -175,7 +179,7 @@ export class AllEventsComponent {
       )
 
       //a keresett tartalmak szűréséhez
-      if(this.isSearch == true){
+      if (this.isSearch == true) {
         this.searchResults = this.searchResults.sort(
           (a: any, b: any) => {
 
@@ -201,7 +205,7 @@ export class AllEventsComponent {
 
       //a keresett tartalmak szűréséhez
 
-      if(this.isSearch == true){
+      if (this.isSearch == true) {
         this.searchResults = this.searchResults.sort(
           (a: any, b: any) => {
 
@@ -227,7 +231,7 @@ export class AllEventsComponent {
 
       //a keresett tartalmak szűréséhez
 
-      if(this.isSearch == true){
+      if (this.isSearch == true) {
         this.searchResults = this.searchResults.sort(
           (a: any, b: any) => {
 
@@ -251,7 +255,7 @@ export class AllEventsComponent {
 
       //a keresett tartalmak szűréséhez
 
-      if(this.isSearch == true){
+      if (this.isSearch == true) {
         this.searchResults = this.searchResults.sort(
           (a: any, b: any) => {
 
@@ -265,7 +269,7 @@ export class AllEventsComponent {
     }
 
     // console.log("szortírozás után : ", this.sortedEventsArray)
-    if(this.searchControl.value ===''){
+    if (this.searchControl.value === '') {
       this.searchResults = []
     }
   }
@@ -287,6 +291,7 @@ export class AllEventsComponent {
     }
     return this.http.get<string[]>(`${this.backendUrl}searchevents/?query=${query}`, { headers }).pipe(
       map((response: any) => response.data),
+
       // distinctUntilChanged()
     )
     // GET kérés küldése a backendnek
@@ -294,10 +299,10 @@ export class AllEventsComponent {
 
   searchOnPress() {
     console.log("keresés")
-    if(this.searchControl.value === ''){
+    if (this.searchControl.value === '') {
       this.isSearch = false
     }
-    else{
+    else {
       this.isSearch = true
       this.search(this.searchControl.value).subscribe(
         {
@@ -312,6 +317,60 @@ export class AllEventsComponent {
 
   }
 
+
+  //felíratkozás az eseményre
+  subscribeEvent(data: any) {
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+    let body = {
+      events_id: data.id,
+      comment: ""
+    }
+    this.http.post(this.backendUrl+"subscribe", body, { headers }).subscribe(
+      {
+        next: (res: any) => {
+          // console.log("új esemény felvétele: ",res)
+          if (res.success == false) {
+            console.log("hibaüzenetek: ", res.error)
+
+          }
+          //ahoz hogy az oldal újrafrissüljön.
+          else {
+            console.log("Sikeres új esemény felvétel: ", res)
+
+            alert("Sikeres felíratkozás!")
+
+
+          }
+
+        },
+        error: (error: any) => {
+          //  console.log("Valami hiba történt az új esemény felvétele során: ",error)
+           alert("Már fel vagy íratkozva!")
+        }
+      }
+    )
+    data = {}
+  }
+
+  unsubscribeEvent(data:any){
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+
+    this.http.delete(this.backendUrl+`unsubscribe/${data.id}`,{headers}).subscribe(
+      {
+        next:(res:any)=>{
+          console.log("sikeres leíratkozás: ",res)
+          alert("Sikeresen leíratkoztál!")
+
+        },
+        error:(error:any)=>{
+          console.log("Valami hiba: ",error)
+          alert("Nem vagy még felíratkozva az adott eseményre!")
+        }
+      }
+    )
+  }
 
 
 

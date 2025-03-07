@@ -1,12 +1,71 @@
-<div *ngFor="let user of users" class="row">
-  <div class="col">{{user.email}}</div>
-  <div class="col">
-     <button  type="button" (click)="addAdmin(user.uid)" class="btn btn-primary">Admin</button>
+<div class="container" *ngIf='localStorage.getItem("admin") != "0"'>
+  <h1 class="">Felhasználók</h1>
+
+
+  <!-- <div id="titleNewEvent">ÚJ PROGRAM FELVÉTELE</div> -->
+  <!-- Új rekord felvétele -->
+  <!-- <div class="" id="newDataInputsContainer">
+   <div  class="" id="newDataInputs">
+     <div *ngFor="let newEvent of newEvents; let y =index" class="col-common" id="newEvents">
+       <label class="form-label form-label-sm">{{newEvent}}</label>
+       <input [(ngModel)]="newCikk[newEvent]" type="text" class="form-control form-control-sm input-common" [id]="'input-' + y" placeholder="">
+     </div>
+   </div>
+   <div class="button" id="saveButton">
+     <div  class="button-group">
+         <button  (click)="newData()" type="button" class="btn btn-primary btn-sm">Mentés</button>
+     </div>
+   </div>
+ </div>
+ <br>
+
+ <div class="table-container">
+   <div class="scrollable-content"> -->
+  <!-- Fejléc Kiíratás -->
+  <div class="row header-row">
+    <div *ngFor="let column of columnNameDisplay" class="col" id="fejlec">
+      {{column}}
+    </div>
+    <div class="col-actions" id="ures"></div>
   </div>
-  <div class="col">
-     <button  type="button" (click)="getCleims(user.uid)" class="btn btn-primary">Get Claims</button>
+
+  <!-- Táblázat megjelenítése -->
+
+  <div *ngFor="let cikk of cikkek.data; let i = index" class="row align-items-center">
+    <div  *ngFor="let oszlop of oszlopok"  class="col word-wrap" id="eventsDataCol">
+      <textarea *ngIf="oszlop != 'admin'"  [(ngModel)]="cikk[oszlop]" [readOnly]="oszlop ==='name' || oszlop ==='email'" type="text"
+        class="form-control form-control-sm" id="eventsData"></textarea>
+      <select *ngIf="oszlop === 'admin'" [(ngModel)]="cikk[oszlop]" class="form-control form-control-sm">
+        <option  [value]="0">0 (user)</option>
+        <option  [value]="1">1 (admin)</option>
+        <option  [value]="2">2 (szuperadmin)</option>
+
+      </select>
+
+    </div>
+
+
+
+    <div class="col-actions sticky-actions">
+      <div class="button-group" id="updateDelete">
+        <!-- <button *ngIf="localStorage.getItem('admin') === '1'" class="btn btn-primary btn-sm"
+          [disabled]="cikk['admin'] === 2 || cikk['admin'] === 1 " (click)="updateData(cikk)">Módosít</button> -->
+        <!-- csak a superadminnál aktív -->
+        <div>
+          <button class="btn btn-primary btn-sm" (click)="updateData(cikk)">Módosít</button>
+          <button class="btn btn-secondary btn-sm ms-2" (click)="deleteData(cikk)">Törlés</button>
+        </div>
+        <!-- <button *ngIf="localStorage.getItem('admin') === '1'" class="btn btn-primary btn-sm"
+          (click)="updateData(cikk)">Módosít</button> -->
+
+
+
+        <!-- <button *ngIf="localStorage.getItem('admin') === '2'" class="btn btn-secondary btn-sm ms-2"
+          (click)="deleteData(cikk)">Törlés</button> -->
+      </div>
+    </div>
   </div>
 </div>
+<!-- </div> -->
 
-users működik
-{{users}}
+<!-- </div> -->
