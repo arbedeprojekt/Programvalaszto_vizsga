@@ -1,1 +1,38 @@
-<p>events-subscribed works!</p>
+<!-- Adatok a szülőtől: {{data|json}}
+<button (click)="subscribeEvent(data)">Felíratkozás</button> -->
+
+<!-- Adatsub tartalma {{cikkek|json}} -->
+<!-- {{errNewEventMsg|json}}-->  <!--hibaüzenetek megleséséhez új esemény felvétele esetén-->
+<!-- {{errModfyMsg|json}} -->   <!--hibaüzenetek megleséséhez esemény módosítása esetén-->
+<div class="container" >
+  <!-- cikkek:{{cikkek|json}} -->
+  <h1 class="">Programjelentkezéseid</h1>
+
+
+ <div class="table-container">
+  <div *ngIf="cikkek.data.length===0">Nincsenek Felíratkozásaid.</div>
+   <div *ngIf="cikkek.data.length !=0" class="scrollable-content">
+     <!-- Fejléc Kiíratás -->
+     <div class="row header-row">
+       <div *ngFor="let oszlop of columnName" class="col" id="fejlec">
+           {{oszlop}}
+       </div>
+       <div class="col-actions" id="ures"></div>
+     </div>
+
+   <!-- Táblázat megjelenítése -->
+
+     <div *ngFor="let cikk of cikkek.data; let i = index" class="row align-items-center">
+       <div *ngFor="let oszlop of oszlopok" class="col word-wrap" id="eventsDataCol">
+         <textarea [(ngModel)]="cikk[oszlop]" type="text" class="form-control form-control-sm" id="eventsData"></textarea>
+       </div>
+       <div class="col-actions sticky-actions">
+         <div class="button-group" id="updateDelete">
+           <button class="btn btn-secondary btn-sm ms-2" (click)="unsubscribe(cikk)" >Leíratkozás</button>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+
+</div>

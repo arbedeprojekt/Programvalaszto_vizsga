@@ -7,7 +7,6 @@
 
 <!-- <button (click)="toSort()">Gomb</button> -->
 
-
 <!--Beltartalom alap befoglaló-->
 <div class="container p-lg-0">
   <div class="yahoobar">
@@ -28,8 +27,11 @@
       <div class="pg-8 order-2">
         <div class="pager-top">
           <div class="pager" id="pager-lapozo-top">
-            <div *ngIf="isSearch == false || searchControl.value ==''" class="count" id="pagerCount">{{events.length}} találat</div>
-            <div *ngIf="isSearch == true && searchControl.value !=''" class="count" id="pagerCount">{{searchResults.length}} találat</div>
+            <div
+              *ngIf="(isSearch == false && searchControl.value ==null)||(isSearch == false && searchControl.value =='')"
+              class="count" id="pagerCount">{{events.length}} találat</div>
+            <div *ngIf="isSearch == true && searchControl.value !=''" class="count" id="pagerCount">
+              {{searchResults.length}} találat</div>
             <!--itt vissza kell adnia, hogy hány db aktív státuszú eseményt talált az adatbázisban (vagyis hány darabot lehet megnézni az oldalon)-->
           </div>
           <div class="separator">|</div>
@@ -152,7 +154,7 @@
       <div class="filterpanel-wrapper -desktop">
         <div class="filterpanel">
           <div class="sections">
-            <div class="section">
+            <!-- <div class="section">
               <div class="section-inner">
                 <h3 class="section-header"></h3>
                 <div class="section-content">
@@ -174,6 +176,20 @@
                       tag-3 tartalom
                     </label>
                   </div>
+                </div>
+              </div>
+            </div> -->
+            <div class="section">
+              <div class="section-inner">
+                <h3 class="section-header"></h3>
+                <div class="section-content">
+                  <div *ngFor="let tag of tags" class="filter-item -checkbox">
+                    <input type="checkbox" id={{tag.name}}>
+                    <label for={{tag.name}} class="form-check-label">
+                      {{tag.name}}
+                    </label>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -217,7 +233,7 @@
     <!--fő tartalom - jobb oldal-->
     <div class="col-12 g10-xl-8 order-2">
       <!--kártyák-->
-      <div class="content-cards" *ngIf="(searchControl.value === '' ||searchControl.value ==null)">
+      <div class="content-cards" *ngIf="(searchControl.value === '' ||searchControl.value ==null)&& isSearch == false">
         <div class="row events -grid">
           <div *ngFor="let event of paginatedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
             <div class="card">
@@ -263,17 +279,26 @@
                 <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
                 <p class="card-text" style="display: inline-block;" id="description"><small
                     class="text-body-secondary">{{event.description}}</small></p>
+                <div>
+
+                </div>
+
               </div>
             </div>
+            <button (click)="subscribeEvent(event)">Felíratkozás</button>
+            <!-- <button (click)="unsubscribeEvent(event)">Leíratkozás</button> -->
+
+            <!-- <app-events-subscribed [data] ="events"></app-events-subscribed> -->
+
           </div>
         </div>
       </div>
       <!--Kártyák felépítésének vége-->
 
       <!-- Keresés eredményeinek megjelenítése -->
-       <div *ngIf="isSearch == true && searchControl.value !='' ">
-        Találatok száma|{{searchResults.length}}
-       </div>
+      <div *ngIf="isSearch == true && searchControl.value !='' ">
+        <!-- Találatok száma|{{searchResults.length}} -->
+      </div>
       <div class="content-cards" *ngIf="searchControl.value != '' && isSearch == true">
         <div class="row events -grid">
           <div *ngFor="let event of paginatedSearchedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
@@ -322,13 +347,20 @@
                     class="text-body-secondary">{{event.description}}</small></p>
               </div>
             </div>
+            <button (click)="subscribeEvent(event)">Felíratkozás</button>
+            <!-- <button (click)="unsubscribeEvent(event)">Leíratkozás</button> -->
+
           </div>
+
         </div>
+
       </div>
 
-      <div  *ngIf= "searchResults.length ==0 && isSearch ==true ">
+      <div *ngIf="searchResults.length ==0 && isSearch ==true ">
         <h1>Nincs találat</h1>
       </div>
+
+
 
 
       <!--Navigációs sáv-->
@@ -345,8 +377,9 @@
       <div class="pager-pagination">
 
 
-          <app-card-pagination [totalItems]="isSearch ? searchResults.length : events.length" [itemsPerPage]="itemsPerPage"
-          [currentPage]="currentPage" (onClick)="changePage($event)"></app-card-pagination>
+        <app-card-pagination [totalItems]="isSearch ? searchResults.length : events.length"
+          [itemsPerPage]="itemsPerPage" [currentPage]="currentPage"
+          (onClick)="changePage($event)"></app-card-pagination>
 
       </div>
     </div>
@@ -355,4 +388,3 @@
   </div>
 
 </div>
-

@@ -24,6 +24,7 @@ const routes: Routes = [
   {path:"events-subscribed",component:EventsSubscribedComponent}
 
 
+
 ];
 
 @NgModule({

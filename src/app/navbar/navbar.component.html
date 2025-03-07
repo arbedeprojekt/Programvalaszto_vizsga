@@ -11,7 +11,7 @@
       <div class="hello-user">
         <a class="navbar-brand"><span *ngIf="loggedIn">Hello {{userName$|async}}!</span></a>
       </div>
-      
+
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -42,7 +42,7 @@
           </li>
           <!--Itt meg kell csinálni, hogy csak superadmin vehessen fel ADMIN jogú felhasználót-->
           <li *ngIf="loggedIn && (userAdmin.source._value == 1 || userAdmin.source._value == 2)" class="nav-item">
-            <a routerLink="/tags" class="nav-link">Felhasználók (admin)</a>
+            <a routerLink="/users" class="nav-link">Felhasználók (admin)</a>
           </li>
           <!--ÁTKERÜLT A JOBB OLDALRA A USER IKONHOZ!!! TÖRÖLHETŐ, HA MINDENKI MEGJEGYEZTE-->
           <!-- <li *ngIf="loggedIn" class="nav-item">
@@ -67,13 +67,13 @@
                 <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" title="Személyes menü">
                   <i class="bi bi-person-circle" style="font-size: 1.2rem;"></i>
                 </a>
-              
+
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <!--Ezt majd úgy kell megcsinálni, hogy csak "szimpla" felhasználónak jelenjen meg-->
                 <li><a routerLink="/events-subscribed" class="dropdown-item" href="#" title="Feliratkozásaim">Feliratkozásaim</a></li> <!--vissza kell adnia a bejelentkezett fejhasználó feliratkozott eseményeinek számát-->
                 <li><a class="dropdown-item" href="#" title="Beállításaim">Beállításaim</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a routerLink="/home" (click)="this.auth.logoutUserFromLaravel()" class="dropdown-item" href="#" title="Kijelentkezés">Kijelentkezés</a></li> 
+                <li><a routerLink="/home" (click)="this.auth.logoutUserFromLaravel()" class="dropdown-item" href="#" title="Kijelentkezés">Kijelentkezés</a></li>
               </ul>
             </div>
           </div>

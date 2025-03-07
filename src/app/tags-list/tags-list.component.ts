@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BaseService } from '../base.service';
+import { LocalStorageService } from '../local-storage.service';
 
 @Component({
   selector: 'app-tags-list',
@@ -27,7 +28,7 @@ export class TagsListComponent {
   oszlopok = ["name", "group"]
   // newTags = []
 
-  constructor(private base: BaseService,) {
+  constructor(private base: BaseService, public localStorage : LocalStorageService) {
     this.getTags()
     this.base.downloadAllTags()
     this.newTagErrorMessage = this.base.newTagErrorMessage
