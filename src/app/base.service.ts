@@ -82,6 +82,14 @@ export class BaseService {
       )
     }
 
+    //lekéri az eseményt id alapján; ezt a részletes oldalhoz használjuk
+    getEventById(id: number) {
+      let token = localStorage.getItem("token")
+      let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
+
+      return this.http.get(this.backendUrl+"/events"+`${id}`,{headers})
+    }
+
 
    //backend adatok lekérése
    downloadAllTags() {

@@ -1,12 +1,3 @@
-<!-- Újdonságok -->
-
-
-
-<!-- sorted Events : {{sortedEventsArray|json}} -->
-
-
-<!-- <button (click)="toSort()">Gomb</button> -->
-
 
 <!--Beltartalom alap befoglaló-->
 <div class="container p-lg-0">
@@ -221,7 +212,7 @@
         <div class="row events -grid">
           <div *ngFor="let event of paginatedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
             <div class="card">
-              <a href="itt kell megadni a program részletes oldalát" class="img" onlcick=";">
+              <a [routerLink]="['/detailed-event/', event.id]" class="img">
                 <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
                 <div class="inner">
                   <img *ngIf="event.image; else noImage" src={{event.image}} class="card-img-top" alt={{event.name}}>
@@ -254,15 +245,20 @@
                     <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
                   </li>
                 </ul>
-                <p class="card-text" style="display: inline-block"><small
-                    class="text-body-secondary">{{event.startDate}}-{{event.endDate}}</small></p>
-                <!--be kell állítani, hogy csak akkor jelenjen meg, ha van adat. Ha nincs dátum adat, akkor valami általános dolgot írjon ki..Pl: Állandó..vagy ilyesmi -->
+                <div class="start-end-date">
+                  <p class="card-text" style="display: inline-block">{{event.startDate && event.startDate !== '0000-00-00' ? event.startDate:eventStartDateNull}}</p>
+                  <span *ngIf="event.endDate && event.endDate !== '0000-00-00'" class="date-separator">-</span>
+                  <p class="card-text" style="display: inline-block">{{event.endDate && event.endDate !== '0000-00-00' ? event.endDate:eventEndDateNull}}</p>	<!--be kell állítani, hogy csak akkor jelenjen meg, ha van adat. Ha nincs dátum adat, akkor valami általános dolgot írjon ki..Pl: Állandó..vagy ilyesmi -->
+                </div>
                 <!-- <p class="card-text" style="display: inline-block; padding-left: 3.8rem;">{{event.startTime}}-{{event.endTime}}</p> be kell állítani, hogy csak akkor jelenjen meg, ha van adat-->
-                <p class="card-text" style="text-align: left; display: inline-block;"><small
-                    class="text-body-secondary">{{event.locationName}}</small></p>
+                <p class="card-text" style="text-align: left; display: inline-block;">{{event.locationName}}</p>
                 <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
-                <p class="card-text" style="display: inline-block;" id="description"><small
-                    class="text-body-secondary">{{event.description}}</small></p>
+                <div class="split">
+                  <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
+                  <button class="btn btn-primary" type="button" title="Bakancslistára tesz">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -271,9 +267,6 @@
       <!--Kártyák felépítésének vége-->
 
       <!-- Keresés eredményeinek megjelenítése -->
-       <div *ngIf="isSearch == true && searchControl.value !='' ">
-        Találatok száma|{{searchResults.length}}
-       </div>
       <div class="content-cards" *ngIf="searchControl.value != '' && isSearch == true">
         <div class="row events -grid">
           <div *ngFor="let event of paginatedSearchedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
@@ -311,15 +304,20 @@
                     <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
                   </li>
                 </ul>
-                <p class="card-text" style="display: inline-block"><small
-                    class="text-body-secondary">{{event.startDate}}-{{event.endDate}}</small></p>
-                <!--be kell állítani, hogy csak akkor jelenjen meg, ha van adat. Ha nincs dátum adat, akkor valami általános dolgot írjon ki..Pl: Állandó..vagy ilyesmi -->
+                <div class="start-end-date">
+                  <p class="card-text" style="display: inline-block">{{event.startDate && event.startDate !== '0000-00-00' ? event.startDate:eventStartDateNull}}</p>
+                  <span *ngIf="event.endDate && event.endDate !== '0000-00-00'" class="date-separator">-</span>
+                  <p class="card-text" style="display: inline-block">{{event.endDate && event.endDate !== '0000-00-00' ? event.endDate:eventEndDateNull}}</p>	<!--be kell állítani, hogy csak akkor jelenjen meg, ha van adat. Ha nincs dátum adat, akkor valami általános dolgot írjon ki..Pl: Állandó..vagy ilyesmi -->
+                </div>
                 <!-- <p class="card-text" style="display: inline-block; padding-left: 3.8rem;">{{event.startTime}}-{{event.endTime}}</p> be kell állítani, hogy csak akkor jelenjen meg, ha van adat-->
-                <p class="card-text" style="text-align: left; display: inline-block;"><small
-                    class="text-body-secondary">{{event.locationName}}</small></p>
+                <p class="card-text" style="text-align: left; display: inline-block;">{{event.locationName}}</p>
                 <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
-                <p class="card-text" style="display: inline-block;" id="description"><small
-                    class="text-body-secondary">{{event.description}}</small></p>
+                <div class="split">
+                  <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
+                  <button class="btn btn-primary" type="button" title="Bakancslistára tesz">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

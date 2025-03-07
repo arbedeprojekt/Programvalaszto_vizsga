@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { BaseService } from '../base.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-detailed-event',
@@ -10,17 +11,24 @@ import { BaseService } from '../base.service';
 })
 export class DetailedEventComponent {
 
-  //A fake api-n lévő adatok eléréséhez szükségs
-  allEventUrl="http://localhost:3000/esemenyek/"
-  //A fake Api adatainak tárolása
-  eventDetails=new BehaviorSubject<any>(null)
-  //Az eventDetails által megszerzett adatok tárolása, hogy a weboldalon megjelenhessen
   events:any
+  tags: any
 
-  constructor(private http:HttpClient, private base:BaseService) {
+  detailedEventId: number | null = null;
+  eventDetails: any;
+  
+  //Mit adjunk vissza, ha nincs érték a dátum mezőkben
+  eventStartDateNull = "Állandó"
+  eventEndDateNull = ""
 
-    //a resApi-ból szerzett adatokat kiíratjuk
+  //Ez az információs blokkhoz kell, mert nem akarom az összes adatot visszaadni az events-ből
+  otherDatas = ["weblink", "gpx"]
+
+  constructor(private http:HttpClient, private base:BaseService, private route: ActivatedRoute,) {
+
+    //a restApi-ból szerzett adatokat kiíratjuk
     this.getDataFromApi()
+    this.getTags()
   }
 
   //eventDeatils-ből az adatok kinyerése
@@ -30,6 +38,22 @@ export class DetailedEventComponent {
         this.events = res.data
       }
     )
+  }
+
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.detailedEventId = +params['id']; // Az ID lekérése a route-ból
+      console.log('Detailed Event ID:', this.detailedEventId);
+    });
+    console.log('Events:', this.events);
+  }
+
+  detailedEvent(id: number | null) {
+    if (id) {
+      this.base.getEventById(id).subscribe(data => {
+        this.eventDetails = data; // Az esemény részleteit beállítjuk
+      });
+    }
   }
 
   //most csak az összes eseményből vesz 4 db-ot, de itt meg kell írni, hogy a hasonló programokból adja vissza a top4-et
@@ -73,6 +97,18 @@ export class DetailedEventComponent {
   //     });
   //   }
   // });
+
+
+
+  //tag-ek betöltése
+  getTags() {
+    this.base.tagsSub.subscribe(
+      (tag: any) => {
+        this.tags = tag.data
+        console.log("res a tag componensből: ", tag)
+      }
+    )
+  }
 
 
 

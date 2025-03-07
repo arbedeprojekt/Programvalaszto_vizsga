@@ -15,37 +15,16 @@ h1{
   margin-top: .5rem;
 }
 
-.events.-grid {
-  margin-left: -.5rem;
-  margin-right: -.5rem;
-}
-
-.events {
-  position: relative;
-  align-items: flex-start;
-}
-
-.e-item.-box:not(.no-pitem-padding) {
-  padding: .5rem;
-}
-
-.e-item.-box {
-  flex-wrap: wrap;
-  padding-top: var(--gutter);
-  padding-bottom: var(--gutter);
-  box-shadow: 0 0 0 0 white;
-}
-
-.e-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+p {
+  margin: 0 0 .75rem;
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
+  margin-right: -.75rem;
+  margin-left: -.75rem;
 }
 
 @media (min-width: 0px) {
@@ -310,7 +289,65 @@ h1{
   display: block;
   height: 160px;
   width: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
+}
+
+
+.events.-grid {
+  margin-left: -.5rem;
+  margin-right: -.5rem;
+}
+
+.events {
+  position: relative;
+  align-items: flex-start;
+}
+
+.e-item.-box:not(.no-pitem-padding) {
+  padding: .5rem;
+}
+
+.e-item.-box {
+  flex-wrap: wrap;
+  padding-top: var(--gutter);
+  padding-bottom: var(--gutter);
+  box-shadow: 0 0 0 0 white;
+}
+
+.e-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.split {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.btn-primary {
+  text-transform: none;
+  background: #fff;
+  align-items: center;
+  margin-left: .5rem;
+  height: 45px;
+  width: 45px;
+  /* position: absolute;          ez lenne a szép elhelyezése a gomnak, de egyelőre nem jött össze..
+  bottom: 1.2rem;
+  right: 1.2rem; */
+}
+
+.bi-plus-lg {
+  color: #0d6efd;
+  display: inline-block;
+  font-style: normal;
+  font-weight: 900 !important;
+  font-size: 1.3rem;
+  padding: auto;
+
 }
 
 .card-img-top {
@@ -325,8 +362,8 @@ h1{
   margin: auto;
   display: flex;
   flex-direction: column;
-  height: 360px;
-  overflow: hidden; 
+  height: 100%;
+  /* overflow: hidden;  */
   border-color: #f0f0f0;
 }
 
@@ -339,22 +376,24 @@ h1{
 }
 
 .card-text {
-  margin: 0 0 7px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-height: calc(1.2em * 3); /* 3 sorig engedi a szöveget */
+  /* margin: 0 0 7px; */
+  max-height: calc(1.2rem * 2); /* 3 sorig engedi a szöveget */
   word-break: break-word;
-  font-size: 1rem;
+  font-size: .875rem;
   justify-content: space-between;
+}
+
+.date-separator {
+  margin: 0 .275rem 0 .275rem;
 }
 
 .text-muted {
   /* margin: 0 0 10px; */
-  font-size: 0.875em;
+  font-size: .875rem;
 }
 
 .bi .bi-star, .bi-star-fill, .bi-star-half {
-  font-size: 0.875em;
+  font-size: .875rem;
 }
 
 .list-inline-item:not(:last-child) {

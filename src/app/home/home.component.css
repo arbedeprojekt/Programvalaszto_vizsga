@@ -307,13 +307,18 @@ p {
   justify-content: space-between;
 }
 
+.date-separator {
+  margin: 0 .275rem 0 .275rem;
+}
+
 .text-muted {
   /* margin: 0 0 10px; */
-  font-size: 0.875em;
+  font-size: .875rem;
 }
 
 .bi .bi-star, .bi-star-fill, .bi-star-half {
-  font-size: 0.875em;
+  font-size: .875rem;
+  margin-right: 0;
 }
 
 .list-inline-item:not(:last-child) {

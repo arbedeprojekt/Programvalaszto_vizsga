@@ -29,6 +29,10 @@ export class AllEventsComponent {
   currentPage = 1;
   itemsPerPage = 12;
 
+  //mit írjon a kártyára, ha nincs dátum érték
+  eventStartDateNull = "Állandó"
+  eventEndDateNull = ""
+
   //user tárolása
   user: any
   dataFromApi: any
@@ -83,6 +87,9 @@ export class AllEventsComponent {
       }
     )
   }
+
+  
+
 
   // Oldalszám beállítása
   changePage(page: number) {
@@ -164,11 +171,9 @@ export class AllEventsComponent {
           // console.log("a értéke: ", a)
           // console.log("b értéke: ", b)
           return a.name.localeCompare(b.name)
-
-
-
         }
       )
+
       //a keresett tartalmak szűréséhez
       if(this.isSearch == true){
         this.searchResults = this.searchResults.sort(
@@ -177,11 +182,7 @@ export class AllEventsComponent {
             // console.log("a értéke: ", a)
             // console.log("b értéke: ", b)
             return a.name.localeCompare(b.name)
-
-
-
           }
-
         )
       }
     }
@@ -195,9 +196,7 @@ export class AllEventsComponent {
           // console.log("a értéke: ", a)
           // console.log("b értéke: ", b)
           return b.name.localeCompare(a.name)
-
         }
-
       )
 
       //a keresett tartalmak szűréséhez
@@ -209,11 +208,7 @@ export class AllEventsComponent {
             // console.log("a értéke: ", a)
             // console.log("b értéke: ", b)
             return b.name.localeCompare(a.name)
-
-
-
           }
-
         )
       }
     }
@@ -227,9 +222,7 @@ export class AllEventsComponent {
           // console.log("a értéke: ", a)
           // console.log("b értéke: ", b)
           return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
-
         }
-
       )
 
       //a keresett tartalmak szűréséhez
@@ -241,14 +234,9 @@ export class AllEventsComponent {
             // console.log("a értéke: ", a)
             // console.log("b értéke: ", b)
             return new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
-
-
-
           }
-
         )
       }
-
     }
 
     else if (terms === "descByDate") {
@@ -257,13 +245,8 @@ export class AllEventsComponent {
       this.sortedEventsArray = this.sortedEventsArray.sort(
         (a: any, b: any) => {
 
-
-
-
           return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
-
         }
-
       )
 
       //a keresett tartalmak szűréséhez
@@ -275,11 +258,7 @@ export class AllEventsComponent {
             // console.log("a értéke: ", a)
             // console.log("b értéke: ", b)
             return new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
-
-
-
           }
-
         )
       }
 

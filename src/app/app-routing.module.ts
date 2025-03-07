@@ -20,7 +20,8 @@ const routes: Routes = [
   {path:"users",component:UsersComponent},
   {path:"galeries",component:AllEventsComponent},
   {path:"tags",component:TagsListComponent},
-  {path:"detailed-event",component:DetailedEventComponent},
+  {path:"detailed-event/:id",component:DetailedEventComponent},
+  {path:"detailed-event",component:DetailedEventComponent},   //ezt majd törölni kell a végén..
   {path:"events-subscribed",component:EventsSubscribedComponent}
 
 

@@ -22,6 +22,9 @@ export class HomeComponent implements OnInit {
   //cols =["name", "description", "locationName", "locationcountry", "address", "gpsLink", "weblink", "startDate", "endDate", "startTime", "endTime"]
 
 
+  eventStartDateNull = "Állandó"
+  eventEndDateNull = ""
+
   constructor(private http:HttpClient, private base:BaseService) {
     //Az fake-api-ból megszerezzük az adatokat
   //   this.http.get(this.allEventUrl).subscribe((response:any)=>{
@@ -52,8 +55,6 @@ export class HomeComponent implements OnInit {
   getDataFromApi(){
     this.base.adatSub.subscribe(
       (res:any) => {
-
-
         this.events = res.data
       }
     )
