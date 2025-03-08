@@ -15,9 +15,10 @@ export class BaseService {
   //Backend elérése
   backendUrl = "http://127.0.0.1:8000/api/"
 
-
+  token:any
   // Ebben az objektum típusú változóban tároljuk a downloadAll metódusban megszerzett adatokat
-  adatSub = new BehaviorSubject<any>(null)
+  eventsAllSub = new BehaviorSubject<any>(null)
+  myEvents =  new BehaviorSubject<any>(null)
 
   //Ebben fognak tárolódni a backend tags adatok
   tagsSub = new BehaviorSubject<any>(null)
@@ -146,7 +147,9 @@ export class BaseService {
   //#region Események kezelése
   //visszatér az adatSub metódussal, ami a backendből kinyert adatokat tartalmazza
   getAll() {
-    return this.adatSub
+    // let token = localStorage.getItem("token")
+    // if (token) return this.myEvents
+    return this.eventsAllSub
   }
 
   downloadAll() {
@@ -154,11 +157,40 @@ export class BaseService {
     // let headers = new HttpHeaders().set("Authorization",`Bearer ${token}`)
     this.http.get(this.backendUrl + "events").subscribe(
       (res: any) => {
-        this.adatSub.next(res)
+        this.eventsAllSub.next(res)
       }
+     
 
     )
+  
   }
+
+  getAllMyEvents()
+  {
+    let token = localStorage.getItem("token")
+    if (token) {
+      console.log("Van token és lekérem az eseméyneket!!!!")
+      let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+      console.log("headers", token)
+      this.http.get(this.backendUrl + "getsubscriptions", { headers }).subscribe(
+        {
+        next:(res: any) =>
+               {
+                console.log("Api válasz (My Events)", res)
+                    let events=[]
+                    for (const element of res.data) {
+                      events.push(element.event)          
+                    }
+                    this.myEvents.next(events)
+                  },
+      error: (err)=>{
+        console.log("HIbaaaa!!!!",err)
+      }
+      }
+    )
+  }
+  }
+
 
   //új esemény felvétele
   newDataWeb(data: any) {

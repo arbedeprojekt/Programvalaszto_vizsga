@@ -1,3 +1,4 @@
+<!-- {{user|json}} -->
 <header class="header unfixed">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -9,7 +10,7 @@
         </div>
       </div>
       <div class="hello-user">
-        <a class="navbar-brand"><span *ngIf="loggedIn">Hello {{userName$|async}}!</span></a>
+        <a class="navbar-brand"><span *ngIf="user">Hello {{user.name}}!</span></a>
       </div>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -21,27 +22,27 @@
           <li class="nav-item">
             <a routerLink="/home" class="nav-link active" aria-current="page" href="#">Főoldal</a>
           </li>
-          <li *ngIf="loggedIn" class="nav-item">
+          <li *ngIf="user" class="nav-item">
             <a routerLink="/all-events" class="nav-link">Események</a>
           </li>
-          <li *ngIf="loggedIn" class="nav-item">
+          <li *ngIf="user" class="nav-item">
             <a routerLink="/detailed-event" class="nav-link">Részletes esemény oldal</a>
           </li>
           <!--ÁTKERÜLT A JOBB OLDALRA A USER IKONHOZ!!! TÖRÖLHETŐ, HA MINDENKI MEGJEGYEZTE-->
           <!-- <li *ngIf="!loggedIn" class="nav-item">
             <a routerLink="/login" class="nav-link">Bejelentkezés</a>
           </li> -->
-          <li *ngIf="!loggedIn" class="nav-item">
+          <li *ngIf="!user" class="nav-item">
             <a routerLink="/registration" class="nav-link">Regisztráció</a>
           </li>
-          <li *ngIf="loggedIn && (userAdmin.source._value == 1 || userAdmin.source._value == 2)" class="nav-item">
+          <li *ngIf="user && (user.admin == 1 || user.admin == 2)" class="nav-item">
             <a routerLink="/admin" class="nav-link">Események (admin)</a>
           </li>
-          <li *ngIf="loggedIn && (userAdmin.source._value == 1 || userAdmin.source._value == 2)" class="nav-item">
+          <li *ngIf="user && (user.admin == 1 || user.admin == 2)" class="nav-item">
             <a routerLink="/tags" class="nav-link">Címkék (admin)</a>
           </li>
           <!--Itt meg kell csinálni, hogy csak superadmin vehessen fel ADMIN jogú felhasználót-->
-          <li *ngIf="loggedIn && (userAdmin.source._value == 1 || userAdmin.source._value == 2)" class="nav-item">
+          <li *ngIf="user && (user.admin == 1 || user.admin == 2)" class="nav-item">
             <a routerLink="/users" class="nav-link">Felhasználók (admin)</a>
           </li>
           <!--ÁTKERÜLT A JOBB OLDALRA A USER IKONHOZ!!! TÖRÖLHETŐ, HA MINDENKI MEGJEGYEZTE-->
@@ -58,12 +59,12 @@
             </a>
           </div>
           <div class="navbar-right-icons">
-            <div *ngIf="!loggedIn" class="user-login">
+            <div *ngIf="!user" class="user-login">
               <a routerLink="/login" class="login-button" href="" title="Bejelentkezés">
                 <i class="bi bi-person-circle" style="font-size: 1.2rem;"></i>
               </a>
             </div>
-            <div *ngIf="loggedIn" class="dropdown user-menu logged-in">
+            <div *ngIf="user" class="dropdown user-menu logged-in">
                 <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" title="Személyes menü">
                   <i class="bi bi-person-circle" style="font-size: 1.2rem;"></i>
                 </a>

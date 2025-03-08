@@ -4,38 +4,45 @@
 <!-- Adatsub tartalma {{cikkek|json}} -->
 <!-- {{errNewEventMsg|json}}-->  <!--hibaüzenetek megleséséhez új esemény felvétele esetén-->
 <!-- {{errModfyMsg|json}} -->   <!--hibaüzenetek megleséséhez esemény módosítása esetén-->
-<div class="container" >
-  <!-- cikkek:{{cikkek|json}} -->
+<!-- {{events|json}}
+
+<div class="container" > -->
+  <!-- subscribeEvents:{{  subscribedEvents[0].event|json
+}} -->
+<!-- <div style="background-color: aquamarine;"> -->
+  <!-- allEvents: {{events|json}} -->
+<!-- </div>
+
   <h1 class="">Program feliratkozásaid</h1>
 
 
  <div class="table-container">
-  <div *ngIf="subscribedEvents.data.length===0">Nincsenek Feliratkozásaid.</div>
-   <div *ngIf="subscribedEvents.data.length !=0" class="scrollable-content">
+  <div *ngIf="events.length===0">Nincsenek Feliratkozásaid.</div>
+   <div *ngIf="events.length !=0" class="scrollable-content"> -->
      <!-- Fejléc Kiíratás -->
-     <div class="row header-row">
+     <!-- <div class="row header-row">
        <div *ngFor="let oszlop of columnName" class="col" id="fejlec">
            {{oszlop}}
        </div>
        <div class="col-actions" id="ures"></div>
-     </div>
+     </div> -->
 
    <!-- Táblázat megjelenítése -->
 
-     <div *ngFor="let subscribedEvent of subscribedEvents.data; let i = index" class="row align-items-center">
+     <!-- <div *ngFor="let event of events; let i = index" class="row align-items-center">
        <div *ngFor="let oszlop of oszlopok" class="col word-wrap" id="eventsDataCol">
-         <textarea [(ngModel)]="subscribedEvent[oszlop]" type="text" class="form-control form-control-sm" id="eventsData"></textarea>
+         <textarea [(ngModel)]="event[oszlop]" type="text" class="form-control form-control-sm" id="eventsData"></textarea>
        </div>
        <div class="col-actions sticky-actions">
          <div class="button-group" id="updateDelete">
-           <button class="btn btn-secondary btn-sm ms-2" (click)="unsubscribe(subscribedEvent)" >Leiratkozás</button>
+           <button class="btn btn-secondary btn-sm ms-2" (click)="unsubscribe(event)" >Leiratkozás</button>
          </div>
        </div>
      </div>
    </div>
  </div>
 
-</div>
+</div> -->
 
 
 <!--Beltartalom alap befoglaló-->
@@ -48,8 +55,8 @@
     </div>
   </div>
   <!--Beltartalom befoglaló-->
-  <div class="none-subscription" *ngIf="subscribedEvents.data.length===0">Nincsenek Feliratkozásaid.</div>
-  <div *ngIf="subscribedEvents.data.length !=0" class="row g10">
+<div class="none-subscription" *ngIf="events.length===0">Nincsenek Feliratkozásaid.</div>
+  <div *ngIf="events.length !=0" class="row g10">
     <div>
       <h1>Feliratkozott programjaid</h1>
     </div>
@@ -221,7 +228,7 @@
       <!--kártyák-->
       <div class="content-cards" *ngIf="(searchControl.value === '' ||searchControl.value ==null)&& isSearch == false">
         <div class="row events -grid">
-          <div *ngFor="let event of paginatedSubscribedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
+          <div *ngFor="let event of paginatedEvents " class="e-item -box col-6 col-md-4 col-lg-3">
             <div class="card">
               <a [routerLink]="['/detailed-event/', event.id]" class="img">
                 <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
@@ -285,7 +292,7 @@
       <!-- Keresés eredményeinek megjelenítése -->
       <div class="content-cards" *ngIf="searchControl.value != '' && isSearch == true">
         <div class="row events -grid">
-          <div *ngFor="let event of paginatedSearchedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
+          <div *ngFor="let event of paginatedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
             <div class="card">
               <a [routerLink]="['/detailed-event/', event.id]" class="img">
                 <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->

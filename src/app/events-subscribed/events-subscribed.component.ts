@@ -18,47 +18,51 @@ export class EventsSubscribedComponent {
   backendUrl = "http://127.0.0.1:8000/api/"
 
   // A táblázat megjelenítéséhez
-  oszlopok = ["events_id", "comment"]
+  // oszlopok = ["events_id", "comment"]
+  oszlopok =["image","name", "description", "startDate", "endDate", "startTime", "endTime", "locationName", "locationcountry", "address", "state", "gpx", "weblink"]
   //A fejléc magyar megjelenítéséhez
   columnName = ["Esemény azonosítója", "Kommentek"]
 
 
-  subscribedEvents:any
+  subscribedEvents: any
   // cikkekObs: Observable<any | null> = this.cikkek.asObservable()
 
   eventDetails = new BehaviorSubject<any>(null)
-  
-    clickedEventDetails: any = {};
-    events: any[] = [];
-    galleries: any
-  
-    //oldal lapozóhoz kapcsolódik
-    currentPage = 1;
-    itemsPerPage = 12;
-  
-    //mit írjon a kártyára, ha nincs dátum érték
-    eventStartDateNull = "Állandó"
-    eventEndDateNull = ""
-  
-    //user tárolása
-    user: any
-    dataFromApi: any
-  
-    //Az ábc sorrend megvalósításához
-    selectedOption: any
-    eventsArray = []
-    sortedEventsArray: any
-  
-    //tegeknek
-    tags: any
-    groups: any
-  
-    //A szabadszavas kereséshez
-    searchControl = new FormControl();
-    searchResults: any[] = [];
-    isSearch = false;
 
-  constructor(private http: HttpClient, localStorage: LocalStorageService, private base:BaseService) {
+  clickedEventDetails: any = {};
+  events: any
+  galleries: any
+
+  //oldal lapozóhoz kapcsolódik
+  currentPage = 1;
+  itemsPerPage = 12;
+
+  //mit írjon a kártyára, ha nincs dátum érték
+  eventStartDateNull = "Állandó"
+  eventEndDateNull = ""
+
+  //user tárolása
+  user: any
+  dataFromApi: any
+
+  //Az ábc sorrend megvalósításához
+  selectedOption: any
+  eventsArray = []
+  sortedEventsArray: any
+
+  //tegeknek
+  tags: any
+  groups: any
+
+  //A szabadszavas kereséshez
+  searchControl = new FormControl();
+  searchResults: any[] = [];
+  isSearch = false;
+
+  //felíratkozott id-k tárolása:
+  subscribedID:any=[]
+
+  constructor(private http: HttpClient, localStorage: LocalStorageService, private base: BaseService) {
     // let token = localStorage.getItem("token")
     // let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
     // this.http.get(this.backendUrl + "getsubscriptions", { headers }).subscribe(
@@ -72,11 +76,12 @@ export class EventsSubscribedComponent {
     //     }
     //   }
     // )
+    this.base.getAllMyEvents()
     this.getDataFromApi()
     this.getTags()
     this.base.downloadAllTags()
-    this.toSort("ascByABC");
-    this.getSubscribeEvents()
+    // this.toSort("ascByABC");
+    // this.getSubscribeEvents()
   }
 
   //ezt ki kell egészíteni a többi adattal is, ami meg tud jelenni a kártyákon, mert jelenleg nem jó így...
@@ -96,8 +101,10 @@ export class EventsSubscribedComponent {
           }
           //ahoz hogy az oldal újrafrissüljön.
           else {
+            this.base.getAllMyEvents()
             console.log("Sikeres új esemény felvétel: ", res)
-            alert("Sikeres felíratkozás!")
+            // alert("Sikeres felíratkozás!")
+
           }
         },
         error: (error: any) => {
@@ -113,7 +120,8 @@ export class EventsSubscribedComponent {
     let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
 
     this.http.delete(this.backendUrl + `unsubscribe/${data.events_id}`, { headers }).subscribe(
-      {next: (res: any) => {
+      {
+        next: (res: any) => {
           console.log("sikeres leiratkozás: ", res)
           window.location.reload();
           alert("Sikeresen leiratkoztál!")
@@ -125,28 +133,30 @@ export class EventsSubscribedComponent {
       })
   }
 
-  getSubscribeEvents(){
-    let token = localStorage.getItem("token")
-    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-    this.http.get(this.backendUrl + "getsubscriptions", { headers }).subscribe(
-      {
-        next: (res: any) => {
-          this.subscribedEvents = res
-          console.log("siker", res)
-        },
-        error: (error: any) => {
-          console.log("hiba", error)
-        }
-      }
-    )
-  }
+  // getSubscribeEvents() {
+  //   let token = localStorage.getItem("token")
+  //   let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+  //   this.http.get(this.backendUrl + "getsubscriptions", { headers }).subscribe(
+  //     {
+  //       next: (res: any) => {
+
+  //         console.log(res.data)
+  //         this.subscribedEvents = res
+  //          console.log("siker", res)
+  //       },
+  //       error: (error: any) => {
+  //         console.log("hiba", error)
+  //       }
+  //     }
+  //   )
+  // }
 
   getDataFromApi() {
-    this.base.adatSub.subscribe(
+    this.base.myEvents.subscribe(
       (res: any) => {
-        this.events = res.data
-        this.eventsArray = res.data
-        this.sortedEventsArray = this.eventsArray
+        console.log("MyEvents", res)       
+        this.events = res
+      
 
       }
     )
@@ -157,30 +167,41 @@ export class EventsSubscribedComponent {
     this.currentPage = page;
   }
 
-  // get paginatedEvents(): any[] {
-  //   if (!this.events || !Array.isArray(this.events)) {
-  //     // console.log("az events üres vót, tartalma: ", this.events);
-  //     return [];
-  //   }
-  //   const start = (this.currentPage - 1) * this.itemsPerPage;
-  //   const end = start + this.itemsPerPage;
-
-  //   return this.events.slice(start, end);      
-  // }
-  get paginatedSearchedEvents(): any[] {
-    if (!this.searchResults || !Array.isArray(this.searchResults)) {
-      // console.log("az events üres vót, tartalma: ", this.searchResults);
+  get paginatedEvents(): any[] {
+    if (!this.events || !Array.isArray(this.events)) {
+      // console.log("az events üres vót, tartalma: ", this.events);
       return [];
     }
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
 
-    return this.searchResults.slice(start, end);    
+    return this.events.slice(start, end);      
   }
+  // get paginatedSearchedEvents(): any[] {
+  //   if (!this.searchResults || !Array.isArray(this.searchResults)) {
+  //     // console.log("az events üres vót, tartalma: ", this.searchResults);
+  //     return [];
+  //   }
+  //   const start = (this.currentPage - 1) * this.itemsPerPage;
+  //   const end = start + this.itemsPerPage;
+
+  //   return this.searchResults.slice(start, end);
+  // }
+
+  // get paginatedSubscribedEvents(): any[] {
+  //   if (!this.subscribedEvents || !Array.isArray(this.subscribedEvents)) {
+  //     console.log("az events üres vót, tartalma: ", this.events);
+  //     return [];
+  //   }
+  //   const start = (this.currentPage - 1) * this.itemsPerPage;
+  //   const end = start + this.itemsPerPage;
+
+  //   return this.subscribedEvents.slice(start, end);
+  // }
 
   get paginatedSubscribedEvents(): any[] {
     if (!this.subscribedEvents || !Array.isArray(this.subscribedEvents)) {
-      // console.log("az events üres vót, tartalma: ", this.events);
+      console.log("az events üres vót, tartalma: ", this.events);
       return [];
     }
     const start = (this.currentPage - 1) * this.itemsPerPage;
@@ -188,6 +209,8 @@ export class EventsSubscribedComponent {
 
     return this.subscribedEvents.slice(start, end);
   }
+
+  
 
   filterByABCAsc() {
     console.log("növekvő sorrend!!")

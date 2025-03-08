@@ -11,37 +11,41 @@ export class NavbarComponent {
 
   // Ebben tárolom el a user adatait, és ezen keresztül jelzem a felhasználónak
   //a sikeres belépését.
-  user:any
+  user: any
 
-  userName$:any
-  userToken:any
-  userAdmin:any
+  userName$: any
+  userToken: any
+  userAdmin: any
   loggedIn = false
-  constructor(public auth:AuthService, private localStorage:LocalStorageService){
+  constructor(public auth: AuthService, private localStorage: LocalStorageService) {
     this.auth.getLoggedUser().subscribe(
-      (u)=>this.user=u
+      (u) => {
+        this.user = u
+        console.log("user", u.name)
+      }
+
     )
 
-    this.userName$ = this.auth.userName
-    setInterval(()=>{
-      if(this.localStorage.getItem("user")==null ){
-        console.log("A localstorage üres")
-        this.loggedIn = false
-      }
-      else{
+    // this.userName$ = this.auth.userName
+    // setInterval(()=>{
+    //   if(this.localStorage.getItem("user")==null ){
+    //     console.log("A localstorage üres")
+    //     this.loggedIn = false
+    //   }
+    //   else{
 
-        console.log("A localstorage nem üres, tartalma: ",this.localStorage.getItem("user"))
-        this.auth.getUserNameToDisplay()
-        this.auth.getUserToken()
-        this.auth.getUserAdminAccessCode()
-        this.userName$ = this.auth.userName
-        this.userAdmin = this.auth.userAdminAccessCode
-        this.loggedIn = true
+    //     console.log("A localstorage nem üres, tartalma: ",this.localStorage.getItem("user"))
+    //     this.auth.getUserNameToDisplay()
+    //     this.auth.getUserToken()
+    //     this.auth.getUserAdminAccessCode()
+    //     this.userName$ = this.auth.userName
+    //     this.userAdmin = this.auth.userAdminAccessCode
+    //     this.loggedIn = true
 
-      }
-    }
+    //   }
+    // }
 
-    ,3000)
+    // ,3000)
     // if(this.localStorage.getItem("user")==null ){
     //   console.log("A localstorage üres")
     //   this.loggedIn = false
@@ -59,7 +63,7 @@ export class NavbarComponent {
 
   }
 
-  logoutUserWithLaravel(){
+  logoutUserWithLaravel() {
     this.auth.logoutUserFromLaravel()
     console.log("A felhasználó sikeresen kijelentkezve.")
   }

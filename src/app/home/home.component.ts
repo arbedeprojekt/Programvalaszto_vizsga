@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
   // )
 
   // this.base.getAll().subscribe()
-  this.getDataFromApi()
+  
 
   //a fake-api-ból szerzett adatokat kiíratjuk
   // this.getFromEventDetails()
@@ -49,11 +49,11 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.getDataFromApi()
   }
 
   getDataFromApi(){
-    this.base.adatSub.subscribe(
+    this.base.getAll().subscribe(
       (res:any) => {
         this.events = res.data
       }

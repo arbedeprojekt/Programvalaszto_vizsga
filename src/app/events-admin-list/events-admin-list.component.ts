@@ -88,7 +88,7 @@ export class EventsAdminListComponent {
   }
 
   getDataFromApi(){
-    this.base.adatSub.subscribe(
+    this.base.getAll().subscribe(
       (res:any) => {
         this.cikkek = res.data
       }

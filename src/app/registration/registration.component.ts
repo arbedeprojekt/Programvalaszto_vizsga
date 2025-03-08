@@ -27,32 +27,7 @@ export class RegistrationComponent {
 
   constructor(private auth:AuthService, private router:Router){}
 
-  googleAuth(){
-    this.auth.googleAuth()
-    .then(()=>{
-      console.log("Sikeres Google belépés!")
-      this.router.navigate(['login'])
-    })
-    .catch(()=>console.log("Sikertelen GoogleAuth!"))
-  }
-
-  signUpMailPassword(){
-    this.auth.signUpEmailPassword(this.email, this.password)
-    .then(()=> this.auth.sendVerificationEmail())
-    .then( ()=> this.auth.signOut() )
-    .then( () =>this.router.navigate(['login']))
-    // .then(
-    //   ()=>this.router.navigate(['data']))
-    .catch(
-      (error)=>{
-          this.mailRegError=true
-          console.log("1")
-          this.mailRegText=error
-          console.log("2")
-
-      }
-    )
-  }
+  
 
   isNotValidSignUp(){
       return !this.email || !this.password || !this.confirmPassword || (this.password!==this.confirmPassword)

@@ -82,7 +82,7 @@ export class AllEventsComponent {
   }
 
   getDataFromApi() {
-    this.base.adatSub.subscribe(
+    this.base.eventsAllSub.subscribe(
       (res: any) => {
         this.events = res.data
         this.eventsArray = res.data

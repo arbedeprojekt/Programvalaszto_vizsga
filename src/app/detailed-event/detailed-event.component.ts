@@ -37,7 +37,7 @@ export class DetailedEventComponent {
 
   //eventDeatils-ből az adatok kinyerése
   getDataFromApi(){
-    this.base.adatSub.subscribe(
+    this.base.getAll().subscribe(
       (res:any) => {
         this.events = res.data
       }
