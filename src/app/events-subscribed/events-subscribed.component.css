@@ -347,7 +347,11 @@ body {
     font-weight: 900 !important;
     font-size: 1.3rem;
     padding: auto;
+  }
   
+  #unsubscribeEvent {
+    color: #ffffff;
+    background: #0d6efd;
   }
   
   .card-img-top {

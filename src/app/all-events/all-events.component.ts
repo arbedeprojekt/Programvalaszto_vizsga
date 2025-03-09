@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { BaseService } from '../base.service';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, map, Observable, switchMap } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { LocalStorageService } from '../local-storage.service';
 
 @Component({
   selector: 'app-all-events',
@@ -53,21 +54,21 @@ export class AllEventsComponent {
   isSearch = false;
 
   // Feliratkozások megtekintése
-  saveSubscribedEvents:any=[]
+  userEvents: any
 
 
 
-
-  constructor(private http: HttpClient, private auth: AuthService, private base: BaseService) {
+  constructor(private http: HttpClient, private auth: AuthService, private base: BaseService, public localStorage:LocalStorageService) {
     // user lecsekkolása
     //   this.auth.getLoggedUser().subscribe(
     //     (u)=>this.user=u
     //   )
 
-    this.getDataFromApi()
+    
     this.getTags()
     this.base.downloadAllTags()
     this.toSort("ascByABC");
+    this.base.getAllMyEvents()
 
 
     //szabadszavas szűrés
@@ -81,6 +82,11 @@ export class AllEventsComponent {
 
   }
 
+  ngOnInit() {
+    this.getUserEvents(); // MyEvents betöltése
+    this.getDataFromApi() // Az összes esemény betöltése
+  }
+
   getDataFromApi() {
     this.base.eventsAllSub.subscribe(
       (res: any) => {
@@ -91,9 +97,6 @@ export class AllEventsComponent {
       }
     )
   }
-
-  
-
 
   // Oldalszám beállítása
   changePage(page: number) {
@@ -318,58 +321,79 @@ export class AllEventsComponent {
   }
 
 
-  //feliratkozás az eseményre
-  subscribeEvent(data: any) {
-    let token = localStorage.getItem("token")
-    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-    let body = {
-      events_id: data.id,
-      comment: ""
-    }
-    this.http.post(this.backendUrl+"subscribe", body, { headers }).subscribe(
+  //feliratkozás adott eseményre
+  subscribeToEvent(event:any){
+    this.base.subscribeEvent(event).subscribe(
       {
         next: (res: any) => {
           // console.log("új esemény felvétele: ",res)
           if (res.success == false) {
             console.log("hibaüzenetek: ", res.error)
-
           }
           //ahoz hogy az oldal újrafrissüljön.
           else {
+            this.base.getAllMyEvents()
             console.log("Sikeres új esemény felvétel: ", res)
-
             alert("Sikeres feliratkozás!")
 
 
+            // Frissítsük a komponens változóját:
+            this.base.myEvents.subscribe(events => {
+              this.userEvents = events;
+            })
           }
-
         },
         error: (error: any) => {
-          //  console.log("Valami hiba történt az új esemény felvétele során: ",error)
-           alert("Már fel vagy iratkozva!")
+          console.log("Valami hiba történt az új esemény felvétele során: ",error)
         }
       }
     )
-    data = {}
   }
 
-  unsubscribeEvent(data:any){
-    let token = localStorage.getItem("token")
-    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-
-    this.http.delete(this.backendUrl+`unsubscribe/${data.id}`,{headers}).subscribe(
+  //leiratkozás adott eseményről
+  unsubscribeFromEvent(data:any){
+    this.base.unsubscribeEvent(data).subscribe(
       {
-        next:(res:any)=>{
-          console.log("sikeres leiratkozás: ",res)
+        next: (res: any) => {
+          console.log("sikeres leiratkozás: ", res)
+          //window.location.reload();             //törlendő
           alert("Sikeresen leiratkoztál!")
-
+          // Események újratöltése az API-ból, hogy az UI frissüljön!
+          this.base.getAllMyEvents();
+          // 🔄 Frissítsük a `userEvents` változót az új adatokkal
+          this.base.myEvents.subscribe(events => {
+            this.userEvents = events;
+          })
         },
-        error:(error:any)=>{
-          console.log("Valami hiba: ",error)
-          alert("Nem vagy még felíratkozva az adott eseményre!")
+        error: (error: any) => {
+          console.log("Valami hiba: ", error)
         }
+      })
+  }
+
+
+  //Ez és a következő azért kell, hogy a feliratkozás gomb akkor jelenjen meg, ha az adott felhasználó még nincs feliratkozva
+  //A leiratkozás gomb pedig akkor, ha már fel van.
+  //le kell kérni az adott bejelentkezett user feliratkozott eseményeit
+  getUserEvents() {
+    this.base.myEvents.subscribe(
+      (res: any) => {
+        console.log("userEvents", res)       
+        this.userEvents = res
+    })
+  }
+
+  isEventSubscribed(eventId: number): boolean {
+    if (!Array.isArray(this.userEvents)) {
+      return false; // Ha myEvents undefined, akkor hamis
+    }
+
+    for (let i = 0; i < this.userEvents.length; i++) {
+      if (this.userEvents[i].id === eventId) {
+        return true; // Ha találunk egyezést, rögtön visszatérünk
       }
-    )
+    }
+    return false; // Ha végigmentünk és nem találtunk, akkor false
   }
 
 }

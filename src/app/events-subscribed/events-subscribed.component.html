@@ -55,8 +55,8 @@
     </div>
   </div>
   <!--Beltartalom befoglaló-->
-<div class="none-subscription" *ngIf="events.length===0">Nincsenek Feliratkozásaid.</div>
-  <div *ngIf="events.length !=0" class="row g10">
+<div class="none-subscription" *ngIf="userEvents.length===0">Nincsenek Feliratkozásaid.</div>
+  <div *ngIf="userEvents.length !=0" class="row g10">
     <div>
       <h1>Feliratkozott programjaid</h1>
     </div>
@@ -68,7 +68,7 @@
           <div class="pager" id="pager-lapozo-top">
             <div
               *ngIf="(isSearch == false && searchControl.value ==null)||(isSearch == false && searchControl.value =='')"
-              class="count" id="pagerCount">{{events.length}} találat</div>
+              class="count" id="pagerCount">{{userEvents.length}} találat</div>
             <div *ngIf="isSearch == true && searchControl.value !=''" class="count" id="pagerCount">
               {{searchResults.length}} találat</div>
             <!--itt vissza kell adnia, hogy hány db aktív státuszú eseményt talált az adatbázisban (vagyis hány darabot lehet megnézni az oldalon)-->
@@ -273,8 +273,11 @@
                 <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
                 <div class="split">
                   <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
-                  <button (click)="subscribeEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz">
+                  <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent">  <!--*ngIf="!isEventSubscribed(event.id)"-->
                     <i class="bi bi-plus-lg"></i>
+                  </button>
+                    <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent">  <!--*ngIf="isEventSubscribed(event.id)"-->
+                      <i class="bi bi-dash-lg"></i>
                   </button>
                 </div>
               </div>
@@ -292,9 +295,9 @@
       <!-- Keresés eredményeinek megjelenítése -->
       <div class="content-cards" *ngIf="searchControl.value != '' && isSearch == true">
         <div class="row events -grid">
-          <div *ngFor="let event of paginatedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
+          <div *ngFor="let event of paginatedSearchedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
             <div class="card">
-              <a [routerLink]="['/detailed-event/', event.id]" class="img">
+              <a  (click)="navigateToEvent(event.id)" class="img">
                 <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
                 <div class="inner">
                   <img *ngIf="event.image; else noImage" src={{event.image}} class="card-img-top" alt={{event.name}}>
@@ -337,8 +340,11 @@
                 <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
                 <div class="split">
                   <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
-                  <button (click)="subscribeEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz">
+                  <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent">  <!--*ngIf="!isEventSubscribed(event.id)"-->
                     <i class="bi bi-plus-lg"></i>
+                  </button>
+                    <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent">  <!--*ngIf="isEventSubscribed(event.id)"-->
+                      <i class="bi bi-dash-lg"></i>
                   </button>
                 </div>
               </div>
@@ -357,7 +363,7 @@
       <!--Navigációs sáv-->
       <div class="pager-pagination">
         <app-card-pagination 
-          [totalItems]="isSearch ? searchResults.length : events.length"
+          [totalItems]="isSearch ? searchResults.length : userEvents.length"
           [itemsPerPage]="itemsPerPage" 
           [currentPage]="currentPage" 
           (onClick)="changePage($event)"></app-card-pagination>

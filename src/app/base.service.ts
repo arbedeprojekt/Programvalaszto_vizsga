@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
+//import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
 // import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 // import { ProductsListComponent } from './products-list/products-list.component';
@@ -10,7 +10,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 })
 export class BaseService {
 
-  IMGUrl = "http://localhost:3000/galleries/"    //galériához kapcsolódik lásd all-events.component.ts
+  //IMGUrl = "http://localhost:3000/galleries/"    //galériához kapcsolódik lásd all-events.component.ts
 
   //Backend elérése
   backendUrl = "http://127.0.0.1:8000/api/"
@@ -46,7 +46,7 @@ export class BaseService {
   dataUsersObs: Observable<any | null> = this.dataUsersSub.asObservable()
 
 
-  constructor(private http: HttpClient, private db: AngularFireDatabase) {
+  constructor(private http: HttpClient) {
     //A termékek lap megnyitásakor lefut a downloadAll metódus
     this.downloadAll()
 
@@ -159,10 +159,7 @@ export class BaseService {
       (res: any) => {
         this.eventsAllSub.next(res)
       }
-     
-
     )
-  
   }
 
   getAllMyEvents()
@@ -190,6 +187,26 @@ export class BaseService {
     )
   }
   }
+
+  subscribeEvent(data: any) {
+    let body = {
+      events_id: data.id,
+      comment: ""
+    }
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+
+    return this.http.post(this.backendUrl +"subscribe/", body, { headers })
+  }
+
+
+  unsubscribeEvent(data: any) {
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+
+    return this.http.delete(this.backendUrl + `unsubscribe/${data.id}`, { headers })
+  }
+
 
 
   //új esemény felvétele
@@ -258,7 +275,6 @@ export class BaseService {
 
   searchEvent(data: any) {
     let header = {
-
     }
     this.http.get(this.backendUrl + "searchevents", data)
   }
@@ -266,4 +282,5 @@ export class BaseService {
   getDateFromDatePicker(date: any) {
     this.dateBehaveSub.next(date)
   }
+
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '../local-storage.service';
 
 @Component({
@@ -38,7 +38,10 @@ export class LoginComponent {
   //bejelentkezés utáni jogosultság elmentése (0-nem admin, 1-admin, 2-superadmin)
   adminAccessCode:any
 
-  constructor(private auth:AuthService, private router:Router, private localStorage: LocalStorageService){}
+  //setVisible-höz tartozik
+  noPermission = true;
+
+  constructor(private auth:AuthService, private router:Router, private route: ActivatedRoute, private localStorage: LocalStorageService){}
 
   visiblePassword(){
     return this.tomb[Number(this.szem)]
@@ -76,7 +79,14 @@ export class LoginComponent {
                 this.auth.getUserToken()
                 this.unknownErrorMessageBool = false
 
-                this.router.navigate(['/home'])
+                // Ellenőrizzük, hogy van-e returnUrl
+                let returnUrl = this.route.snapshot.queryParams['returnUrl'];
+
+                  // Ha nincs returnUrl, vagy ha maga a login oldalra mutat, akkor a főoldalra navigálunk
+                  if (!returnUrl || returnUrl.includes('/login')) {
+                    returnUrl = '/home';
+                  }
+                  this.router.navigateByUrl(returnUrl);
               }
               else {
                 this.loginError = true
@@ -106,9 +116,22 @@ export class LoginComponent {
       )
     }
 
-    logoutUserWithLaravel() {
-      this.auth.logoutUserFromLaravel()
+  logoutUserWithLaravel() {
+    this.auth.logoutUserFromLaravel(),
+    this.router.navigate(['/home'])
+  }
+
+  //jelenjen meg egy blokk a bejelentkezés oldalon, ha máshonnan irányítjuk ide a felhasználót (pl, ha olyan oldalt akar megnézni url birtokában, amit kijelentkezve nem lehet elérni)
+  setVisible(): boolean {
+    // Ellenőrizzük, hogy van-e returnUrl
+    let returnUrl = this.route.snapshot.queryParams['returnUrl'];
+    if(returnUrl){
+      return true;
     }
+    else{
+      return false;
+    }
+  }
 
 
 }

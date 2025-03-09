@@ -118,7 +118,7 @@ export class EventsAdminListComponent {
     this.base.deleteDataWeb(data).subscribe(
       {
         next:(res:any)=>{
-          console.log("sikeres tőrlés: ",res)
+          console.log("sikeres törlés: ",res)
           this.base.downloadAll()
         },
         error:(error:any)=>{

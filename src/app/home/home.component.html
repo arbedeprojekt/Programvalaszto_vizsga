@@ -1,4 +1,4 @@
-{{events|json}}
+<!-- {{events|json}} -->
 
 <div class="carousel-container">
   <!-- A képes slider megjelenítése -->
@@ -79,7 +79,7 @@
 
 				<div *ngFor="let event of newEvents" class="e-item -box col-6 col-md-4 col-lg-3 g10-xl-2">
 					<div  class="card">
-            <a href="itt kell megadni a program részletes oldalát" class="img" onlcick=";">   <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
+            <a (click)="navigateToEvent(event.id)" class="card-img-link">
               <div class="inner">
                 <img *ngIf="event.image; else noImage" src={{event.image}} class="card-img-top" alt={{event.name}}>
                 <ng-template #noImage>
@@ -119,9 +119,12 @@
               <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
               <div class="split">
                 <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
-                <div class="into-bucket-list">
-                  <button class="btn btn-primary" type="button" title="Bakancslistára tesz">
+                <div *ngIf="user" class="into-bucket-list">
+                  <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent">  <!--*ngIf="!isEventSubscribed(event.id)"-->
                     <i class="bi bi-plus-lg"></i>
+                  </button>
+                    <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent">  <!--*ngIf="isEventSubscribed(event.id)"-->
+                      <i class="bi bi-dash-lg"></i>
                   </button>
                 </div>
               </div>
@@ -147,7 +150,7 @@
       <!--kártyák-->
 				<div *ngFor="let event of bestEvents" class="e-item -box col-6 col-md-4 col-lg-3 g10-xl-2">
 					<div  class="card">
-            <a href="itt kell megadni a program részletes oldalát" class="img" onlcick=";">   <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
+            <a (click)="navigateToEvent(event.id)" class="card-img-link">
               <div class="inner">
                 <img *ngIf="event.image; else noImage" src={{event.image}} class="card-img-top" alt={{event.name}}>
                 <ng-template #noImage>
@@ -187,9 +190,14 @@
               <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
               <div class="split">
                 <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
-                <button class="btn btn-primary" type="button" title="Bakancslistára tesz">
-                  <i class="bi bi-plus-lg"></i>
-                </button>
+                <div *ngIf="user" class="into-bucket-list">  <!--ide egy eventListener kellene valszeg: ha rákattint egy kijelentkezett felhasználó a gombra, akkor kiírja neki, hogy jelentkezzen be a funkcióhoz; vagy csak legyen inaktív-->
+                  <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent">  <!--*ngIf="!isEventSubscribed(event.id)"-->
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                    <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent">  <!--*ngIf="isEventSubscribed(event.id)"-->
+                      <i class="bi bi-dash-lg"></i>
+                  </button>
+                </div>
               </div>
               <!-- <div class="clone-bar">
                 <div class="into-bucket-list">

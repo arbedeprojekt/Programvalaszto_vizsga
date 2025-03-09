@@ -4,6 +4,8 @@ import { LocalStorageService } from '../local-storage.service';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { BaseService } from '../base.service';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-events-subscribed',
@@ -59,10 +61,10 @@ export class EventsSubscribedComponent {
   searchResults: any[] = [];
   isSearch = false;
 
-  //felíratkozott id-k tárolása:
-  subscribedID:any=[]
+  // Feliratkozások megtekintése
+  userEvents: any
 
-  constructor(private http: HttpClient, localStorage: LocalStorageService, private base: BaseService) {
+  constructor(private http: HttpClient, localStorage: LocalStorageService, private base: BaseService, private auth:AuthService, private router:Router) {
     // let token = localStorage.getItem("token")
     // let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
     // this.http.get(this.backendUrl + "getsubscriptions", { headers }).subscribe(
@@ -77,22 +79,19 @@ export class EventsSubscribedComponent {
     //   }
     // )
     this.base.getAllMyEvents()
-    this.getDataFromApi()
     this.getTags()
     this.base.downloadAllTags()
-    // this.toSort("ascByABC");
+    this.toSort("ascByABC");
     // this.getSubscribeEvents()
   }
 
-  //ezt ki kell egészíteni a többi adattal is, ami meg tud jelenni a kártyákon, mert jelenleg nem jó így...
-  subscribeEvent(data: any) {
-    let token = localStorage.getItem("token")
-    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-    let body = {
-      events_id: data.id,
-      comment: ""
-    }
-    this.http.post(this.backendUrl, body, { headers }).subscribe(
+  ngOnInit() {
+    this.getUserEvents(); // MyEvents betöltése
+  }
+
+  //feliratkozás adott eseményre
+  subscribeToEvent(event:any){
+    this.base.subscribeEvent(event).subscribe(
       {
         next: (res: any) => {
           // console.log("új esemény felvétele: ",res)
@@ -103,63 +102,66 @@ export class EventsSubscribedComponent {
           else {
             this.base.getAllMyEvents()
             console.log("Sikeres új esemény felvétel: ", res)
-            // alert("Sikeres felíratkozás!")
+            alert("Sikeres feliratkozás!")
 
+
+            // Frissítsük a komponens változóját:
+            this.base.myEvents.subscribe(events => {
+              this.userEvents = events;
+            })
           }
         },
         error: (error: any) => {
-          // console.log("Valami hiba történt az új esemény felvétele során: ",error)
+          console.log("Valami hiba történt az új esemény felvétele során: ",error)
         }
-      })
-    data = {}
+      }
+    )
   }
 
-  //leiratkozás az eseményről
-  unsubscribe(data: any) {
-    let token = localStorage.getItem("token")
-    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-
-    this.http.delete(this.backendUrl + `unsubscribe/${data.events_id}`, { headers }).subscribe(
+  //leiratkozás adott eseményről
+  unsubscribeFromEvent(data:any){
+    this.base.unsubscribeEvent(data).subscribe(
       {
         next: (res: any) => {
           console.log("sikeres leiratkozás: ", res)
-          window.location.reload();
+          //window.location.reload();             //törlendő
           alert("Sikeresen leiratkoztál!")
+          // Események újratöltése az API-ból, hogy az UI frissüljön!
+          this.base.getAllMyEvents();
+          // 🔄 Frissítsük a `userEvents` változót az új adatokkal
+          this.base.myEvents.subscribe(events => {
+            this.userEvents = events;
+          })
         },
         error: (error: any) => {
           console.log("Valami hiba: ", error)
-          alert("Nem vagy még felíratkozva az adott eseményre!")
         }
       })
   }
 
-  // getSubscribeEvents() {
-  //   let token = localStorage.getItem("token")
-  //   let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-  //   this.http.get(this.backendUrl + "getsubscriptions", { headers }).subscribe(
-  //     {
-  //       next: (res: any) => {
 
-  //         console.log(res.data)
-  //         this.subscribedEvents = res
-  //          console.log("siker", res)
-  //       },
-  //       error: (error: any) => {
-  //         console.log("hiba", error)
-  //       }
-  //     }
-  //   )
-  // }
-
-  getDataFromApi() {
+  //Ez és a következő azért kell, hogy a feliratkozás gomb akkor jelenjen meg, ha az adott felhasználó még nincs feliratkozva
+  //A leiratkozás gomb pedig akkor, ha már fel van.
+  //le kell kérni az adott bejelentkezett user feliratkozott eseményeit
+  getUserEvents() {
     this.base.myEvents.subscribe(
       (res: any) => {
-        console.log("MyEvents", res)       
-        this.events = res
-      
+        console.log("userEvents", res)       
+        this.userEvents = res
+    })
+  }
 
+  isEventSubscribed(eventId: number): boolean {
+    if (!Array.isArray(this.userEvents)) {
+      return false; // Ha myEvents undefined, akkor hamis
+    }
+
+    for (let i = 0; i < this.userEvents.length; i++) {
+      if (this.userEvents[i].id === eventId) {
+        return true; // Ha találunk egyezést, rögtön visszatérünk
       }
-    )
+    }
+    return false; // Ha végigmentünk és nem találtunk, akkor false
   }
 
   // Oldalszám beállítása
@@ -168,49 +170,26 @@ export class EventsSubscribedComponent {
   }
 
   get paginatedEvents(): any[] {
-    if (!this.events || !Array.isArray(this.events)) {
+    if (!this.userEvents || !Array.isArray(this.userEvents)) {
       // console.log("az events üres vót, tartalma: ", this.events);
       return [];
     }
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
 
-    return this.events.slice(start, end);      
+    return this.userEvents.slice(start, end);      
   }
-  // get paginatedSearchedEvents(): any[] {
-  //   if (!this.searchResults || !Array.isArray(this.searchResults)) {
-  //     // console.log("az events üres vót, tartalma: ", this.searchResults);
-  //     return [];
-  //   }
-  //   const start = (this.currentPage - 1) * this.itemsPerPage;
-  //   const end = start + this.itemsPerPage;
 
-  //   return this.searchResults.slice(start, end);
-  // }
-
-  // get paginatedSubscribedEvents(): any[] {
-  //   if (!this.subscribedEvents || !Array.isArray(this.subscribedEvents)) {
-  //     console.log("az events üres vót, tartalma: ", this.events);
-  //     return [];
-  //   }
-  //   const start = (this.currentPage - 1) * this.itemsPerPage;
-  //   const end = start + this.itemsPerPage;
-
-  //   return this.subscribedEvents.slice(start, end);
-  // }
-
-  get paginatedSubscribedEvents(): any[] {
-    if (!this.subscribedEvents || !Array.isArray(this.subscribedEvents)) {
-      console.log("az events üres vót, tartalma: ", this.events);
+  get paginatedSearchedEvents(): any[] {
+    if (!this.searchResults || !Array.isArray(this.searchResults)) {
+      // console.log("az events üres vót, tartalma: ", this.searchResults);
       return [];
     }
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
 
-    return this.subscribedEvents.slice(start, end);
-  }
-
-  
+    return this.searchResults.slice(start, end);
+  }  
 
   filterByABCAsc() {
     console.log("növekvő sorrend!!")
@@ -328,6 +307,15 @@ export class EventsSubscribedComponent {
     // console.log("szortírozás után : ", this.sortedEventsArray)
     if (this.searchControl.value === '') {
       this.searchResults = []
+    }
+  }
+
+  navigateToEvent(eventId: number) {
+    if (this.user) {
+      this.router.navigate(['/detailed-event', eventId]); // Ha be van jelentkezve
+    } else {
+      this.router.navigate(['/login']); // Ha nincs bejelentkezve
+      alert("A funkcióhoz bejelentkezés szükséges")
     }
   }
 

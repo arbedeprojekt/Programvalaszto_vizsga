@@ -430,14 +430,30 @@ ul .group-value, ul .other-data-value {
     right: 1.2rem; */
 }
 
+.btn-primary {
+  text-transform: none;
+  background: #fff;
+  align-items: center;
+  margin-left: .5rem;
+  height: 45px;
+  width: 45px;
+  /* position: absolute;          ez lenne a szép elhelyezése a gomnak, de egyelőre nem jött össze..
+  bottom: 1.2rem;
+  right: 1.2rem; */
+}
+
 .bi-plus-lg {
-    color: #0d6efd;
-    display: inline-block;
-    font-style: normal;
-    font-weight: 900 !important;
-    font-size: 1.3rem;
-    padding: auto;
-  
+  color: #0d6efd;
+  display: inline-block;
+  font-style: normal;
+  font-weight: 900 !important;
+  font-size: 1.3rem;
+  padding: auto;
+}
+
+#unsubscribeEvent {
+  color: #ffffff;
+  background: #0d6efd;
 }
 
 .inner {
