@@ -4,7 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { BaseService } from '../base.service';
 import { AuthService } from '../auth.service';
 import { LocalStorageService } from '../local-storage.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   // Feliratkozások megtekintése
   userEvents: any
 
-  constructor(private http:HttpClient, private base:BaseService, public auth:AuthService, private localStorage: LocalStorageService, private router: Router) {
+  constructor(private http:HttpClient, private base:BaseService, public auth:AuthService, private localStorage: LocalStorageService, private router: Router, private route: ActivatedRoute) {
     this.base.getAllMyEvents()
     this.auth.getLoggedUser().subscribe(
       (user) => {
@@ -56,11 +56,14 @@ export class HomeComponent implements OnInit {
 
   //ez kezeli le, hogy mi történjen, ha valaki kilépve vagy belépve kattint rá a kártyára (kártyán a képre)
   navigateToEvent(eventId: number) {
+
     if (this.user) {
       this.router.navigate(['/detailed-event', eventId]); // Ha be van jelentkezve
     } else {
-      this.router.navigate(['/login']); // Ha nincs bejelentkezve
-      alert("A funkcióhoz bejelentkezés szükséges")
+      // Ha nincs bejelentkezve, akkor a login oldalra irányítjuk, és elmentjük a returnUrl-t
+      this.router.navigate(['/login'], { queryParams: { returnUrl: `/detailed-event/${eventId}` } });
+      //this.router.navigate(['/login']); // Ha nincs bejelentkezve
+      //alert("A funkcióhoz bejelentkezés szükséges")
     }
   }
 
@@ -122,7 +125,7 @@ export class HomeComponent implements OnInit {
           alert("Sikeresen leiratkoztál!")
           // Események újratöltése az API-ból, hogy az UI frissüljön!
           this.base.getAllMyEvents();
-          // 🔄 Frissítsük a `userEvents` változót az új adatokkal
+          // Frissítsük a `userEvents` változót az új adatokkal
           this.base.myEvents.subscribe(events => {
             this.userEvents = events;
           })

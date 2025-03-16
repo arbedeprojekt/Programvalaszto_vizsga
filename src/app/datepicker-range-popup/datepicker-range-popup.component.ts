@@ -9,7 +9,7 @@ import { JsonPipe } from '@angular/common';
   styleUrl: './datepicker-range-popup.component.css'
 })
 export class DatepickerRangePopupComponent {
-  calendar = inject(NgbCalendar);
+	calendar = inject(NgbCalendar);
 	formatter = inject(NgbDateParserFormatter);
 
 	hoveredDate: NgbDate | null = null;

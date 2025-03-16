@@ -1,50 +1,66 @@
 <!--Beltartalom alap befoglaló-->
-<div class="container p-lg-0">                  <!--Ezt vissza kell rakni és működik!!   <div *ngFor="let event of events" class="container p-lg-0">-->
-    <div class="pg">                    <!--Ezt vissza kell rakni és működik!!   <div *ngIf="event.id === detailedEventId" class="pg">-->
+<div *ngFor="let event of events" class="container p-lg-0">                  <!--Ezt vissza kell rakni és működik!!   <div *ngFor="let event of events" class="container p-lg-0">-->
+    <div *ngIf="event.id === detailedEventId" class="pg">                    <!--Ezt vissza kell rakni és működik!!   <div *ngIf="event.id === detailedEventId" class="pg">-->
         <div class="yahoobar">
             <div>
                 <a routerLink="/home" class="nav-link" aria-current="page" href="#" title="Kezdőoldal">
                     <i class="bi bi-house"></i>Kezdőoldal
                 </a>
                 <span>/</span>
-                <a routerLink="/all-events" class="nav-link" aria-current="page" href="#" title="Események">Események</a>     <!--Abban az esetben jelenjen meg ez, ha az események listájából lépett az adott részletes nézetre-->
-                <a routerLink="/events-subscribed" class="nav-link" aria-current="page" href="#" title="Feliratkozásaim">Feliratkozásaim</a>     <!--Abban az esetben jelenjen meg ez, ha a Feliratkozásaim listájából lépett az adott részletes nézetre-->
+                <a routerLink="/all-events" class="nav-link" aria-current="page" href="#" title="Események">Események</a>     
                 <span>/</span>
-                <a class="nav-link" aria-current="page" href="#" title="Adott program neve">Mindig az adott program neve</a> <!--az adott program nevének kell itt lennie-->
+                <a class="nav-link" aria-current="page" href="#" title="Adott program neve">{{event.name}}</a> <!--az adott program nevének kell itt lennie-->
             </div>
         </div>
         <div class="row" data-eventid="" id="fullContent">
             <div class="col-12 pg-top">
-                <h1>Az esemény neve</h1>
-                <div class="rating">
-                    <ul class="list-unstyled list-inline mb-0">
-                        <li class="list-inline-item">
-                          <i class="bi bi-star-fill text-warning"></i>    <!--bi-star, bi-star-fill, bi-star-half-->
-                        </li>
-                        <li class="list-inline-item">
-                          <i class="bi bi-star-fill text-warning"></i>   <!--a csillagokat aszerint kell "teltté" változtatni, ahogy arányaiban kijön az értékelések alapján. Lényegében az átlag adja-->
-                        </li>
-                        <li class="list-inline-item">
-                          <i class="bi bi-star-fill text-warning"></i>
-                        </li>
-                        <li class="list-inline-item">
-                          <i class="bi bi-star-fill text-warning"></i>
-                        </li>
-                        <li class="list-inline-item">
-                          <i class="bi bi-star-half text-warning"></i>
-                        </li>
-                        <li class="list-inline-item">
-                            <p class="text-muted">Értékeld elsőként</p>   <!--Ha még egyetlen értékelés sem érkezett az eseményre, ennek kell megjelennie-->
-                          </li>
-                        <li class="list-inline-item">
-                          <p class="text-muted">4.5 (413)</p>   <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
-                        </li>
-                    </ul>
+                <h1>{{event.name}}</h1>
+                <div class="pg-top-inner">
+                    <div class="rating">
+                        <ul class="list-unstyled list-inline mb-0">
+                            <li class="list-inline-item">
+                            <i class="bi bi-star-fill text-warning"></i>    <!--bi-star, bi-star-fill, bi-star-half-->
+                            </li>
+                            <li class="list-inline-item">
+                            <i class="bi bi-star-fill text-warning"></i>   <!--a csillagokat aszerint kell "teltté" változtatni, ahogy arányaiban kijön az értékelések alapján. Lényegében az átlag adja-->
+                            </li>
+                            <li class="list-inline-item">
+                            <i class="bi bi-star-fill text-warning"></i>
+                            </li>
+                            <li class="list-inline-item">
+                            <i class="bi bi-star-fill text-warning"></i>
+                            </li>
+                            <li class="list-inline-item">
+                            <i class="bi bi-star-half text-warning"></i>
+                            </li>
+                            <li class="list-inline-item">
+                                <p class="text-muted">Értékeld elsőként</p>   <!--Ha még egyetlen értékelés sem érkezett az eseményre, ennek kell megjelennie-->
+                            </li>
+                            <li class="list-inline-item">
+                            <p class="text-muted">4.5 (413)</p>   <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="buttons-right-side">
+                        <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                        <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent"> 
+                            <i class="bi bi-dash-lg"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <!--Galéria-->
+            <!--"Galéria"-->
             <div class="col-12 gallery-preview">
-                <app-gallery></app-gallery>
+                <div class="gallery-inner">
+                    <div class="gallery-item">
+                        <img *ngIf="event.image; else noImage" src={{event.image}} class="d-block w-100" alt={{event.name}}>
+                    <ng-template #noImage>
+                        <img src="assets/Pictures/no-image.jpg" class="card-img-top" alt="No Image Available">
+                    </ng-template>
+                    </div>
+                </div>
             </div>
             
             <div class="col-12 event-informations-unit">
@@ -76,6 +92,14 @@
                                         aria-current="page" 
                                         role="button">Vélemények</a>
                                 </div>
+                                <span class="nav-item-separator">|</span>
+                                <div *ngIf="isEventSubscribed(event.id)" class="nav-item">                  <!--*ngIf="isEventSubscribed(event.id)"     Ez kell ide, hogy csak akkor jelenjen meg, ha az adott eseményre fel van iratkozva a felhasználó-->
+                                    <a (click)="setActiveSection('eventSelfExperience')" 
+                                        class="nav-link self-experience" 
+                                        [class.active]="activeSection === 'eventSelfExperience'" 
+                                        aria-current="page" 
+                                        role="button">Élménybeszámoló</a>
+                                </div>
                                 <!-- <li class="nav-item">
                                   <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                                 </li> -->
@@ -84,18 +108,7 @@
                         <div class="event-description" *ngIf="activeSection === 'eventDescription'">
                             <div class="event-description-inner" id="eventDescription">
                                 <h4 class="">Leírás</h4>
-                                    <p>Mi is a TerraPlaza?</p>
-                                    <p>A TerraPlaza egyedülálló esemény, ahol az egzotikus állatok iránt érdeklődők találkozhatnak. Közép-Európa egyik legjelentősebb terrarisztikai és akvarisztikai kiállításaként egyaránt vonzza a szakértőket és a hobbiállattartókat. A kiállítás nem csupán egy vásár, hanem közösségi élmény, ahol az állatok iránti szeretet és felelős gondoskodás találkozik.</p>
-                                        
-                                    <p>Válogatott kiállítókkal</p>
-                                    <p>Több mint 150 gondosan kiválasztott nemzetközi kiállító biztosítja, hogy a látogatók csak a legmagasabb színvonalú és szakértők által bemutatott állatokkal és termékekkel találkozzanak. A TerraPlaza elkötelezett az állatjólét mellett, kiállítóink szigorúan odafigyelnek arra, hogy minden állat a lehető legjobb körülmények között legyen bemutatva.</p>
-                                        
-                                    <p>15 éve az egzotikus állattartás szolgálatában</p>
-                                    <p>Az esemény 2009 óta, immár 15 éve folyamatosan fejlődik és bővül, köszönhetően a több ezer hazai és nemzetközi látogatónak. A nemzetközi színtér első perctől kezdve gazdagítja a TerraPlaza-t mind a látogatók, mind a kiállítók számára.
-                                    Évente 5 alkalommal kerül megrendezésre Budapesten, a Lurdy Házban, ahol a látogatók különleges élményekben részesülhetnek az egzotikus állatok és szakértőik világában.</p>
-                                        
-                                    <p>Nem csak egy terrarisztikai börze</p>
-                                    <p>A TerraPlaza alapjaiban terrarisztikai esemény. Azonban az évek során számos új területtel gazdagodott. Az egyik legnagyobb bővülés az akvarisztika területén történt, melynek köszönhetően ma már ez Magyarország legjelentősebb találkozóhelye mind a terrarisztika, mind az akvarisztika rajongói számára. Emellett a látogatók izgalmas kiállításokkal, programokkal, valamint természetvédelmi és állatvédelmi ismeretterjesztéssel is találkozhatnak.
+                                    <p>{{event.description}}
                                     </p>
                                     <!-- {{event.description}} -->
                             </div>
@@ -244,6 +257,66 @@
                                     </div>
                             </div>
                         </div>
+                        <div class="event-self-experience" *ngIf="activeSection === 'eventSelfExperience' && isEventSubscribed(event.id)">
+                            <div class="event-experience-inner" id="eventSelfExperience">
+                                <div class="title-row">
+                                    <h4 class="">Élménybeszámoló</h4>
+                                    
+                                    <i *ngIf="!buttonVisible" (click)="editExperience()" [ngClass]="{ desabled: editButtonDesabled === true }" class="bi bi-pencil-fill" style="font-size: 1.2rem;"></i>
+                                </div>
+                                
+                                 <!--*ngIF="!isNewExperienceVisible && !getUserExperience"     ezt kell beírni, amikor már meglesz a getUserExpreience metódus is-->
+                                <div *ngIf="!isNewExperienceVisible" class="add-experience">
+                                    <div class="textarea-explanation">
+                                        <p>Ez a blokk azért jelent meg számodra, mert feliratkoztál az eseményre. Lehetőséged van rögzíteni az eseményen szerzett élményeidet, a kapcsolódó gondolataidat, hogy bármikor ismét....blablabla</p>
+                                    </div>
+                                    <button (click)="showNewExprerience()" type="button" class="btn btn-secondary">Élmény hozzáadása</button>
+                                </div>
+                                <!--DEZSŐ: *ngIf="isNewExperienceVisible || getUserExperience         ezt kell beírni, amikor már meglesz a getUserExpreience metódus is, mert ha van már adat, akkor azt kell megjelenítenie, ha nincs, akkor az üres beviteli textarea-t-->
+                                <div *ngIf="isNewExperienceVisible" class="mb-3 experience-input">     
+                                    
+                                    <!--ez a dátumválasztó lehet egyelőre kimarad, mert csak még több megoldandó feladatot szül...-->
+                                    <!-- <div class="date-picker">
+                                        <form class="row row-cols-sm-auto">
+                                            <div class="col-12">
+                                                <div class="input-group">
+                                                    <input
+                                                        class="form-control"
+                                                        placeholder="yyyy-mm-dd"
+                                                        name="dp"
+                                                        [(ngModel)]="model"
+                                                        ngbDatepicker
+                                                        #d="ngbDatepicker"
+                                                    />
+                                                    <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+                                                </div>
+                                            </div>
+                                            <div class="" title="Delete">
+                                                <button *ngIf="setVisible()" (click)="clearSelection()" id="delete-x">
+                                                    <i class="bi bi-x"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div> -->
+
+                                    <!-- Az itt leírtakat el kell menteni az adatbázisba!! -->
+                                    <textarea 
+                                        class="form-control" 
+                                        id="newExperience" 
+                                        rows="" 
+                                        maxlength="500" 
+                                        style="width: 100%" 
+                                        placeholder="Jegyezd fel élményeidet.." 
+                                        [disabled]="newExperienceDesabled"
+                                        autofocus></textarea>
+                                    <button *ngIf="buttonVisible" (click)="newExperience()" type="button" class="btn btn-secondary" id="saveExperience">Mentés</button>
+                                    <button *ngIf="buttonVisible" (click)="cancelNewExperience()" type="button" class="btn btn-secondary">Mégsem</button>
+                                    <!-- Csak akkor jelenjen meg a módosítás mentése gomb, ha a kis szerkesztés ikonra kattintanak. -->
+                                    <button *ngIf="editButtonVisible" (click)="updateExperience()" type="button" class="btn btn-secondary" id="updateExperienceButton">Módosítás mentése</button>
+                                    <button *ngIf="editButtonVisible" (click)="cancelUpdateExperience()" type="button" class="btn btn-secondary">Mégsem</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="part-right">
                         <div class="time-location">
@@ -276,16 +349,6 @@
                                 <div class="tag-item">fizetős</div>
                             </div>
                         </div>
-                        <div class="">
-                            <!--*ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)"-->  <!--Be kell illeszteni, ha már kész az oldal felépítése-->
-                            <button class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent">
-                                <i class="bi bi-plus-lg"></i>
-                            </button>
-                            <!-- *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" --> <!--Be kell illeszteni, ha már kész az oldal felépítése-->
-                            <button class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent"> 
-                                <i class="bi bi-dash-lg"></i>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -299,9 +362,9 @@
             <!--kártyák-->
                 <div *ngFor="let event of sameEvents" class="e-item -box col-6 col-md-4 col-lg-3 g10-xl-2">  <!--ide be kell kötni a backendet. Olyan kártyákat kell hozni, amik legalább 3 címkében egyeznek azokkal, amik az adott eseményre vonatkoznak-->
                     <div  class="card">
-                        <a href="itt kell megadni a program részletes oldalát" class="img" onlcick=";">   <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
+                        <a [routerLink]="['/detailed-event/', event.id]" class="img"> 
                         <div class="inner">
-                            <img *ngIf="event.picture; else noImage" src={{event.picture}} class="card-img-top" alt={{event.name}}>
+                            <img *ngIf="event.image; else noImage" src={{event.image}} class="card-img-top" alt={{event.name}}>
                             <ng-template #noImage>
                             <img src="assets/Pictures/no-image.jpg" class="card-img-top" alt="No Image Available">
                             </ng-template>
@@ -339,12 +402,10 @@
                             <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
                             <div class="split">
                                 <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
-                                <!--*ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)"-->  <!--Be kell illeszteni, ha már kész az oldal felépítése-->
-                                <button class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent">
+                                <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent">
                                     <i class="bi bi-plus-lg"></i>
                                 </button>
-                                <!-- *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" --> <!--Be kell illeszteni, ha már kész az oldal felépítése-->
-                                <button class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent"> 
+                                <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent"> 
                                       <i class="bi bi-dash-lg"></i>
                                 </button>
                             </div>
