@@ -45,10 +45,9 @@
           <li *ngIf="user && (user.admin == 1 || user.admin == 2)" class="nav-item">
             <a routerLink="/users" class="nav-link">Felhasználók (admin)</a>
           </li>
-          <!--ÁTKERÜLT A JOBB OLDALRA A USER IKONHOZ!!! TÖRÖLHETŐ, HA MINDENKI MEGJEGYEZTE-->
-          <!-- <li *ngIf="loggedIn" class="nav-item">
-            <a routerLink="/home" class="nav-link" (click)="this.auth.logoutUserFromLaravel()">Kijelentkezés</a>
-          </li> -->
+          <li *ngIf="user && (user.admin == 1 || user.admin == 2)" class="nav-item">
+            <a routerLink="/events-tags-link" class="nav-link">Esemény-tag kapcsoló (admin)</a>
+          </li>
         </ul>
         <!--Navbar jobb oldal-->
         <div class="navbar-right">

@@ -93,14 +93,14 @@ export class HomeComponent implements OnInit {
         next: (res: any) => {
           // console.log("új esemény felvétele: ",res)
           if (res.success == false) {
-            console.log("hibaüzenetek: ", res.error)
+            //console.log("hibaüzenetek: ", res.error)
+            this.base.show(res.message || "Hiba történt!", "danger")
           }
           //ahoz hogy az oldal újrafrissüljön.
           else {
             this.base.getAllMyEvents()
-            console.log("Sikeres új esemény felvétel: ", res)
-            alert("Sikeres feliratkozás!")
-
+            //console.log("Sikeres új esemény felvétel: ", res)
+            this.base.show(res.message || "Sikeres feliratkozás!", "success")
 
             // Frissítsük a komponens változóját:
             this.base.myEvents.subscribe(events => {
@@ -109,7 +109,8 @@ export class HomeComponent implements OnInit {
           }
         },
         error: (error: any) => {
-          console.log("Valami hiba történt az új esemény felvétele során: ",error)
+          //console.log("Valami hiba történt az új esemény felvétele során: ",error)
+          this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       }
     )
@@ -121,8 +122,8 @@ export class HomeComponent implements OnInit {
       {
         next: (res: any) => {
           console.log("sikeres leiratkozás: ", res)
-          //window.location.reload();             //törlendő
-          alert("Sikeresen leiratkoztál!")
+          this.base.show(res.message || "Sikeres leiratkozás!", "success")
+
           // Események újratöltése az API-ból, hogy az UI frissüljön!
           this.base.getAllMyEvents();
           // Frissítsük a `userEvents` változót az új adatokkal
@@ -132,6 +133,7 @@ export class HomeComponent implements OnInit {
         },
         error: (error: any) => {
           console.log("Valami hiba: ", error)
+          this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       })
   }

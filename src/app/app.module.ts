@@ -15,7 +15,7 @@ import { AllEventsComponent } from './all-events/all-events.component';
 import { DetailedEventComponent } from './detailed-event/detailed-event.component';
 import { EventsAdminListComponent } from './events-admin-list/events-admin-list.component';
 import { TagsListComponent } from './tags-list/tags-list.component';
-import { TagsLinkComponent } from './tags-link/tags-link.component';
+import { EventsTagsLinkComponent } from './events-tags-link/events-tags-link.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
@@ -29,6 +29,7 @@ import { FooterComponent } from './footer/footer.component';
 import { EventsSubscribedComponent } from './events-subscribed/events-subscribed.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GalleryComponent } from './gallery/gallery.component';
+import { ToastMessagesComponent } from './toast-messages/toast-messages.component';
 
 @NgModule({
   declarations: [
@@ -42,13 +43,15 @@ import { GalleryComponent } from './gallery/gallery.component';
     DetailedEventComponent,
     EventsAdminListComponent,
     TagsListComponent,
-    TagsLinkComponent,
+    EventsTagsLinkComponent,
     UsersComponent,
     DatepickerRangePopupComponent,
     CardPaginationComponent,
     FooterComponent,
     EventsSubscribedComponent,
-    GalleryComponent
+    GalleryComponent,
+    EventsTagsLinkComponent,
+    ToastMessagesComponent
 
   ],
   imports: [

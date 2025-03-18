@@ -283,4 +283,23 @@ export class BaseService {
     this.dateBehaveSub.next(date)
   }
 
+
+  //#region rendszerüzenetek (toastMessages) kezelése
+  private messages = new BehaviorSubject<{text: string; type: string}[]>([]);
+  messages$ = this.messages.asObservable();
+
+  show(message: string, type:'success' | 'danger' | 'warning' | 'info' = 'success') {
+    const currentMessages = this.messages.getValue();
+    this.messages.next([...currentMessages, { text: message, type: `toast-${type}` }]);
+
+    // Automatikus eltüntetés 3 másodperc után
+    setTimeout(() => {
+      this.remove(message);
+    }, 5000);
+  }
+
+  remove(message: string) {
+    this.messages.next(this.messages.getValue().filter(m => m.text !== message));
+  }
+
 }

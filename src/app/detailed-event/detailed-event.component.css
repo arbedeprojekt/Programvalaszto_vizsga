@@ -153,10 +153,6 @@ p {
     margin: 0 0 .75rem;
 }
 
-h1 {
-  padding: 1rem 1rem 0 1rem;
-}
-
 h4 {
   text-align: start;
 }
@@ -166,11 +162,12 @@ h4 {
 }
 
 .row {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    margin-right: -.75rem;
-    margin-left: -.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-right: -.75rem;
+  margin-left: -.75rem;
+  width: 100%;
 }
 
 .information-unit-inner {
@@ -199,6 +196,12 @@ h4 {
 }
 
 /*Felső blokk*/
+
+#eventName {
+  padding: 1rem 1rem 0 1rem;
+  margin-bottom: 0;
+}
+
 .pg-top-inner {
   display: flex;
   flex-wrap: wrap;
@@ -206,13 +209,11 @@ h4 {
   justify-content: space-between;
   align-items: center;
   padding: 0 1rem 0 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: .75rem;
 }
-
 
 .rating {
   display: flex;
-
   align-items: center;
 }
 
@@ -232,6 +233,35 @@ h4 {
 
 .gallery-item img {
   object-fit: contain;
+}
+
+#subscribeEventTop {
+  display: flex;
+  text-transform: none;
+  background: #fff;
+  align-items: center;
+  height: 2.4rem;
+  width: auto;
+  color: #0d6efd;
+  margin-left: 0;
+}
+
+#unsubscribeEventTop {
+  display: flex;
+  color: #ffffff;
+  background: #0d6efd;
+  align-items: center;
+  height: 2.4rem;
+  width: auto;
+  margin-left: 0;
+}
+
+.bi-dash {
+  color: #fff;
+  font-style: normal;
+  font-weight: 900 !important;
+  font-size: 1.3rem;
+  padding-right: .275rem;
 }
 
 
@@ -504,13 +534,17 @@ ul .group-value, ul .other-data-value {
   right: 1.2rem; */
 }
 
-.bi-plus-lg {
+.bi-plus-lg, .bi-dash-lg {
   color: #0d6efd;
   display: inline-block;
   font-style: normal;
   font-weight: 900 !important;
   font-size: 1.3rem;
-  padding: auto;
+  padding-right: .275rem;
+}
+
+.bi-dash-lg {
+  color: #fff;
 }
 
 #unsubscribeEvent {

@@ -89,34 +89,6 @@ export class EventsSubscribedComponent {
     this.getUserEvents(); // MyEvents betöltése
   }
 
-  //feliratkozás adott eseményre
-  subscribeToEvent(event:any){
-    this.base.subscribeEvent(event).subscribe(
-      {
-        next: (res: any) => {
-          // console.log("új esemény felvétele: ",res)
-          if (res.success == false) {
-            console.log("hibaüzenetek: ", res.error)
-          }
-          //ahoz hogy az oldal újrafrissüljön.
-          else {
-            this.base.getAllMyEvents()
-            console.log("Sikeres új esemény felvétel: ", res)
-            alert("Sikeres feliratkozás!")
-
-
-            // Frissítsük a komponens változóját:
-            this.base.myEvents.subscribe(events => {
-              this.userEvents = events;
-            })
-          }
-        },
-        error: (error: any) => {
-          console.log("Valami hiba történt az új esemény felvétele során: ",error)
-        }
-      }
-    )
-  }
 
   //leiratkozás adott eseményről
   unsubscribeFromEvent(data:any){
@@ -124,17 +96,18 @@ export class EventsSubscribedComponent {
       {
         next: (res: any) => {
           console.log("sikeres leiratkozás: ", res)
-          //window.location.reload();             //törlendő
-          alert("Sikeresen leiratkoztál!")
+          this.base.show(res.message || "Sikeres leiratkozás!", "success")
+
           // Események újratöltése az API-ból, hogy az UI frissüljön!
           this.base.getAllMyEvents();
-          // 🔄 Frissítsük a `userEvents` változót az új adatokkal
+          // Frissítsük a `userEvents` változót az új adatokkal
           this.base.myEvents.subscribe(events => {
             this.userEvents = events;
           })
         },
         error: (error: any) => {
           console.log("Valami hiba: ", error)
+          this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       })
   }

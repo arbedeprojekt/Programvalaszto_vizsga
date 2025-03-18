@@ -1,0 +1,27 @@
+.toast {
+    padding: .375rem;
+}
+
+.toast-success {
+  background-color: #ffffff !important; /* Fehér háttér */
+  border: 1px solid #198754 !important; /* Zöld bal szegély */
+  color: #198754 !important; /* Zöld szöveg */
+}
+
+.toast-danger {
+  background-color: #ffffff !important; /* Fehér háttér */
+  border: 1px solid #dc3545 !important; /* Piros bal szegély */
+  color: #dc3545 !important; /* Piros szöveg */
+}
+
+.toast-warning {
+  background-color: #ffffff !important; /* Fehér háttér */
+  border: 1px solid #ffc107 !important; /* Sárga bal szegély */
+  color: #ffc107 !important; /* Sárga szöveg */
+}
+
+.toast-info {
+  background-color: #ffffff !important; /* Fehér háttér */
+  border-left: 5px solid #0dcaf0 !important; /* Kék bal szegély */
+  color: #0dcaf0 !important; /* Kék szöveg */
+}

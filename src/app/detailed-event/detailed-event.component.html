@@ -14,7 +14,7 @@
         </div>
         <div class="row" data-eventid="" id="fullContent">
             <div class="col-12 pg-top">
-                <h1>{{event.name}}</h1>
+                <h1 id="eventName">{{event.name}}</h1>
                 <div class="pg-top-inner">
                     <div class="rating">
                         <ul class="list-unstyled list-inline mb-0">
@@ -42,11 +42,11 @@
                         </ul>
                     </div>
                     <div class="buttons-right-side">
-                        <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent">
-                            <i class="bi bi-plus-lg"></i>
+                        <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEventTop">
+                            <i class="bi bi-plus-lg"></i>Feliratkozás
                         </button>
-                        <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent"> 
-                            <i class="bi bi-dash-lg"></i>
+                        <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEventTop"> 
+                            <i class="bi bi-dash"></i>Leiratkozás
                         </button>
                     </div>
                 </div>
@@ -415,5 +415,14 @@
             </div>
         </div>
     </div>
+    <!--Ez a felugró rendszerüzenet-->
+    <!-- <div #toastElement class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body">
+            
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div> -->
 </div>
   

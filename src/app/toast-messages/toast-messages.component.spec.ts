@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TagsLinkComponent } from './tags-link.component';
+import { ToastMessagesComponent } from './toast-messages.component';
 
-describe('TagsLinkComponent', () => {
-  let component: TagsLinkComponent;
-  let fixture: ComponentFixture<TagsLinkComponent>;
+describe('ToastMessagesComponent', () => {
+  let component: ToastMessagesComponent;
+  let fixture: ComponentFixture<ToastMessagesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TagsLinkComponent]
+      declarations: [ToastMessagesComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TagsLinkComponent);
+    fixture = TestBed.createComponent(ToastMessagesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { HttpClient} from '@angular/common/http';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { BaseService } from '../base.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -135,14 +135,15 @@ export class DetailedEventComponent {
         next: (res: any) => {
           // console.log("új esemény felvétele: ",res)
           if (res.success == false) {
-            console.log("hibaüzenetek: ", res.error)
+            //console.log("hibaüzenetek: ", res.error)
+            this.base.show(res.message || "Hiba történt!", "danger") // Backend hibaüzenet megjelenítése
           }
           //ahoz hogy az oldal újrafrissüljön.
           else {
             this.base.getAllMyEvents()
-            console.log("Sikeres új esemény felvétel: ", res)
-            alert("Sikeres feliratkozás!")
-
+            //console.log("Sikeres új esemény felvétel: ", res)
+            this.base.show(res.message || "Sikeres feliratkozás!", "success") // Backend üzenet
+            //alert("Sikeres feliratkozás!")
 
             // Frissítsük a komponens változóját:
             this.base.myEvents.subscribe(events => {
@@ -151,7 +152,8 @@ export class DetailedEventComponent {
           }
         },
         error: (error: any) => {
-          console.log("Valami hiba történt az új esemény felvétele során: ",error)
+          //console.log("Valami hiba történt az új esemény felvétele során: ",error)
+          this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       }
     )
@@ -162,8 +164,8 @@ export class DetailedEventComponent {
     this.base.unsubscribeEvent(data).subscribe(
       {
         next: (res: any) => {
-          console.log("sikeres leiratkozás: ", res)
-          alert("Sikeresen leiratkoztál!")
+          //console.log("sikeres leiratkozás: ", res)
+          this.base.show(res.message || "Sikeres leiratkozás!", "success")
           // Események újratöltése az API-ból, hogy az UI frissüljön!
           this.base.getAllMyEvents();
           // Frissítsük a `userEvents` változót az új adatokkal
@@ -172,7 +174,8 @@ export class DetailedEventComponent {
           })
         },
         error: (error: any) => {
-          console.log("Valami hiba: ", error)
+          //console.log("Valami hiba: ", error)
+          this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       })
 

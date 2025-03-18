@@ -273,10 +273,10 @@
                 <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
                 <div class="split">
                   <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
-                  <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent">  <!--*ngIf="!isEventSubscribed(event.id)"-->
+                  <!-- <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent"> 
                     <i class="bi bi-plus-lg"></i>
-                  </button>
-                    <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent">  <!--*ngIf="isEventSubscribed(event.id)"-->
+                  </button> -->
+                    <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent"> 
                       <i class="bi bi-dash-lg"></i>
                   </button>
                 </div>
@@ -340,17 +340,16 @@
                 <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
                 <div class="split">
                   <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
-                  <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent">  <!--*ngIf="!isEventSubscribed(event.id)"-->
+                  <!-- <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent"> 
                     <i class="bi bi-plus-lg"></i>
-                  </button>
-                    <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent">  <!--*ngIf="isEventSubscribed(event.id)"-->
+                  </button> -->
+                    <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent">  
                       <i class="bi bi-dash-lg"></i>
                   </button>
                 </div>
               </div>
             </div>
-            <!-- <button (click)="subscribeEvent(event)">Felíratkozás</button> -->
-            <!-- <button (click)="unsubscribeEvent(event)">Leiratkozás</button> -->
+
 
           </div>
         </div>

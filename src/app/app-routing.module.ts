@@ -10,6 +10,7 @@ import { TagsListComponent } from './tags-list/tags-list.component';
 import { DetailedEventComponent } from './detailed-event/detailed-event.component';
 import { EventsSubscribedComponent } from './events-subscribed/events-subscribed.component';
 import { AuthGuard } from './auth.guard';
+import { EventsTagsLinkComponent } from './events-tags-link/events-tags-link.component';
 
 const routes: Routes = [
   {path:"home",component:HomeComponent},
@@ -22,9 +23,9 @@ const routes: Routes = [
   {path:"galeries",component:AllEventsComponent, canActivate: [AuthGuard] },
   {path:"tags",component:TagsListComponent, canActivate: [AuthGuard] },
   {path:"detailed-event/:id",component:DetailedEventComponent, canActivate: [AuthGuard] },
-  {path:"detailed-event",component:DetailedEventComponent, canActivate: [AuthGuard] },   //ezt majd törölni kell a végén..
-  {path:"events-subscribed",component:EventsSubscribedComponent, canActivate: [AuthGuard] }
-
+  //{path:"detailed-event",component:DetailedEventComponent, canActivate: [AuthGuard] },   //ezt majd törölni kell a végén..
+  {path:"events-subscribed",component:EventsSubscribedComponent, canActivate: [AuthGuard] },
+  {path:"events-tags-link",component:EventsTagsLinkComponent, canActivate: [AuthGuard] }
 
 
 ];
