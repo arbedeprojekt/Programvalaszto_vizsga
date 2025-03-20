@@ -59,7 +59,7 @@ export class LoginComponent {
             if (res) {
               if (res.data && res.data.token) {
                 this.auth.setLoggedUser(res.data)
-                
+
                 this.loginError = false
                 this.errorNameMessage = ""
                 this.errorPasswordMessage = ""
@@ -70,6 +70,7 @@ export class LoginComponent {
                 this.localStorage.setItem("token", this.token)
                 this.localStorage.setItem("user", this.nameAfterLogin)
                 this.localStorage.setItem("admin", this.adminAccessCode)
+                this.localStorage.setItem("userID",res.data.id)
                 this.auth.saveLoginData = res.data
                 // console.log(this.auth.saveLoginData)
 

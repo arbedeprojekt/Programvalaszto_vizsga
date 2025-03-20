@@ -19,12 +19,16 @@ export class BaseService {
   // Ebben az objektum típusú változóban tároljuk a downloadAll metódusban megszerzett adatokat
   eventsAllSub = new BehaviorSubject<any>(null)
   myEvents =  new BehaviorSubject<any>(null)
+  //Ez azért kell, hogy meg tudjam jeleníteni a comments mezőt.
+  myEventsWithAllDetails =  new BehaviorSubject<any>(null)
+
 
   //Ebben fognak tárolódni a backend tags adatok
   tagsSub = new BehaviorSubject<any>(null)
   // groupsSub = new BehaviorSubject<any>(null)
 
   galleriesData = new BehaviorSubject<any>(null) //galériához kapcsolódik lásd all-events.component.ts
+
 
   //refData:AngularFireList<any>
 
@@ -44,6 +48,9 @@ export class BaseService {
   // Ebben az objektum típusú változóban tároljuk a downloadAllUsers metódusban megszerzett adatokat
   dataUsersSub = new BehaviorSubject<any>(null)
   dataUsersObs: Observable<any | null> = this.dataUsersSub.asObservable()
+
+  //Ebben tároljuk a kommenteket
+  myExperiences = new BehaviorSubject<any>(null)
 
 
   constructor(private http: HttpClient) {
@@ -175,10 +182,15 @@ export class BaseService {
                {
                 console.log("Api válasz (My Events)", res)
                     let events=[]
+                    let allDetails=[]
                     for (const element of res.data) {
-                      events.push(element.event)          
+                      events.push(element.event)
+                      allDetails.push(element)
                     }
                     this.myEvents.next(events)
+                    //Itt adom át az összes adatot a subscriptions táblából
+                    this.myEventsWithAllDetails.next(allDetails)
+
                   },
       error: (err)=>{
         console.log("HIbaaaa!!!!",err)
@@ -300,6 +312,48 @@ export class BaseService {
 
   remove(message: string) {
     this.messages.next(this.messages.getValue().filter(m => m.text !== message));
+  }
+
+  updateUserExperience(data: any) {
+    let body = {
+      events_id: data.id,
+      comment: data.comment
+    }
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+    console.log("data.id = ",data.id)
+    console.log("data formája a base service-ben",body)
+    return this.http.put(this.backendUrl + `updatesubscriptions/${data.id}`, body, { headers })
+  }
+
+  getMyExperience()
+  {
+    let token = localStorage.getItem("token")
+    if (token) {
+      console.log("Van token és lekérem az eseméyneket!!!!")
+      let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+      console.log("headers", token)
+      this.http.get(this.backendUrl + "getsubscriptions", { headers }).subscribe(
+        {
+        next:(res: any) =>
+               {
+                console.log("Api válasz (My Events)", res)
+                    let experiences=[]
+
+                    for (const element of res.data) {
+                      experiences.push(element.comment)
+
+                    }
+                    this.myExperiences.next(experiences)
+
+
+                  },
+      error: (err)=>{
+        console.log("HIbaaaa!!!!",err)
+      }
+      }
+    )
+  }
   }
 
 }

@@ -1,3 +1,5 @@
+
+
 <!--Beltartalom alap befoglaló-->
 <div *ngFor="let event of events" class="container p-lg-0">                  <!--Ezt vissza kell rakni és működik!!   <div *ngFor="let event of events" class="container p-lg-0">-->
     <div *ngIf="event.id === detailedEventId" class="pg">                    <!--Ezt vissza kell rakni és működik!!   <div *ngIf="event.id === detailedEventId" class="pg">-->
@@ -7,7 +9,7 @@
                     <i class="bi bi-house"></i>Kezdőoldal
                 </a>
                 <span>/</span>
-                <a routerLink="/all-events" class="nav-link" aria-current="page" href="#" title="Események">Események</a>     
+                <a routerLink="/all-events" class="nav-link" aria-current="page" href="#" title="Események">Események</a>
                 <span>/</span>
                 <a class="nav-link" aria-current="page" href="#" title="Adott program neve">{{event.name}}</a> <!--az adott program nevének kell itt lennie-->
             </div>
@@ -45,7 +47,7 @@
                         <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEventTop">
                             <i class="bi bi-plus-lg"></i>Feliratkozás
                         </button>
-                        <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEventTop"> 
+                        <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEventTop">
                             <i class="bi bi-dash"></i>Leiratkozás
                         </button>
                     </div>
@@ -62,42 +64,42 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-12 event-informations-unit">
                 <div class="information-unit-inner">
                     <div class="part-left">
                         <div class="information-navbar col-12">
                             <div class="nav justify-content-center">
                                 <div class="nav-item">
-                                    <a (click)="setActiveSection('eventDescription')" 
-                                        class="nav-link" 
-                                        [class.active]="activeSection === 'eventDescription'" 
-                                        aria-current="page" 
+                                    <a (click)="setActiveSection('eventDescription')"
+                                        class="nav-link"
+                                        [class.active]="activeSection === 'eventDescription'"
+                                        aria-current="page"
                                         role="button">Leírás
                                     </a>
                                 </div>
                                 <span class="nav-item-separator">|</span>
                                 <div class="nav-item">
-                                    <a (click)="setActiveSection('eventDetails')" 
-                                        class="nav-link" 
-                                        [class.active]="activeSection === 'eventDetails'" 
-                                        aria-current="page" 
+                                    <a (click)="setActiveSection('eventDetails')"
+                                        class="nav-link"
+                                        [class.active]="activeSection === 'eventDetails'"
+                                        aria-current="page"
                                         role="button">Információk</a>
                                 </div>
                                 <span class="nav-item-separator">|</span>
                                 <div class="nav-item">
-                                    <a (click)="setActiveSection('eventReviews')" 
-                                        class="nav-link" 
-                                        [class.active]="activeSection === 'eventReviews'" 
-                                        aria-current="page" 
+                                    <a (click)="setActiveSection('eventReviews')"
+                                        class="nav-link"
+                                        [class.active]="activeSection === 'eventReviews'"
+                                        aria-current="page"
                                         role="button">Vélemények</a>
                                 </div>
                                 <span class="nav-item-separator">|</span>
                                 <div *ngIf="isEventSubscribed(event.id)" class="nav-item">                  <!--*ngIf="isEventSubscribed(event.id)"     Ez kell ide, hogy csak akkor jelenjen meg, ha az adott eseményre fel van iratkozva a felhasználó-->
-                                    <a (click)="setActiveSection('eventSelfExperience')" 
-                                        class="nav-link self-experience" 
-                                        [class.active]="activeSection === 'eventSelfExperience'" 
-                                        aria-current="page" 
+                                    <a (click)="setActiveSection('eventSelfExperience')"
+                                        class="nav-link self-experience"
+                                        [class.active]="activeSection === 'eventSelfExperience'"
+                                        aria-current="page"
                                         role="button">Élménybeszámoló</a>
                                 </div>
                                 <!-- <li class="nav-item">
@@ -116,7 +118,7 @@
                         <div class="event-details" *ngIf="activeSection === 'eventDetails'">
                             <div class="col-12 event-details-inner" id="eventDetails">
                                 <h4 class="parameters">Információk</h4>
-                                <ul *ngFor="let tag of tags" class="parameter-tag-list">   <!--itt úgy kell visszadni a tag-eket, hogy azok jelenjenek meg, amelyek az adott eseményhez tartoznak!!!-->  
+                                <ul *ngFor="let tag of tags" class="parameter-tag-list">   <!--itt úgy kell visszadni a tag-eket, hogy azok jelenjenek meg, amelyek az adott eseményhez tartoznak!!!-->
                                     <li class="parameter-items">
                                         <div class="tag-items">
                                             <div class="tag-group">{{tag.group}}</div>
@@ -139,7 +141,7 @@
                                             </ul>
                                         </div>
                                     </li>
-                                </ul>  
+                                </ul>
                             </div>
                         </div>
                             <!--Vélemények kezdet-->
@@ -220,7 +222,7 @@
                                         </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!-- Rating Modal -->
                                     <div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
@@ -261,20 +263,20 @@
                             <div class="event-experience-inner" id="eventSelfExperience">
                                 <div class="title-row">
                                     <h4 class="">Élménybeszámoló</h4>
-                                    
+
                                     <i *ngIf="!buttonVisible" (click)="editExperience()" [ngClass]="{ desabled: editButtonDesabled === true }" class="bi bi-pencil-fill" style="font-size: 1.2rem;"></i>
                                 </div>
-                                
+
                                  <!--*ngIF="!isNewExperienceVisible && !getUserExperience"     ezt kell beírni, amikor már meglesz a getUserExpreience metódus is-->
-                                <div *ngIf="!isNewExperienceVisible" class="add-experience">
+                                <div *ngIf="!isNewExperienceVisible && !getUserExperience" class="add-experience">
                                     <div class="textarea-explanation">
                                         <p>Ez a blokk azért jelent meg számodra, mert feliratkoztál az eseményre. Lehetőséged van rögzíteni az eseményen szerzett élményeidet, a kapcsolódó gondolataidat, hogy bármikor ismét....blablabla</p>
                                     </div>
                                     <button (click)="showNewExprerience()" type="button" class="btn btn-secondary">Élmény hozzáadása</button>
                                 </div>
                                 <!--DEZSŐ: *ngIf="isNewExperienceVisible || getUserExperience         ezt kell beírni, amikor már meglesz a getUserExpreience metódus is, mert ha van már adat, akkor azt kell megjelenítenie, ha nincs, akkor az üres beviteli textarea-t-->
-                                <div *ngIf="isNewExperienceVisible" class="mb-3 experience-input">     
-                                    
+                                <div *ngIf="isNewExperienceVisible || getUserExperience" class="mb-3 experience-input">
+
                                     <!--ez a dátumválasztó lehet egyelőre kimarad, mert csak még több megoldandó feladatot szül...-->
                                     <!-- <div class="date-picker">
                                         <form class="row row-cols-sm-auto">
@@ -300,15 +302,17 @@
                                     </div> -->
 
                                     <!-- Az itt leírtakat el kell menteni az adatbázisba!! -->
-                                    <textarea 
-                                        class="form-control" 
-                                        id="newExperience" 
-                                        rows="" 
-                                        maxlength="500" 
-                                        style="width: 100%" 
-                                        placeholder="Jegyezd fel élményeidet.." 
+
+                                    <textarea
+                                        [(ngModel)]="userCommentFromInput"
+                                        class="form-control"
+                                        id="newExperience"
+                                        rows=""
+                                        maxlength="500"
+                                        style="width: 100%"
+                                        placeholder="Jegyezd fel élményeidet.."
                                         [disabled]="newExperienceDesabled"
-                                        autofocus></textarea>
+                                        autofocus>{{userCommentFromApi}}</textarea>
                                     <button *ngIf="buttonVisible" (click)="newExperience()" type="button" class="btn btn-secondary" id="saveExperience">Mentés</button>
                                     <button *ngIf="buttonVisible" (click)="cancelNewExperience()" type="button" class="btn btn-secondary">Mégsem</button>
                                     <!-- Csak akkor jelenjen meg a módosítás mentése gomb, ha a kis szerkesztés ikonra kattintanak. -->
@@ -323,7 +327,7 @@
                             <div class="time-datas">
                                 <div class="dates">
                                     <div class="start-date">2025.03.01 </div>
-                                    <span>-</span> 
+                                    <span>-</span>
                                     <div class="end-date">2025.03.31</div>
                                 </div>
                                 <div class="times">
@@ -362,7 +366,7 @@
             <!--kártyák-->
                 <div *ngFor="let event of sameEvents" class="e-item -box col-6 col-md-4 col-lg-3 g10-xl-2">  <!--ide be kell kötni a backendet. Olyan kártyákat kell hozni, amik legalább 3 címkében egyeznek azokkal, amik az adott eseményre vonatkoznak-->
                     <div  class="card">
-                        <a [routerLink]="['/detailed-event/', event.id]" class="img"> 
+                        <a [routerLink]="['/detailed-event/', event.id]" class="img">
                         <div class="inner">
                             <img *ngIf="event.image; else noImage" src={{event.image}} class="card-img-top" alt={{event.name}}>
                             <ng-template #noImage>
@@ -405,7 +409,7 @@
                                 <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent">
                                     <i class="bi bi-plus-lg"></i>
                                 </button>
-                                <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent"> 
+                                <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent">
                                       <i class="bi bi-dash-lg"></i>
                                 </button>
                             </div>
@@ -419,10 +423,9 @@
     <!-- <div #toastElement class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
           <div class="toast-body">
-            
+
           </div>
           <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div> -->
 </div>
-  
