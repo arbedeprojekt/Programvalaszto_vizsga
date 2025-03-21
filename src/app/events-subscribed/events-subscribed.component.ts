@@ -121,6 +121,7 @@ export class EventsSubscribedComponent {
       (res: any) => {
         //console.log("userEvents", res)       
         this.userEvents = res
+        this.eventsArray = res
     })
   }
 
@@ -150,7 +151,7 @@ export class EventsSubscribedComponent {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
 
-    return this.userEvents.slice(start, end);      
+    return this.userEvents.slice(start, end);
   }
 
   get paginatedSearchedEvents(): any[] {
@@ -162,7 +163,7 @@ export class EventsSubscribedComponent {
     const end = start + this.itemsPerPage;
 
     return this.searchResults.slice(start, end);
-  }  
+  }
 
   filterByABCAsc() {
     //console.log("növekvő sorrend!!")
@@ -176,6 +177,7 @@ export class EventsSubscribedComponent {
   toSort(terms: any) {
     if (terms === "ascByABC") {
       // console.log("ascByABC")
+      console.log("eventsArray értéke:",this.eventsArray)
 
       this.sortedEventsArray = this.eventsArray
       this.sortedEventsArray = this.sortedEventsArray.sort(

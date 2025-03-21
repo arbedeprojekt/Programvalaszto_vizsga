@@ -47,6 +47,7 @@ export class DetailedEventComponent {
   constructor(private http: HttpClient, private base: BaseService, private route: ActivatedRoute, public auth: AuthService, private router: Router, public localStorage: LocalStorageService) {
 
     //a restApi-ból szerzett adatokat kiíratjuk
+    this.getDataFromApi()
     this.getTags()
     this.base.downloadAllTags()
     this.auth.getLoggedUser().subscribe(
@@ -80,7 +81,7 @@ export class DetailedEventComponent {
   detailedEvent(id: number | null) {
     if (id) {
       this.base.getEventById(id).subscribe(data => {
-        this.eventDetails = data; // Az esemény részleteit beállítjuk
+        this.eventDetails = data // Az esemény részleteit beállítjuk
       });
     }
   }
