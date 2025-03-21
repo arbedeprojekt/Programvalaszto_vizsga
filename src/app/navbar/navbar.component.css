@@ -1,31 +1,94 @@
-.navbar {
-    padding: 1rem 2rem;
+@media (min-width: 992px) {
+    .p-lg-0 {
+        padding: 0 !important;
+    }
+  }
+
+@media (min-width: 0px) {
+  .container-sm, .container {
+      max-width: 450px;
+  }
 }
 
-.row {
+@media (min-width: 576px) {
+  .container-sm, .container {
+      max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-md, .container-sm, .container {
+      max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container-lg, .container-md, .container-sm, .container {
+      max-width: 960px;
+  }
+}
+
+@media only screen and (min-width: 1260px) {
+  :root {
+      --container: $container-xl;
+  }
+}
+
+@media (min-width: 1260px) {
+  .container-xl, .container-lg, .container-md, .container-sm, .container {
+      max-width: 1232px;
+  }
+}
+
+.container, .container-fluid, .container-xl, .container-lg, .container-md, .container-sm {
+    width: 100%;
+    /* padding-right: .75rem;
+    padding-left: .75rem; */
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.navbar {
+    padding: 1rem 2rem;
+    background: #fff;
+}
+
+.navbar-collapse {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container-fluid {
     display: flex;
     flex-wrap: wrap;
-    margin-right: -.75rem;
-    margin-left: -.75rem;
+    flex-direction: row;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-middle {
+    flex: 0 0 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .navbar-right {
-    flex: 0 0 25%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    transition: padding .2sease-in-out;
+    justify-content: flex-end;
     transition-delay: 250ms;
 }
 
-.input-group {
-    margin-right: 1rem;
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    white-space: nowrap;
 }
 
-/* .navbar-right-icons {
-    flex: 0 1 auto;
-    position: relative;
-} */
 
 .user-menu {
     display: flex;
@@ -42,4 +105,8 @@
     right: 0;
     left: auto;
     margin-top: var(--bs-dropdown-spacer);
+}
+
+#userName {
+    text-transform: capitalize;
 }

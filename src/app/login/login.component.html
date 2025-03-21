@@ -1,49 +1,52 @@
-<div class="card">
+<div class="container p-lg-0">
+  <div class="login row">
+    <div class="col-12 col-6  col-md-3 col-lg-4">
+      <div class="panel">
 
-  <p class="information-block" *ngIf="setVisible()">Az oldal megtekintéséhez, kérlek jelentkezz be</p>
+        <div class="card-body">
+          <h4 class="card-title">Bejelentkezés</h4>
 
-  <div class="card-body">
-    <h5 class="card-title">Bejelentkezés</h5>
+          <p class="information-block" *ngIf="setVisible()">A megtekintéshez kérlek jelentkezz be, vagy regisztrálj!</p>
 
-    <div class="form-floating mb-3">
-      <input type="email" [(ngModel)]="name" class="form-control" id="floatingInput" placeholder="name@example.com">
-      <label for="floatingInput">Név</label>
+          <div class="name-input">
+            <label class="form-label">Email address</label>
+            <input type="email" [(ngModel)]="name" class="form-control" id="nameInput" placeholder="name@example.com">
+          </div>
+          <!-- hibaüzenet kiíratása -->
+          <div *ngIf="errorNameMessage != null && loginError == true ," class="alert alert-danger" role="alert">
+            <p *ngFor="let errorMessage of errorNameMessage"> {{errorMessage}}</p>
+          </div>
+
+          <label class="form-label">Jelszó</label>
+          <div class="input-group" id="passwordInput">
+            <input [type]="visiblePassword()" [(ngModel)]="password" class="form-control" placeholder="Password12">
+            <span class="input-group-text" id="" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
+          </div>
+          <!-- hibaüzenet kiíratása -->
+          <div *ngIf="errorPasswordMessage != null && loginError == true ," class="alert alert-danger" role="alert">
+            <p *ngFor="let errorMessage of errorPasswordMessage"> {{errorMessage}}</p>
+          </div>
+
+          <div class="buttons-block">
+            <button type="button" (click)="loginUserOnLaravel()" class="btn btn-primary">Bejelentkezés</button>
+            <button type="button" routerLink="/registration" class="btn btn-outline-primary">Regisztráció</button>
+            <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+              routerLink="/forgotpassword">Elfelejtett jelszó</a>
+          </div>
+
+
+          <div *ngIf="mailRegError" class="alert alert-danger" role="alert">
+            {{mailRegText}}
+          </div>
+
+        </div>
+      </div>
     </div>
-    <!-- hibaüzenet kiíratása -->
-    <div *ngIf="errorNameMessage != null && loginError == true ," class="alert alert-danger" role="alert">
-      <p *ngFor="let errorMessage of errorNameMessage"> {{errorMessage}}</p>
-    </div>
-
-
-    <div class="input-group mb-3">
-      <input [type]="visiblePassword()" [(ngModel)]="password" class="form-control" placeholder="Jelszó"
-        aria-label="Recipient's username" aria-describedby="basic-addon2">
-      <span class="input-group-text" id="basic-addon2"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
-    </div>
-    <!-- hibaüzenet kiíratása -->
-    <div *ngIf="errorPasswordMessage != null && loginError == true ," class="alert alert-danger" role="alert">
-      <p *ngFor="let errorMessage of errorPasswordMessage"> {{errorMessage}}</p>
-    </div>
-
-    <div class="input-group mb-3">
-      <button type="button" (click)="loginUserOnLaravel()" class="btn btn-primary">Bejelentkezés</button>
-      <a class="ms-4 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-        routerLink="/forgotpassword">Elfelejtett jelszó</a>
-    </div>
-
-
-    <div *ngIf="mailRegError" class="alert alert-danger" role="alert">
-      {{mailRegText}}
-    </div>
-
-
-
-
-  </div>
+  </div>  
 </div>
-<div *ngIf="loginError == false && errorNameMessage =='' && errorPasswordMessage ==''">
+<!-- <div *ngIf="loginError == false && errorNameMessage =='' && errorPasswordMessage ==''">
   <h1>Sikeres Bejelentkezés</h1>
 </div>
 <div *ngIf="unknownErrorMessageBool" class="alert alert-danger" role="alert">
   {{unknownErrorMessage}}
-</div>
+</div> -->
