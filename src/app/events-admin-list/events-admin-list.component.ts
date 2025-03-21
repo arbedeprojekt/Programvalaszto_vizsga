@@ -28,6 +28,21 @@ export class EventsAdminListComponent {
   oszlopok =["image","name", "description", "startDate", "endDate", "startTime", "endTime", "locationName", "locationcountry", "address", "state", "gpx", "weblink"]
   newEvents =["name", "description", "locationName", "locationcountry", "address", "gpx", "weblink", "startDate", "endDate", "startTime", "endTime"]
 
+  placeholders:{[key:string]:string} ={
+    "name":"pl: TerraPlaza 55th",
+    "description":"valamilyen leírás",
+    "locationName" : "Az esemény helye",
+    "locationcountry" : "pl: Magyarország",
+    "address" : "pl: 1011 Budapest, Lurdy utca 10.",
+    "startDate" : "pl: 2025-01-01",
+    "endDate" : "pl: 2025-01-11",
+    "startTime" : "pl: 05:00",
+    "endTime" : "pl: 17:00",
+    "weblink" : "pl: www.terraplaza.hu",
+    "gpx" : "földrajzikoordináták megadása"
+
+  }
+
 // A kétnyelvűséghez
   links:any
   dropClose=true
@@ -137,6 +152,7 @@ export class EventsAdminListComponent {
           // console.log("új esemény felvétele: ",res)
           if(res.success == false){
             console.log("hibaüzenetek: ",res.error)
+            alert("Hibás eseményfelvétel!")
             this.errNewEventMsg = res.error
           }
           //ahoz hogy az oldal újrafrissüljön.
