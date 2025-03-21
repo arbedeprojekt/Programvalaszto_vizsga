@@ -121,7 +121,7 @@ export class HomeComponent implements OnInit {
     this.base.unsubscribeEvent(data).subscribe(
       {
         next: (res: any) => {
-          console.log("sikeres leiratkozás: ", res)
+          //console.log("sikeres leiratkozás: ", res)
           this.base.show(res.message || "Sikeres leiratkozás!", "success")
 
           // Események újratöltése az API-ból, hogy az UI frissüljön!
@@ -132,7 +132,7 @@ export class HomeComponent implements OnInit {
           })
         },
         error: (error: any) => {
-          console.log("Valami hiba: ", error)
+          //console.log("Valami hiba: ", error)
           this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       })
@@ -145,7 +145,7 @@ export class HomeComponent implements OnInit {
   getUserEvents() {
     this.base.myEvents.subscribe(
       (res: any) => {
-        console.log("userEvents", res)       
+        //console.log("userEvents", res)       
         this.userEvents = res
     })
   }

@@ -95,7 +95,7 @@ export class EventsSubscribedComponent {
     this.base.unsubscribeEvent(data).subscribe(
       {
         next: (res: any) => {
-          console.log("sikeres leiratkozás: ", res)
+          //console.log("sikeres leiratkozás: ", res)
           this.base.show(res.message || "Sikeres leiratkozás!", "success")
 
           // Események újratöltése az API-ból, hogy az UI frissüljön!
@@ -106,7 +106,7 @@ export class EventsSubscribedComponent {
           })
         },
         error: (error: any) => {
-          console.log("Valami hiba: ", error)
+          //console.log("Valami hiba: ", error)
           this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       })
@@ -119,7 +119,7 @@ export class EventsSubscribedComponent {
   getUserEvents() {
     this.base.myEvents.subscribe(
       (res: any) => {
-        console.log("userEvents", res)       
+        //console.log("userEvents", res)       
         this.userEvents = res
     })
   }
@@ -165,11 +165,11 @@ export class EventsSubscribedComponent {
   }  
 
   filterByABCAsc() {
-    console.log("növekvő sorrend!!")
+    //console.log("növekvő sorrend!!")
   }
 
   filterByABCDesc() {
-    console.log("csökkenő sorrend!!")
+    //console.log("csökkenő sorrend!!")
 
   }
 
@@ -296,7 +296,7 @@ export class EventsSubscribedComponent {
     this.base.tagsSub.subscribe(
       (tag: any) => {
         this.tags = tag.data
-        console.log("res a tag componensből: ", tag)
+        //console.log("res a tag componensből: ", tag)
       }
     )
   }
@@ -316,7 +316,7 @@ export class EventsSubscribedComponent {
   }
 
   searchOnPress() {
-    console.log("keresés")
+    //console.log("keresés")
     if (this.searchControl.value === '') {
       this.isSearch = false
     }
@@ -325,7 +325,7 @@ export class EventsSubscribedComponent {
       this.search(this.searchControl.value).subscribe(
         {
           next: (res: any) => {
-            console.log("az eredmény: ", res)
+            //console.log("az eredmény: ", res)
             this.searchResults = res
           }
         }

@@ -59,7 +59,7 @@ export class LoginComponent {
             if (res) {
               if (res.data && res.data.token) {
                 this.auth.setLoggedUser(res.data)
-                
+
                 this.loginError = false
                 this.errorNameMessage = ""
                 this.errorPasswordMessage = ""
@@ -70,6 +70,7 @@ export class LoginComponent {
                 this.localStorage.setItem("token", this.token)
                 this.localStorage.setItem("user", this.nameAfterLogin)
                 this.localStorage.setItem("admin", this.adminAccessCode)
+                //this.localStorage.setItem("userID",res.data.id)
                 this.auth.saveLoginData = res.data
                 // console.log(this.auth.saveLoginData)
 
@@ -94,11 +95,11 @@ export class LoginComponent {
                 this.errorPasswordMessage = res.error['password']
                 this.unknownErrorMessageBool = false
 
-                console.log("hiba", res.data)
+                //console.log("hiba", res.data)
               }
             }
             else{
-              console.log("nincsen resdata ",res)
+              //console.log("nincsen resdata ",res)
               this.unknownErrorMessage ="Hibás felhasználónév/jelszó"
               this.unknownErrorMessageBool = true
 
@@ -109,7 +110,7 @@ export class LoginComponent {
           // console.log("Token: " ,this.token)},
           error: (res: any) => {
             this.mailRegError = true
-            console.log("Hiba", res)
+            //console.log("Hiba", res)
 
           }
         }

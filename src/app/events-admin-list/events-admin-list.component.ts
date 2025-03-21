@@ -100,33 +100,33 @@ export class EventsAdminListComponent {
       {
         next:(res:any)=>{
           if(res.success == false){
-            console.log("hibaüzenetek: ",res.error)
+            //console.log("hibaüzenetek: ",res.error)
             this.errModfyMsg = res.error
           }
-          console.log(res)
+          //console.log(res)
           // this.base.downloadAll()
         },
         error:(error:any)=>{
-          console.log("Valami hiba: ",error)
+          //console.log("Valami hiba: ",error)
         }
       }
     )
-    console.log("data" + data);
+    //console.log("data" + data);
   }
 
   deleteData(data:any){
     this.base.deleteDataWeb(data).subscribe(
       {
         next:(res:any)=>{
-          console.log("sikeres törlés: ",res)
+          //console.log("sikeres törlés: ",res)
           this.base.downloadAll()
         },
         error:(error:any)=>{
-          console.log("Valami hiba: ",error)
+          //console.log("Valami hiba: ",error)
         }
       }
     )
-    console.log("data" + data);
+    //console.log("data" + data);
 
   }
 
@@ -136,12 +136,12 @@ export class EventsAdminListComponent {
         next:(res:any)=>{
           // console.log("új esemény felvétele: ",res)
           if(res.success == false){
-            console.log("hibaüzenetek: ",res.error)
+            //console.log("hibaüzenetek: ",res.error)
             this.errNewEventMsg = res.error
           }
           //ahoz hogy az oldal újrafrissüljön.
           else{
-            console.log("Sikeres új esemény felvétel: ",res)
+            //console.log("Sikeres új esemény felvétel: ",res)
             alert("Sikeres eseményfelvétel!")
             this.base.downloadAll()
           }
@@ -161,17 +161,4 @@ export class EventsAdminListComponent {
     )
   }
 
-  // gombBeallitasa(lang:string){
-  //   this.lang=lang=="hu"?"Magyar":"English"
-  //   this.config.setLang(lang)
-  //   this.dropClose=true
-
-  //   if(lang == "hu"){
-  //     this.gombAtallit = true;
-  //   }
-  //   else{
-  //     this.gombAtallit = false;
-  //   }
-
-  // }
 }

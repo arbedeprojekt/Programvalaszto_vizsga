@@ -56,21 +56,21 @@ export class RegistrationComponent {
 
             }
             else {
-              console.log("Sikeres Bejelentkezés!")
+              //console.log("Sikeres Bejelentkezés!")
               this.registrationSuccess = true
 
             }
           }
           else {
 
-            console.log("A regisztrációban nincs res")
+            //console.log("A regisztrációban nincs res")
 
           }
 
 
         },
         error: (error: any) => {
-          console.log("hiba", error)
+          //console.log("hiba", error)
         }
       }
     )

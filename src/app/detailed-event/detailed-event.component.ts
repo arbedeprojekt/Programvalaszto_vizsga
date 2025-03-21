@@ -1,4 +1,4 @@
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { BaseService } from '../base.service';
@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Lightbox from 'bs5-lightbox';
 import { AuthService } from '../auth.service';
 import { NgbAlertModule, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { LocalStorageService } from '../local-storage.service';
 
 @Component({
   selector: 'app-detailed-event',
@@ -16,12 +17,12 @@ export class DetailedEventComponent {
 
   backendUrl = "http://127.0.0.1:8000/api/"
 
-  events:any
+  events: any
   tags: any
 
   detailedEventId: number | null = null;
   eventDetails: any;
-  
+
   //Mit adjunk vissza, ha nincs érték a dátum mezőkben
   eventStartDateNull = "Állandó"
   eventEndDateNull = ""
@@ -31,38 +32,49 @@ export class DetailedEventComponent {
 
   // Feliratkozások megtekintése
   userEvents: any
+  //Felíratkozók megszerzése
+  subscriptions: any
 
   //belépés ellenőrzése
   user: any
 
-  constructor(private http:HttpClient, private base:BaseService, private route: ActivatedRoute, public auth:AuthService, private router:Router) {
+  //A felhasználó kommentje
+  userCommentFromInput: any
+  //Az adatbázisban lévő komment
+  userCommentFromApi: any
+
+
+  constructor(private http: HttpClient, private base: BaseService, private route: ActivatedRoute, public auth: AuthService, private router: Router, public localStorage: LocalStorageService) {
 
     //a restApi-ból szerzett adatokat kiíratjuk
-    this.getDataFromApi()
     this.getTags()
     this.base.downloadAllTags()
     this.auth.getLoggedUser().subscribe(
       (user) => {
-        this.user = user})
+        this.user = user
+      })
+    this.base.getMyExperience()
+
   }
 
   //eventDeatils-ből az adatok kinyerése
-  getDataFromApi(){
+  getDataFromApi() {
     this.base.getAll().subscribe(
-      (res:any) => {
+      (res: any) => {
         this.events = res.data
       }
     )
   }
 
   ngOnInit(): void {
-    this.getUserEvents(); // MyEvents betöltése
+    this.getUserExperience()
+    this.getUserEvents() // MyEvents betöltése
 
     this.route.params.subscribe(params => {
-      this.detailedEventId = +params['id']; // Az ID lekérése a route-ból
-      console.log('Detailed Event ID:', this.detailedEventId);
-    });
-    console.log('Events:', this.events);
+      this.detailedEventId = +params['id'] // Az ID lekérése a route-ból
+      //console.log('Detailed Event ID:', this.detailedEventId)
+    })
+    //console.log('Events:', this.events)
   }
 
   detailedEvent(id: number | null) {
@@ -78,24 +90,24 @@ export class DetailedEventComponent {
   // Olyan kártyákat kell hozni, amik legalább 3 címkében egyeznek azokkal, amik az adott eseményre vonatkoznak
   get sameEvents() {
     if (this.events) { // Ellenőrizzük, hogy az events létezik-e
-      return this.events.slice(0, 4); // Az első 4 elemet adjuk vissza
+      return this.events.slice(0, 4) // Az első 4 elemet adjuk vissza
     } else {
-      return []; // Ha nincs adat, akkor egy üres tömböt adunk vissza
+      return [] // Ha nincs adat, akkor egy üres tömböt adunk vissza
     }
   }
 
 
-  activeSection: string = 'eventDescription'; // Kezdő érték
+  activeSection: string = 'eventDescription' // Kezdő érték
 
   setActiveSection(section: string) {
-    this.activeSection = section;
+    this.activeSection = section
   }
 
   //Vélemények
   // document.addEventListener('DOMContentLoaded', function() {
   //   const stars = document.querySelectorAll('.rating-star');
   //   const ratingInput = document.getElementById('rating');
-  
+
   //   stars.forEach(star => {
   //     star.addEventListener('click', function() {
   //       const rating = this.getAttribute('data-rating');
@@ -107,7 +119,7 @@ export class DetailedEventComponent {
   //       }
   //     });
   //   });
-  
+
   //   function resetStars() {
   //     stars.forEach(star => {
   //       star.classList.remove('bi-star-fill');
@@ -123,13 +135,13 @@ export class DetailedEventComponent {
     this.base.tagsSub.subscribe(
       (tag: any) => {
         this.tags = tag.data
-        console.log("res a tag componensből: ", tag)
+        //console.log("res a tag componensből: ", tag)
       }
     )
   }
 
   //feliratkozás adott eseményre
-  subscribeToEvent(event:any){
+  subscribeToEvent(event: any) {
     this.base.subscribeEvent(event).subscribe(
       {
         next: (res: any) => {
@@ -147,7 +159,7 @@ export class DetailedEventComponent {
 
             // Frissítsük a komponens változóját:
             this.base.myEvents.subscribe(events => {
-              this.userEvents = events;
+              this.userEvents = events
             })
           }
         },
@@ -160,17 +172,17 @@ export class DetailedEventComponent {
   }
 
   //leiratkozás adott eseményről
-  unsubscribeFromEvent(data:any){
+  unsubscribeFromEvent(data: any) {
     this.base.unsubscribeEvent(data).subscribe(
       {
         next: (res: any) => {
           //console.log("sikeres leiratkozás: ", res)
           this.base.show(res.message || "Sikeres leiratkozás!", "success")
           // Események újratöltése az API-ból, hogy az UI frissüljön!
-          this.base.getAllMyEvents();
+          this.base.getAllMyEvents()
           // Frissítsük a `userEvents` változót az új adatokkal
           this.base.myEvents.subscribe(events => {
-            this.userEvents = events;
+            this.userEvents = events
           })
         },
         error: (error: any) => {
@@ -181,7 +193,7 @@ export class DetailedEventComponent {
 
     //ha leiratkozáskor az aktív tab az élménybeszámoló, akkor a leírás váljon aktívvá (mert az élménybeszámoló tab és a tartalma eltűnik)
     if (this.activeSection === 'eventSelfExperience') {
-      this.activeSection = 'eventDescription';
+      this.activeSection = 'eventDescription'
     }
   }
 
@@ -192,10 +204,12 @@ export class DetailedEventComponent {
   getUserEvents() {
     this.base.myEvents.subscribe(
       (res: any) => {
-        console.log("userEvents", res)       
+        //console.log("userEvents", res)
         this.userEvents = res
-    })
+
+      })
   }
+
 
   isEventSubscribed(eventId: number): boolean {
     if (!Array.isArray(this.userEvents)) {
@@ -204,70 +218,99 @@ export class DetailedEventComponent {
 
     for (let i = 0; i < this.userEvents.length; i++) {
       if (this.userEvents[i].id === eventId) {
-        return true; // Ha találunk egyezést, rögtön visszatérünk
+        return true // Ha találunk egyezést, rögtön visszatérünk
       }
     }
-    return false; // Ha végigmentünk és nem találtunk, akkor false
+    return false // Ha végigmentünk és nem találtunk, akkor false
   }
 
-  
 
   //Itt kezdődnek az élménybeszámoló blokkhoz kapcsolódó funkciók
-  isNewExperienceVisible: boolean = false;
-  newExperienceDesabled: boolean = false;
-  buttonVisible: boolean = true;
-  editButtonVisible: boolean = false;
-  editButtonDesabled: boolean = false;
+  isNewExperienceVisible: boolean = false
+  newExperienceDesabled: boolean = false
+  //buttonVisible: boolean = false
+  editButtonVisible: boolean = false
+  pencilIconDesabled: boolean = false
 
-  
   getUserExperience() {
-    //DEZSŐ: ide még kell, ami visszaadja a már megírt és elmentett élménybeszámoló adatot a megfelelő felhasználóhoz, a megfelelő részletes eseményre
-    
-    //this.newExperienceDesabled = true;    //DEZSŐ: ez legyen majd éles (vedd ki a kommentelésből), ha megvan a getUserExperience  --> ez azért kell ide, mert ha már van megjelenítendő élménybeszámoló, akkor annak inaktívnak kell lennie alapértelmezetten
+
+    this.base.myExperiences.subscribe((res: any) => {
+      //console.log("Lekért élmények:", res)
+      //console.log("Keresett eventId:", this.detailedEventId)
+  
+      // Megkeressük az adott eventId-hoz tartozó commentet
+      let userExperience = res.find((exp: any) => {
+        //console.log("Ellenőrzés:", exp.eventId, "==", this.detailedEventId)
+        return exp.eventId === this.detailedEventId
+      })
+  
+      if (userExperience) {
+          this.userCommentFromApi = userExperience.comment // Megkapott komment
+          this.userCommentFromInput = this.userCommentFromApi
+          this.newExperienceDesabled = true
+          this.pencilIconDesabled = false
+          //console.log("userExperience", this.userCommentFromApi)
+        }
+        else {
+          this.isNewExperienceVisible = false
+        }
+      })
   }
-  //DEZSŐ: fenti igaz az összes alábbi részre is nyilván, tehát adott felhasználóhoz kell menteni az adott eseményhez írt élménybeszámolót
 
 
   showNewExprerience() {
-    this.isNewExperienceVisible = true; // Ha rákattintunk, megjelenik a newExperience
+    this.isNewExperienceVisible = true // Ha rákattintunk, megjelenik a newExperience
+    this.newExperienceDesabled = false
   }
 
   cancelNewExperience() {
-    //DEZSŐ: ha rányomnak a cancel-re, akkor a beírt adatokat nem szabad menteni!
-
-
-    this.isNewExperienceVisible = false; // Ha rákattintunk, bezáródik a newExperience
-  }
-
-  newExperience() {
-    //DEZSŐ: ezt kiegészíteni az élménybeszámoló elmentésének a funkciójával BE szempontból
-
-    this.newExperienceDesabled = true;
-    this.buttonVisible = false;
-  }
-
-  editExperience() {
-    this.editButtonVisible = true;
-    this. editButtonDesabled = true;
-    this.newExperienceDesabled = false;
+    this.base.getMyExperience()
+    this.isNewExperienceVisible = false // Ha rákattintunk, bezáródik a newExperience
+    this.editButtonVisible = false
   }
 
   updateExperience() {
-    //DEZSŐ: ezt kiegészíteni az élménybeszámoló módosításának funkciójával BE szempontból
+    this.getUserEvents()
+    let data = {
+      id: this.detailedEventId,
+      comment: this.userCommentFromInput
+    }
+    console.log("detailedeventid:", this.detailedEventId)
+    this.base.updateUserExperience(data).subscribe(
+      {
+        next: (res: any) => {
 
+          if (res.success == false) {
+            console.log("Valami gond van.")
+            // this.errModfyMsg = res.error
+          }
+          this.base.getMyExperience()
+          this.newExperienceDesabled = true
+          this.editButtonVisible = false
+          this.pencilIconDesabled = false
+          //this.buttonVisible = false
+          console.log("Siker!!")
+          // this.base.downloadAll()
+        },
+        error: (error: any) => {
+          console.log("Valami hiba: ", error)
+        }
+      }
+    )
+  }
 
-    this.newExperienceDesabled = true;
-    this.editButtonVisible = false;
-    this. editButtonDesabled = false;
+  editExperience() {
+    this.editButtonVisible = true
+    this.pencilIconDesabled = true
+    this.newExperienceDesabled = false
+    //this.buttonVisible = false
   }
 
   cancelUpdateExperience() {
-    //DEZSŐ: ha rányomnak a cancel-re, akkor a beírt módosításokat nem szabad menteni!
-
-
-    this.newExperienceDesabled = true;
-    this.editButtonVisible = false;
-    this. editButtonDesabled = false;
+    this.base.getMyExperience()
+    this.newExperienceDesabled = true
+    this.editButtonVisible = false
+    this.pencilIconDesabled = false
   }
 
 
@@ -279,16 +322,13 @@ export class DetailedEventComponent {
   //setVisible(): boolean {
   //  return this.model !== null;
   //}
-  
+
   //clearSelection() {
   //  this.model = null; // Dátum törlése
   //}
 
   //Itt végződnek az élménybeszámoló blokkhoz kapcsolódó funkciók
 
-
-  
-  
 
 }
 

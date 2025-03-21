@@ -21,51 +21,16 @@ export class NavbarComponent {
     this.auth.getLoggedUser().subscribe(
       (u) => {
         this.user = u
-        console.log("user", u.name)
+        //console.log("user", u.name)
       }
 
     )
-
-    // this.userName$ = this.auth.userName
-    // setInterval(()=>{
-    //   if(this.localStorage.getItem("user")==null ){
-    //     console.log("A localstorage üres")
-    //     this.loggedIn = false
-    //   }
-    //   else{
-
-    //     console.log("A localstorage nem üres, tartalma: ",this.localStorage.getItem("user"))
-    //     this.auth.getUserNameToDisplay()
-    //     this.auth.getUserToken()
-    //     this.auth.getUserAdminAccessCode()
-    //     this.userName$ = this.auth.userName
-    //     this.userAdmin = this.auth.userAdminAccessCode
-    //     this.loggedIn = true
-
-    //   }
-    // }
-
-    // ,3000)
-    // if(this.localStorage.getItem("user")==null ){
-    //   console.log("A localstorage üres")
-    //   this.loggedIn = false
-    // }
-    // else{
-
-    //   console.log("A localstorage nem üres, tartalma: ",this.localStorage.getItem("user"))
-    //   this.auth.getUserNameToDisplay()
-    //   this.auth.getUserToken()
-    //   this.userName$ = this.auth.userName
-    //   this.loggedIn = true
-
-    // }
-
 
   }
 
   logoutUserWithLaravel() {
     this.auth.logoutUserFromLaravel()
-    console.log("A felhasználó sikeresen kijelentkezve.")
+    //console.log("A felhasználó sikeresen kijelentkezve.")
   }
 
 }

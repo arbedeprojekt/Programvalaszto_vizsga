@@ -65,7 +65,7 @@ export class AuthService {
           // console.log("res: ",res['success'])
           if (res['success']) {
             // console.log("Token: ",this.token)
-            console.log("res: ", res)
+            //console.log("res: ", res)
             this.saveBackendMessage.next(res)   //sikeres regisztráció üzenet; Beának kell a felugró ablakhoz
 
           }
@@ -75,7 +75,7 @@ export class AuthService {
               this.saveBackendMessage.next(res)  //sikertelen regisztrációs üzenetek; Beának kell a felugró ablakhoz
             }
             else {
-              console.log("másik", res.data)
+              //console.log("másik", res.data)
               this.saveBackendMessage.next(res)
 
             }
@@ -132,10 +132,10 @@ export class AuthService {
     this.http.post(this.base.backendUrl + "logout", {}, { headers: headers }).subscribe(
       {
         next: (res: any) => {
-          console.log("headers: ", headers)
+          //console.log("headers: ", headers)
         },
         error: (error: any) => {
-          console.log("hiba: ", headers)
+          //console.log("hiba: ", headers)
         }
       }
 

@@ -127,11 +127,11 @@ export class AllEventsComponent {
 
 
   filterByABCAsc() {
-    console.log("növekvő sorrend!!")
+    //console.log("növekvő sorrend!!")
   }
 
   filterByABCDesc() {
-    console.log("csökkenő sorrend!!")
+    //console.log("csökkenő sorrend!!")
 
   }
 
@@ -249,7 +249,7 @@ export class AllEventsComponent {
     this.base.tagsSub.subscribe(
       (tag: any) => {
         this.tags = tag.data
-        console.log("res a tag componensből: ", tag)
+        //console.log("res a tag componensből: ", tag)
       }
     )
   }
@@ -269,7 +269,7 @@ export class AllEventsComponent {
   }
 
   searchOnPress() {
-    console.log("keresés")
+    //console.log("keresés")
     if (this.searchControl.value === '') {
       this.isSearch = false
     }
@@ -278,7 +278,7 @@ export class AllEventsComponent {
       this.search(this.searchControl.value).subscribe(
         {
           next: (res: any) => {
-            console.log("az eredmény: ", res)
+            //console.log("az eredmény: ", res)
             this.searchResults = res
           }
         }
@@ -302,7 +302,7 @@ export class AllEventsComponent {
           //ahoz hogy az oldal újrafrissüljön.
           else {
             this.base.getAllMyEvents()
-            console.log("Sikeres új esemény felvétel: ", res)
+            //console.log("Sikeres új esemény felvétel: ", res)
             this.base.show(res.message || "Sikeres feliratkozás!", "success")
 
 
@@ -313,7 +313,7 @@ export class AllEventsComponent {
           }
         },
         error: (error: any) => {
-          console.log("Valami hiba történt az új esemény felvétele során: ",error)
+          //console.log("Valami hiba történt az új esemény felvétele során: ",error)
         }
       }
     )
@@ -329,7 +329,7 @@ export class AllEventsComponent {
           this.base.show(res.message || "Sikeres leiratkozás!", "success")
           // Események újratöltése az API-ból, hogy az UI frissüljön!
           this.base.getAllMyEvents();
-          // 🔄 Frissítsük a `userEvents` változót az új adatokkal
+          // Frissítsük a `userEvents` változót az új adatokkal
           this.base.myEvents.subscribe(events => {
             this.userEvents = events;
           })
@@ -348,7 +348,7 @@ export class AllEventsComponent {
   getUserEvents() {
     this.base.myEvents.subscribe(
       (res: any) => {
-        console.log("userEvents", res)       
+        //console.log("userEvents", res)       
         this.userEvents = res
     })
   }

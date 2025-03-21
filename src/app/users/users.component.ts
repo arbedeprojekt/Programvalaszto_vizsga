@@ -99,46 +99,11 @@ export class UsersComponent {
   getDataFromApi() {
     this.base.dataUsersSub.subscribe(
       (res: any) => {
-        console.log("res a users-ben:", res)
+        //console.log("res a users-ben:", res)
         this.cikkek = res.data
       }
     )
   }
-
-
-  //ellenőrzöm, hogy ki akarja végrehajtani a műveletet
-  // if (token ==="2"){
-  //   this.http.put(this.backendUrl + "updateusers", data, { headers })
-  // }
-  //ha az admin akar végrehajtani műveletet
-  // else if(token === "1"){
-  //ha az admin a superadminon akar végrehajtani műveletet
-  // if (data.data.is_admin === "2"){
-  //   console.log("nincs jogosultságod a művelet végrehajtásához")
-  // }
-  //ha az admin bárki máson akar végrehajtani műveletet
-  // else{
-  //   this.http.put(this.backendUrl + "updateusers", data, { headers })
-  // }
-  // }
-  // updateData(data:any){
-  //   this.base.updateUser(data).subscribe(
-  //     {
-  //       next:(res:any)=>{
-  //         if(res.success == false){
-  //           console.log("hibaüzenetek: ",res.error)
-  //           this.errModfyMsg = res.error
-  //         }
-  //         console.log(res)
-  //         this.base.downloadAll()
-  //       },
-  //       error:(error:any)=>{
-  //         console.log("Valami hiba: ",error)
-  //       }
-  //     }
-  //   )
-  //   console.log("data" + data);
-  // }
 
 
   updateData(data: any) {
@@ -154,16 +119,16 @@ export class UsersComponent {
     this.base.deleteUser(data).subscribe(
       {
         next: (res: any) => {
-          console.log("sikeres tőrlés: ", res)
+          //console.log("sikeres tőrlés: ", res)
           this.base.downloadAllUsers()
         },
         error: (error: any) => {
-          console.log("Valami hiba: ", error)
+          //console.log("Valami hiba: ", error)
           alert("Szuperadmint nem lehet törölni/módosítani!")
         }
       }
     )
-    console.log("data" + data);
+    //console.log("data" + data);
 
   }
 
@@ -173,12 +138,12 @@ export class UsersComponent {
         next: (res: any) => {
           // console.log("új esemény felvétele: ",res)
           if (res.success == false) {
-            console.log("hibaüzenetek: ", res.error)
+            //console.log("hibaüzenetek: ", res.error)
             this.errNewEventMsg = res.error
           }
           //ahoz hogy az oldal újrafrissüljön.
           else {
-            console.log("Sikeres új esemény felvétel: ", res)
+            //console.log("Sikeres új esemény felvétel: ", res)
             alert("Sikeres eseményfelvétel!")
             this.base.downloadAll()
           }
@@ -197,18 +162,4 @@ export class UsersComponent {
       (res) => this.cikkek = res
     )
   }
-
-  // gombBeallitasa(lang:string){
-  //   this.lang=lang=="hu"?"Magyar":"English"
-  //   this.config.setLang(lang)
-  //   this.dropClose=true
-
-  //   if(lang == "hu"){
-  //     this.gombAtallit = true;
-  //   }
-  //   else{
-  //     this.gombAtallit = false;
-  //   }
-
-  // }
 }
