@@ -70,7 +70,7 @@ export class LoginComponent {
                 this.localStorage.setItem("token", this.token)
                 this.localStorage.setItem("user", this.nameAfterLogin)
                 this.localStorage.setItem("admin", this.adminAccessCode)
-                this.localStorage.setItem("userID",res.data.id)
+                // this.localStorage.setItem("userID",res.data.id)
                 this.auth.saveLoginData = res.data
                 // console.log(this.auth.saveLoginData)
 

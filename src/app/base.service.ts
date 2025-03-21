@@ -116,23 +116,23 @@ export class BaseService {
     //   return
     // }
     if (admin === "2") {
-      console.log("superadmin")
+      //console.log("superadmin")
       this.http.put(this.backendUrl + "updateusers", data, { headers }).subscribe(
         (res: any) => { this.dataUsersSub = res.data }
 
       )
     }
     else if (admin === "1") {
-      console.log("admin")
+      //console.log("admin")
       // if(data.admin =="2" || data.admin == "1"){
       //   console.log("nincs jogosultságod módosításra")
       // }
       //  else{
-      console.log("nyugodtan módosíthatod")
+      //console.log("nyugodtan módosíthatod")
       this.http.put(this.backendUrl + "updateusers", data, { headers }).subscribe(
         (res: any) => {
           this.dataUsersSub = res.data
-          console.log("a művelet vége: ", res)
+          //console.log("a művelet vége: ", res)
           alert("Sikeres Módosítás")
         })
       }
@@ -173,14 +173,14 @@ export class BaseService {
   {
     let token = localStorage.getItem("token")
     if (token) {
-      console.log("Van token és lekérem az eseméyneket!!!!")
+      //console.log("Van token és lekérem az eseméyneket!!!!")
       let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-      console.log("headers", token)
+      //console.log("headers", token)
       this.http.get(this.backendUrl + "getsubscriptions", { headers }).subscribe(
         {
         next:(res: any) =>
                {
-                console.log("Api válasz (My Events)", res)
+                //console.log("Api válasz (My Events)", res)
                     let events=[]
                     let allDetails=[]
                     for (const element of res.data) {
@@ -193,7 +193,7 @@ export class BaseService {
 
                   },
       error: (err)=>{
-        console.log("HIbaaaa!!!!",err)
+        //console.log("HIbaaaa!!!!",err)
       }
       }
     )
@@ -253,8 +253,8 @@ export class BaseService {
     this.http.get(this.backendUrl + "tags", { headers }).subscribe(
       (res: any) => {
         this.tagsSub.next(res)
-        console.log("üzenet a tegek betöltése során a base-ben: ", res)
-        console.log("üzenet a tegek betöltése során a base-ben: ", headers)
+        //console.log("üzenet a tegek betöltése során a base-ben: ", res)
+        //console.log("üzenet a tegek betöltése során a base-ben: ", headers)
 
       }
     )
@@ -321,8 +321,8 @@ export class BaseService {
     }
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-    console.log("data.id = ",data.id)
-    console.log("data formája a base service-ben",body)
+    //console.log("data.id = ",data.id)
+    //console.log("data formája a base service-ben",body)
     return this.http.put(this.backendUrl + `updatesubscriptions/${data.id}`, body, { headers })
   }
 
@@ -330,14 +330,14 @@ export class BaseService {
   {
     let token = localStorage.getItem("token")
     if (token) {
-      console.log("Van token és lekérem az eseméyneket!!!!")
+      //console.log("Van token és lekérem az eseméyneket!!!!")
       let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-      console.log("headers", token)
+      //console.log("headers", token)
       this.http.get(this.backendUrl + "getsubscriptions", { headers }).subscribe(
         {
         next:(res: any) =>
                {
-                console.log("Api válasz (My Events)", res)
+                //console.log("Api válasz (My Events)", res)
                     let experiences=[]
 
                     for (const element of res.data) {
@@ -349,7 +349,7 @@ export class BaseService {
 
                   },
       error: (err)=>{
-        console.log("HIbaaaa!!!!",err)
+        //console.log("HIbaaaa!!!!",err)
       }
       }
     )
