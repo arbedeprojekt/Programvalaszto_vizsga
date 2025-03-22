@@ -35,7 +35,7 @@
     <div  *ngFor="let oszlop of oszlopok"  class="col word-wrap" id="eventsDataCol">
       <textarea *ngIf="oszlop != 'admin'"  [(ngModel)]="cikk[oszlop]" [readOnly]="oszlop ==='name' || oszlop ==='email'" type="text"
         class="form-control form-control-sm" id="eventsData"></textarea>
-      <select *ngIf="oszlop === 'admin'" [(ngModel)]="cikk[oszlop]" class="form-control form-control-sm">
+      <select *ngIf="oszlop === 'admin'" [(ngModel)]="cikk[oszlop]" [disabled]="selectDesabled" class="form-control form-control-sm">
         <option  [value]="0">0 (user)</option>
         <option  [value]="1">1 (admin)</option>
         <option  [value]="2">2 (szuperadmin)</option>
@@ -51,7 +51,7 @@
         <!-- <button *ngIf="localStorage.getItem('admin') === '1'" class="btn btn-primary btn-sm"
           [disabled]="cikk['admin'] === 2 || cikk['admin'] === 1 " (click)="updateData(cikk)">Módosít</button> -->
         <!-- csak a superadminnál aktív -->
-        <div>
+        <div *ngIf="localStorage.getItem('admin') === '2'">
           <button class="btn btn-primary btn-sm" (click)="updateData(cikk)">Módosít</button>
           <button class="btn btn-secondary btn-sm ms-2" (click)="deleteData(cikk)">Törlés</button>
         </div>

@@ -90,12 +90,23 @@ export class BaseService {
   downloadAllUsers() {
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-    this.http.get(this.backendUrl + "getusers", { headers }).subscribe(
-      (res: any) => {
-        this.dataUsersSub.next(res)
-      }
+    if(token != null){
+      this.http.get(this.backendUrl + "getusers", { headers }).subscribe(
+        (res: any) => {
+          this.dataUsersSub.next(res)
+        }
+  
+      )
+    }
+    // this.http.get(this.backendUrl + "getusers", { headers }).subscribe(
+    //   (res: any) => {
+    //     this.dataUsersSub.next(res)
+    //   }
 
-    )
+    // )
+    else{
+      console.log("Nincs senki se bejelentkezve!")
+    }
   }
 
   //lekéri az eseményt id alapján; ezt a részletes oldalhoz használjuk
