@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 //import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
 // import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 // import { ProductsListComponent } from './products-list/products-list.component';
 
 @Injectable({
@@ -383,6 +383,151 @@ export class BaseService {
       }
     )
   }
+  }
+
+  //DezsŐ:szűrés ábc,dátum szerint
+  toSort(terms:string, events:any) {
+    console.log("events: ",events)
+    console.log("terms: ",terms)
+
+    // let sortedEventsArray = []
+    let sortedEventsArray :any
+
+    let eventsArray = events
+    console.log("eventsArray Tartalma: ",eventsArray)
+    
+
+    if (terms === "ascByABC") {
+      // console.log("ascByABC")
+
+      sortedEventsArray = eventsArray
+      sortedEventsArray = sortedEventsArray.sort(
+        (a: any, b: any) => {
+
+          // console.log("a értéke: ", a)
+          // console.log("b értéke: ", b)
+          return a.name.localeCompare(b.name)
+        }
+      )
+
+      //a keresett tartalmak szűréséhez
+      // if (this.isSearch == true) {
+      //   this.searchResults = this.searchResults.sort(
+      //     (a: any, b: any) => {
+
+            // console.log("a értéke: ", a)
+            // console.log("b értéke: ", b)
+      //       return a.name.localeCompare(b.name)
+      //     }
+      //   )
+      // }
+    }
+
+    else if (terms === "descByABC") {
+      // console.log("descByABC")
+      sortedEventsArray = eventsArray
+      console.log("sortedEventsArray:",sortedEventsArray)
+      sortedEventsArray = sortedEventsArray.sort(
+        (a: any, b: any) => {
+
+          // console.log("a értéke: ", a)
+          // console.log("b értéke: ", b)
+          return b.name.localeCompare(a.name)
+        }
+      )
+
+      //a keresett tartalmak szűréséhez
+
+      // if (this.isSearch == true) {
+      //   this.searchResults = this.searchResults.sort(
+      //     (a: any, b: any) => {
+
+            // console.log("a értéke: ", a)
+            // console.log("b értéke: ", b)
+      //       return b.name.localeCompare(a.name)
+      //     }
+      //   )
+      // }
+    }
+
+    else if (terms === "ascByDate") {
+      // console.log("ascByDate")
+      sortedEventsArray = eventsArray
+      sortedEventsArray = sortedEventsArray.sort(
+        (a: any, b: any) => {
+
+          // console.log("a értéke: ", a)
+          // console.log("b értéke: ", b)
+          return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+        }
+      )
+
+      //a keresett tartalmak szűréséhez
+
+      // if (this.isSearch == true) {
+      //   this.searchResults = this.searchResults.sort(
+      //     (a: any, b: any) => {
+
+            // console.log("a értéke: ", a)
+            // console.log("b értéke: ", b)
+      //       return new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+      //     }
+      //   )
+      // }
+    }
+
+    else if (terms === "descByDate") {
+      // console.log("descByDate")
+      sortedEventsArray = eventsArray
+      sortedEventsArray = sortedEventsArray.sort(
+        (a: any, b: any) => {
+
+          return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+        }
+      )
+
+      //a keresett tartalmak szűréséhez
+
+      // if (this.isSearch == true) {
+      //   this.searchResults = this.searchResults.sort(
+      //     (a: any, b: any) => {
+
+            // console.log("a értéke: ", a)
+            // console.log("b értéke: ", b)
+      //       return new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+      //     }
+      //   )
+      // }
+
+    }
+
+    // console.log("szortírozás után : ", sortedEventsArray)
+    // if (this.searchControl.value === '') {
+    //   this.searchResults = []
+    // }
+  }
+
+  
+  search(query: string):Observable<any> {
+    let res:any
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+    console.log(".base.search")
+    // if (!query.trim()) {
+    //   return new Observable(observer => observer.next([])); // Ha üres a kereső, ne küldjön kérést
+    // }
+    return this.http.get(`${this.backendUrl}searchevents/?query=${query}`, { headers }).pipe(
+      map((response: any) => {
+        res = response.data
+        console.log("res",res)
+        return res 
+      })
+
+
+      // distinctUntilChanged()
+    )
+    
+    // GET kérés küldése a backendnek
   }
 
 }

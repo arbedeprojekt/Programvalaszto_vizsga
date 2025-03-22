@@ -40,8 +40,8 @@ export class UsersComponent {
 
   gombAtallit = true
 
-  cikkek: any
-  newCikk: any = {}
+  userek: any
+  
 
   //módosításkor fellépő hibaüzenetek elmentése
   errModfyMsg: any
@@ -56,16 +56,16 @@ export class UsersComponent {
     public localStorage: LocalStorageService) {
 
 
-    //a base service getAll metódusát meghívva átadjuk a cikkeket
+    //a base service getAll metódusát meghívva átadjuk a usereket
     // this.base.getAll().subscribe(
-    //   (res)=>this.cikkek=res
+    //   (res)=>this.userek=res
     // )
 
     // this.base.getAllUsers().subscribe(
-    //   (res) => this.cikkek = res
+    //   (res) => this.userek = res
     // )
     this.base.dataUsersObs.subscribe(
-      (res:any) => this.cikkek = res
+      (res:any) => this.userek = res
     )
     this.base.downloadAllUsers()
 
@@ -77,7 +77,7 @@ export class UsersComponent {
     this.base.dataUsersSub.subscribe(
       (res: any) => {
         //console.log("res a users-ben:", res)
-        this.cikkek = res.data
+        this.userek = res.data
       }
     )
   }

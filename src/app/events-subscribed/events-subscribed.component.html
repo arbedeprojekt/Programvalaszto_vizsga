@@ -86,8 +86,8 @@
               <!--ha marad időnk, lehetne egy népszerűség szerint növekvő is: a legtöbb felhasználó által feliratkozott; aktív státuszú események;-->
               <!--</select> -->
 
-              <select [(ngModel)]="selectedOption" (change)="toSort(selectedOption)" class="form-select">
-                <option value="ascByABC">ABC szerint növekvő</option>
+              <select [(ngModel)]="selectedOption" (change)="toSort()" class="form-select">
+                <option value="ascByABC" selected>ABC szerint növekvő</option>
                 <option value="descByABC">ABC szerint csökkenő</option>
                 <option value="ascByDate">Dátum szerint növekvő</option>
                 <option value="descByDate">Dátum szerint csökkenő</option>

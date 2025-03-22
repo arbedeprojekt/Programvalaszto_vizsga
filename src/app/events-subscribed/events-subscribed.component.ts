@@ -81,7 +81,7 @@ export class EventsSubscribedComponent {
     this.base.getAllMyEvents()
     this.getTags()
     this.base.downloadAllTags()
-    this.toSort("ascByABC");
+    
     // this.getSubscribeEvents()
   }
 
@@ -174,115 +174,127 @@ export class EventsSubscribedComponent {
 
   }
 
-  toSort(terms: any) {
-    if (terms === "ascByABC") {
-      // console.log("ascByABC")
-      console.log("eventsArray értéke:",this.eventsArray)
+  // toSort(terms: any) {
+  //   if (terms === "ascByABC") {
+  //     // console.log("ascByABC")
+  //     console.log("eventsArray értéke:",this.eventsArray)
 
-      this.sortedEventsArray = this.eventsArray
-      this.sortedEventsArray = this.sortedEventsArray.sort(
-        (a: any, b: any) => {
+  //     this.sortedEventsArray = this.eventsArray
+  //     this.sortedEventsArray = this.sortedEventsArray.sort(
+  //       (a: any, b: any) => {
 
-          // console.log("a értéke: ", a)
-          // console.log("b értéke: ", b)
-          return a.name.localeCompare(b.name)
-        }
-      )
+  //         // console.log("a értéke: ", a)
+  //         // console.log("b értéke: ", b)
+  //         return a.name.localeCompare(b.name)
+  //       }
+  //     )
 
-      //a keresett tartalmak szűréséhez
-      if (this.isSearch == true) {
-        this.searchResults = this.searchResults.sort(
-          (a: any, b: any) => {
+  //     //a keresett tartalmak szűréséhez
+  //     if (this.isSearch == true) {
+  //       this.searchResults = this.searchResults.sort(
+  //         (a: any, b: any) => {
 
-            // console.log("a értéke: ", a)
-            // console.log("b értéke: ", b)
-            return a.name.localeCompare(b.name)
-          }
-        )
-      }
-    }
+  //           // console.log("a értéke: ", a)
+  //           // console.log("b értéke: ", b)
+  //           return a.name.localeCompare(b.name)
+  //         }
+  //       )
+  //     }
+  //   }
 
-    else if (terms === "descByABC") {
-      // console.log("descByABC")
-      this.sortedEventsArray = this.eventsArray
-      this.sortedEventsArray = this.sortedEventsArray.sort(
-        (a: any, b: any) => {
+  //   else if (terms === "descByABC") {
+  //     // console.log("descByABC")
+  //     this.sortedEventsArray = this.eventsArray
+  //     this.sortedEventsArray = this.sortedEventsArray.sort(
+  //       (a: any, b: any) => {
 
-          // console.log("a értéke: ", a)
-          // console.log("b értéke: ", b)
-          return b.name.localeCompare(a.name)
-        }
-      )
+  //         // console.log("a értéke: ", a)
+  //         // console.log("b értéke: ", b)
+  //         return b.name.localeCompare(a.name)
+  //       }
+  //     )
 
-      //a keresett tartalmak szűréséhez
+  //     //a keresett tartalmak szűréséhez
 
-      if (this.isSearch == true) {
-        this.searchResults = this.searchResults.sort(
-          (a: any, b: any) => {
+  //     if (this.isSearch == true) {
+  //       this.searchResults = this.searchResults.sort(
+  //         (a: any, b: any) => {
 
-            // console.log("a értéke: ", a)
-            // console.log("b értéke: ", b)
-            return b.name.localeCompare(a.name)
-          }
-        )
-      }
-    }
+  //           // console.log("a értéke: ", a)
+  //           // console.log("b értéke: ", b)
+  //           return b.name.localeCompare(a.name)
+  //         }
+  //       )
+  //     }
+  //   }
 
-    else if (terms === "ascByDate") {
-      // console.log("ascByDate")
-      this.sortedEventsArray = this.eventsArray
-      this.sortedEventsArray = this.sortedEventsArray.sort(
-        (a: any, b: any) => {
+  //   else if (terms === "ascByDate") {
+  //     // console.log("ascByDate")
+  //     this.sortedEventsArray = this.eventsArray
+  //     this.sortedEventsArray = this.sortedEventsArray.sort(
+  //       (a: any, b: any) => {
 
-          // console.log("a értéke: ", a)
-          // console.log("b értéke: ", b)
-          return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
-        }
-      )
+  //         // console.log("a értéke: ", a)
+  //         // console.log("b értéke: ", b)
+  //         return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+  //       }
+  //     )
 
-      //a keresett tartalmak szűréséhez
+  //     //a keresett tartalmak szűréséhez
 
-      if (this.isSearch == true) {
-        this.searchResults = this.searchResults.sort(
-          (a: any, b: any) => {
+  //     if (this.isSearch == true) {
+  //       this.searchResults = this.searchResults.sort(
+  //         (a: any, b: any) => {
 
-            // console.log("a értéke: ", a)
-            // console.log("b értéke: ", b)
-            return new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
-          }
-        )
-      }
-    }
+  //           // console.log("a értéke: ", a)
+  //           // console.log("b értéke: ", b)
+  //           return new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+  //         }
+  //       )
+  //     }
+  //   }
 
-    else if (terms === "descByDate") {
-      // console.log("descByDate")
-      this.sortedEventsArray = this.eventsArray
-      this.sortedEventsArray = this.sortedEventsArray.sort(
-        (a: any, b: any) => {
+  //   else if (terms === "descByDate") {
+  //     // console.log("descByDate")
+  //     this.sortedEventsArray = this.eventsArray
+  //     this.sortedEventsArray = this.sortedEventsArray.sort(
+  //       (a: any, b: any) => {
 
-          return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
-        }
-      )
+  //         return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+  //       }
+  //     )
 
-      //a keresett tartalmak szűréséhez
+  //     //a keresett tartalmak szűréséhez
 
-      if (this.isSearch == true) {
-        this.searchResults = this.searchResults.sort(
-          (a: any, b: any) => {
+  //     if (this.isSearch == true) {
+  //       this.searchResults = this.searchResults.sort(
+  //         (a: any, b: any) => {
 
-            // console.log("a értéke: ", a)
-            // console.log("b értéke: ", b)
-            return new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
-          }
-        )
-      }
+  //           // console.log("a értéke: ", a)
+  //           // console.log("b értéke: ", b)
+  //           return new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+  //         }
+  //       )
+  //     }
 
-    }
+  //   }
 
-    // console.log("szortírozás után : ", this.sortedEventsArray)
-    if (this.searchControl.value === '') {
-      this.searchResults = []
-    }
+  //   // console.log("szortírozás után : ", this.sortedEventsArray)
+  //   if (this.searchControl.value === '') {
+  //     this.searchResults = []
+  //   }
+  // }
+
+  toSort(){
+    console.log("userEvents: ", this.userEvents)
+    // if(!this.searchResults){
+      this.base.toSort(this.selectedOption,this.userEvents)
+    //   console.log("")
+    // }
+    // else{
+    //   this.base.toSort(this.selectedOption,this.searchResults)
+    // }
+    
   }
 
   navigateToEvent(eventId: number) {
@@ -303,7 +315,7 @@ export class EventsSubscribedComponent {
     )
   }
 
-  search(query: string): Observable<string[]> {
+/*   search(query: string): Observable<string[]> {
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
     if (!query.trim()) {
@@ -315,26 +327,33 @@ export class EventsSubscribedComponent {
       // distinctUntilChanged()
     )
     // GET kérés küldése a backendnek
-  }
+  } */
 
   searchOnPress() {
     //console.log("keresés")
     if (this.searchControl.value === '') {
+      // console.log("searchOn")
       this.isSearch = false
     }
     else {
       this.isSearch = true
-      this.search(this.searchControl.value).subscribe(
-        {
-          next: (res: any) => {
-            //console.log("az eredmény: ", res)
-            this.searchResults = res
-          }
+      this.base.search(this.searchControl.value).subscribe(
+        (data:any) => {
+          this.searchResults = data; // Adatok beállítása
+          console.log("userEvents tartalma: ", this.userEvents)
+          const commonElements = this.searchResults.filter((item1:any) =>
+            this.userEvents.some((item2:any) => item1.id == item2.id) // Az id alapján hasonlítunk
+            
+          )
+          console.log("commonElements: ",commonElements)
+          this.base.toSort(this.selectedOption,commonElements)
+          console.log("searchResults: ", this.searchResults);
         }
-
       )
+      
+
+      
     }
 
   }
-
 }

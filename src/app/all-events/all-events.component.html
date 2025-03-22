@@ -41,8 +41,8 @@
               <!--ha marad időnk, lehetne egy népszerűség szerint növekvő is: a legtöbb felhasználó által feliratkozott; aktív státuszú események;-->
               <!--</select> -->
 
-              <select [(ngModel)]="selectedOption" (change)="toSort(selectedOption)" class="form-select">
-                <option value="ascByABC">ABC szerint növekvő</option>
+              <select [(ngModel)]="selectedOption" (change)="toSort()" class="form-select">
+                <option value="ascByABC" selected>ABC szerint növekvő</option>
                 <option value="descByABC">ABC szerint csökkenő</option>
                 <option value="ascByDate">Dátum szerint növekvő</option>
                 <option value="descByDate">Dátum szerint csökkenő</option>
@@ -248,7 +248,8 @@
       <!--Kártyák felépítésének vége-->
 
       <!-- Keresés eredményeinek megjelenítése -->
-      <div class="content-cards" *ngIf="searchControl.value != '' && isSearch == true">
+      <div class="content-cards" *ngIf=" isSearch == true">
+<!--       <div class="content-cards" *ngIf="searchControl.value != '' && isSearch == true"> -->
         <div class="row events -grid">
           <div *ngFor="let event of paginatedSearchedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
             <div class="card">
@@ -312,7 +313,7 @@
         </div>
       </div>
 
-      <div *ngIf="searchResults.length ==0 && isSearch ==true ">
+      <div *ngIf=" isSearch ==true && searchResults.length == '0'">
         <h1>Nincs találat</h1>
       </div>
 
