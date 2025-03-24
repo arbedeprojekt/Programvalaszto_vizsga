@@ -43,6 +43,8 @@ export class EventsAdminListComponent {
 
   }
 
+
+
 // A kétnyelvűséghez
   links:any
   dropClose=true

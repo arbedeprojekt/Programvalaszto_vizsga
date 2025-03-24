@@ -6,10 +6,24 @@
   <div id="titleNewEvent">ÚJ PROGRAM FELVÉTELE</div>
   <!-- Új rekord felvétele -->
   <div class="" id="newDataInputsContainer">
-    <div  class="" id="newDataInputs">
+    <!-- DEZSŐ ÍRTA:Ezt a részt ki lehet törölni, ha tetszik az idő megadási módszer -->
+    <!-- <div  class="" id="newDataInputs">
       <div *ngFor="let newEvent of newEvents; let y =index" class="col-common" id="newEvents">
         <label class="form-label form-label-sm">{{newEvent}}</label>
         <input [(ngModel)]="newCikk[newEvent]" type="text" class="form-control form-control-sm input-common" [id]="'input-' + y" [placeholder]="placeholders[newEvent]">
+      </div>
+    </div> -->
+    <div  class="" id="newDataInputs">
+      <div *ngFor="let newEvent of newEvents; let y =index" class="col-common" id="newEvents">
+        <label class="form-label form-label-sm">{{newEvent}}</label>
+
+        <input *ngIf="newEvent === 'startTime' || newEvent === 'endTime'" [(ngModel)]="newCikk[newEvent]" class="form-control form-control-sm input-common" [id]="'input-' + y" type="time" placeholder="HH:mm">
+
+        <input *ngIf="newEvent != 'startTime' && newEvent != 'endTime'" [(ngModel)]="newCikk[newEvent]" type="text" class="form-control form-control-sm input-common" [id]="'input-' + y" [placeholder]="placeholders[newEvent]">
+
+
+
+
       </div>
     </div>
     <div class="button" id="saveButton">
