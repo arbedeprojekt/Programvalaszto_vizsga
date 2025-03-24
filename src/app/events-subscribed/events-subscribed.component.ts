@@ -48,7 +48,7 @@ export class EventsSubscribedComponent {
   dataFromApi: any
 
   //Az ábc sorrend megvalósításához
-  selectedOption: any
+  selectedOption ="ascByABC"
   eventsArray = []
   sortedEventsArray: any
 
@@ -81,7 +81,7 @@ export class EventsSubscribedComponent {
     this.base.getAllMyEvents()
     this.getTags()
     this.base.downloadAllTags()
-    this.toSort("ascByABC");
+
     // this.getSubscribeEvents()
   }
 
@@ -119,7 +119,7 @@ export class EventsSubscribedComponent {
   getUserEvents() {
     this.base.myEvents.subscribe(
       (res: any) => {
-        //console.log("userEvents", res)       
+        //console.log("userEvents", res)
         this.userEvents = res
         this.eventsArray = res
     })
@@ -156,6 +156,8 @@ export class EventsSubscribedComponent {
 
   get paginatedSearchedEvents(): any[] {
     if (!this.searchResults || !Array.isArray(this.searchResults)) {
+
+
       // console.log("az events üres vót, tartalma: ", this.searchResults);
       return [];
     }
@@ -165,124 +167,22 @@ export class EventsSubscribedComponent {
     return this.searchResults.slice(start, end);
   }
 
-  filterByABCAsc() {
-    //console.log("növekvő sorrend!!")
-  }
 
-  filterByABCDesc() {
-    //console.log("csökkenő sorrend!!")
 
-  }
 
-  toSort(terms: any) {
-    if (terms === "ascByABC") {
-      // console.log("ascByABC")
-      console.log("eventsArray értéke:",this.eventsArray)
 
-      this.sortedEventsArray = this.eventsArray
-      this.sortedEventsArray = this.sortedEventsArray.sort(
-        (a: any, b: any) => {
-
-          // console.log("a értéke: ", a)
-          // console.log("b értéke: ", b)
-          return a.name.localeCompare(b.name)
-        }
-      )
-
-      //a keresett tartalmak szűréséhez
-      if (this.isSearch == true) {
-        this.searchResults = this.searchResults.sort(
-          (a: any, b: any) => {
-
-            // console.log("a értéke: ", a)
-            // console.log("b értéke: ", b)
-            return a.name.localeCompare(b.name)
-          }
-        )
-      }
+  toSort(){
+    console.log("userEvents: ", this.userEvents)
+    //dezső: Megnézem, hogy akarja e használni a felhasználó a szabadszavas keresést
+    if(this.isSearch == false){
+      this.base.toSort(this.selectedOption,this.userEvents)
+      console.log("")
+    }
+    else{
+      console.log("else ág")
+      this.base.toSort(this.selectedOption,this.searchResults)
     }
 
-    else if (terms === "descByABC") {
-      // console.log("descByABC")
-      this.sortedEventsArray = this.eventsArray
-      this.sortedEventsArray = this.sortedEventsArray.sort(
-        (a: any, b: any) => {
-
-          // console.log("a értéke: ", a)
-          // console.log("b értéke: ", b)
-          return b.name.localeCompare(a.name)
-        }
-      )
-
-      //a keresett tartalmak szűréséhez
-
-      if (this.isSearch == true) {
-        this.searchResults = this.searchResults.sort(
-          (a: any, b: any) => {
-
-            // console.log("a értéke: ", a)
-            // console.log("b értéke: ", b)
-            return b.name.localeCompare(a.name)
-          }
-        )
-      }
-    }
-
-    else if (terms === "ascByDate") {
-      // console.log("ascByDate")
-      this.sortedEventsArray = this.eventsArray
-      this.sortedEventsArray = this.sortedEventsArray.sort(
-        (a: any, b: any) => {
-
-          // console.log("a értéke: ", a)
-          // console.log("b értéke: ", b)
-          return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
-        }
-      )
-
-      //a keresett tartalmak szűréséhez
-
-      if (this.isSearch == true) {
-        this.searchResults = this.searchResults.sort(
-          (a: any, b: any) => {
-
-            // console.log("a értéke: ", a)
-            // console.log("b értéke: ", b)
-            return new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
-          }
-        )
-      }
-    }
-
-    else if (terms === "descByDate") {
-      // console.log("descByDate")
-      this.sortedEventsArray = this.eventsArray
-      this.sortedEventsArray = this.sortedEventsArray.sort(
-        (a: any, b: any) => {
-
-          return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
-        }
-      )
-
-      //a keresett tartalmak szűréséhez
-
-      if (this.isSearch == true) {
-        this.searchResults = this.searchResults.sort(
-          (a: any, b: any) => {
-
-            // console.log("a értéke: ", a)
-            // console.log("b értéke: ", b)
-            return new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
-          }
-        )
-      }
-
-    }
-
-    // console.log("szortírozás után : ", this.sortedEventsArray)
-    if (this.searchControl.value === '') {
-      this.searchResults = []
-    }
   }
 
   navigateToEvent(eventId: number) {
@@ -303,38 +203,35 @@ export class EventsSubscribedComponent {
     )
   }
 
-  search(query: string): Observable<string[]> {
-    let token = localStorage.getItem("token")
-    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-    if (!query.trim()) {
-      return new Observable(observer => observer.next([])); // Ha üres a kereső, ne küldjön kérést
-    }
-    return this.http.get<string[]>(`${this.backendUrl}searchevents/?query=${query}`, { headers }).pipe(
-      map((response: any) => response.data),
 
-      // distinctUntilChanged()
-    )
-    // GET kérés küldése a backendnek
-  }
 
   searchOnPress() {
     //console.log("keresés")
     if (this.searchControl.value === '') {
+      // console.log("searchOn")
       this.isSearch = false
     }
     else {
       this.isSearch = true
-      this.search(this.searchControl.value).subscribe(
-        {
-          next: (res: any) => {
-            //console.log("az eredmény: ", res)
-            this.searchResults = res
-          }
-        }
 
+      this.base.search(this.searchControl.value).subscribe(
+        (data:any) => {
+          this.searchResults = data; // Adatok beállítása
+          console.log("userEvents tartalma: ", this.userEvents)
+          const commonElements = this.searchResults.filter((item1:any) =>
+            this.userEvents.some((item2:any) => item1.id == item2.id) // Az id alapján hasonlítunk
+
+          )
+          this.searchResults = commonElements
+          console.log("commonElements: ",commonElements)
+          this.base.toSort(this.selectedOption,this.searchResults)
+          console.log("searchResults: ", this.searchResults);
+        }
       )
+
+
+
     }
 
   }
-
 }

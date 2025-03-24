@@ -14,17 +14,17 @@ export class LoginComponent {
   password = ""
   email = ""
 
-  mailRegError=false
-  mailRegText=""
-  szem=false
-  tomb=['password','text']
+  mailRegError = false
+  mailRegText = ""
+  szem = false
+  tomb = ['password', 'text']
 
   //hogyha bepróbál jelentkezni, de nem tudja pontosan a saját felhasználónevét vagy jelszavát
   errorNameMessage: any
   //hogyha bepróbál jelentkezni, de nem tudja pontosan a saját felhasználónevét vagy jelszavát
   errorPasswordMessage: any
   //hogyha bepróbál jelentkezni, de nem tudja pontosan a saját felhasználónevét vagy jelszavát
-  unknownErrorMessage:any
+  unknownErrorMessage: any
   //hogyha bepróbál jelentkezni, de nem tudja pontosan a saját felhasználónevét vagy jelszavát
   unknownErrorMessageBool = false
   //visszajelez, ha hibás a login
@@ -36,100 +36,102 @@ export class LoginComponent {
   nameAfterLogin: any
 
   //bejelentkezés utáni jogosultság elmentése (0-nem admin, 1-admin, 2-superadmin)
-  adminAccessCode:any
+  adminAccessCode: any
 
   //setVisible-höz tartozik
   noPermission = true;
 
-  constructor(private auth:AuthService, private router:Router, private route: ActivatedRoute, private localStorage: LocalStorageService){}
+  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute, private localStorage: LocalStorageService) { }
 
-  visiblePassword(){
+  visiblePassword() {
     return this.tomb[Number(this.szem)]
   }
 
-  isNotValidSignUp(){
-      return !this.email || !this.password
-    }
+  isNotValidSignUp() {
+    return !this.email || !this.password
+  }
 
 
-    loginUserOnLaravel() {
-      this.auth.loginWithLaravel(this.name, this.password).subscribe(
-        {
-          next: (res: any) => {
-            if (res) {
-              if (res.data && res.data.token) {
-                this.auth.setLoggedUser(res.data)
+  loginUserOnLaravel() {
+    this.auth.loginWithLaravel(this.name, this.password).subscribe(
+      {
+        next: (res: any) => {
+          if (res) {
+            console.log("A login eleje")
+            if (res.data && res.data.token) {
+              this.auth.setLoggedUser(res.data)
 
-                this.loginError = false
-                this.errorNameMessage = ""
-                this.errorPasswordMessage = ""
-                this.mailRegError = false
-                this.token = res.data.token
-                this.adminAccessCode = res.data.admin
-                this.nameAfterLogin = res.data.name
-                this.localStorage.setItem("token", this.token)
-                this.localStorage.setItem("user", this.nameAfterLogin)
-                this.localStorage.setItem("admin", this.adminAccessCode)
-                //this.localStorage.setItem("userID",res.data.id)
-                this.auth.saveLoginData = res.data
-                // console.log(this.auth.saveLoginData)
+              this.loginError = false
+              this.errorNameMessage = ""
+              this.errorPasswordMessage = ""
+              this.mailRegError = false
+              this.token = res.data.token
+              this.adminAccessCode = res.data.admin
+              this.nameAfterLogin = res.data.name
+              this.localStorage.setItem("token", this.token)
+              this.localStorage.setItem("user", this.nameAfterLogin)
+              this.localStorage.setItem("admin", this.adminAccessCode)
+              //this.localStorage.setItem("userID",res.data.id)
+              this.auth.saveLoginData = res.data
+              // console.log(this.auth.saveLoginData)
 
-                //a név megjelenítéséhez...
+              //a név megjelenítéséhez...
 
-                this.auth.getUserNameToDisplay()
-                this.auth.getUserToken()
-                this.unknownErrorMessageBool = false
+              this.auth.getUserNameToDisplay()
+              this.auth.getUserToken()
+              this.unknownErrorMessageBool = false
 
-                // Ellenőrizzük, hogy van-e returnUrl
-                let returnUrl = this.route.snapshot.queryParams['returnUrl'];
+              // Ellenőrizzük, hogy van-e returnUrl
+              let returnUrl = this.route.snapshot.queryParams['returnUrl'];
 
-                  // Ha nincs returnUrl, vagy ha maga a login oldalra mutat, akkor a főoldalra navigálunk
-                  if (!returnUrl || returnUrl.includes('/login')) {
-                    returnUrl = '/home';
-                  }
-                  this.router.navigateByUrl(returnUrl);
+              // Ha nincs returnUrl, vagy ha maga a login oldalra mutat, akkor a főoldalra navigálunk
+              if (!returnUrl || returnUrl.includes('/login')) {
+                returnUrl = '/home';
               }
-              else {
-                this.loginError = true
-                this.errorNameMessage = res.error['name']
-                this.errorPasswordMessage = res.error['password']
-                this.unknownErrorMessageBool = false
-
-                //console.log("hiba", res.data)
-              }
+              this.router.navigateByUrl(returnUrl);
             }
-            else{
-              //console.log("nincsen resdata ",res)
-              this.unknownErrorMessage ="Hibás felhasználónév/jelszó"
-              this.unknownErrorMessageBool = true
+            else {
+              this.loginError = true
 
+              this.errorNameMessage = res.error['name']
+              this.errorPasswordMessage = res.error['password']
+              this.unknownErrorMessageBool = false
 
+              console.log("hiba", res.data)
             }
+          }
+          else {
+            console.log("nincsen resdata ",res)
+            this.unknownErrorMessage = "Hibás felhasználónév/jelszó"
+            this.unknownErrorMessageBool = true
 
-          },
-          // console.log("Token: " ,this.token)},
-          error: (res: any) => {
-            this.mailRegError = true
-            //console.log("Hiba", res)
 
           }
+
+        },
+        // console.log("Token: " ,this.token)},
+        error: (res: any) => {
+          this.mailRegError = true
+          //console.log("Hiba", res)
+
         }
-      )
-    }
+      }
+    )
+  }
 
   logoutUserWithLaravel() {
     this.auth.logoutUserFromLaravel(),
-    this.router.navigate(['/home'])
+      this.router.navigate(['/home'])
   }
 
   //jelenjen meg egy blokk a bejelentkezés oldalon, ha máshonnan irányítjuk ide a felhasználót (pl, ha olyan oldalt akar megnézni url birtokában, amit kijelentkezve nem lehet elérni)
   setVisible(): boolean {
     // Ellenőrizzük, hogy van-e returnUrl
     let returnUrl = this.route.snapshot.queryParams['returnUrl'];
-    if(returnUrl){
+    if (returnUrl) {
       return true;
     }
-    else{
+    else {
       return false;
     }
   }
