@@ -47,13 +47,13 @@
 
 <!--Beltartalom alap befoglaló-->
 <div class="container p-lg-0">
-  <div class="yahoobar">
+  <!-- <div class="yahoobar">
     <div>
       <a routerLink="/home" class="nav-link active" aria-current="page" href="#" title="Kezdőoldal">
         <i class="bi bi-house"></i>Kezdőoldal
       </a>
     </div>
-  </div>
+  </div> -->
   <!--Beltartalom befoglaló-->
   <div class="none-subscription" *ngIf="userEvents.length===0">Nincsenek Feliratkozásaid.</div>
   <div *ngIf="userEvents.length !=0" class="row g10">
@@ -145,7 +145,7 @@
                                     <button class="form-control rounded btn btn-outline-secondary"><i (click)="searchOnPress()" class="bi bi-search"></i></button>
 
                                   </span>
-                                  <p>A keresés megerősítéséhez nyomjon rá a nagyító ikonra</p>
+                                  <!-- <p>A keresés megerősítéséhez nyomjon rá a nagyító ikonra</p> -->
                                 </div>
                                 <!-- <ul>
                                   <li *ngFor="let result of searchResults">{{ result|json }}</li>
@@ -207,7 +207,7 @@
                         <button class="form-control rounded btn btn-outline-secondary"><i (click)="searchOnPress()" class="bi bi-search"></i></button>
 
                       </span>
-                      <p>A keresés megerősítéséhez nyomjon rá a nagyító ikonra</p>
+                      <!-- <p>A keresés megerősítéséhez nyomjon rá a nagyító ikonra</p> -->
                     </div>
                   </div>
                 </div>
