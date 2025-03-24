@@ -53,6 +53,7 @@
     flex-wrap: wrap;
     margin-right: -.75rem;
     margin-left: -.75rem;
+    min-height: 600px;
   }
 
 h4 {

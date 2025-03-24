@@ -1,0 +1,78 @@
+@media (min-width: 0px) {
+    .col-6 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+}
+  
+@media (min-width: 992px) {
+    .col-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    .p-lg-0 {
+        padding: 0 !important;
+    }
+}
+
+
+/*Általános*/
+.container, .container-fluid, .container-xl, .container-lg, .container-md, .container-sm {
+  width: 100%;
+  padding-right: .75rem;
+  padding-left: .75rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.row {
+    max-width: 100%;
+    padding-right: -.75rem;
+    padding-left: -.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 600px;
+}
+
+h4 {
+    text-align: center;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+}
+
+.inner {
+    background: #fff;
+    border-radius: .375rem;
+    padding: 1.75rem 1.75rem;
+    margin-top: 3rem;
+    min-height: 430px;
+}
+
+.button {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.2rem;
+}
+
+p {
+    text-align: center;
+}
+
+/*Jobb oldal*/
+.scrollable-block {
+    position: relative;
+    height: 180px;
+    border: solid 1px #dee2e6;
+    border-radius: .375rem;
+    overflow: hidden;
+}
+
+.scrollable-content {
+    position: relative;
+    height: 180px;
+    overflow-y: scroll;
+    padding-left: .75rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+

@@ -9,8 +9,8 @@
           <p class="information-block" *ngIf="setVisible()">A megtekintéshez kérlek jelentkezz be, vagy regisztrálj!</p>
 
           <div class="name-input">
-            <label class="form-label">Email address</label>
-            <input type="email" [(ngModel)]="name" class="form-control" id="nameInput" placeholder="name@example.com">
+            <label class="form-label">Felhasználónév</label>
+            <input type="email" [(ngModel)]="name" class="form-control" id="nameInput" placeholder="tesztelek">
           </div>
           <!-- hibaüzenet kiíratása -->
           <div *ngIf="errorNameMessage != null && loginError == true ," class="alert alert-danger" role="alert">

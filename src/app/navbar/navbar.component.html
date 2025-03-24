@@ -74,7 +74,7 @@
                   <i class="bi bi-person-fill" style="font-size: 1.2rem;"></i>Bejelentkezés
                 </button>
               </div>
-              <div *ngIf="user" class="dropdown user-menu logged-in">
+              <div *ngIf="user && (user.admin == 0 || user.admin == 1)" class="dropdown user-menu logged-in">
                   <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" title="Személyes menü">
                     <i class="bi bi-person-circle" style="font-size: 1.2rem;"></i>
                     <span *ngIf="user" id="userName">{{user.name}}</span>
@@ -82,11 +82,16 @@
 
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                   <!--Ezt majd úgy kell megcsinálni, hogy csak "szimpla" felhasználónak jelenjen meg-->
-                  <li><a routerLink="/events-subscribed" class="dropdown-item" href="#" title="Feliratkozásaim">Feliratkozásaim</a></li> <!--vissza kell adnia a bejelentkezett fejhasználó feliratkozott eseményeinek számát-->
-                  <li><a class="dropdown-item" href="#" title="Beállításaim">Beállításaim</a></li>
+                  <li><a *ngIf="(user.admin== 0)" routerLink="/events-subscribed" class="dropdown-item" href="#" title="Feliratkozásaim">Feliratkozásaim</a></li> <!--vissza kell adnia a bejelentkezett fejhasználó feliratkozott eseményeinek számát-->
+                  <li><a class="dropdown-item" routerLink="/user-settings" href="#" title="Beállításaim">Beállításaim</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a routerLink="/home" (click)="this.auth.logoutUserFromLaravel()" class="dropdown-item" href="#" title="Kijelentkezés">Kijelentkezés</a></li>
                 </ul>
+              </div>
+              <div *ngIf= "user && (user.admin == 2)" class="superadmin user-menu">
+                <i class="bi bi-person-circle" style="font-size: 1.2rem;"></i>
+                <span *ngIf="user" id="userName">{{user.name}}</span>
+                <button routerLink="/home" (click)="this.auth.logoutUserFromLaravel()" class="btn btn-outline-secondary" href="#" title="Kijelentkezés" id="superadminLogoutButton">Kijelentkezés</button>
               </div>
             </div>
           </div>

@@ -93,7 +93,8 @@
 .user-menu {
     display: flex;
     flex-wrap: nowrap;
-    column-gap: 2rem;
+    column-gap: .5rem;
+    align-items: center;
 }
 
 .dropdown-menu.show {
@@ -109,4 +110,8 @@
 
 #userName {
     text-transform: capitalize;
+}
+
+#superadminLogoutButton {
+    margin-left: .5rem;
 }

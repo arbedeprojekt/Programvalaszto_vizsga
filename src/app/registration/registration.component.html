@@ -7,7 +7,7 @@
           <h4 class="card-title">Regisztráció</h4>
 
           <div class="name-input">
-            <label class="form-label">Név</label>
+            <label class="form-label">Felhasználónév</label>
             <input type="email" [(ngModel)]="name" class="form-control" id="nameInput" placeholder="Teszt Eleonóra">
           </div>
           <div *ngFor="let errorMessage of erName">
@@ -33,7 +33,7 @@
             <span class="input-group-text" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
           </div>
 
-          <label class="form-label">Jelszó megismétlése</label>
+          <label class="form-label">Jelszó megerősítése</label>
           <div class="input-group" id="passwordInput2">
             <input [type]="visiblePassword()" [(ngModel)]="confirmPassword" class="form-control" placeholder="Password12" aria-label="Recipient's username" aria-describedby="basic-addon2">
             <span class="input-group-text" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>

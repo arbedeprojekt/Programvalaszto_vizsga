@@ -30,6 +30,8 @@ import { EventsSubscribedComponent } from './events-subscribed/events-subscribed
 import { ReactiveFormsModule } from '@angular/forms';
 import { GalleryComponent } from './gallery/gallery.component';
 import { ToastMessagesComponent } from './toast-messages/toast-messages.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { ToastMessagesComponent } from './toast-messages/toast-messages.componen
     EventsSubscribedComponent,
     GalleryComponent,
     EventsTagsLinkComponent,
-    ToastMessagesComponent
+    ToastMessagesComponent,
+    UserSettingsComponent,
+    ModalComponent
 
   ],
   imports: [

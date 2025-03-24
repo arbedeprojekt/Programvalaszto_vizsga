@@ -1,0 +1,103 @@
+@media (min-width: 0px) {
+    .col-6 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+}
+  
+@media (min-width: 992px) {
+    .col-mb-4 {
+        flex: 0 0 20%;
+        max-width: 20%;
+    }
+    .col-mb-3 {
+        flex: 0 0 40%;
+        max-width: 40%;
+    }
+    .col-mb-5 {
+        flex: 0 0 20%;
+        max-width: 20%;
+    }
+    .p-lg-0 {
+        padding: 0 !important;
+    }
+}
+
+
+/*Általános*/
+.container, .container-fluid, .container-xl, .container-lg, .container-md, .container-sm {
+    width: 100%;
+    padding-right: .75rem;
+    padding-left: .75rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.row {
+    max-width: 100%;
+    padding-right: -.75rem;
+    padding-left: -.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    
+}
+
+h4 {
+    margin-top: 2rem;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+}
+
+#saveAttachButton, #searchButton {
+    margin-top: .75rem;
+}
+
+/*Kereső blokk*/
+.eventTagAttach {
+    background: #fff;
+    border-radius: .375rem;
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+}
+
+.search-block {
+    margin-bottom: .5rem;
+}
+
+
+/*Találat blokk*/
+hr {
+    color: #aaaaaa;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.found-col-name {
+    font-weight: 600;
+}
+
+
+/*Táblázat*/
+th {
+    position: sticky;
+    top: 0;
+}
+
+.table-block {
+    padding: 1.75rem;
+    background: #fff;
+    border-radius: .375rem;
+    min-height: 500px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.scrollable-content {
+    position: relative;
+    max-height: 600px;
+    overflow-y: scroll;
+}

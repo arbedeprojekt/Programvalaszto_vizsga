@@ -1,0 +1,68 @@
+<div class="container p-lg-0">
+    <div class="row">
+        <div class="col-6">
+            <div class="inner part-left">
+                <h4>Jelszó módosítása</h4>
+                <div class="mb-3">
+                    <label class="form-label">Régi jelszó</label>
+                    <div class="input-group" id="passwordInput">
+                        <input [type]="visiblePassword()" class="form-control" placeholder="Password12">   <!--[(ngModel)]="password"-->
+                        <span class="input-group-text" id="" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
+                    </div>
+                    <!-- hibaüzenet!! -->
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Új jelszó</label>
+                    <div class="input-group" id="passwordInput">
+                        <input [type]="visiblePassword()" class="form-control" placeholder="Password12">     <!--[(ngModel)]="password"-->
+                        <span class="input-group-text" id="" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
+                    </div>
+                    <!-- hibaüzenet!! -->
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Jelszó megerősítése</label>
+                    <div class="input-group" id="passwordInput">
+                        <input [type]="visiblePassword()" class="form-control" placeholder="Password12">     <!--[(ngModel)]="password"-->
+                        <span class="input-group-text" id="" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
+                    </div>
+                    <!-- hibaüzenet!! -->
+                </div>
+                <!-- Gomb a modal megnyitásához -->
+                <div class="button">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customModal">
+                        Mentés
+                    </button>
+                </div>
+                
+                <!-- Modal -->
+                <app-modal
+                    [title]="'Figyelmeztetés'"
+                    [content]="'Biztosan módosítani szeretnéd a jelszavad?'"
+                    [closeButtonText]="'Mégsem'"
+                    [actionButtonText]="'Mentés'"
+                    [actionButtonClass]="'btn-primary'"
+                    (action)="updatePasswordChanges()">
+                </app-modal>
+            </div>
+        </div>
+        <div *ngIf="(user.admin == 0)" class="col-6">
+            <div class="inner part-right">
+                <h4>Érdeklődési kör megadása</h4>
+                <p class="information-block">Kiválaszthatod, hogy milyen címkével ellátott események lehetnek érdekesek számodra. A beállításaid alapján értesítést fogsz kapni a legfrissebb újdonságokról</p>
+                <div class="scrollable-block">
+                    <div class="scrollable-content" tabindex="0">
+                        <div *ngFor="let tag of tags"  class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label">
+                                {{tag.name}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="button">
+                    <button type="button" class="btn btn-primary">Mentés</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -11,6 +11,7 @@ import { DetailedEventComponent } from './detailed-event/detailed-event.componen
 import { EventsSubscribedComponent } from './events-subscribed/events-subscribed.component';
 import { AuthGuard } from './auth.guard';
 import { EventsTagsLinkComponent } from './events-tags-link/events-tags-link.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
 
 const routes: Routes = [
   {path:"home",component:HomeComponent},
@@ -25,7 +26,8 @@ const routes: Routes = [
   {path:"detailed-event/:id",component:DetailedEventComponent, canActivate: [AuthGuard] },
   //{path:"detailed-event",component:DetailedEventComponent, canActivate: [AuthGuard] },   //ezt majd törölni kell a végén..
   {path:"events-subscribed",component:EventsSubscribedComponent, canActivate: [AuthGuard] },
-  {path:"events-tags-link",component:EventsTagsLinkComponent, canActivate: [AuthGuard] }
+  {path:"events-tags-link",component:EventsTagsLinkComponent, canActivate: [AuthGuard] },
+  {path:"user-settings",component:UserSettingsComponent, canActivate: [AuthGuard] }
 
 
 ];

@@ -43,9 +43,21 @@ export class AuthService {
     this.userSub.next(user)
   }
 
-  getUsers() {
+  // getUsers() {
 
-    const headers = new HttpHeaders().set("Authorization", this.token)
+  //   const headers = new HttpHeaders().set("Authorization", this.token)
+  //   return this.http.get(this.base.backendUrl + "users", { headers })
+  // }
+
+  getUsers() {
+    const token = this.localStorage.getItem("token") // Mindig a localStorage-ből vesszük ki
+  
+    if (!token) {
+      console.warn("Token nem található!")
+      return
+    }
+  
+    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
     return this.http.get(this.base.backendUrl + "users", { headers })
   }
 
@@ -101,10 +113,8 @@ export class AuthService {
     let body = {
       name: nameArg,
       password: passwordArg,
-
     }
     return this.http.post("http://localhost:8000/api/login", body)
-
   }
 
   getUserNameToDisplay() {

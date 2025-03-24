@@ -23,7 +23,6 @@ export class NavbarComponent {
         this.user = u
         //console.log("user", u.name)
       }
-
     )
 
   }

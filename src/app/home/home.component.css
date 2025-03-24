@@ -118,11 +118,9 @@ h1{
 /*Carousel*/
 
 .carousel-container {
-  max-height: 700px;
-}
-
-.carousel-container {
   padding: 0;
+  max-height: 700px;
+  margin-top: 2rem;
 }
 
 .carousel-inner {
@@ -130,7 +128,7 @@ h1{
   align-items: center;
   display: flex;
   overflow: hidden;
-  border-radius: 0 0 .375rem .375rem;
+  border-radius: .375rem;
 }
 
 .carousel-item {

@@ -3,13 +3,13 @@
 
 <!--Beltartalom alap befoglaló-->
 <div class="container p-lg-0">
-  <div class="yahoobar">
+  <!-- <div class="yahoobar">
     <div>
       <a routerLink="/home" class="nav-link active" aria-current="page" href="#" title="Kezdőoldal">
         <i class="bi bi-house"></i>Kezdőoldal
       </a>
     </div>
-  </div>
+  </div> -->
   <!--Beltartalom befoglaló-->
   <div class="row g10">
     <div>
@@ -54,7 +54,7 @@
             </div>
 
           </div>
-          <div class="filterpanel -mobile">
+          <div class="filterpanel-mobile">
             <div class="filterpanel-wrapper -mobile">
               <div>
                 <div class="filterpanel-toggler">
@@ -76,18 +76,20 @@
                       <div class="sections">
                         <div class="section">
                           <div class="section-inner">
-                            <h3 class="section-header"></h3>
-                            <div class="section-content">
-                              <div *ngFor="let tag of tags" class="filter-item -checkbox">
-                                <input type="checkbox" id={{tag.name}}>
-                                <label for={{tag.name}} class="form-check-label">{{tag.name}}</label>
+                            <div class="section-content filter-item">
+                              <h5 class="section-header">Címkék</h5>
+                              <div *ngFor="let tag of tags"  class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label">
+                                    {{tag.name}}
+                                </label>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div class="section">
                           <div class="section-inner">
-                            <h3 class="section-header"></h3>
+                            <div></div>
                             <div class="section-content">
                               <div class="filter-item -search">
                                 <div class="input-group rounded">
@@ -111,8 +113,8 @@
                         <!--Dátumválasztó-->
                         <div class="section">
                           <div class="section-inner">
-                            <h3 class="section-header"></h3>
                             <div class="section-content">
+                              <h5 class="section-header date">Dátum</h5>
                               <div class="content">
                                 <app-datepicker-range-popup></app-datepicker-range-popup>
                               </div>
@@ -136,18 +138,19 @@
           <div class="sections">
             <div class="section">
               <div class="section-inner">
-                <h3 class="section-header"></h3>
-                <div class="section-content">
-                  <div *ngFor="let tag of tags" class="filter-item -checkbox">
-                    <input type="checkbox" id={{tag.name}}>
-                    <label for={{tag.name}} class="form-check-label">{{tag.name}}</label>
+                <div class="section-content filter-item">
+                  <h5 class="section-header">Címkék</h5>
+                  <div *ngFor="let tag of tags"  class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label">
+                        {{tag.name}}
+                    </label>
                   </div>
                 </div>
               </div>
             </div>
             <div class="section">
               <div class="section-inner">
-                <h3 class="section-header"></h3>
                 <div class="section-content">
                   <div class="filter-item -search">
                     <div class="input-group rounded">
@@ -164,8 +167,8 @@
             <!--Dátumválasztó-->
             <div class="section">
               <div class="section-inner">
-                <h3 class="section-header"></h3>
                 <div class="section-content">
+                  <h5 class="section-header date">Dátum</h5>
                   <div class="content">
                     <app-datepicker-range-popup></app-datepicker-range-popup>
                   </div>
