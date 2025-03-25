@@ -8,7 +8,7 @@
 
           <div class="name-input">
             <label class="form-label">Felhasználónév</label>
-            <input type="email" [(ngModel)]="name" class="form-control" id="nameInput" placeholder="Teszt Eleonóra">
+            <input type="email" (keydown.enter)="userRegistration()" [(ngModel)]="name" class="form-control" id="nameInput" placeholder="Teszt Eleonóra">
           </div>
           <div *ngFor="let errorMessage of erName">
             <div *ngIf="erName != null && registrationSuccess == false" class="alert alert-danger" role="alert">
@@ -18,7 +18,7 @@
 
           <div class="email-input">
             <label class="form-label">Email cím</label>
-            <input type="email" [(ngModel)]="email" class="form-control" id="emailInput" placeholder="name@example.com">
+            <input type="email" (keydown.enter)="userRegistration()" [(ngModel)]="email" class="form-control" id="emailInput" placeholder="name@example.com">
             <div *ngFor="let errormessage of erEmail">
               <div *ngIf="erEmail != null && registrationSuccess == false ," class="alert alert-danger" role="alert" >
                 {{errormessage}}
@@ -29,13 +29,13 @@
 
           <label class="form-label">Jelszó</label>
           <div class="input-group" id="passwordInput">
-            <input [type]="visiblePassword()" [(ngModel)]="password" class="form-control" placeholder="Password12" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <input [type]="visiblePassword()" (keydown.enter)="userRegistration()" [(ngModel)]="password" class="form-control" placeholder="Password12" aria-label="Recipient's username" aria-describedby="basic-addon2">
             <span class="input-group-text" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
           </div>
 
           <label class="form-label">Jelszó megerősítése</label>
           <div class="input-group" id="passwordInput2">
-            <input [type]="visiblePassword()" [(ngModel)]="confirmPassword" class="form-control" placeholder="Password12" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <input [type]="visiblePassword()" (keydown.enter)="userRegistration()" [(ngModel)]="confirmPassword" class="form-control" placeholder="Password12" aria-label="Recipient's username" aria-describedby="basic-addon2">
             <span class="input-group-text" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
           </div>
 

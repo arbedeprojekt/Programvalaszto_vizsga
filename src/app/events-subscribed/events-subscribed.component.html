@@ -67,7 +67,7 @@
         <div class="pager-top">
           <div class="pager" id="pager-lapozo-top">
             <div
-              *ngIf="(isSearch == false && searchControl.value ==null)||(isSearch == false && searchControl.value =='')"
+              *ngIf="(isSearch == false && searchControl.value ==null)||(isSearch == false && searchControl.value =='')|| (searchControl.value == '' && isSearch == true) ||(isSearch == true && searchControl.value ==null) || (isSearch == true && !searchResults) || (isSearch == false && !searchResults) "
               class="count" id="pagerCount">{{userEvents.length}} találat</div>
             <div *ngIf="isSearch == true && searchControl.value !=''" class="count" id="pagerCount">
               {{searchResults.length}} találat</div>
@@ -104,7 +104,8 @@
               <div>
                 <div class="filterpanel-toggler">
                   <button class="btn btn-primary" type="button" id="filterButton" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                    data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"
+                    >
                     <span><i data-icon="" class="icon mr-2"></i>Szűrések</span>
                   </button>
                 </div>
@@ -112,7 +113,7 @@
                   aria-labelledby="offcanvasWithBothOptionsLabel">
                   <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Szűrések</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    <button type="button" id="offcanvasCloseButton" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                       aria-label="Close"></button>
                   </div>
                   <div class="offcanvas-body">
@@ -139,7 +140,7 @@
                               <div class="filter-item -search">
                                 <div class="input-group rounded">
                                   <!-- <input type="search" class="form-control rounded" placeholder="Keresés" aria-label="Search" aria-describedby="search-addon" /> -->
-                                  <input type="search" [formControl]="searchControl" class="form-control rounded"
+                                  <input type="search" (keydown.enter)="searchOnPress()" [formControl]="searchControl" class="form-control rounded"
                                     placeholder="Keresés" aria-label="Search" aria-describedby="search-addon" />
                                   <span class="input-group-text border-0" id="search-addon">
                                     <button class="form-control rounded btn btn-outline-secondary"><i (click)="searchOnPress()" class="bi bi-search"></i></button>
@@ -201,7 +202,7 @@
                 <div class="section-content">
                   <div class="filter-item -search">
                     <div class="input-group rounded">
-                      <input type="search" [formControl]="searchControl" class="form-control rounded"
+                      <input type="search" (keydown.enter)="searchOnPress()" [formControl]="searchControl" class="form-control rounded"
                         placeholder="Keresés" aria-label="Search" aria-describedby="search-addon" />
                       <span class="input-group-text border-0" id="search-addon">
                         <button class="form-control rounded btn btn-outline-secondary"><i (click)="searchOnPress()" class="bi bi-search"></i></button>
@@ -233,7 +234,7 @@
     <!--fő tartalom - jobb oldal-->
     <div class="col-12 g10-xl-8 order-2">
       <!--kártyák-->
-      <div class="content-cards" *ngIf="isSearch == false">
+      <div class="content-cards" *ngIf="isSearch == false || searchControl.value == '' || searchControl.value == null">
         <div class="row events -grid">
           <div *ngFor="let event of paginatedEvents " class="e-item -box col-6 col-md-4 col-lg-3">
             <div class="card">
@@ -370,7 +371,7 @@
         </div>
       </div>
 
-      <div *ngIf="searchResults.length ==0 && isSearch ==true ">
+      <div *ngIf=" isSearch ==true && searchResults.length ==0  ">
         <h1>Nincs találat</h1>
       </div>
 

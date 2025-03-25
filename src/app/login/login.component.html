@@ -10,7 +10,7 @@
 
           <div class="name-input">
             <label class="form-label">Felhasználónév</label>
-            <input type="email" [(ngModel)]="name" class="form-control" id="nameInput" placeholder="tesztelek">
+            <input type="email" (keydown.enter)="loginUserOnLaravel()" [(ngModel)]="name" class="form-control" id="nameInput" placeholder="tesztelek">
           </div>
           <!-- hibaüzenet kiíratása -->
           <div *ngIf="errorNameMessage != null && loginError == true ," class="alert alert-danger" role="alert">
@@ -19,7 +19,7 @@
 
           <label class="form-label">Jelszó</label>
           <div class="input-group" id="passwordInput">
-            <input [type]="visiblePassword()" [(ngModel)]="password" class="form-control" placeholder="Password12">
+            <input [type]="visiblePassword()" (keydown.enter)="loginUserOnLaravel()" [(ngModel)]="password" class="form-control" placeholder="Password12">
             <span class="input-group-text" id="" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
           </div>
           <!-- hibaüzenet kiíratása -->
@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </div>
 <!-- <div *ngIf="loginError == false && errorNameMessage =='' && errorPasswordMessage ==''">
   <h1>Sikeres Bejelentkezés</h1>
