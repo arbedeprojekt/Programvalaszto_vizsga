@@ -20,12 +20,15 @@ export class DetailedEventComponent {
   events: any
   tags: any
 
-  detailedEventId: number | null = null;
-  eventDetails: any;
+  detailedEventId: number | null = null
+  eventDetails: any
 
   //Mit adjunk vissza, ha nincs érték a dátum mezőkben
   eventStartDateNull = "Állandó"
   eventEndDateNull = ""
+
+  eventStartTimeNull = ""
+  eventEndTimeNull = ""
 
   //Ez az információs blokkhoz kell, mert nem akarom az összes adatot visszaadni az events-ből
   otherDatas = ["weblink", "gpx"]
@@ -43,6 +46,7 @@ export class DetailedEventComponent {
   //Az adatbázisban lévő komment
   userCommentFromApi: any
 
+  formattedStartTime:any
 
   constructor(private http: HttpClient, private base: BaseService, private route: ActivatedRoute, public auth: AuthService, private router: Router, public localStorage: LocalStorageService) {
 
@@ -55,7 +59,6 @@ export class DetailedEventComponent {
         this.user = user
       })
     this.base.getMyExperience()
-
   }
 
   //eventDeatils-ből az adatok kinyerése
@@ -84,6 +87,12 @@ export class DetailedEventComponent {
         this.eventDetails = data // Az esemény részleteit beállítjuk
       });
     }
+  }
+
+  //event.weblink értékének dinamikus linkelése
+  formatUrl(weblink: string): string {
+    if (!weblink) return ''; // Ha nincs weblink, akkor üres stringet ad vissza
+    return weblink.startsWith('http') ? weblink : 'https://' + weblink;
   }
 
 

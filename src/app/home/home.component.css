@@ -225,10 +225,6 @@ h1{
   justify-content: space-between;
 }
 
-/* .e-item.-box .clone-bar {
-  display: none;
-}*/
-
 .split {
   display: flex;
   flex-direction: row;

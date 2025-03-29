@@ -85,6 +85,7 @@ export class AllEventsComponent {
   ngOnInit() {
     this.getUserEvents(); // MyEvents betöltése
     this.getDataFromApi() // Az összes esemény betöltése
+    this.toSort()
   }
 
   getDataFromApi() {
@@ -129,9 +130,6 @@ export class AllEventsComponent {
 
 
   toSort(){
-
-
-
     if(!this.searchResults){
       this.base.toSort(this.selectedOption,this.eventsArray)
     }

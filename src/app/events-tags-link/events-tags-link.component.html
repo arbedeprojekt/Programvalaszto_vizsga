@@ -3,64 +3,96 @@
     <!--új esemény-címke összekapcsolás-->
     <div class="eventTagAttach">
         <div class="search-block row">
-            <h5>Keresés</h5>
+            <h5>Keresés
+                <i class="bi bi-info-circle" style="font-size: 1rem" data-bs-toggle="tooltip" data-bs-placement="top" title="Keress az esemény azonosítójára vagy az esemény nevére"></i>
+            </h5>
             <div class="col-6 col-mb-4">
                 <div class="mb-3">
                     <label class="form-label">Esemény azonosító</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="">
+                    <input type="email" class="form-control" [formControl]="searchIdControl" id="" placeholder="">
                 </div>
             </div>
             <div class="col-6 col-mb-3">
                 <div class="mb-3">
                     <label  class="form-label">Esemény neve</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="">
+                    <input type="email" class="form-control" [formControl]="searchNameControl" id="" placeholder="">
                 </div>
             </div>
             <div class="col-6 col-mb-5">
-                <button class="btn btn-primary" id="searchButton">Keresés</button>
+                <button class="btn btn-primary" (click)="searchEvent()" id="searchButton">Keresés</button>
             </div>
         </div>
         <!--Találat-->
-        <div class="attach-block hidden row">
+        <div *ngIf=" isEventSearch == true" class="attach-block hidden">    <!--*ngIf=" isSearch == true"-->
             <div class="separator col-12">
                 <hr>
             </div>
-            <h5>Címke hozzáadása</h5>
-            <div class="col-6 col-mb-4">
-                <div class="mb-3">
-                    <label  class="form-label found-col-name">Esemény azonosító</label>
-                    <input type="text" readonly class="form-control-plaintext" id="exampleFormControlInput1" value="1342">
-                </div>
+            <div *ngIf="noEventSearchResults" class="noEventSearchResult">
+                <h5>Nincs találat</h5>
+                <p>Lehetséges okok:</p>
+                <ul>
+                    <li>Egyszerre adtad meg az Esemény azonosítóját és az Esemény nevét. Kérlek, csak az egyik adatot add meg.</li>
+                    <li>A keresett tartalom nem létezik az adatbázisban</li>
+                </ul>
             </div>
-            <div class="col-6 col-mb-3">
-                <div class="mb-3">
-                    <label class="form-label found-col-name">Esemény neve</label>
-                    <input type="text" readonly class="form-control-plaintext" id="exampleFormControlInput1" value="Spartacus-tanösvény">
-                </div>
-            </div>
-            <div class="col-6 col-mb-4">
-                <div class="col-common" id="newEventTag">
-                    <label class="form-label form-label-sm found-col-name">Címke neve</label>
-                    <div class="input-group mb-3">
-                    <select class="form-select" id="inputGroupSelect02">  <!--[(ngModel)]=""-->
-                        <!-- <option selected>Válassz...</option> -->
-                        <option value="Típus">Típus</option>
-                        <option value="Jelleg">Jelleg</option>
-                        <option value="Időtartam">Időtartam</option>
-                        <option value="Részvétel módja">Részvétel módja</option>
-                        <option value="Belépés">Belépés</option>
-                    </select>
+            <div *ngIf="!noEventSearchResults" class="isSearchResult">
+                <h5>Címke hozzáadása</h5>
+                <div *ngFor="let event of searchEventResults" class="searchResult row">
+                    <div class="col-6 col-mb-4">
+                        <div class="mb-3">
+                            <label  class="form-label found-col-name">Esemény azonosító</label>
+                            <input type="text" readonly class="form-control-plaintext" id="" value={{event.id}}>
+                        </div>
+                    </div>
+                    <div class="col-6 col-mb-3">
+                        <div class="mb-3">
+                            <label class="form-label found-col-name">Esemény neve</label>
+                            <input type="text" readonly class="form-control-plaintext" id="" value={{event.name}}>
+                        </div>
+                    </div>
+                    <div class="col-6 col-mb-4">
+                        <div class="col-common" id="newEventTag">
+                            <label class="form-label form-label-sm found-col-name">Címke neve</label>
+                            <div class="input-group mb-3">
+                            <select #tagNameSelect class="form-select" id="tagNameSelect">  <!--[(ngModel)]=""-->
+                                <option selected>Válassz...</option>
+                                <option *ngFor="let tag of tags" value={{tag.name}}>{{tag.name}}</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-mb-5">
+                        <button (click)="newAttach(event.id, tagNameSelect.value)" class="btn btn-primary" id="saveAttachButton">Mentés</button>
                     </div>
                 </div>
-            </div>
-            <div class="col-6 col-mb-5">
-                <button class="btn btn-primary" id="saveAttachButton">Mentés</button>
             </div>
         </div>
     </div>
 
     <!--összekapcsolások megjelenítése táblázatban-->
     <div class="table-block">
+        <div class="searchAttachedDatas">
+            <div class="radio-search">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="withTag" [(ngModel)]="showWithTag" [value]="true" checked>
+                    <label class="form-check-label">Van címke</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="withoutTag" [(ngModel)]="showWithTag" [value]="false">
+                    <label class="form-check-label">Nincs címke</label>
+                </div>
+            </div>
+            <div *ngIf="showWithTag" class="filter-item -search">
+                <div class="input-group rounded" id="tableSearch">
+                    <input type="search" [(ngModel)]="searchTerm" class="form-control rounded" placeholder="Keresés" aria-label="Search" aria-describedby="search-addon" />
+                </div>
+            </div>
+            <div *ngIf="!showWithTag" class="filter-item -search">
+                <div class="input-group rounded" id="tableSearch">
+                    <input type="search" [(ngModel)]="searchWithoutTagList" class="form-control rounded" placeholder="Keresés" aria-label="Search" aria-describedby="search-addon" />
+                </div>
+            </div>
+        </div>
         <div class="table-inner scrollable-content table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -73,80 +105,37 @@
                     <th scope="col">Műveletek</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td>Esemény ID</td>
-                    <td>Spartacus tanösvény</td>
-                    <td>Címke ID</td>
+                <tbody *ngIf="showWithTag">
+                <tr *ngFor="let attachedData of searchWithTagsTable()">
+                    <td>{{attachedData.eventId}}</td>
+                    <td>{{attachedData.eventName}}</td>
+                    <td>{{attachedData.tagId}}</td>
                     <td>
-                        <div class="col-common cell-dropdown" id="">
-                            <div class="input-group">
-                            <select class="form-select" id="inputGroupSelect02">  <!--[(ngModel)]=""-->
-                                <!-- <option selected>Válassz...</option> -->
-                                <option value="Típus">Típus</option>
-                                <option value="Jelleg">Jelleg</option>
-                                <option value="Időtartam">Időtartam</option>
-                                <option value="Részvétel módja">Részvétel módja</option>
-                                <option value="Belépés">Belépés</option>
+                        <div class="col-common cell-dropdown">
+                            <div class="input-group" id="tagDropdown">
+                            <select class="form-select" [(ngModel)]="attachedData.tagName">  <!--[(ngModel)]=""-->
+                                <option selected>{{attachedData.tagName}}</option>
+                                <option *ngFor="let tag of tags" value={{tag.name}}>{{tag.name}}</option>
                             </select>
                             </div>
                         </div>
                     </td>
-                    <td>Típus</td>
+                    <td>{{attachedData.tagGroup}}</td>
                     <td>
-                        <button class="btn btn-secondary">Módosítás</button>
-                        <button class="btn btn-outline-secondary">Törlés</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Esemény ID</td>
-                    <td>Spartacus tanösvény</td>
-                    <td>Címke ID</td>
-                    <td>
-                        <div class="col-common" id="">
-                            <div class="input-group">
-                            <select class="form-select" id="inputGroupSelect02">  <!--[(ngModel)]=""-->
-                                <!-- <option selected>Válassz...</option> -->
-                                <option value="Típus">Típus</option>
-                                <option value="Jelleg">Jelleg</option>
-                                <option value="Időtartam">Időtartam</option>
-                                <option value="Részvétel módja">Részvétel módja</option>
-                                <option value="Belépés">Belépés</option>
-                            </select>
-                            </div>
-                        </div>
-                    </td>
-                    <td>Jelleg</td>
-                    <td>
-                        <button class="btn btn-secondary">Módosítás</button>
-                        <button class="btn btn-outline-secondary">Törlés</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Esemény ID</td>
-                    <td>Moziest maraton</td>
-                    <td>Címke ID</td>
-                    <td>
-                        <div class="col-common" id="">
-                            <div class="input-group">
-                            <select class="form-select" id="inputGroupSelect02">  <!--[(ngModel)]=""-->
-                                <!-- <option selected>Válassz...</option> -->
-                                <option value="Típus">Típus</option>
-                                <option value="Jelleg">Jelleg</option>
-                                <option value="Időtartam">Időtartam</option>
-                                <option value="Részvétel módja">Részvétel módja</option>
-                                <option value="Belépés">Belépés</option>
-                            </select>
-                            </div>
-                        </div>
-                    </td>
-                    <td>Típus</td>
-                    <td>
-                        <button class="btn btn-secondary">Módosítás</button>
-                        <button class="btn btn-outline-secondary">Törlés</button>
+                        <button (click)="deleteTagFromEvent(attachedData)" class="btn btn-outline-secondary">Törlés</button>
                     </td>
                 </tr>
                 </tbody>
+                <tbody *ngIf="!showWithTag">
+                    <tr *ngFor="let event of searchWithoutTagsTable()">
+                        <td>{{event.id}}</td>
+                        <td>{{event.name}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
             </table>
         </div>
     </div>

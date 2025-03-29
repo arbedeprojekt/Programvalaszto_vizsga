@@ -385,6 +385,10 @@ p {
   display: block;
 }
 
+.card-img-link {
+  cursor: pointer;
+}
+
 .card {
   width: 100%;
   margin: auto;
@@ -411,6 +415,12 @@ p {
   word-break: break-word;
   font-size: .875rem;
   justify-content: space-between;
+}
+
+#description {
+  /* white-space: nowrap; */
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .date-separator {

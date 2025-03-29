@@ -199,6 +199,15 @@ p {
   margin-right: -.5rem;
 }
 
+/* .col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+  position: relative;
+  width: 100%;
+  padding-right: .75rem;
+  padding-left: .75rem;
+} */
+
 /*Rendezés*/
 .pg-top {
   display: flex;
@@ -338,6 +347,10 @@ p {
   display: block;
 }
 
+.card-img-link {
+  cursor: pointer;
+}
+
 .card {
   width: 100%;
   margin: auto;
@@ -364,6 +377,12 @@ p {
   justify-content: space-between;
 }
 
+#description {
+  /* white-space: nowrap; */
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .date-separator {
   margin: 0 .275rem 0 .275rem;
 }
@@ -375,6 +394,7 @@ p {
 
 .bi .bi-star, .bi-star-fill, .bi-star-half {
   font-size: .875rem;
+  margin-right: 0;
 }
 
 .list-inline-item:not(:last-child) {
@@ -383,11 +403,6 @@ p {
 
 .card-title {
   font-size: 1.3rem;
-}
-
-#discription {
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .order-2 {
