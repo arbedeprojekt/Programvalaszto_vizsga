@@ -5,6 +5,7 @@ import { BaseService } from '../base.service';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, map, Observable, switchMap } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { LocalStorageService } from '../local-storage.service';
+import { Offcanvas } from 'bootstrap';
 
 @Component({
   selector: 'app-all-events',
@@ -39,7 +40,7 @@ export class AllEventsComponent {
   dataFromApi: any
 
   //Az ábc sorrend megvalósításához
-  selectedOption ="ascByABC"
+  selectedOption = "ascByABC"
   eventsArray = []
   sortedEventsArray: any
 
@@ -58,7 +59,7 @@ export class AllEventsComponent {
 
 
 
-  constructor(private http: HttpClient, private auth: AuthService, private base: BaseService, public localStorage:LocalStorageService) {
+  constructor(private http: HttpClient, private auth: AuthService, private base: BaseService, public localStorage: LocalStorageService) {
     // user lecsekkolása
     //   this.auth.getLoggedUser().subscribe(
     //     (u)=>this.user=u
@@ -79,6 +80,37 @@ export class AllEventsComponent {
     //     switchMap(value => this.search(value) ) // Keresési szolgáltatás meghívása
     //   )
     //   .subscribe(results => this.searchResults = results);
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(300), // Vár 300ms-t, hogy ne indítson keresést minden billentyűleütésnél
+        distinctUntilChanged(), // Csak akkor indít új keresést, ha változott az input érték
+        switchMap(value => {
+          if (value === null || value.trim() === '') {
+            this.isSearch = false;
+            this.searchResults = null;
+            const offcanvasElement = document.getElementById('offcanvasWithBothOptions');
+            if (offcanvasElement) {
+              const offcanvasInstance = Offcanvas.getInstance(offcanvasElement);
+              if (offcanvasInstance) {
+                offcanvasInstance.hide();
+
+              }
+              const closeButton = document.getElementById('offcanvasCloseButton');
+              if (closeButton) {
+                closeButton.click(); // Programozott kattintás
+              }
+            }
+            return []; // üres tömböt adunk vissza
+          }
+
+          return []
+        }
+        )
+      )
+      .subscribe(results => {
+        this.searchResults = results;
+        this.base.toSort(this.selectedOption, this.searchResults)
+      })
 
   }
 
@@ -91,7 +123,7 @@ export class AllEventsComponent {
   getDataFromApi() {
     this.base.eventsAllSub.subscribe(
       (res: any) => {
-        console.log("res a getDataFromApi-ból: ",res)
+        console.log("res a getDataFromApi-ból: ", res)
         this.events = res.data
         this.eventsArray = res.data
         this.sortedEventsArray = this.eventsArray
@@ -133,8 +165,8 @@ export class AllEventsComponent {
     if(!this.searchResults){
       this.base.toSort(this.selectedOption,this.eventsArray)
     }
-    else{
-      this.base.toSort(this.selectedOption,this.searchResults)
+    else {
+      this.base.toSort(this.selectedOption, this.searchResults)
     }
 
   }
@@ -154,16 +186,34 @@ export class AllEventsComponent {
     if (this.searchControl.value === '') {
       console.log("searchOn")
       this.isSearch = false
+      this.searchResults = null
     }
     else {
       this.isSearch = true
       this.base.search(this.searchControl.value).subscribe(
-        (data:any) => {
+        (data: any) => {
           this.searchResults = data; // Adatok beállítása
 
-          this.base.toSort(this.selectedOption,this.searchResults)
+          this.base.toSort(this.selectedOption, this.searchResults)
           console.log("searchResults: ", this.searchResults);
+
+
+
+          const offcanvasElement = document.getElementById('offcanvasWithBothOptions');
+          if (offcanvasElement) {
+            const offcanvasInstance = Offcanvas.getInstance(offcanvasElement);
+            if (offcanvasInstance) {
+              offcanvasInstance.hide();
+
+            }
+            const closeButton = document.getElementById('offcanvasCloseButton');
+            if (closeButton) {
+              closeButton.click(); // Programozott kattintás
+            }
+          }
         }
+
+
       )
 
     }
@@ -172,7 +222,7 @@ export class AllEventsComponent {
 
 
   //feliratkozás adott eseményre
-  subscribeToEvent(event:any){
+  subscribeToEvent(event: any) {
     this.base.subscribeEvent(event).subscribe(
       {
         next: (res: any) => {
@@ -202,7 +252,7 @@ export class AllEventsComponent {
   }
 
   //leiratkozás adott eseményről
-  unsubscribeFromEvent(data:any){
+  unsubscribeFromEvent(data: any) {
     this.base.unsubscribeEvent(data).subscribe(
       {
         next: (res: any) => {
@@ -215,6 +265,8 @@ export class AllEventsComponent {
           this.base.myEvents.subscribe(events => {
             this.userEvents = events;
           })
+
+
         },
         error: (error: any) => {
           //console.log("Valami hiba: ", error)
@@ -232,7 +284,7 @@ export class AllEventsComponent {
       (res: any) => {
         //console.log("userEvents", res)
         this.userEvents = res
-    })
+      })
   }
 
   isEventSubscribed(eventId: number): boolean {

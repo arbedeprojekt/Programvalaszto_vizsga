@@ -1,11 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, input } from '@angular/core';
 import { LocalStorageService } from '../local-storage.service';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, map, Observable, switchMap } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { BaseService } from '../base.service';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { Offcanvas } from 'bootstrap';
 
 @Component({
   selector: 'app-events-subscribed',
@@ -21,7 +22,7 @@ export class EventsSubscribedComponent {
 
   // A táblázat megjelenítéséhez
   // oszlopok = ["events_id", "comment"]
-  oszlopok =["image","name", "description", "startDate", "endDate", "startTime", "endTime", "locationName", "locationcountry", "address", "state", "gpx", "weblink"]
+  oszlopok = ["image", "name", "description", "startDate", "endDate", "startTime", "endTime", "locationName", "locationcountry", "address", "state", "gpx", "weblink"]
   //A fejléc magyar megjelenítéséhez
   columnName = ["Esemény azonosítója", "Kommentek"]
 
@@ -48,7 +49,7 @@ export class EventsSubscribedComponent {
   dataFromApi: any
 
   //Az ábc sorrend megvalósításához
-  selectedOption ="ascByABC"
+  selectedOption = "ascByABC"
   eventsArray = []
   sortedEventsArray: any
 
@@ -58,13 +59,13 @@ export class EventsSubscribedComponent {
 
   //A szabadszavas kereséshez
   searchControl = new FormControl();
-  searchResults: any[] = [];
+  searchResults: any
   isSearch = false;
 
   // Feliratkozások megtekintése
   userEvents: any
 
-  constructor(private http: HttpClient, localStorage: LocalStorageService, private base: BaseService, private auth:AuthService, private router:Router) {
+  constructor(private http: HttpClient, localStorage: LocalStorageService, private base: BaseService, private auth: AuthService, private router: Router) {
     // let token = localStorage.getItem("token")
     // let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
     // this.http.get(this.backendUrl + "getsubscriptions", { headers }).subscribe(
@@ -82,6 +83,38 @@ export class EventsSubscribedComponent {
     this.getTags()
     this.base.downloadAllTags()
 
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(300), // Vár 300ms-t, hogy ne indítson keresést minden billentyűleütésnél
+        distinctUntilChanged(), // Csak akkor indít új keresést, ha változott az input érték
+        switchMap(value => {
+          if (value === null || value.trim() === '') {
+            this.isSearch = false;
+            this.searchResults = null;
+            const offcanvasElement = document.getElementById('offcanvasWithBothOptions');
+            if (offcanvasElement) {
+              const offcanvasInstance = Offcanvas.getInstance(offcanvasElement);
+              if (offcanvasInstance) {
+                offcanvasInstance.hide();
+
+              }
+              const closeButton = document.getElementById('offcanvasCloseButton');
+              if (closeButton) {
+                closeButton.click(); // Programozott kattintás
+              }
+            }
+            return []; // üres tömböt adunk vissza
+          }
+
+          return []
+        }
+        )
+      )
+      .subscribe(results => {
+        this.searchResults = results;
+        this.base.toSort(this.selectedOption, this.searchResults)
+      })
+
     // this.getSubscribeEvents()
   }
 
@@ -91,7 +124,7 @@ export class EventsSubscribedComponent {
 
 
   //leiratkozás adott eseményről
-  unsubscribeFromEvent(data:any){
+  unsubscribeFromEvent(data: any) {
     this.base.unsubscribeEvent(data).subscribe(
       {
         next: (res: any) => {
@@ -122,7 +155,7 @@ export class EventsSubscribedComponent {
         //console.log("userEvents", res)
         this.userEvents = res
         this.eventsArray = res
-    })
+      })
   }
 
   isEventSubscribed(eventId: number): boolean {
@@ -171,16 +204,16 @@ export class EventsSubscribedComponent {
 
 
 
-  toSort(){
+  toSort() {
     console.log("userEvents: ", this.userEvents)
     //dezső: Megnézem, hogy akarja e használni a felhasználó a szabadszavas keresést
-    if(this.isSearch == false){
-      this.base.toSort(this.selectedOption,this.userEvents)
+    if (this.isSearch == false) {
+      this.base.toSort(this.selectedOption, this.userEvents)
       console.log("")
     }
-    else{
+    else {
       console.log("else ág")
-      this.base.toSort(this.selectedOption,this.searchResults)
+      this.base.toSort(this.selectedOption, this.searchResults)
     }
 
   }
@@ -215,18 +248,34 @@ export class EventsSubscribedComponent {
       this.isSearch = true
 
       this.base.search(this.searchControl.value).subscribe(
-        (data:any) => {
+        (data: any) => {
           this.searchResults = data; // Adatok beállítása
           console.log("userEvents tartalma: ", this.userEvents)
-          const commonElements = this.searchResults.filter((item1:any) =>
-            this.userEvents.some((item2:any) => item1.id == item2.id) // Az id alapján hasonlítunk
+          const commonElements = this.searchResults.filter((item1: any) =>
+            this.userEvents.some((item2: any) => item1.id == item2.id) // Az id alapján hasonlítunk
+
 
           )
           this.searchResults = commonElements
-          console.log("commonElements: ",commonElements)
-          this.base.toSort(this.selectedOption,this.searchResults)
+          console.log("commonElements: ", commonElements)
+          this.base.toSort(this.selectedOption, this.searchResults)
           console.log("searchResults: ", this.searchResults);
+
+          const offcanvasElement = document.getElementById('offcanvasWithBothOptions');
+          if (offcanvasElement) {
+            const offcanvasInstance = Offcanvas.getInstance(offcanvasElement);
+            if (offcanvasInstance) {
+              offcanvasInstance.hide();
+
+            }
+            const closeButton = document.getElementById('offcanvasCloseButton');
+            if (closeButton) {
+              closeButton.click(); // Programozott kattintás
+            }
+          }
         }
+
+
       )
 
 

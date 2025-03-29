@@ -355,3 +355,12 @@ p {
   bottom: 30px;
   background: white;
 } */
+
+/*JOKER, hogy ne látszódjanak bizonyos tartalmak, amiket majd később fogunk bekötni*/
+.visibility-hidden {
+  visibility: hidden;     /*látható marad a "helye"*/
+}
+
+.hidden {
+  display: none;
+}

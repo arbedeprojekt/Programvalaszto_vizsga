@@ -22,7 +22,7 @@
         <div class="pager-top">
           <div class="pager" id="pager-lapozo-top">
             <div
-              *ngIf="(isSearch == false && searchControl.value ==null)||(isSearch == false && searchControl.value =='')"
+              *ngIf="(isSearch == false && searchControl.value ==null)||(isSearch == false && searchControl.value =='')|| (searchControl.value == '' && isSearch == true) ||(isSearch == true && searchControl.value ==null) || (isSearch == true && !searchResults) || (isSearch == false && !searchResults) "
               class="count" id="pagerCount">{{events.length}} találat</div>
             <div *ngIf="isSearch == true && searchControl.value !=''" class="count" id="pagerCount">
               {{searchResults.length}} találat</div>
@@ -68,7 +68,7 @@
                   <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Szűrések</h5>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                      aria-label="Close"></button>
+                      aria-label="Close" id="offcanvasCloseButton"></button>
                   </div>
                   <div class="offcanvas-body">
                     <!-- <p>Try scrolling the rest of the page to see this option in action.</p> -->
@@ -94,7 +94,7 @@
                               <div class="filter-item -search">
                                 <div class="input-group rounded">
                                   <!-- <input type="search" class="form-control rounded" placeholder="Keresés" aria-label="Search" aria-describedby="search-addon" /> -->
-                                  <input type="search" [formControl]="searchControl" class="form-control rounded"
+                                  <input type="search" (keydown.enter)="searchOnPress()" [formControl]="searchControl" class="form-control rounded"
                                     placeholder="Keresés" aria-label="Search" aria-describedby="search-addon" />
                                   <span class="input-group-text border-0" id="search-addon">
                                     <button class="form-control rounded btn btn-outline-secondary"><i (click)="searchOnPress()" class="bi bi-search"></i></button>
@@ -156,7 +156,7 @@
                 <div class="section-content">
                   <div class="filter-item -search">
                     <div class="input-group rounded">
-                      <input type="search" [formControl]="searchControl" class="form-control rounded"
+                      <input type="search" (keydown.enter)="searchOnPress()" [formControl]="searchControl" class="form-control rounded"
                         placeholder="Keresés" aria-label="Search" aria-describedby="search-addon" />
                       <span class="input-group-text border-0" id="search-addon">
                         <button class="form-control rounded btn btn-outline-secondary"><i (click)="searchOnPress()" class="bi bi-search"></i></button>
@@ -188,7 +188,7 @@
     <div class="col-12 g10-xl-8 order-2">
       <!--kártyák-->
       <!-- <div class="content-cards" *ngIf="(searchControl.value === '' ||searchControl.value ==null)&& isSearch == false"> -->
-      <div class="content-cards" *ngIf="isSearch == false">
+      <div class="content-cards" *ngIf="isSearch == false || searchControl.value == '' || searchControl.value == null">
 
         <div class="row g10 events -grid">
           <div *ngFor="let event of paginatedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
@@ -204,7 +204,8 @@
               </a>
               <div class="card-body">
                 <h5 class="card-title">{{event.name}}</h5>
-                <ul class="list-unstyled list-inline mb-0">
+                <!-- EL VANNAK REJTVE AZ ÉRTÉKELŐS IKONOK, NE TÖRÖLD!! -->
+                <ul class="list-unstyled list-inline mb-0 visibility-hidden">
                   <li class="list-inline-item">
                     <i class="bi bi-star-fill text-warning"></i> <!--bi-star, bi-star-fill, bi-star-half-->
                   </li>
@@ -271,7 +272,8 @@
               </a>
               <div class="card-body">
                 <h5 class="card-title">{{event.name}}</h5>
-                <ul class="list-unstyled list-inline mb-0">
+                <!-- EL VANNAK REJTVE AZ ÉRTÉKELŐS IKONOK, NE TÖRÖLD!!-->
+                <ul class="list-unstyled list-inline mb-0 visibility-hidden">
                   <li class="list-inline-item">
                     <i class="bi bi-star-fill text-warning"></i> <!--bi-star, bi-star-fill, bi-star-half-->
                   </li>

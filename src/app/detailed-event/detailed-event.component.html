@@ -18,7 +18,7 @@
             <div class="col-12 pg-top">
                 <h1 id="eventName">{{event.name}}</h1>
                 <div class="pg-top-inner">
-                    <div class="rating">
+                    <div class="rating visibility-hidden">
                         <ul class="list-unstyled list-inline mb-0">
                             <li class="list-inline-item">
                             <i class="bi bi-star-fill text-warning"></i>    <!--bi-star, bi-star-fill, bi-star-half-->
@@ -35,8 +35,8 @@
                             <li class="list-inline-item">
                             <i class="bi bi-star-half text-warning"></i>
                             </li>
-                            <li class="list-inline-item">  <!--*ngIf="!isRating"-->
-                                <p class="text-muted">Értékeld elsőként</p>   <!--Ha még egyetlen értékelés sem érkezett az eseményre, ennek kell megjelennie-->
+                            <li class="list-inline-item">
+                                <p class="text-muted">Értékeld elsőként</p>   
                             </li>
                             <li class="list-inline-item">   <!--*ngIf="isRating"-->
                             <p class="text-muted">4.5 (413)</p>   <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
@@ -86,14 +86,17 @@
                                         aria-current="page"
                                         role="button">Információk</a>
                                 </div>
-                                <span class="nav-item-separator">|</span>
-                                <div class="nav-item">
+
+                                <!-- EGYELŐRE PARKOLÓPÁLYÁN, DE KÉSŐBB LESZ HASZNÁLVA, NE TÖRÖLD!!!! -->
+                                <span class="nav-item-separator hidden">|</span>
+                                <div class="nav-item hidden">
                                     <a (click)="setActiveSection('eventReviews')"
                                         class="nav-link"
                                         [class.active]="activeSection === 'eventReviews'"
                                         aria-current="page"
                                         role="button">Vélemények</a>
                                 </div>
+
                                 <span *ngIf="isEventSubscribed(event.id)" class="nav-item-separator">|</span>
                                 <div *ngIf="isEventSubscribed(event.id)" class="nav-item">                  <!--*ngIf="isEventSubscribed(event.id)"     Ez kell ide, hogy csak akkor jelenjen meg, ha az adott eseményre fel van iratkozva a felhasználó-->
                                     <a (click)="setActiveSection('eventSelfExperience')"
@@ -149,13 +152,16 @@
                                 </ul>
                             </div>
                         </div>
+                        
+                        <!-- EGYELŐRE PARKOLÓPÁLYÁN, DE KÉSŐBB LESZ HASZNÁLVA, NE TÖRÖLD!!!! -->
                         <!--Vélemények kezdet-->
-                        <div class="event-user-reviews" *ngIf="activeSection === 'eventReviews'">
+                        <div class="event-user-reviews hidden" *ngIf="activeSection === 'eventReviews'">
                             <div class="event-reviews-inner">
                                 <h4 class="">Vélemények</h4>
+
                                 <!-- Értékelések megjelenítése -->
                                 <div class="container reviews">
-                                    <div class="no-review">       <!--*ngIf="!isRating"-->
+                                    <div class="no-review">
                                         <div class="no-review-inner">
                                             <p>Ezt a programot még senki nem értékelte. Értékeld elsőként!</p>
                                             <div class="write-review mt-4">
@@ -164,7 +170,7 @@
                                         </div>
                                     </div>
                                     <div class="rating-card">       
-                                        <div class="rating-card-body">      <!--*ngIf="isRating"-->
+                                        <div class="rating-card-body">
                                             <div class="row nowrap">
                                                 <div class="col-md-4 text-center">
                                                     <h1 class="display-4">4.8</h1>
@@ -267,6 +273,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <!-- Beérkezett értékelések és vélemények -->
                                 <div class="users-reviews">
                                     <div class="users-reviews-inner">
@@ -292,6 +299,8 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <!--Élménybeszámóló blokk-->
                         <div class="event-self-experience" *ngIf="activeSection === 'eventSelfExperience' && isEventSubscribed(event.id)">
                             <div class="event-experience-inner" id="eventSelfExperience">
                                 <div class="title-row">
@@ -409,7 +418,8 @@
                         </a>
                         <div class="card-body">
                             <h5 class="card-title">{{event.name}}</h5>
-                            <ul class="list-unstyled list-inline mb-0">
+                            <!--EL VANNAK REJTVE AZ ÉRTÉKELÉSHEZ KAPCSOLÓDÓ IKONOK, NE TÖRÖLD!!-->
+                            <ul class="list-unstyled list-inline mb-0 visibility-hidden">
                                 <li class="list-inline-item">
                                 <i class="bi bi-star-fill text-warning"></i>    <!--bi-star, bi-star-fill, bi-star-half-->
                                 </li>
