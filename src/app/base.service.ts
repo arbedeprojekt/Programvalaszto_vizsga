@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 //import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
 // import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, concatMap, from, map, Observable, of, Subject, toArray } from 'rxjs';
 // import { ProductsListComponent } from './products-list/products-list.component';
 
 @Injectable({
@@ -318,7 +318,7 @@ export class BaseService {
       }
     )
   }
-  
+
 
 
   attachTagToEvent(data: any) {
@@ -333,7 +333,7 @@ export class BaseService {
   }
 
 
-  detachTagFromEvent(data:any) {
+  detachTagFromEvent(data: any) {
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
     return this.http.delete(this.backendUrl + `events/${data.eventId}/tags/${data.tagId}`, { headers })
@@ -419,6 +419,7 @@ export class BaseService {
       // console.log("ascByABC")
 
       sortedEventsArray = eventsArray
+      console.log("sortedEventsArray tartalma: " ,sortedEventsArray)
       sortedEventsArray = sortedEventsArray.sort(
         (a: any, b: any) => {
 
@@ -444,6 +445,8 @@ export class BaseService {
     else if (terms === "descByABC") {
       // console.log("descByABC")
       sortedEventsArray = eventsArray
+      console.log("sortedEventsArray tartalma: " ,sortedEventsArray)
+
       //console.log("sortedEventsArray:",sortedEventsArray)
       sortedEventsArray = sortedEventsArray.sort(
         (a: any, b: any) => {
@@ -471,6 +474,8 @@ export class BaseService {
     else if (terms === "ascByDate") {
       // console.log("ascByDate")
       sortedEventsArray = eventsArray
+      console.log("sortedEventsArray tartalma: " ,sortedEventsArray)
+
       sortedEventsArray = sortedEventsArray.sort(
         (a: any, b: any) => {
 
@@ -497,6 +502,8 @@ export class BaseService {
     else if (terms === "descByDate") {
       // console.log("descByDate")
       sortedEventsArray = eventsArray
+      console.log("sortedEventsArray tartalma: " ,sortedEventsArray)
+
       sortedEventsArray = sortedEventsArray.sort(
         (a: any, b: any) => {
 
@@ -548,4 +555,30 @@ export class BaseService {
     // GET kérés küldése a backendnek
   }
 
+  //Teg alapú szűrés
+  filterByTag(tagIds: any[]):Observable<any[]> {
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+
+    if (tagIds.length === 0) {
+      return of([]); // Ha nincs kiválasztott tag, üres tömböt ad vissza
+    }
+
+    else {
+      return from(tagIds).pipe(
+        concatMap(id => this.http.get(`${this.backendUrl}tags/${id.id}/events`, { headers })), // Egyenként küldi el a kéréseket
+        toArray() // Összegyűjti az összes választ egy tömbbe
+      )
+
+
+      //this.http.get(`${this.backendUrl}tags/${tagId}/events`, { headers })
+    }
+  }
+
+  // dezső: Teg esemény kapcsolat betöltése
+  getTagEvents() {
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+    return this.http.get(this.backendUrl + "events-with-tags", { headers })
+  }
 }
