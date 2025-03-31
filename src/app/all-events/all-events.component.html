@@ -21,31 +21,23 @@
       <div class="pg-8 order-2">
         <div class="pager-top">
           <div class="pager" id="pager-lapozo-top">
-            <div
-              *ngIf="(isSearch == false && searchControl.value ==null && tagSearch == false)||(isSearch == false && searchControl.value =='' && tagSearch == false)|| (searchControl.value == '' && isSearch == true && tagSearch == false) ||(isSearch == true && searchControl.value ==null && tagSearch == false) || (isSearch == true && !searchResults && tagSearch == false) || (isSearch == false && !searchResults && tagSearch == false) "
-              class="count" id="pagerCount">{{events.length}} találat</div>
 
-              <!-- Szabad szavas keresésnél a találatok száma -->
+
+              <div
+              *ngIf="(isSearch == false && searchControl.value ==null && tagSearch == false)||(isSearch == false && searchControl.value =='' && tagSearch == false)|| (searchControl.value == '' && isSearch == true && tagSearch == false) ||(isSearch == true && searchControl.value ==null && tagSearch == false) || (isSearch == true && !searchResults && tagSearch == false) || (isSearch == false && !searchResults && tagSearch == false) ||(isSearch == false && tagSearch == false && commonSearchResults.length == 0) "
+              class="count" id="pagerCount">{{events.length}} találat</div>
+            <!-- Szabad szavas keresésnél a találatok száma -->
             <div *ngIf="isSearch == true || tagSearch == true" class="count" id="pagerCount">
               {{commonSearchResults.length}} találat</div>
 
-              <!-- A teg alapú szűrés találatszámának megjelenítése -->
-              <!-- <div *ngIf="tagSearch == true && searchControl.value !=''" class="count" id="pagerCount">
-                {{searchTagResults.length}} találat</div> -->
+
             <!--itt vissza kell adnia, hogy hány db aktív státuszú eseményt talált az adatbázisban (vagyis hány darabot lehet megnézni az oldalon)-->
           </div>
           <div class="separator">|</div>
           <div class="pl-sorter">
             <span>Rendezés:</span>
             <div class="select-wrapper">
-              <!-- <select class="form-select">
-                <option value="">ABC szerint növekvő</option>
-                <option value="">ABC szerint csökkenő</option>
-                <option value="">Dátum szerint növekvő</option>
-                <option value="">Dátum szerint csökkenő</option>
-                <option value="">Népszerűség</option> -->
-              <!--ha marad időnk, lehetne egy népszerűség szerint növekvő is: a legtöbb felhasználó által feliratkozott; aktív státuszú események;-->
-              <!--</select> -->
+
 
               <select [(ngModel)]="selectedOption" (change)="toSort()" class="form-select">
                 <option value="ascByABC" selected>ABC szerint növekvő</option>
@@ -85,15 +77,18 @@
                             <div class="section-content filter-item">
                               <h5 class="section-header">Címkék</h5>
                               <div *ngFor="let tag of tags" class="form-check">
-                                <input [value]="tag" (change)="onTagSelect(tag, $event)" class="form-check-input"
-                                  type="checkbox" id="flexCheckDefault">
+                                <input [value]="tag" (change)="onTagSelect(tag, $event)"
+                                  (keydown.enter)="searchOnPress()" class="form-check-input" type="checkbox"
+                                  id="flexCheckDefault">
 
                                 <label class="form-check-label">
                                   {{tag.name}}
                                 </label>
                               </div>
-                              <div>
-                                <button class="btn btn-secondary" (click)="SearchByTags(selectedTags)">Mentés</button>
+                              <div class="d-flex gap-2">
+                                <button class="btn btn-secondary" (click)="searchOnPress()">Szűrés indítása</button>
+                                <button class="btn btn-secondary" (click)="clearTagSelections()">Kijelölések
+                                  törlése</button>
                               </div>
                             </div>
                           </div>
@@ -156,14 +151,15 @@
                 <div class="section-content filter-item">
                   <h5 class="section-header">Címkék</h5>
                   <div *ngFor="let tag of tags" class="form-check">
-                    <input [value]="tag" (change)="onTagSelect(tag, $event)" class="form-check-input" type="checkbox"
-                      id="flexCheckDefault">
+                    <input [value]="tag" (keydown.enter)="searchOnPress()" (change)="onTagSelect(tag, $event)"
+                      class="form-check-input" type="checkbox" id="flexCheckDefault">
                     <label class="form-check-label">
                       {{tag.name}}
                     </label>
                   </div>
-                  <div>
-                    <button class="btn btn-secondary" (click)="SearchByTags(selectedTags)">Mentés</button>
+                  <div class="d-flex gap-2">
+                    <button class="btn btn-secondary" (click)="searchOnPress()">Szűrés indítása</button>
+                    <button class="btn btn-secondary" (click)="clearTagSelections()">Kijelölések törlése</button>
                   </div>
                 </div>
               </div>
@@ -207,9 +203,7 @@
     <div class="col-12 g10-xl-8 order-2">
       <!--kártyák-->
       <!-- <div class="content-cards" *ngIf="(searchControl.value === '' ||searchControl.value ==null)&& isSearch == false"> -->
-        <div class="content-cards"
-        *ngIf="(tagSearch == false && isSearch == false )"
-        >
+      <div class="content-cards" *ngIf="(tagSearch == false && isSearch == false  ) ">
 
 
         <div class="row g10 events -grid">
@@ -356,88 +350,18 @@
       </div>
 
 
-      <!-- Tegek szerinti keresés eredményeinek megjelenítése -->
-      <div class="content-cards" *ngIf=" tagSearch == true && searchControl.value == ' '">
-        <!--       <div class="content-cards" *ngIf="searchControl.value != '' && isSearch == true"> -->
-        <div class="row events -grid">
-          <div *ngFor="let event of paginatedSearchedEvents2" class="e-item -box col-6 col-md-4 col-lg-3">
-            <div class="card">
-              <a [routerLink]="['/detailed-event/', event.id]" class="img">
-                <!--onclick-hez megy, hogy rákattintás esetén irányítsa át a megadott részletes oldalra-->
-                <div class="inner">
-                  <img *ngIf="event.image; else noImage" src={{event.image}} class="card-img-top" alt={{event.name}}>
-                  <ng-template #noImage>
-                    <img src="assets/Pictures/no-image.jpg" class="card-img-top" alt="No Image Available">
-                  </ng-template>
-                </div>
-              </a>
-              <div class="card-body">
-                <h5 class="card-title">{{event.name}}</h5>
-                <ul class="list-unstyled list-inline mb-0">
-                  <li class="list-inline-item">
-                    <i class="bi bi-star-fill text-warning"></i> <!--bi-star, bi-star-fill, bi-star-half-->
-                  </li>
-                  <li class="list-inline-item">
-                    <i class="bi bi-star-fill text-warning"></i>
-                    <!--a csillagokat aszerint kell "teltté" változtatni, ahogy arányaiban kijön az értékelések alapján. Lényegében az átlag adja-->
-                  </li>
-                  <li class="list-inline-item">
-                    <i class="bi bi-star-fill text-warning"></i>
-                  </li>
-                  <li class="list-inline-item">
-                    <i class="bi bi-star-fill text-warning"></i>
-                  </li>
-                  <li class="list-inline-item">
-                    <i class="bi bi-star-half text-warning"></i>
-                  </li>
-                  <li class="list-inline-item">
-                    <p class="text-muted">4.5 (413)</p>
-                    <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
-                  </li>
-                </ul>
-                <div class="start-end-date">
-                  <p class="card-text" style="display: inline-block">{{event.startDate && event.startDate !==
-                    '0000-00-00'
-                    ? event.startDate:eventStartDateNull}}</p>
-                  <span *ngIf="event.endDate && event.endDate !== '0000-00-00'" class="date-separator">-</span>
-                  <p class="card-text" style="display: inline-block">{{event.endDate && event.endDate !== '0000-00-00' ?
-                    event.endDate:eventEndDateNull}}</p>
-                  <!--be kell állítani, hogy csak akkor jelenjen meg, ha van adat. Ha nincs dátum adat, akkor valami általános dolgot írjon ki..Pl: Állandó..vagy ilyesmi -->
-                </div>
-                <!-- <p class="card-text" style="display: inline-block; padding-left: 3.8rem;">{{event.startTime}}-{{event.endTime}}</p> be kell állítani, hogy csak akkor jelenjen meg, ha van adat-->
-                <p class="card-text" style="text-align: left; display: inline-block;">{{event.locationName}}</p>
-                <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
-                <div class="split">
-                  <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
-                  <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary"
-                    type="button" title="Bakancslistára tesz" id="subscribeEvent">
-                    <!--*ngIf="!isEventSubscribed(event.id)"-->
-                    <i class="bi bi-plus-lg"></i>
-                  </button>
-                  <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)"
-                    class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent">
-                    <!--*ngIf="isEventSubscribed(event.id)"-->
-                    <i class="bi bi-dash-lg"></i>
-                  </button>
-                </div>
-
-              </div>
-            </div>
-            <!-- <button (click)="subscribeEvent(event)">Felíratkozás</button> -->
-            <!-- <button (click)="unsubscribeEvent(event)">Leiratkozás</button> -->
-
-          </div>
-        </div>
-      </div>
 
 
-      <div *ngIf=" (isSearch ==true && commonSearchResults.length == 0 )|| (tagSearch ==true && commonSearchResults.length == 0 )">
+
+
+      <div
+        *ngIf=" (isSearch ==true && commonSearchResults.length == 0 )|| (tagSearch ==true && commonSearchResults.length == 0 )">
         <h1>Nincs találat</h1>
       </div>
 
       <!--Navigációs sáv-->
       <div class="pager-pagination">
-        <app-card-pagination [totalItems]="isSearch ? searchResults.length : events.length"
+        <app-card-pagination [totalItems]="isSearch ? commonSearchResults.length : events.length"
           [itemsPerPage]="itemsPerPage" [currentPage]="currentPage"
           (onClick)="changePage($event)"></app-card-pagination>
       </div>
