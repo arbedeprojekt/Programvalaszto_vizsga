@@ -1,168 +1,190 @@
-.container {
-    max-width: 90%;
+/*Általános*/
+@media (min-width: 0px) {
+    .col-6 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+}
+  
+@media (min-width: 992px) {
+    .col-md-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    .col-md-3 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    .p-lg-0 {
+        padding: 0 !important;
+    }
 }
 
-#titleNewEvent {
-    margin-bottom: 5px;
-    color: #dee2e6;
+/*Gombok kisebb képernyőn törjenek egymás alá*/
+@media (max-width: 576px) {
+    td:last-child {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
 }
 
-.table-container {
+/*Sortörés engedélyezése kisebb képernyőn azokra az oszlopokra, ahova kell*/
+@media (max-width: 768px) {
+    th, td {
+        white-space: normal;
+        word-wrap: break-word;
+    }
+
+    th:nth-child(3), td:nth-child(3), /* Program neve */
+    th:nth-child(8), td:nth-child(8), /* Leírás */
+    th:nth-child(10), td:nth-child(10), /* Helyszín */
+    th:nth-child(11), td:nth-child(11)  /* Cím */
+    {
+        min-width: auto;
+        max-width: 100%;
+    }
+}
+
+.container, .container-fluid, .container-xl, .container-lg, .container-md, .container-sm {
     width: 100%;
-    overflow-x: auto; /* Vízszintes görgetés */
-    position: relative; /* Megakadályozza a gombok elcsúszását */
-}
-
-.scrollable-content {
-    display: flex;
-    flex-direction: column;
-    min-width: fit-content; /* Ezt változtatjuk! */
-    padding-bottom: 10px;
+    padding-right: .75rem;
+    padding-left: .75rem;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .row {
-    margin: 5px;
-    padding-bottom: 3px;
-    display: flex;
-    flex-wrap: nowrap;
-    min-width: max-content;
-    text-transform: capitalize;
-}
-
-.header-row {
-    display: flex;
-    font-weight: bold;
-    text-align: left;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 5px;
-}
-
-.col {
-    flex: 0 1 auto;
-    text-align: left;
-    border-bottom: thin solid #dee2e6;
-    min-width: 100px;
-    max-width: 300px;
-    padding-bottom: 5px
-}
-
-#eventsData {
-    display: block;
-    word-wrap: break-word; /* Tördelje a hosszú szöveget */
-    overflow-wrap: break-word; /* Biztosítja a tördelést */
-    white-space: normal; /* Engedi a több sorba törést */
-    overflow: hidden; /* Rejtse el a kilógó szöveget */
-    text-overflow: ellipsis; /* Ha túl sok a szöveg, a végén "..." legyen */
-    max-height: 40px; /* Az input magassága a tartalomhoz igazodik */
-    line-height: 1.2em;
-    padding: 5px;
-}
-
-textarea {
-    resize: none;
-}
-
-#newDataInputsContainer {
-    background-color: bisque;
-    border-radius: 5px;
-    padding: 10px;
-}
-
-#newDataInputs {
+    max-width: 100%;
+    padding-right: -.75rem;
+    padding-left: -.75rem;
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
-    gap: 10px;
+    align-items: baseline;
+    flex-grow: 1;
 }
 
-.col-common {
-    flex: content;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    text-align: left;
-    border-bottom: thin solid #dee2e6;
-    width: auto;
+h4 {
+    margin-top: 2rem;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
 }
 
-label {
-    margin: 0 0 3px;
-    text-transform: capitalize;
+h5 {
+    margin-bottom: 1.5rem;
 }
 
-#newEvents {
-    border-bottom: none;
-    width: 250px;
-}
 
-.form-control {
-    border: none;
-    background: #f0f0f0;
-}
-
-.form-control:focus {
-    border: 1px solid #dee2e6;
-    box-shadow: none;
-}
-
-#input-0, #input-2, #input-3, #input-4 {
-    min-width: 250px;
-    max-width: 100%;
-}
-
-#input-1 {
-    min-width: 400px;
-    max-width: 100%;
-}
-
-#input-4,#input-5, #input-6 {
-    min-width: 350px;
-    max-width: 100%;
-}
-
-#input-7, #input-8, #input-9, #input-10 {
-    min-width: 150px;
-    max-width: 100%;
-}
-
-.input-common {
-    border: 1px solid #dee2e6;
-    width: 100%;
+/*Új program felvétele*/
+.new-datas {
     background: #fff;
-}
-
-#fejlec, #ures {
-    border-bottom: none;
-}
-
-.col-actions {
-    width: 150px;
-    display: flex;
-    gap: 5px;
-    border-bottom: thin solid #dee2e6;
-    padding-bottom: 5px;
-}
-
-.sticky-actions {
-    position: sticky;
-    right: 0;
-    z-index: 10;
-    padding-left: 10px;
-    min-width: 150px;
-    max-width: 150px;
+    border-radius: .375rem;
+    padding: 1.75rem;
+    margin-bottom: 2rem;
 }
 
 #saveButton {
-    align-content: flex-end;
-    justify-content: flex-end;
-    padding-top: 10px;
-}
-
-.button-group {
     display: flex;
-    gap: 5px;
     justify-content: flex-end;
-}  
-
-#save {
-    justify-content: baseline;
 }
+
+
+/*TÁBLÁZAT*/
+th {
+    position: sticky;
+    top: 0;
+    z-index: 0;
+}
+
+td {
+    vertical-align: middle;
+}
+
+.table-block {
+    padding: 1.75rem;
+    background: #fff;
+    border-radius: .375rem;
+    min-height: 500px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.scrollable-content {
+    position: relative;
+    max-height: 600px;
+    overflow-y: auto; /* 'scroll' helyett 'auto' */
+}
+
+.scrollable-content::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.bi-pencil-fill {
+  cursor: pointer;
+}
+
+
+/*Fix szélességek beállítása*/
+th, td {
+    min-width: 150px;
+    max-width: 200px;
+    white-space: nowrap;
+}
+
+td:first-child, th:first-child {
+    padding-left: 1.5rem;
+    min-width: 150px;
+    max-width: 250px;
+}
+
+th:nth-child(4), td:nth-child(4), th:nth-child(14), td:nth-child(14), th:nth-child(15), td:nth-child(15) { /* Program neve, GPX fájl, Kép */
+    min-width: 200px;
+    max-width: 350px;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+th:nth-child(9), td:nth-child(9), th:nth-child(13), td:nth-child(13) { /* Leírás, Weboldal */
+    min-width: 200px;
+    max-width: 400px;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+th:nth-child(11), td:nth-child(11) { /* Helyszín */
+    min-width: 150px;
+    max-width: 200px;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+th:nth-child(12), td:nth-child(12) { /* Cím */
+    min-width: 150px;
+    max-width: 250px;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.button-container {
+    display: inline-flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+}
+

@@ -95,43 +95,34 @@ export class BaseService {
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
 
-    return this.http.get(this.backendUrl + "/events" + `${id}`, { headers })
+    return this.http.get(this.backendUrl + "events" + `${id}`, { headers })
   }
 
   //Userek módosítása
+  // updateUser(data: any) {
+  //   let admin = localStorage.getItem("admin")
+  //   let token = localStorage.getItem("token")
+  //   let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+  //   if (admin === "2") {
+
+  //     this.http.put(this.backendUrl + "updateusers", data, { headers }).subscribe(
+  //       (res: any) => { this.dataUsersSub = res.data }
+
+  //     )
+  //   }
+  //   else if (admin === "1") {
+  //     this.http.put(this.backendUrl + "updateusers", data, { headers }).subscribe(
+  //       (res: any) => {
+  //         this.dataUsersSub = res.data
+  //         alert("Sikeres Módosítás")
+  //       })
+  //   }
+  // }
+
   updateUser(data: any) {
-    let admin = localStorage.getItem("admin")
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-    // if(data.admin ==''){
-    //   console.log("jogosultság megadása kötelező")
-    //   return
-    // }
-    if (admin === "2") {
-      //console.log("superadmin")
-      //console.log("superadmin")
-      this.http.put(this.backendUrl + "updateusers", data, { headers }).subscribe(
-        (res: any) => { this.dataUsersSub = res.data }
-
-      )
-    }
-    else if (admin === "1") {
-      //console.log("admin")
-      //console.log("admin")
-      // if(data.admin =="2" || data.admin == "1"){
-      //   console.log("nincs jogosultságod módosításra")
-      // }
-      //  else{
-      //console.log("nyugodtan módosíthatod")
-      //console.log("nyugodtan módosíthatod")
-      this.http.put(this.backendUrl + "updateusers", data, { headers }).subscribe(
-        (res: any) => {
-          this.dataUsersSub = res.data
-          //console.log("a művelet vége: ", res)
-          //console.log("a művelet vége: ", res)
-          alert("Sikeres Módosítás")
-        })
-    }
+    return this.http.put(this.backendUrl + "updateusers", data, { headers })
   }
 
   deleteUser(data: any) {
@@ -295,7 +286,7 @@ export class BaseService {
     return this.http.get(this.backendUrl + "events-with-tags", { headers }).subscribe(
       {
         next: (res: any) => {
-          console.log("Api válasz (eventsWithTags)", res)
+          //console.log("Api válasz (eventsWithTags)", res)
           let eventsWithTags = []
 
           for (const event of res.data) {
@@ -310,7 +301,7 @@ export class BaseService {
             }
           }
           this.eventsWithTags.next(eventsWithTags)
-          console.log("eventsWithTags base: ", eventsWithTags)
+          //console.log("eventsWithTags base: ", eventsWithTags)
         },
         error: (err) => {
           //console.log("HIbaaaa!!!!",err)
@@ -318,7 +309,6 @@ export class BaseService {
       }
     )
   }
-  
 
 
   attachTagToEvent(data: any) {
@@ -326,7 +316,7 @@ export class BaseService {
       events_id: data.eventId,
       tags: data.tagId
     }
-    console.log("kapott adatok base: ", body)
+    //console.log("kapott adatok base: ", body)
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
     return this.http.post(this.backendUrl + `events/${data.eventId}/tags`, body, { headers })

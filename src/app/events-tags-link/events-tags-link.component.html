@@ -2,20 +2,21 @@
     <h4>Esemény és címke összekapcsolás</h4>
     <!--új esemény-címke összekapcsolás-->
     <div class="eventTagAttach">
+        <h5>Új esemény és címke kapcsolat felvétele</h5>
         <div class="search-block row">
-            <h5>Keresés
+            <h5 class="search-title">Keresés
                 <i class="bi bi-info-circle" style="font-size: 1rem" data-bs-toggle="tooltip" data-bs-placement="top" title="Keress az esemény azonosítójára vagy az esemény nevére"></i>
             </h5>
             <div class="col-6 col-mb-4">
                 <div class="mb-3">
                     <label class="form-label">Esemény azonosító</label>
-                    <input type="email" class="form-control" [formControl]="searchIdControl" id="" placeholder="">
+                    <input type="text" class="form-control" [formControl]="searchIdControl" id="" placeholder="">
                 </div>
             </div>
             <div class="col-6 col-mb-3">
                 <div class="mb-3">
                     <label  class="form-label">Esemény neve</label>
-                    <input type="email" class="form-control" [formControl]="searchNameControl" id="" placeholder="">
+                    <input type="text" class="form-control" [formControl]="searchNameControl" id="" placeholder="">
                 </div>
             </div>
             <div class="col-6 col-mb-5">
@@ -23,7 +24,7 @@
             </div>
         </div>
         <!--Találat-->
-        <div *ngIf=" isEventSearch == true" class="attach-block hidden">    <!--*ngIf=" isSearch == true"-->
+        <div *ngIf=" isEventSearch == true" class="attach-block hidden">    <!--&& !closeAfterSave                  JAVÍTANI KELL-->
             <div class="separator col-12">
                 <hr>
             </div>
@@ -50,20 +51,41 @@
                             <input type="text" readonly class="form-control-plaintext" id="" value={{event.name}}>
                         </div>
                     </div>
-                    <div class="col-6 col-mb-4">
-                        <div class="col-common" id="newEventTag">
+                    <div class="col-6 col-mb-3">
+                        <!-- <div class="col-common" id="newEventTag">
                             <label class="form-label form-label-sm found-col-name">Címke neve</label>
                             <div class="input-group mb-3">
-                            <select #tagNameSelect class="form-select" id="tagNameSelect">  <!--[(ngModel)]=""-->
+                            <select #tagNameSelect class="form-select" id="tagNameSelect">
                                 <option selected>Válassz...</option>
                                 <option *ngFor="let tag of tags" value={{tag.name}}>{{tag.name}}</option>
                             </select>
                             </div>
+                        </div> -->
+                        <div class="col-common" id="newEventTag">
+                            <label class="form-label form-label-sm found-col-name">Címke neve</label>
+                            <div class="scrollable-block">
+                                <div class="scrollable-content" id="scrollSearchResult" tabindex="0">
+                                    <div *ngFor="let tag of tags"  class="form-check">
+                                        <input 
+                                            class="form-check-input" 
+                                            type="checkbox" 
+                                            value={{tag.name}} 
+                                            (change)="updateSelectedTags($event, tag.id)" 
+                                            id="tagNameSelect">
+                                        <label class="form-check-label">
+                                            {{tag.name}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="button-searchResult">
+                                <button (click)="newAttach(event.id, selectedTags)" type="button" class="btn btn-primary">Mentés</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6 col-mb-5">
+                    <!-- <div class="col-6 col-mb-5">
                         <button (click)="newAttach(event.id, tagNameSelect.value)" class="btn btn-primary" id="saveAttachButton">Mentés</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -97,33 +119,37 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
+                    <th scope="col">Műveletek</th>
                     <th scope="col">Esemény azonosító</th>
                     <th scope="col">Esemény neve</th>
                     <th scope="col">Címke azonosító</th>
                     <th scope="col">Címke neve</th>
                     <th scope="col">Címke csoportja</th>
-                    <th scope="col">Műveletek</th>
                 </tr>
                 </thead>
                 <tbody *ngIf="showWithTag">
                 <tr *ngFor="let attachedData of searchWithTagsTable()">
+                    <td>
+                        <div class="button-container">
+                            <button (click)="deleteTagFromEvent(attachedData)" class="btn btn-outline-secondary">Törlés</button>
+                        </div>
+                    </td>
                     <td>{{attachedData.eventId}}</td>
                     <td>{{attachedData.eventName}}</td>
                     <td>{{attachedData.tagId}}</td>
-                    <td>
+                    <!--Kikommentelem, mert egyelőre nincs módosítás, de NE TÖRÖLD-->
+                    <!-- <td>
                         <div class="col-common cell-dropdown">
                             <div class="input-group" id="tagDropdown">
-                            <select class="form-select" [(ngModel)]="attachedData.tagName">  <!--[(ngModel)]=""-->
+                            <select class="form-select" [(ngModel)]="attachedData.tagName">
                                 <option selected>{{attachedData.tagName}}</option>
                                 <option *ngFor="let tag of tags" value={{tag.name}}>{{tag.name}}</option>
                             </select>
                             </div>
                         </div>
-                    </td>
-                    <td>{{attachedData.tagGroup}}</td>
-                    <td>
-                        <button (click)="deleteTagFromEvent(attachedData)" class="btn btn-outline-secondary">Törlés</button>
-                    </td>
+                    </td> -->
+                    <td>{{attachedData.tagName}}</td>
+                    <td class="tagGroup">{{attachedData.tagGroup}}</td>
                 </tr>
                 </tbody>
                 <tbody *ngIf="!showWithTag">

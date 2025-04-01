@@ -1,79 +1,80 @@
 <!-- errormessage: {{updateTagErrorMessage|json}} -->
-<div class="container" *ngIf='localStorage.getItem("admin") != "0"'>
-  <h1 class="">Címkék</h1>
-  <div id="titleNewEvent">ÚJ címke felvétele</div>
-  <!-- Új rekord felvétele -->
-  <div class="" id="newDataInputsContainer">
-    <div class="" id="newDataInputs">
-      <div class="col-common" id="newTagName">
-        <label class="form-label form-label-sm">Címke neve</label>
-        <input [(ngModel)]="newTagItem.name" type="text" class="form-control form-control-sm input-common" [id]="" placeholder="Címke neve">
-          <label class="form-label form-label-sm">Címke csoportja</label>
-        <div class="input-group mb-3">
-          <select class="form-select" id="inputGroupSelect02" [(ngModel)]="newTagItem.group">
-            <!-- <option selected>Válassz...</option> -->
-            <option value="Típus">Típus</option>
-            <option value="Jelleg">Jelleg</option>
-            <option value="Időtartam">Időtartam</option>
-            <option value="Részvétel módja">Részvétel módja</option>
-            <option value="Belépés">Belépés</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="button" id="saveButton">
-      <div class="button-group">
-        <button (click)="newData()" type="button" class="btn btn-primary btn-sm">Mentés</button>
-      </div>
-      <div *ngIf="newTagErrorBool == false && newTagErrorMessage != ''" class="errormsg">
-        {{newTagErrorMessage}}
-      </div>
-      <div *ngIf="newTagErrorBool == true" class="errormsg">
-        Sikeres címke felvétel
-      </div>
-    </div>
-  </div>
-  <br>
 
-  <div class="table-container">
-    <div class="scrollable-content">
-      <!-- Fejléc Kiíratás -->
-      <div class="row header-row">
-        <div *ngFor="let oszlop of oszlopok" class="col" id="fejlec">
-          {{oszlop}}
-        </div>
-        <div class="col-actions" id="ures"></div>
-      </div>
-
-      <!-- Táblázat megjelenítése -->
-
-      <div *ngFor="let tag of tags; let i = index" class="row align-items-center">
-        <div class="col word-wrap" id="eventsDataCol">
-          <input [(ngModel)]="tag.name" type="text" class="form-control form-control-sm" id="eventsData">
-        </div>
-        <div class="col">
-          <div class="input-group mb-3">
-            <select class="form-select" id="inputGroupSelect02" [(ngModel)]="tag.group">
-              <!-- <option selected>Válassz...</option> -->
-              <option value="típus">Típus</option>
-              <option value="jelleg">Jelleg</option>
-              <option value="időtartam">Időtartam</option>
-              <option value="részvétel módja">Részvétel módja</option>
-              <option value="belépés">Belépés</option>
-            </select>
+<div *ngIf='localStorage.getItem("admin") != "0"' class="container p-lg-0">
+  <h4>Címkék kezelése</h4>
+  <div class="new-datas">
+    <h5>Új címke felvétele</h5>
+    <form (ngSubmit)="newData()">
+      <div class="row new-datas-inner">
+        <div class="col-6 col-md-3">
+          <div class="mb-3">
+            <label class="form-label">Címke neve</label>
+            <input type="text" class="form-control" [(ngModel)]="newTagItem.name" name="name" id=""
+              placeholder="Pl.: Sport">
           </div>
         </div>
-        <div class="col-actions sticky-actions">
-          <div class="button-group" id="updateDelete">
-            <button class="btn btn-primary btn-sm" (click)="updateData(tag)">Módosít</button>
-            <div *ngIf="updateTagErrorBool == true && updateTagErrorMessage !=''" class="errormsg">
-              {{updateTagErrorMessage}}
+        <div class="col-6 col-md-3">
+          <div class="mb-3">
+            <label class="form-label">Címke csoportja</label>
+            <div class="input-group">
+              <select class="form-select" id="" [(ngModel)]="newTagItem.group" name="group">
+                <!-- <option selected>Válassz...</option> -->
+                <option value="típus">Típus</option>
+                <option value="jelleg">Jelleg</option>
+                <option value="időtartam">Időtartam</option>
+                <option value="részvétel módja">Részvétel módja</option>
+                <option value="belépés">Belépés</option>
+              </select>
             </div>
-            <button class="btn btn-secondary btn-sm ms-2" (click)="deleteData(tag)">Törlés</button>
           </div>
         </div>
+        <div class="col-6 col-md-3 mb-3">
+          <button type="submit" class="btn btn-primary" id="saveButton">Mentés</button>
+        </div>
       </div>
+    </form>
+  </div>
+  <div class="table-block">
+    <div class="table-inner scrollable-content table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Műveletek</th>
+            <th scope="col">Azonosító</th>
+            <th scope="col">Címke neve</th>
+            <th scope="col">Címke csoportja</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tag of tags">
+            <td>
+              <div class="button-container">
+                <i *ngIf="editModeId !== tag.id" (click)="editRow(tag)" class="bi bi-pencil-fill" style="font-size: 1.2rem;"></i>
+                <button *ngIf="editModeId === tag.id" class="btn btn-secondary" (click)="updateData(tag)">Módosítás</button>
+                <button *ngIf="editModeId === tag.id" class="btn btn-outline-secondary" (click)="cancelEdit()">Mégsem</button>
+                <button *ngIf="editModeId !== tag.id" class="btn btn-outline-secondary" (click)="deleteData(tag)">Törlés</button>
+              </div>
+            </td>
+            <td>{{tag.id}}</td>
+            <td>
+              <span *ngIf="editModeId !== tag.id">{{tag.name}}</span>
+              <input *ngIf="editModeId === tag.id" [(ngModel)]="tag.name" class="form-control">
+            </td>
+            <td>
+              <span *ngIf="editModeId !== tag.id">{{tag.group}}</span>
+              <div *ngIf="editModeId === tag.id" class="input-group" id="tagDropdown">
+                <select class="form-select" id="" [(ngModel)]="tag.group">
+                  <option value="típus">Típus</option>
+                  <option value="jelleg">Jelleg</option>
+                  <option value="időtartam">Időtartam</option>
+                  <option value="részvétel módja">Részvétel módja</option>
+                  <option value="belépés">Belépés</option>
+                </select>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-
 </div>

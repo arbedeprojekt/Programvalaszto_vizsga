@@ -82,13 +82,17 @@ export class LoginComponent {
               this.unknownErrorMessageBool = false
 
               // Ellenőrizzük, hogy van-e returnUrl
-              let returnUrl = this.route.snapshot.queryParams['returnUrl'];
+              let returnUrl = this.route.snapshot.queryParams['returnUrl']
 
               // Ha nincs returnUrl, vagy ha maga a login oldalra mutat, akkor a főoldalra navigálunk
               if (!returnUrl || returnUrl.includes('/login')) {
-                returnUrl = '/home';
+                returnUrl = '/home'
+                
+                if((localStorage.getItem('admin') === '2') || (localStorage.getItem('admin') === '1')) {
+                  returnUrl = '/events-admin'
+                }
               }
-              this.router.navigateByUrl(returnUrl);
+              this.router.navigateByUrl(returnUrl)
             }
             else {
               this.loginError = true

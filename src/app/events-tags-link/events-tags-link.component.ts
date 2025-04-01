@@ -33,6 +33,7 @@ export class EventsTagsLinkComponent {
   //tagek
   tags: any
   groups: any
+  selectedTags: number[] = []; // Az ID-kat fogjuk tárolni
 
   //események
   events: any
@@ -43,6 +44,7 @@ export class EventsTagsLinkComponent {
   newAttachTagToEvent: any
   showWithTag = true
   eventsWithoutTags: any
+  closeAfterSave = false
 
   constructor(private http: HttpClient, private auth: AuthService, private base: BaseService, public localStorage: LocalStorageService) {
 
@@ -111,7 +113,7 @@ export class EventsTagsLinkComponent {
 
       if (searchId) {
         filteredResults = filteredResults.filter((event: any) =>
-          event.id.toString().includes(searchId.toString())
+          event.id.toString() === searchId.toString()
         )
       }
 
@@ -123,13 +125,13 @@ export class EventsTagsLinkComponent {
 
       // Ha nincs találat, állítsunk be egy hibaüzenetet
       if (filteredResults.length === 0) {
-        this.noEventSearchResults = true;
+        this.noEventSearchResults = true
       } else {
-        this.noEventSearchResults = false;
+        this.noEventSearchResults = false
       }
 
-      this.searchEventResults = filteredResults;
-      this.base.toSort(this.selectedOption, this.searchEventResults);
+      this.searchEventResults = filteredResults
+      this.base.toSort(this.selectedOption, this.searchEventResults)
       //console.log("searchResults: ", this.searchEventResults);
     })
   }
@@ -152,52 +154,53 @@ export class EventsTagsLinkComponent {
       }
     )
   }
+  
+  //Ez kezeli, hogy a checkboxok kiválasztott tartalma frissüljön
+  updateSelectedTags(event: Event, tagId: number) {
+    const isChecked = (event.target as HTMLInputElement).checked
 
-  newAttach(eventId: number, tagName: string) {
-    if (!eventId || !tagName) {
-      console.error("Hiba: Hiányzó adatok!", { eventId, tagName })
-      alert("Hiba: Az esemény vagy a címke nincs kiválasztva!")
-      return;
+    if (isChecked) {
+      this.selectedTags.push(tagId)
+      //console.log("Kiválasztott címkék checkbox: ", tagId)
+    } else {
+      this.selectedTags = this.selectedTags.filter(id => id !== tagId)
     }
+  }
 
-    const selectedTag = this.tags.find((tag: any) => tag.name === tagName)
-    if (!selectedTag) {
-      console.error("Hiba: A kiválasztott címke nem található!", tagName);
-      alert("Hiba: A kiválasztott címke nem található!")
+  newAttach(eventId: number, selectedTags: number[]) {
+    if (!eventId || selectedTags.length === 0) {
+      console.error("Hiba: Hiányzó adatok!", { eventId, selectedTags })
+      alert("Hiba: Az esemény vagy a címke nincs kiválasztva!")
       return;
     }
 
     this.newAttachTagToEvent = {
       eventId: eventId,
-      tagId: [selectedTag.id]
+      tagId: selectedTags // Most már a backendnek megfelelő ID-kat küldjük
     }
     //console.log("Összekapcsolásra küldött adatok:", this.newAttachTagToEvent)
 
-    this.base.attachTagToEvent(this.newAttachTagToEvent).subscribe(
-      {
-        next: (res: any) => {
-          if (res.success == false) {
-            //console.log("hibaüzenetek: ", res.error)
-            this.base.show(res.message || "Az összekapcsolás sikertelen!", "danger")
-            //this.errNewEventMsg = res.error
-          }
-          else {
-            //console.log("Sikeres új összekapcsolás: ", res)
-            //alert("Sikeres összekapcsolás!")
-            this.base.show(res.message || "Sikeres összekapcsolás!", "success")
-            this.base.getEventsWithTags()
-          }
-
-        },
-        error: (error: any) => {
-          //console.log("Valami hiba történt az új összekapcsolás felvétele során: ", error)
-          this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
+    this.base.attachTagToEvent(this.newAttachTagToEvent).subscribe({
+      next: (res: any) => {
+        if (res.success === false) {
+          this.base.show(res.message || "Az összekapcsolás sikertelen!", "danger");
+        } else {
+          this.base.show(res.message || "Sikeres összekapcsolás!", "success");
+          //this.closeAfterSave = true        //JAVÍTANI KELL
+          this.base.getEventsWithTags()
+          
         }
+      },
+      error: (error: any) => {
+        this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger");
       }
-    )
+    });
+
     this.newAttachTagToEvent = {}
+    //this.closeAfterSave = false       //JAVÍTANI KELL
     //console.log("Új összekapcsolás: ", this.newAttachTagToEvent)
   }
+
 
   getEventsTags() {
     this.base.eventsWithTags.subscribe(

@@ -10,98 +10,84 @@ import { LocalStorageService } from '../local-storage.service';
   styleUrl: './users.component.css'
 })
 export class UsersComponent {
-  // albums:any=[]
-  // szortirozottAdatok = new Subject()
+
   addAddColumn: any
   addEditColumn: any
   addDeleteColumn: any
   errMessage: any
 
-  backendUrl = "http://127.0.0.1:8000/api/"
+  users: any
 
-  items: any = []
-  columns: any = []
-  // oszlopok=["name","category","description","price"]
-  adattomb: any = []
-  HozzaAdasSzoveg = "Hozzáadás"
-  ModositasSzoveg = "Módosítás"
-  TorlesSzoveg = "Tőrlés"
-
-  // A táblázat megjelenítéséhez
-  oszlopok = ["name", "email", "admin"]
-  //a fejlécek magyar nyelvű megjelenítéséhez
-  columnNameDisplay = ["felhasználónév", "email", "jogosultság: (0-user,1-admin,2-superadmin)"]
-  newEvents = ["name", "description", "locationName", "locationcountry", "address", "gpx", "weblink", "startDate", "endDate", "startTime", "endTime"]
-
-  // A kétnyelvűséghez
-  links: any
-  dropClose = true
-  lang = "Magyar"
-
-  gombAtallit = true
-
-  userek: any
+  // adatok módosításához
+  editModeId: number | null = null
   
-
   //módosításkor fellépő hibaüzenetek elmentése
   errModfyMsg: any
-  //új esemény felvételekor fellépő hibaüzenetek tárolása
-  errNewEventMsg: any
 
-  selectDesabled = true
+  selectDisabled = true
 
   constructor(public base: BaseService,
     // private config:ConfigService,
     private http: HttpClient,
     public localStorage: LocalStorageService) {
-
-
-    //a base service getAll metódusát meghívva átadjuk a usereket
-    // this.base.getAll().subscribe(
-    //   (res)=>this.userek=res
-    // )
-
-    // this.base.getAllUsers().subscribe(
-    //   (res) => this.userek = res
-    // )
     this.base.dataUsersObs.subscribe(
-      (res:any) => this.userek = res
+      (res:any) => this.users = res
     )
     this.base.downloadAllUsers()
-
+    this.getAllUsers()
     this.isUserSuperadmin() 
 
   }
 
-  getDataFromApi() {
+  getAllUsers() {
     this.base.dataUsersSub.subscribe(
-      (res: any) => {
+      (user: any) => {
         //console.log("res a users-ben:", res)
-        this.userek = res.data
+        this.users = user.data
       }
     )
   }
 
+  // updateData(data: any) {
+  //   let admin = localStorage.getItem("admin")
+  //   this.base.updateUser(data)
+  //   this.base.dataUsersSub.subscribe()
+  // }
 
-  updateData(data: any) {
+  updateData(data:any){
     let admin = localStorage.getItem("admin")
-    this.base.updateUser(data)
-    this.base.dataUsersSub.subscribe()
 
+    if( admin === "2" || admin === "1") {
+      this.base.updateUser(data).subscribe(
+        {
+          next:(res:any)=>{
+            if(res.success == false){
+              console.log("hibaüzenetek: ",res.error)
+            }
+            console.log("Sikeres módosítás", res)
+            alert("Sikeres módosítás!")
+            this.editModeId = null
+            this.base.downloadAllUsers()
+          },
+          error:(error:any)=>{
+            console.log("Valami hiba: ",error)
+          }
+        }
+      )
+      console.log("data" + data);
+    }
   }
 
   isUserSuperadmin() {
     if(this.localStorage.getItem("admin") === "2"){
-      this.selectDesabled = false
+      this.selectDisabled = false
     }
     else{
-      this.selectDesabled = true
+      this.selectDisabled = true
 
     }
     console.log("isUserSuperadmin lefutott!!")
   }
-
-
 
   deleteData(data: any) {
     this.base.deleteUser(data).subscribe(
@@ -117,7 +103,15 @@ export class UsersComponent {
       }
     )
     //console.log("data" + data);
+  }
 
+  editRow(user: any) {
+    this.editModeId = user.id // A sor szerkesztésének megkezdése
+  }
+
+  cancelEdit() {
+    this.editModeId = null
+    this.base.downloadAllUsers()
   }
 
 }

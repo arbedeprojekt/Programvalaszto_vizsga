@@ -12,8 +12,6 @@ export class TagsListComponent {
   tags: any
   groups: any
 
-  newTagItem: any = {}
-
 
   //errorok tárolása
   newTagErrorMessage = ""
@@ -24,9 +22,11 @@ export class TagsListComponent {
   //csoportok dropdownhoz
   //groups = ["típus", "jelleg", "időtartam", "részvétel módja", "belépés"]
 
-  //fejléc kiíratásához címkék
-  oszlopok = ["name", "group"]
-  // newTags = []
+  //form használatához
+  newTagItem = {name: '', group: ''}
+
+  // adatok módosításához
+  editModeId: number | null = null
 
   constructor(private base: BaseService, public localStorage : LocalStorageService) {
     this.getTags()
@@ -34,7 +34,6 @@ export class TagsListComponent {
     this.newTagErrorMessage = this.base.newTagErrorMessage
     //this.getGroups()
   }
-
 
 
   //tag-ek betöltése
@@ -67,6 +66,8 @@ export class TagsListComponent {
           console.log("siker")
           this.updateTagErrorMessage = ""
           this.updateTagErrorBool = false
+          this.editModeId = null
+          this.base.downloadAllTags()
         }
       }
     )
@@ -74,9 +75,7 @@ export class TagsListComponent {
   }
 
   deleteData(data: any) {
-
     let body ={
-
       id:data.id
     }
     this.base.deleteTagWeb(body).subscribe(
@@ -96,32 +95,36 @@ export class TagsListComponent {
 
           this.newTagErrorBool = false
           this.newTagErrorMessage = ""
+
           if (res.success == true) {
             console.log("res", res)
-
             console.log(res.success)
             this.newTagErrorBool = res.success
+            alert("sikeres címke felvétel!")
             this.base.downloadAllTags()
-
           }
-
           else {
             console.log("res", res)
-
             this.newTagErrorMessage = res.error.name
             this.newTagErrorBool = res.success
           }
         },
         error: (error: any) => {
           this.newTagErrorBool = true
-
           this.newTagErrorMessage = error.error.name
-
         }
       }
     )
-    this.newTagItem = {}
+    this.newTagItem = {name: '', group: ''}
+  }
 
+  editRow(tag: any) {
+    this.editModeId = tag.id // A sor szerkesztésének megkezdése
+  }
+
+  cancelEdit() {
+    this.editModeId = null
+    this.base.downloadAllTags()
   }
 
 

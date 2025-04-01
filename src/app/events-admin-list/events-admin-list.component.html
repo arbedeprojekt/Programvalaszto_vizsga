@@ -1,63 +1,179 @@
 <!-- Adatsub tartalma {{cikkek|json}} -->
-<!-- {{errNewEventMsg|json}}-->  <!--hibaüzenetek megleséséhez új esemény felvétele esetén-->
-<!-- {{errModfyMsg|json}} -->   <!--hibaüzenetek megleséséhez esemény módosítása esetén-->
-<div class="container" *ngIf='localStorage.getItem("admin") != "0"'>
-   <h1 class="">Programok</h1>
-  <div id="titleNewEvent">ÚJ PROGRAM FELVÉTELE</div>
-  <!-- Új rekord felvétele -->
-  <div class="" id="newDataInputsContainer">
-    <!-- DEZSŐ ÍRTA:Ezt a részt ki lehet törölni, ha tetszik az idő megadási módszer -->
-    <!-- <div  class="" id="newDataInputs">
-      <div *ngFor="let newEvent of newEvents; let y =index" class="col-common" id="newEvents">
-        <label class="form-label form-label-sm">{{newEvent}}</label>
-        <input [(ngModel)]="newCikk[newEvent]" type="text" class="form-control form-control-sm input-common" [id]="'input-' + y" [placeholder]="placeholders[newEvent]">
-      </div>
-    </div> -->
-    <div  class="" id="newDataInputs">
-      <div *ngFor="let newEvent of newEvents; let y =index" class="col-common" id="newEvents">
-        <label class="form-label form-label-sm">{{newEvent}}</label>
+<!-- {{errNewEventMsg|json}}--> <!--hibaüzenetek megleséséhez új esemény felvétele esetén-->
+<!-- {{errModfyMsg|json}} --> <!--hibaüzenetek megleséséhez esemény módosítása esetén-->
 
-        <input *ngIf="newEvent === 'startTime' || newEvent === 'endTime'" [(ngModel)]="newCikk[newEvent]" class="form-control form-control-sm input-common" [id]="'input-' + y" type="time" placeholder="HH:mm">
-
-        <input *ngIf="newEvent != 'startTime' && newEvent != 'endTime'" [(ngModel)]="newCikk[newEvent]" type="text" class="form-control form-control-sm input-common" [id]="'input-' + y" [placeholder]="placeholders[newEvent]">
-
-
-
-
-      </div>
-    </div>
-    <div class="button" id="saveButton">
-      <div  class="button-group">
-          <button  (click)="newData()" type="button" class="btn btn-primary btn-sm">Mentés</button>
-      </div>
-    </div>
-  </div>
-  <br>
-
-  <div class="table-container">
-    <div class="scrollable-content">
-      <!-- Fejléc Kiíratás -->
-      <div class="row header-row">
-        <div *ngFor="let oszlop of oszlopok" class="col" id="fejlec">
-            {{oszlop}}
+<div *ngIf='localStorage.getItem("admin") != "0"' class="container p-lg-0">
+  <h4>Események kezelése</h4>
+  <div class="new-datas">
+    <h5>Új program felvétele</h5>
+    <form (ngSubmit)="newData()">
+      <div class="row new-datas-inner">
+        <div class="col-6 col-md-3">
+          <div class="mb-3">
+            <label class="form-label">Program neve</label>
+            <input type="text" class="form-control"  [(ngModel)]="newEvent.name" name="name" id="" placeholder="Pl.: Barangolás Szilvásváradon">
+          </div>
+          <div class="row g-3">
+            <div class="col-6 col-md-4 start">
+              <div class="mb-3">
+                <label class="form-label">Kezdő dátum</label>
+                <input type="text" class="form-control"  [(ngModel)]="newEvent.startDate" name="startDate" id="" placeholder="Pl.: 2025-03-12">
+              </div>  
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="mb-3">  
+                <label class="form-label">Záró dátum</label>
+                <input type="text" class="form-control" [(ngModel)]="newEvent.endDate" name="endDate" id="" placeholder="Pl.: 2025-03-15">
+              </div>  
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-6 col-md-4 start">
+              <div class="mb-3">
+                <label class="form-label">Kezdő időpont</label>
+                <input type="time" class="form-control" [(ngModel)]="newEvent.startTime" name="startTime" id="" placeholder="Pl.: 09:00">
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="mb-3">
+                <label class="form-label">Záró időpont</label>
+                <input type="time" class="form-control" [(ngModel)]="newEvent.endTime" name="endTime" id="" placeholder="Pl.: 17:00">
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-actions" id="ures"></div>
-      </div>
-
-    <!-- Táblázat megjelenítése -->
-
-      <div *ngFor="let cikk of cikkek.data; let i = index" class="row align-items-center">
-        <div *ngFor="let oszlop of oszlopok" class="col word-wrap" id="eventsDataCol">
-          <textarea [(ngModel)]="cikk[oszlop]" type="text" class="form-control form-control-sm" id="eventsData"></textarea>
+        <div class="col-6 col-md-3">
+          <div class="mb-3">
+            <label class="form-label">Leírás</label>
+            <textarea class="form-control" [(ngModel)]="newEvent.description" name="description" id="" rows="8"></textarea>
+          </div>
         </div>
-        <div class="col-actions sticky-actions">
-          <div class="button-group" id="updateDelete">
-            <button class="btn btn-primary btn-sm" (click)="updateData(cikk)">Módosít</button>
-            <button class="btn btn-secondary btn-sm ms-2" (click)="deleteData(cikk)">Törlés</button>
+
+        <div class="col-6 col-md-3">
+          <div class="mb-3">
+            <label class="form-label">Ország</label>
+            <input type="text" class="form-control" [(ngModel)]="newEvent.locationcountry" name="locationcountry" id="" placeholder="Pl.: Magyarország">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Program helyszín megnevezése</label>
+            <input type="text" class="form-control" [(ngModel)]="newEvent.locationName" name="locationName" id="" placeholder="Pl.: Szilvásvárad történelmi városrész">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Program címe</label>
+            <input type="text" class="form-control" [(ngModel)]="newEvent.address" name="address" id="" placeholder="Pl.: 3348 Szilvásvárad">
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="mb-3">
+            <label class="form-label">Weboldal</label>
+            <input type="text" class="form-control" [(ngModel)]="newEvent.weblink" name="weblink" id="" placeholder="Pl.: https://www.szalajkaliget.hu/">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Kép</label>
+            <input type="text" class="form-control" [(ngModel)]="newEvent.image" name="image" id=""
+              placeholder="Pl.: assets/Pictures/events/barangolas_szilvasvaradon.jpg">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">GPX fájl</label>
+            <input type="text" class="form-control" [(ngModel)]="newEvent.gpx" name="gpx" id="" placeholder="Pl.: assets/gpx/spartacus_tanosveny.gpx">
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-6 col-12" id="saveButton">
+          <button type="submit" class="btn btn-primary">Mentés</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!--TÁBLÁZAT MEGJELENÍTÉSE-->
+  <div class="table-block">
+    <div class="table-inner scrollable-content table-responsive">
+      <table class="table table-striped">
+          <thead>
+            <tr>
+                <th scope="col">Műveletek</th>
+                <th scope="col">Azonosító</th>
+                <th scope="col">Státusz</th>
+                <th scope="col">Program neve</th>
+                <th scope="col">Kezdő dátum</th>
+                <th scope="col">Záró dátum</th>
+                <th scope="col">Kezdő időpont</th>
+                <th scope="col">Záró időpont</th>
+                <th scope="col">Leírás</th>
+                <th scope="col">Ország</th>
+                <th scope="col">Helyszín</th>
+                <th scope="col">Cím</th>
+                <th scope="col">Weboldal</th>
+                <th scope="col">GPX fájl</th>
+                <th scope="col">Kép</th>
+                <th scope="col">Feliratkozottak</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let event of events">
+              <td>
+                <div class="button-container">
+                  <i *ngIf="editModeId !== event.id" (click)="editRow(event)" class="bi bi-pencil-fill" style="font-size: 1.2rem;"></i>
+                  <button *ngIf="editModeId === event.id" class="btn btn-secondary" (click)="updateData(event)">Módosítás</button>
+                  <button *ngIf="editModeId === event.id" class="btn btn-outline-secondary" (click)="cancelEdit()">Mégsem</button>
+                  <button *ngIf="editModeId !== event.id" class="btn btn-outline-secondary" (click)="deleteData(event)">Törlés</button>
+                </div>
+              </td>
+              <td>{{event.id}}</td>
+              <td>{{event.state}}</td>
+              <td>
+                <span *ngIf="editModeId !== event.id">{{event.name}}</span>
+                <input *ngIf="editModeId === event.id" [(ngModel)]="event.name" class="form-control">
+              </td>
+              <td>
+                <span *ngIf="editModeId !== event.id">{{event.startDate}}</span>
+                <input *ngIf="editModeId === event.id" [(ngModel)]="event.startDate" class="form-control">
+              </td>
+              <td>
+                <span *ngIf="editModeId !== event.id">{{event.endDate}}</span>
+                <input *ngIf="editModeId === event.id" [(ngModel)]="event.endDate" class="form-control">
+              </td>
+              <td>
+                <span *ngIf="editModeId !== event.id">{{event.startTime}}</span>
+                <input *ngIf="editModeId === event.id" [(ngModel)]="event.startTime" class="form-control">
+              </td>
+              <td>
+                <span *ngIf="editModeId !== event.id">{{event.endTime}}</span>
+                <input *ngIf="editModeId === event.id" [(ngModel)]="event.endTime" class="form-control">
+              </td>
+              <td>
+                <span *ngIf="editModeId !== event.id">{{event.description}}</span>
+                <textarea *ngIf="editModeId === event.id" [(ngModel)]="event.description" class="form-control"></textarea>
+              </td>
+              <td>
+                <span *ngIf="editModeId !== event.id">{{event.locationcountry}}</span>
+                <input *ngIf="editModeId === event.id" [(ngModel)]="event.locationcountry" class="form-control">
+              </td>
+              <td>
+                <span *ngIf="editModeId !== event.id">{{event.locationName}}</span>
+                <input *ngIf="editModeId === event.id" [(ngModel)]="event.locationName" class="form-control">
+              </td>
+              <td>
+                <span *ngIf="editModeId !== event.id">{{event.address}}</span>
+                <input *ngIf="editModeId === event.id" [(ngModel)]="event.address" class="form-control">
+              </td>
+              <td>
+                <span *ngIf="editModeId !== event.id">{{event.weblink}}</span>
+                <input *ngIf="editModeId === event.id" [(ngModel)]="event.weblink" class="form-control">
+              </td>
+              <td>
+                <span *ngIf="editModeId !== event.id">{{event.gpx}}</span>
+                <input *ngIf="editModeId === event.id" [(ngModel)]="event.gpx" class="form-control">
+              </td>
+              <td>
+                <span *ngIf="editModeId !== event.id">{{event.image}}</span>
+                <input *ngIf="editModeId === event.id" [(ngModel)]="event.image" class="form-control">
+              </td>
+              <td>{{event.subscribed}}</td>
+          </tr>
+          </tbody>
+      </table>
     </div>
   </div>
-
-</div>
+</div>  

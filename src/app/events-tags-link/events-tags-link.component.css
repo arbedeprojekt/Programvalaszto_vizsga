@@ -49,6 +49,10 @@ h4 {
     text-transform: uppercase;
 }
 
+h5 {
+    margin-bottom: 1.5rem;
+}
+
 p {
     margin-bottom: .5rem;
 }
@@ -58,6 +62,10 @@ p {
 }
 
 /*Kereső blokk*/
+.search-title {
+    margin-bottom: .2rem;
+}
+
 .eventTagAttach {
     background: #fff;
     border-radius: .375rem;
@@ -77,10 +85,41 @@ hr {
     margin-bottom: 2rem;
 }
 
+.form-control-plaintext {
+    padding: 0;
+}
+
 .found-col-name {
     font-weight: 600;
 }
 
+.scrollable-block {
+    position: relative;
+    height: 90px;
+    border: solid 1px #dee2e6;
+    border-radius: .375rem;
+    overflow: hidden;
+}
+
+#scrollSearchResult {
+    position: relative;
+    height: 90px;
+    overflow-y: scroll;
+    padding-left: .75rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.searchResult {
+    align-items: baseline;
+    justify-content: center;
+}
+
+.button-searchResult {
+    display: flex;
+    justify-content: end;
+    margin-top: 1rem;
+}
 
 /*Táblázat*/
 th {
@@ -91,6 +130,10 @@ th {
 
 td {
     vertical-align: middle;
+}
+
+td:first-child, th:first-child {
+    padding-left: 1.5rem;
 }
 
 .table-block {
@@ -138,4 +181,8 @@ td {
 .searchAttachedDatas {
     margin-bottom: 1rem;
     justify-content: flex-end;
+}
+
+.tagGroup {
+    text-transform: capitalize;
 }

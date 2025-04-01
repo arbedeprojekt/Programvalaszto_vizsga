@@ -1,37 +1,15 @@
-<div class="container" *ngIf='localStorage.getItem("admin") != "0"'>
+<!-- <div class="container" *ngIf='localStorage.getItem("admin") != "0"'>
   <h1 class="">Felhasználók</h1>
-
-
-  <!-- <div id="titleNewEvent">ÚJ PROGRAM FELVÉTELE</div> -->
-  <!-- Új rekord felvétele -->
-  <!-- <div class="" id="newDataInputsContainer">
-   <div  class="" id="newDataInputs">
-     <div *ngFor="let newEvent of newEvents; let y =index" class="col-common" id="newEvents">
-       <label class="form-label form-label-sm">{{newEvent}}</label>
-       <input [(ngModel)]="newuser[newEvent]" type="text" class="form-control form-control-sm input-common" [id]="'input-' + y" placeholder="">
-     </div>
-   </div>
-   <div class="button" id="saveButton">
-     <div  class="button-group">
-         <button  (click)="newData()" type="button" class="btn btn-primary btn-sm">Mentés</button>
-     </div>
-   </div>
- </div>
- <br>
-
- <div class="table-container">
-   <div class="scrollable-content"> -->
-  <!-- Fejléc Kiíratás -->
   <div class="row header-row">
     <div *ngFor="let column of columnNameDisplay" class="col" id="fejlec">
       {{column}}
     </div>
     <div class="col-actions" id="ures"></div>
-  </div>
+  </div> -->
 
   <!-- Táblázat megjelenítése -->
 
-  <div *ngFor="let user of userek.data; let i = index" class="row align-items-center">
+  <!-- <div *ngFor="let user of users; let i = index" class="row align-items-center">
     <div  *ngFor="let oszlop of oszlopok"  class="col word-wrap" id="eventsDataCol">
       <textarea *ngIf="oszlop != 'admin'"  [(ngModel)]="user[oszlop]" [readOnly]="oszlop ==='name' || oszlop ==='email'" type="text"
         class="form-control form-control-sm" id="eventsData"></textarea>
@@ -39,33 +17,78 @@
         <option  [value]="0">0 (user)</option>
         <option  [value]="1">1 (admin)</option>
         <option  [value]="2">2 (szuperadmin)</option>
-
       </select>
-
     </div>
-
-
 
     <div class="col-actions sticky-actions">
       <div class="button-group" id="updateDelete">
-        <!-- <button *ngIf="localStorage.getItem('admin') === '1'" class="btn btn-primary btn-sm"
-          [disabled]="user['admin'] === 2 || user['admin'] === 1 " (click)="updateData(user)">Módosít</button> -->
-        <!-- csak a superadminnál aktív -->
         <div *ngIf="localStorage.getItem('admin') === '2'">
           <button class="btn btn-primary btn-sm" (click)="updateData(user)">Módosít</button>
           <button class="btn btn-secondary btn-sm ms-2" (click)="deleteData(user)">Törlés</button>
         </div>
-        <!-- <button *ngIf="localStorage.getItem('admin') === '1'" class="btn btn-primary btn-sm"
-          (click)="updateData(user)">Módosít</button> -->
-
-
-
-        <!-- <button *ngIf="localStorage.getItem('admin') === '2'" class="btn btn-secondary btn-sm ms-2"
-          (click)="deleteData(user)">Törlés</button> -->
       </div>
     </div>
   </div>
-</div>
-<!-- </div> -->
+</div> -->
 
-<!-- </div> -->
+
+<div *ngIf='localStorage.getItem("admin") != "0"' class="container p-lg-0">
+  <h4 *ngIf="localStorage.getItem('admin') === '2'">Felhasználók kezelése</h4>
+  <h4 *ngIf="localStorage.getItem('admin') === '1'">Felhasználók</h4>        
+  <div class="table-block">
+    <h5 *ngIf="localStorage.getItem('admin') === '2'">Jogosultság módosítása</h5>
+    <div class="table-inner scrollable-content table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Műveletek</th>
+            <th scope="col">Azonosító</th>
+            <th scope="col">Felhasználó neve</th>
+            <th scope="col">Felhasználó email címe</th>
+            <th scope="col">Felhasználó jogosultsága</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td *ngIf="localStorage.getItem('admin') === '2'">
+              <div class="button-container">
+                <i *ngIf="(editModeId !== user.id) && (user.admin != '2')" (click)="editRow(user)" class="bi bi-pencil-fill" style="font-size: 1.2rem;"></i>
+                <button *ngIf="editModeId === user.id" class="btn btn-secondary" (click)="updateData(user)">Módosítás</button>
+                <button *ngIf="editModeId === user.id" class="btn btn-outline-secondary" (click)="cancelEdit()">Mégsem</button>
+                <!-- <button *ngIf="editModeId !== user.id" class="btn btn-outline-secondary" (click)="deleteData(user)">Törlés</button> -->
+              </div>
+            </td>
+            <td *ngIf="localStorage.getItem('admin') === '1'">
+              <div class="button-container">
+                <i *ngIf="(editModeId !== user.id) && (user.admin == '0')" (click)="editRow(user)" class="bi bi-pencil-fill" style="font-size: 1.2rem;"></i>
+                <button *ngIf="editModeId === user.id" class="btn btn-secondary" (click)="updateData(user)">Módosítás</button>
+                <button *ngIf="editModeId === user.id" class="btn btn-outline-secondary" (click)="cancelEdit()">Mégsem</button>
+                <!-- <button *ngIf="editModeId !== user.id" class="btn btn-outline-secondary" (click)="deleteData(user)">Törlés</button> -->
+              </div>
+            </td>
+            <td>{{user.id}}</td>
+            <td>
+              <span *ngIf="editModeId !== user.id">{{user.name}}</span>
+              <input *ngIf="(editModeId === user.id)" [(ngModel)]="user.name" class="form-control">
+            </td>
+            <td>
+              <span *ngIf="editModeId !== user.id">{{user.email}}</span>
+              <input *ngIf="(editModeId === user.id)" [(ngModel)]="user.email" class="form-control">
+            </td>
+            
+            <td>
+              <span *ngIf="editModeId !== user.id">{{user.admin}}</span>
+              <div *ngIf="(editModeId === user.id)" class="input-group" id="tagDropdown">
+                <select class="form-select" id="" [(ngModel)]="user.admin" [disabled]="selectDisabled">
+                  <option  [value]="0">Felhasználó</option>
+                  <option  [value]="1">Admin</option>
+                </select>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

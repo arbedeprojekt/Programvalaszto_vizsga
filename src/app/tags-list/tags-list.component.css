@@ -1,0 +1,138 @@
+/*Általános*/
+@media (min-width: 0px) {
+    .col-6 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+}
+  
+@media (min-width: 992px) {
+    .col-md-3 {
+        flex: 0 0 33.33333%;
+        max-width: 33.33333%;
+    }
+    .p-lg-0 {
+        padding: 0 !important;
+    }
+}
+
+.container, .container-fluid, .container-xl, .container-lg, .container-md, .container-sm {
+    width: 100%;
+    padding-right: .75rem;
+    padding-left: .75rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.row {
+    max-width: 100%;
+    padding-right: -.75rem;
+    padding-left: -.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    flex-grow: 1;
+}
+
+h4 {
+    margin-top: 2rem;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+}
+
+h5 {
+    margin-bottom: 1.5rem;
+}
+
+
+/*Új címke felvétele*/
+.new-datas {
+    background: #fff;
+    border-radius: .375rem;
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+}
+
+.new-datas-inner {
+    display: flex;
+    align-items: end;
+}
+
+
+/*TÁBLÁZAT*/
+th {
+    position: sticky;
+    top: 0;
+    z-index: 0;
+}
+
+td {
+    vertical-align: middle;
+}
+
+.table-block {
+    padding: 1.75rem;
+    background: #fff;
+    border-radius: .375rem;
+    min-height: 500px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.scrollable-content {
+    position: relative;
+    max-height: 600px;
+    overflow-y: auto; /* 'scroll' helyett 'auto' */
+}
+
+.scrollable-content::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#tagDropdown, .form-select {
+    position: static;
+}
+
+.bi-pencil-fill {
+  cursor: pointer;
+}
+
+/*Fix szélességek beállítása*/
+/* th, td {
+    min-width: 50px;
+    max-width: 80px;
+    white-space: nowrap;
+} */
+
+.button-container {
+    display: inline-flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+}
+
+td:first-child, th:first-child {
+    padding-left: 1.5rem;
+
+}
+
+td:nth-child(4) {
+    text-transform: capitalize;
+}
+
+td:nth-child(1) {
+    min-width: 150px;
+    max-width: 200px;
+}

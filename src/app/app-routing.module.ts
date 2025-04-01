@@ -19,10 +19,10 @@ const routes: Routes = [
   {path:"login",component:LoginComponent},
   {path:"registration",component:RegistrationComponent},
   {path:"all-events",component:AllEventsComponent, canActivate: [AuthGuard] },
-  {path:"admin",component:EventsAdminListComponent, canActivate: [AuthGuard] },
-  {path:"users",component:UsersComponent, canActivate: [AuthGuard] },
+  {path:"events-admin",component:EventsAdminListComponent, canActivate: [AuthGuard] },
+  {path:"users-admin",component:UsersComponent, canActivate: [AuthGuard] },
   {path:"galeries",component:AllEventsComponent, canActivate: [AuthGuard] },
-  {path:"tags",component:TagsListComponent, canActivate: [AuthGuard] },
+  {path:"tags-admin",component:TagsListComponent, canActivate: [AuthGuard] },
   {path:"detailed-event/:id",component:DetailedEventComponent, canActivate: [AuthGuard] },
   //{path:"detailed-event",component:DetailedEventComponent, canActivate: [AuthGuard] },   //ezt majd törölni kell a végén..
   {path:"events-subscribed",component:EventsSubscribedComponent, canActivate: [AuthGuard] },
