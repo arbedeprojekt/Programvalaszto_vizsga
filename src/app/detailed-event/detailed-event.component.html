@@ -373,9 +373,9 @@
                                     <div class="end-date">{{event.endDate && event.endDate !== '0000-00-00' ? event.endDate:eventEndDateNull}}</div>
                                 </div>
                                 <div class="times">
-                                    <div class="start-time">{{event.startTime && event.startTime !== '00:00:00' ? event.startTime:eventStartTimeNull}}</div>
-                                    <span *ngIf="event.endTime && event.endTime !== '00:00:00'">-</span>
-                                    <div class="end-time">{{event.endTime && event.endTime !== '00:00:00' ? event.endTime:eventEndTimeNull}}</div>
+                                    <div class="start-time">{{event.startTime && event.startTime !== '00:00' ? event.startTime:eventStartTimeNull}}</div>
+                                    <span *ngIf="event.endTime && event.endTime !== '00:00'">-</span>
+                                    <div class="end-time">{{event.endTime && event.endTime !== '00:00' ? event.endTime:eventEndTimeNull}}</div>
                                 </div>
                             </div>
                             <div class="location-datas">

@@ -38,14 +38,14 @@
               <a routerLink="/registration" class="nav-link">Regisztráció</a>
             </li> -->
             <li *ngIf="user && (user.admin == 1 || user.admin == 2)" class="nav-item">
-              <a routerLink="/admin" class="nav-link">Események</a>
+              <a routerLink="/events-admin" class="nav-link">Események</a>
             </li>
             <li *ngIf="user && (user.admin == 1 || user.admin == 2)" class="nav-item">
-              <a routerLink="/tags" class="nav-link">Címkék</a>
+              <a routerLink="/tags-admin" class="nav-link">Címkék</a>
             </li>
             <!--Itt meg kell csinálni, hogy csak superadmin vehessen fel ADMIN jogú felhasználót-->
             <li *ngIf="user && (user.admin == 1 || user.admin == 2)" class="nav-item">
-              <a routerLink="/users" class="nav-link">Felhasználók</a>
+              <a routerLink="/users-admin" class="nav-link">Felhasználók</a>
             </li>
             <li *ngIf="user && (user.admin == 1 || user.admin == 2)" class="nav-item">
               <a routerLink="/events-tags-link" class="nav-link">Esemény-tag kapcsoló</a>

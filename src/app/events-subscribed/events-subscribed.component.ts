@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, input } from '@angular/core';
 import { LocalStorageService } from '../local-storage.service';
-import { BehaviorSubject, debounceTime, distinctUntilChanged, map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, forkJoin, map, Observable, switchMap } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { BaseService } from '../base.service';
 import { AuthService } from '../auth.service';
@@ -56,11 +56,18 @@ export class EventsSubscribedComponent {
   //tegeknek
   tags: any
   groups: any
+  //dezső: a két fajta keresés értékeinek összekapcsolása
+  commonSearchResults: any[] = []
 
   //A szabadszavas kereséshez
   searchControl = new FormControl();
   searchResults: any
   isSearch = false;
+
+  //Dezső: A felhasználó által kiválasztott tegek
+  selectedTags: any[] = [];
+  searchTagResults: any[] = [];
+  tagSearch = false;
 
   // Feliratkozások megtekintése
   userEvents: any
@@ -188,7 +195,7 @@ export class EventsSubscribedComponent {
   }
 
   get paginatedSearchedEvents(): any[] {
-    if (!this.searchResults || !Array.isArray(this.searchResults)) {
+    if (!this.commonSearchResults || !Array.isArray(this.commonSearchResults)) {
 
 
       // console.log("az events üres vót, tartalma: ", this.searchResults);
@@ -197,7 +204,18 @@ export class EventsSubscribedComponent {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
 
-    return this.searchResults.slice(start, end);
+    return this.commonSearchResults.slice(start, end);
+  }
+
+  get paginatedSearchedEvents2(): any[] {
+    if (!this.searchTagResults || !Array.isArray(this.searchTagResults)) {
+      // console.log("az events üres vót, tartalma: ", this.searchResults);
+      return [];
+    }
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+
+    return this.searchTagResults.slice(start, end);
   }
 
 
@@ -205,16 +223,19 @@ export class EventsSubscribedComponent {
 
 
   toSort() {
-    console.log("userEvents: ", this.userEvents)
-    //dezső: Megnézem, hogy akarja e használni a felhasználó a szabadszavas keresést
-    if (this.isSearch == false) {
+
+
+    if (!this.commonSearchResults || this.commonSearchResults.length == 0) {
+
       this.base.toSort(this.selectedOption, this.userEvents)
-      console.log("")
     }
     else {
-      console.log("else ág")
-      this.base.toSort(this.selectedOption, this.searchResults)
+      this.base.toSort(this.selectedOption, this.commonSearchResults)
     }
+
+
+
+
 
   }
 
@@ -239,28 +260,73 @@ export class EventsSubscribedComponent {
 
 
   searchOnPress() {
-    //console.log("keresés")
-    if (this.searchControl.value === '') {
-      // console.log("searchOn")
-      this.isSearch = false
-    }
-    else {
+
+    //ha van keresőmezőben érték, és teg is ki van választva
+    if (!!this.searchControl.value && this.selectedTags.length > 0) {
+      this.tagSearch = true
       this.isSearch = true
 
+
+      //
+      forkJoin({
+        searchResults: this.base.search(this.searchControl.value),
+        tagResults: this.base.filterByTag(this.selectedTags)
+      }).subscribe(({ searchResults, tagResults }) => {
+        this.searchResults = searchResults || [];
+        this.searchTagResults = tagResults.flatMap((item: any) => item.data || []);
+        // this.commonSearchResults = [...this.searchTagResults]; // Kezdőérték
+        console.log("searchResults a szabadszavas keresésben: ", this.searchResults);
+        console.log("searchTagResults a teges keresésben: ", this.searchTagResults);
+
+        // Összefésülés elméletileg csak akkor fut le, ha az adatok már rendelkezésre állnak
+        this.filterCommonSearchResultsOnTagFilter();
+
+
+        // Offcanvas bezárása
+        const offcanvasElement = document.getElementById('offcanvasWithBothOptions');
+        if (offcanvasElement) {
+          const offcanvasInstance = Offcanvas.getInstance(offcanvasElement);
+          if (offcanvasInstance) {
+            offcanvasInstance.hide();
+          }
+          const closeButton = document.getElementById('offcanvasCloseButton');
+          if (closeButton) {
+            closeButton.click();
+          }
+        }
+      })
+
+      return
+
+    }
+
+
+    //ha ki van tölteve a searchcontrole
+
+    //!! segítségével igaz-hamis értékké alakítjuk a value-t.
+    //null, '', undefined → false lesz.
+    //Ha van érték (pl. "szöveg"), akkor true.
+    if (!!this.searchControl.value) {
+      console.log("searchControl", this.searchControl.value)
+      this.tagSearch = false
+      this.isSearch = true
       this.base.search(this.searchControl.value).subscribe(
         (data: any) => {
           this.searchResults = data; // Adatok beállítása
-          console.log("userEvents tartalma: ", this.userEvents)
-          const commonElements = this.searchResults.filter((item1: any) =>
-            this.userEvents.some((item2: any) => item1.id == item2.id) // Az id alapján hasonlítunk
+          this.commonSearchResults = data; // Adatok beállítása
 
-
+          const commonElements = this.commonSearchResults.filter((item1: any) =>
+            this.userEvents.some((item2: any) => item1.id == item2.id), // Az id alapján hasonlítunk
           )
-          this.searchResults = commonElements
-          console.log("commonElements: ", commonElements)
-          this.base.toSort(this.selectedOption, this.searchResults)
-          console.log("searchResults: ", this.searchResults);
 
+          this.commonSearchResults = commonElements
+
+
+
+          this.base.toSort(this.selectedOption, this.commonSearchResults)
+          console.log("commonSearchResults a szabadszavas keresésben: ", this.commonSearchResults);
+
+          //Ez azért kell, hogyha a szűrés ablak meg van jelenve, akkor bezárja magát.
           const offcanvasElement = document.getElementById('offcanvasWithBothOptions');
           if (offcanvasElement) {
             const offcanvasInstance = Offcanvas.getInstance(offcanvasElement);
@@ -274,13 +340,185 @@ export class EventsSubscribedComponent {
             }
           }
         }
-
-
       )
-
-
 
     }
 
+    //ha csak a tegek vannak kijelőlve, akkor ez fut le
+    else if (this.selectedTags.length != 0) {
+      console.log("Teg alapú keresés")
+      this.isSearch = true
+      this.tagSearch = true
+
+
+
+      forkJoin({ tagResults: this.base.filterByTag(this.selectedTags) }).subscribe(
+        ({ tagResults }) => {
+          this.searchTagResults = tagResults.flatMap((item: any) => item.data || []);
+          console.log("searchTagResults a teges keresésben: ", this.searchTagResults);
+          console.log("tagResults:", tagResults);
+
+
+          //összehasonlítom a talált tegeket a felíratkozásokkal és az egyezéseket betöltöm a commonSearchResults-ba
+          this.filterCommonSearchResultsOnTagFilterToSubscription()
+          console.log("commonSearchResults az összehasonlítás után: ", this.commonSearchResults)
+
+          // Offcanvas bezárása
+          const offcanvasElement = document.getElementById('offcanvasWithBothOptions');
+          if (offcanvasElement) {
+            const offcanvasInstance = Offcanvas.getInstance(offcanvasElement);
+            if (offcanvasInstance) {
+              offcanvasInstance.hide();
+            }
+            const closeButton = document.getElementById('offcanvasCloseButton');
+            if (closeButton) {
+              closeButton.click();
+            }
+          }
+
+        },
+        (error: any) => {
+          console.error("Hiba a tegszűrőben: ", error);
+        }
+      )
+    }
+
+    //ha a keresőbe a felhasználó nem ír semmit és nincs semmi teg kiválasztva
+    else if (this.selectedTags.length == 0) {
+
+
+      this.tagSearch = false
+      this.isSearch = false
+      this.commonSearchResults = []
+
+    }
+
+
+
+
+
+    console.log("isSearch = ", this.isSearch)
+    console.log("tagSearch = ", this.tagSearch)
+    console.log("leges legvégső commonSearchResults: ", this.commonSearchResults)
+
+
+
+
+
+
+  }//searchOnPress() vége
+
+
+
+  onTagSelect(tag: any, event: Event): void {
+
+
+
+    // this.tagSearch = true
+    console.log("tag: ", tag)
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      this.selectedTags.push(tag); // Ha be van pipálva, hozzáadjuk a tömbhöz
+    } else {
+      // Ha nincs kipipálva, eltávolítjuk a tömbből
+      if (!isChecked) {
+        let indexOftag = this.selectedTags.indexOf(tag);
+        if (indexOftag !== -1) {
+          this.selectedTags.splice(indexOftag, 1);
+        }
+        if (this.selectedTags.length == 0) {
+          this.isSearch = false
+          this.tagSearch = false
+        }
+      }
+    }
+
+
   }
+
+  //gombnyomásra eltűnteti a felhaszáló a kijelölt tegeket
+  clearTagSelections() {
+    if (this.selectedTags.length == 0) {
+      console.log("nincs kejlölt teg")
+      return
+    }
+    else {
+      this.selectedTags = []; // Kijelölt címkék listáját töröljük
+      const checkboxes = document.querySelectorAll('.form-check-input');
+      checkboxes.forEach((checkbox: any) => {
+        checkbox.checked = false// A DOM-ban is frissítjük
+      })
+      this.searchOnPress(); // Frissítjük a keresést
+    }
+
+  }
+
+
+  filterCommonSearchResultsOnTagFilter() {
+    console.log("Checking commonSearchResults...");
+
+    this.commonSearchResults = this.searchResults.filter((item1: any) => {
+      const match = this.searchTagResults.some((item2: any) => {
+        const isMatch = item1.id == item2.id; // `==` biztosítja a típuskonverziót
+        return isMatch;
+      });
+
+      return match;
+    });
+
+    const commonElements = this.commonSearchResults.filter((item1: any) =>
+      this.userEvents.some((item2: any) => item1.id == item2.id), // Az id alapján hasonlítunk
+    )
+
+
+    this.commonSearchResults = commonElements
+    console.log("commonElements: ", commonElements)
+    this.base.toSort(this.selectedOption, this.searchResults)
+    console.log("commonSearchResults: ", this.commonSearchResults);
+
+    console.log("Final commonSearchResults:", this.commonSearchResults);
+    const offcanvasElement = document.getElementById('offcanvasWithBothOptions');
+    if (offcanvasElement) {
+      const offcanvasInstance = Offcanvas.getInstance(offcanvasElement);
+      if (offcanvasInstance) {
+        offcanvasInstance.hide();
+
+      }
+      const closeButton = document.getElementById('offcanvasCloseButton');
+      if (closeButton) {
+        closeButton.click(); // Programozott kattintás
+      }
+    }
+  }
+
+  filterCommonSearchResultsOnTagFilterToSubscription() {
+    console.log("Checking commonSearchResults...");
+    console.log("Current searchTagResults:", this.searchTagResults);
+    console.log("Current userEvents:", this.userEvents);
+
+    this.commonSearchResults = this.searchTagResults.filter((item1: any) => {
+      const match = this.userEvents.some((item2: any) => {
+        const isMatch = item1.id == item2.id; // `==` biztosítja a típuskonverziót
+        return isMatch;
+      });
+
+      return match;
+    });
+
+    console.log("Final commonSearchResults:", this.commonSearchResults);
+    const offcanvasElement = document.getElementById('offcanvasWithBothOptions');
+    if (offcanvasElement) {
+      const offcanvasInstance = Offcanvas.getInstance(offcanvasElement);
+      if (offcanvasInstance) {
+        offcanvasInstance.hide();
+
+      }
+      const closeButton = document.getElementById('offcanvasCloseButton');
+      if (closeButton) {
+        closeButton.click(); // Programozott kattintás
+      }
+    }
+  }
+
+
 }
