@@ -44,10 +44,10 @@
                         </ul>
                     </div>
                     <div class="buttons-right-side">
-                        <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEventTop">
+                        <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Feliratkozás az eseményre" id="subscribeEventTop">
                             <i class="bi bi-plus-lg"></i>Feliratkozás
                         </button>
-                        <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEventTop">
+                        <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" [disabled]="userCommentFromApi" title="Leiratkozás az eseményről" id="unsubscribeEventTop">
                             <i class="bi bi-dash"></i>Leiratkozás
                         </button>
                     </div>
@@ -116,13 +116,13 @@
                         <div class="event-details" *ngIf="activeSection === 'eventDetails'">
                             <div class="col-12 event-details-inner" id="eventDetails">
                                 <h4 class="parameters">Információk</h4>
-                                <ul *ngFor="let tag of tags" class="parameter-tag-list">   <!--itt úgy kell visszadni a tag-eket, hogy azok jelenjenek meg, amelyek az adott eseményhez tartoznak!!!-->
+                                <ul *ngFor="let item of detailedEventTags" class="parameter-tag-list">   <!--itt úgy kell visszadni a tag-eket, hogy azok jelenjenek meg, amelyek az adott eseményhez tartoznak!!!-->
                                     <li class="parameter-items">
                                         <div class="tag-items">
-                                            <div class="tag-group">{{tag.group}}</div>
+                                            <div class="tag-group">{{item.tagGroup}}</div>
                                             <ul class="group-value">
                                                 <li>
-                                                    <span>{{tag.name}}</span>
+                                                    <span>{{item.tagName}}</span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -131,10 +131,10 @@
                                 <ul class="parameter-data-list">
                                     <li class="other-datas">
                                         <div *ngIf="event.weblink" class="other-data-item">
-                                            <div class="other-data-key">Weblink</div>
+                                            <div class="other-data-key">Weboldal</div>
                                             <ul class="other-data-value">
                                                 <li>
-                                                    <a [href]="formatUrl(event.weblink)" target="_blank" rel="noopener noreferrer">{{event.weblink}}</a>
+                                                    <a [href]="formatUrl(event.weblink)" target="_blank" rel="noopener noreferrer">{{getShortUrl(formatUrl(event.weblink))}}</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -312,9 +312,10 @@
                                 
                                 <div *ngIf="!isNewExperienceVisible && (this.userCommentFromApi == null)" class="add-experience">
                                     <div class="textarea-explanation">
-                                        <p>Ez a blokk azért jelent meg számodra, mert feliratkoztál az eseményre. Lehetőséged van rögzíteni az eseményen szerzett élményeidet, a kapcsolódó gondolataidat, hogy bármikor ismét....blablabla</p>
+                                        <p>Ez a blokk azért jelent meg számodra, mert feliratkoztál az eseményre. Lehetőséged van rögzíteni az eseményen szerzett élményeidet, kapcsolódó gondolataidat, hogy bármikor ismét felidézhesd emlékeidet. Amennyiben az esemény nem "állandó", az Élmény hozzáadása gomb az esemény kezdete utáni napon válik aktívvá.</p>
+                                        <p>Jó szórakozást kívánunk!</p>
                                     </div>
-                                    <button (click)="showNewExprerience()" type="button" class="btn btn-secondary">Élmény hozzáadása</button>
+                                    <button (click)="showNewExprerience()" type="button" class="btn btn-secondary" [disabled]="!canActivateFeature(event.startDate)">Élmény hozzáadása</button>
                                 </div>
                                 
                                 <div *ngIf="isNewExperienceVisible || (this.userCommentFromApi != null)" class="mb-3 experience-input">
@@ -384,15 +385,16 @@
                             </div>
                         </div>
                         <div class="tags-unit">
-                            <div class="tag-state col-6">
+                            <!--NINCS MÉG LEKEZELVE, DE MARAD, MERT FEJLESZTÉS ALATT ÁLL-->
+                            <!-- <div class="tag-state col-6">
                                 <div class="event-state">aktív</div>
-                            </div>
+                            </div> -->
                             <div class="tag-item-box col-6">
-                                <div class="tag-item">kiállítás</div>
-                                <div class="tag-item">beltér</div>
-                                <div class="tag-item">2-3 óra</div>
-                                <div class="tag-item">egyéni, csoportos</div>
-                                <div class="tag-item">fizetős</div>
+                                <div *ngIf="detailedEventTags[0]" class="tag-item">{{detailedEventTags[0].tagName}}</div>
+                                <div *ngIf="detailedEventTags[1]"class="tag-item">{{detailedEventTags[1].tagName}}</div>
+                                <div *ngIf="detailedEventTags[2]"class="tag-item">{{detailedEventTags[2].tagName}}</div>
+                                <div *ngIf="detailedEventTags[3]"class="tag-item">{{detailedEventTags[3].tagName}}</div>
+                                <div *ngIf="detailedEventTags[4]"class="tag-item">{{detailedEventTags[4].tagName}}</div>
                             </div>
                         </div>
                     </div>
@@ -406,7 +408,7 @@
             </div>
             <div class="row g10">
             <!--kártyák-->
-                <div *ngFor="let event of sameEvents" class="e-item -box col-6 col-md-4 col-lg-3 g10-xl-2">  <!--ide be kell kötni a backendet. Olyan kártyákat kell hozni, amik legalább 3 címkében egyeznek azokkal, amik az adott eseményre vonatkoznak-->
+                <div *ngFor="let event of fullDatasRelatedEvents" class="e-item -box col-6 col-md-4 col-lg-3 g10-xl-2">  <!--ide be kell kötni a backendet. Olyan kártyákat kell hozni, amik legalább 3 címkében egyeznek azokkal, amik az adott eseményre vonatkoznak-->
                     <div  class="card">
                         <a [routerLink]="['/detailed-event/', event.id]" class="card-img-link">
                         <div class="inner">
@@ -450,10 +452,10 @@
                             <div class="split">
                                 <div class="into-bucket-list">
                                     <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
-                                    <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent">
+                                    <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Feliratkozás az eseményre" id="subscribeEvent">
                                         <i class="bi bi-plus-lg"></i>
                                     </button>
-                                    <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent">
+                                    <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" [disabled]="hasUserExperience(event.id)" type="button" title="Leiratkozás az eseményről" id="unsubscribeEvent">
                                         <i class="bi bi-dash-lg"></i>
                                     </button>
                                 </div>

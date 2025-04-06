@@ -12,18 +12,33 @@
           <div class="mb-3">
             <label class="form-label">Program neve</label>
             <input type="text" class="form-control"  [(ngModel)]="newEvent.name" name="name" id="" placeholder="Pl.: Barangolás Szilvásváradon">
+            <div *ngFor="let errormessage of erName" class="validation">
+              <div *ngIf="erName != null && newEventSuccess == false ," class="text-danger" role="alert" >
+                {{errormessage}}
+              </div>
+            </div>
           </div>
           <div class="row g-3">
             <div class="col-6 col-md-4 start">
               <div class="mb-3">
                 <label class="form-label">Kezdő dátum</label>
                 <input type="text" class="form-control"  [(ngModel)]="newEvent.startDate" name="startDate" id="" placeholder="Pl.: 2025-03-12">
+                <div *ngFor="let errormessage of erStartDate" class="validation">
+                  <div *ngIf="erStartDate != null && newEventSuccess == false ," class="text-danger" role="alert" >
+                    {{errormessage}}
+                  </div>
+                </div>
               </div>  
             </div>
             <div class="col-6 col-md-4">
               <div class="mb-3">  
                 <label class="form-label">Záró dátum</label>
                 <input type="text" class="form-control" [(ngModel)]="newEvent.endDate" name="endDate" id="" placeholder="Pl.: 2025-03-15">
+                <div *ngFor="let errormessage of erEndDate" class="validation">
+                  <div *ngIf="erEndDate != null && newEventSuccess == false ," class="text-danger" role="alert" >
+                    {{errormessage}}
+                  </div>
+                </div>
               </div>  
             </div>
           </div>
@@ -32,12 +47,22 @@
               <div class="mb-3">
                 <label class="form-label">Kezdő időpont</label>
                 <input type="time" class="form-control" [(ngModel)]="newEvent.startTime" name="startTime" id="" placeholder="Pl.: 09:00">
+                <div *ngFor="let errormessage of erStartTime" class="validation">
+                  <div *ngIf="erStartTime != null && newEventSuccess == false ," class="text-danger" role="alert" >
+                    {{errormessage}}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="col-6 col-md-4">
               <div class="mb-3">
                 <label class="form-label">Záró időpont</label>
                 <input type="time" class="form-control" [(ngModel)]="newEvent.endTime" name="endTime" id="" placeholder="Pl.: 17:00">
+                <div *ngFor="let errormessage of erEndTime" class="validation">
+                  <div *ngIf="erEndTime != null && newEventSuccess == false ," class="text-danger" role="alert" >
+                    {{errormessage}}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -125,22 +150,57 @@
               <td>
                 <span *ngIf="editModeId !== event.id">{{event.name}}</span>
                 <input *ngIf="editModeId === event.id" [(ngModel)]="event.name" class="form-control">
+                <div *ngIf="editModeId === event.id">
+                  <div *ngFor="let errormessage of erModName" class="validation">
+                    <div *ngIf="erModName != null && eventModifySuccess == false," class="text-danger" role="alert" >
+                      {{errormessage}}
+                    </div>
+                  </div>
+                </div>
               </td>
               <td>
                 <span *ngIf="editModeId !== event.id">{{event.startDate}}</span>
                 <input *ngIf="editModeId === event.id" [(ngModel)]="event.startDate" class="form-control">
+                <div *ngIf="editModeId === event.id">
+                  <div *ngFor="let errormessage of erModStartDate" class="validation">
+                    <div *ngIf="erModStartDate != null && eventModifySuccess == false," class="text-danger" role="alert" >
+                      {{errormessage}}
+                    </div>
+                  </div>
+                </div>
               </td>
               <td>
                 <span *ngIf="editModeId !== event.id">{{event.endDate}}</span>
                 <input *ngIf="editModeId === event.id" [(ngModel)]="event.endDate" class="form-control">
+                <div *ngIf="editModeId === event.id">
+                  <div *ngFor="let errormessage of erModEndDate" class="validation">
+                    <div *ngIf="erModEndDate != null && eventModifySuccess == false," class="text-danger" role="alert" >
+                      {{errormessage}}
+                    </div>
+                  </div>
+                </div>
               </td>
               <td>
                 <span *ngIf="editModeId !== event.id">{{event.startTime}}</span>
                 <input *ngIf="editModeId === event.id" [(ngModel)]="event.startTime" class="form-control">
+                <div *ngIf="editModeId === event.id">
+                  <div *ngFor="let errormessage of erModStartTime" class="validation">
+                    <div *ngIf="erModStartTime != null && eventModifySuccess == false," class="text-danger" role="alert" >
+                      {{errormessage}}
+                    </div>
+                  </div>
+                </div>
               </td>
               <td>
                 <span *ngIf="editModeId !== event.id">{{event.endTime}}</span>
                 <input *ngIf="editModeId === event.id" [(ngModel)]="event.endTime" class="form-control">
+                <div *ngIf="editModeId === event.id">
+                  <div *ngFor="let errormessage of erModEndTime" class="validation">
+                    <div *ngIf="erModEndTime != null && eventModifySuccess == false," class="text-danger" role="alert" >
+                      {{errormessage}}
+                    </div>
+                  </div>
+                </div> 
               </td>
               <td>
                 <span *ngIf="editModeId !== event.id">{{event.description}}</span>

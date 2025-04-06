@@ -46,7 +46,25 @@ export class DetailedEventComponent {
   //Az adatbázisban lévő komment
   userCommentFromApi: any
 
-  formattedStartTime:any
+  //összekapcsolt esemény-tag adatok
+  attachedDatas: any
+  detailedEventTags: any[] = []
+
+  //tab
+  activeSection: string = 'eventDescription' // Kezdő érték
+
+  //Élménybeszámolóhoz kapcsolódó
+  isNewExperienceVisible: boolean = false
+  newExperienceDesabled: boolean = false
+  editButtonVisible: boolean = false
+  pencilIconDesabled: boolean = false
+
+  userAllExperience: any
+
+  //hasonló eseményekhez
+  sameEventTags: any
+  relatedEventsByTags: any[] = []
+
 
   constructor(private http: HttpClient, private base: BaseService, private route: ActivatedRoute, public auth: AuthService, private router: Router, public localStorage: LocalStorageService) {
 
@@ -59,7 +77,9 @@ export class DetailedEventComponent {
         this.user = user
       })
     this.base.getMyExperience()
+    this.base.getEventsWithTags()
   }
+
 
   //eventDeatils-ből az adatok kinyerése
   getDataFromApi() {
@@ -73,6 +93,7 @@ export class DetailedEventComponent {
   ngOnInit(): void {
     this.getUserExperience()
     this.getUserEvents() // MyEvents betöltése
+    this.getEventsTags()
 
     this.route.params.subscribe(params => {
       this.detailedEventId = +params['id'] // Az ID lekérése a route-ból
@@ -96,24 +117,28 @@ export class DetailedEventComponent {
   }
 
 
-  //most csak az összes eseményből vesz 4 db-ot, de itt meg kell írni, hogy a hasonló programokból adja vissza a top4-et
+  //most csak az összes eseményből vesz 4 db-ot, de itt meg kell írni, hogy a hasonló programokból adja vissza a top4-et --> FEJLESZTÉS ALATT
   // Olyan kártyákat kell hozni, amik legalább 3 címkében egyeznek azokkal, amik az adott eseményre vonatkoznak
   get sameEvents() {
-    if (this.events) { // Ellenőrizzük, hogy az events létezik-e
-      return this.events.slice(0, 4) // Az első 4 elemet adjuk vissza
+    if (this.fullDatasRelatedEvents) { // Ellenőrizzük, hogy az events létezik-e
+      return this.fullDatasRelatedEvents.slice(0, 4) // Az első 4 elemet adjuk vissza
     } else {
       return [] // Ha nincs adat, akkor egy üres tömböt adunk vissza
     }
   }
 
 
-  activeSection: string = 'eventDescription' // Kezdő érték
+  getSameTags() {
+
+  }
+
 
   setActiveSection(section: string) {
     this.activeSection = section
   }
 
   //Vélemények
+  //NE TÖRÖLD, FEJLESZTÉS ALATT
   // document.addEventListener('DOMContentLoaded', function() {
   //   const stars = document.querySelectorAll('.rating-star');
   //   const ratingInput = document.getElementById('rating');
@@ -236,35 +261,48 @@ export class DetailedEventComponent {
 
 
   //Itt kezdődnek az élménybeszámoló blokkhoz kapcsolódó funkciók
-  isNewExperienceVisible: boolean = false
-  newExperienceDesabled: boolean = false
-  //buttonVisible: boolean = false
-  editButtonVisible: boolean = false
-  pencilIconDesabled: boolean = false
 
   getUserExperience() {
-
     this.base.myExperiences.subscribe((res: any) => {
       //console.log("Lekért élmények:", res)
       //console.log("Keresett eventId:", this.detailedEventId)
-  
+
       // Megkeressük az adott eventId-hoz tartozó commentet
       let userExperience = res.find((exp: any) => {
         //console.log("Ellenőrzés:", exp.eventId, "==", this.detailedEventId)
         return exp.eventId === this.detailedEventId
       })
-  
+
       if (userExperience) {
-          this.userCommentFromApi = userExperience.comment // Megkapott komment
-          this.userCommentFromInput = this.userCommentFromApi
-          this.newExperienceDesabled = true
-          this.pencilIconDesabled = false
-          //console.log("userExperience", this.userCommentFromApi)
-        }
-        else {
-          this.isNewExperienceVisible = false
-        }
-      })
+        this.userCommentFromApi = userExperience.comment // Megkapott komment
+        this.userCommentFromInput = this.userCommentFromApi
+        this.newExperienceDesabled = true
+        this.pencilIconDesabled = false
+        //console.log("userExperience", this.userCommentFromApi)
+      }
+      else {
+        this.isNewExperienceVisible = false
+      }
+
+      //Ez a hasonló eseményekhez kell, ha már van rögzítve hozzá élménybeszámoló, akkor ne lehessen leiratkozni
+      const filteredExperiences = res.filter((experience: any) => experience.comment !== null)
+
+      if (filteredExperiences.length > 0) {
+        this.userAllExperience = filteredExperiences
+        console.log("Ezek a bejegyzézei a felhasználónak: ", this.userAllExperience)
+      } else {
+        console.log("Nincs bejegyzés a felhasználótól.")
+      }
+    })
+  }
+
+  hasUserExperience(eventId: number): boolean {
+    if (!Array.isArray(this.userAllExperience)) {
+      return false  // Ha myExperiences undefined, akkor hamis
+    }
+
+    return this.userAllExperience.some(experience => experience.eventId === eventId)
+
   }
 
 
@@ -285,25 +323,28 @@ export class DetailedEventComponent {
       id: this.detailedEventId,
       comment: this.userCommentFromInput
     }
-    console.log("detailedeventid:", this.detailedEventId)
+    //console.log("detailedeventid:", this.detailedEventId)
     this.base.updateUserExperience(data).subscribe(
       {
         next: (res: any) => {
 
           if (res.success == false) {
-            console.log("Valami gond van.")
+            //console.log("Valami gond van.")
             // this.errModfyMsg = res.error
+            this.base.show(res.message || "Hiba történt!", "danger")
           }
           this.base.getMyExperience()
           this.newExperienceDesabled = true
           this.editButtonVisible = false
           this.pencilIconDesabled = false
           //this.buttonVisible = false
-          console.log("Siker!!")
+          //console.log("Siker!!")
           // this.base.downloadAll()
+          this.base.show(res.message || "Sikeres rögzítés!", "success")
         },
         error: (error: any) => {
-          console.log("Valami hiba: ", error)
+          //console.log("Valami hiba: ", error)
+          this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       }
     )
@@ -323,6 +364,24 @@ export class DetailedEventComponent {
     this.pencilIconDesabled = false
   }
 
+  //csak akkor legyen aktív az élmény hozzáadása gomb, ha a mai dátum késpbbi, mint a kezdő dátum (korábban ne lehessen rögzíteni, hiszen akkor még tuti nem vett réstz rajta)
+  canActivateFeature(startDateStr: string): boolean {
+    if (!startDateStr || startDateStr === '0000-00-00') {
+      return true
+    }
+    else {
+    
+      const today = new Date()
+      const startDate = new Date(startDateStr)
+    
+      // mindkettőt csak YYYY-MM-DD-re állítjuk (nullázzuk az időt)
+      today.setHours(0, 0, 0, 0)
+      startDate.setHours(0, 0, 0, 0)
+    
+      return today > startDate
+    }
+  }
+
 
   //Dátumválasztóhoz kapcsolódó rész
   //ez a dátumválasztó lehet egyelőre kimarad, mert csak még több megoldandó feladatot szül...
@@ -339,6 +398,88 @@ export class DetailedEventComponent {
 
   //Itt végződnek az élménybeszámoló blokkhoz kapcsolódó funkciók
 
+  getEventsTags() {
+    this.base.eventsWithTags.subscribe(
+      (res: any) => {
+        //console.log("események és kapcsolt címkék: ", res)
+        let eventTags = res.filter((eventTag: any) => {
+          //console.log("Ellenőrzés:", exp.eventId, "==", this.detailedEventId)
+          return eventTag.eventId === this.detailedEventId
+        })
+        //console.log("Ez az eventId: ", eventTags.eventId)
+
+        if (eventTags) {
+          this.detailedEventTags = eventTags
+          console.log("Ezek az ehhez az eseményhez kapcsolt címkék: ", this.detailedEventTags)
+        }
+        else {
+          //console.log("Nincs még esemény-címke kapcsolat!")
+          this.detailedEventTags = []
+        }
+
+        //Megkeressük a hasonló címkével ellátott eseményeket a hasonló események blokkhoz
+        let sameTags = res.filter((sameEventTag: any) =>
+          this.detailedEventTags.some((d: any) => d.tagId === sameEventTag.tagId)
+        )
+
+        if (sameTags && sameTags.length > 0) {
+          this.sameEventTags = sameTags
+          this.sameEventTagsWithoutDuplication()
+          this.mapRelatedEventDetails()
+          console.log("Ezek a hasonló címkék: ", this.sameEventTags)
+        } else {
+          this.sameEventTags = []
+        }
+      }
+    )
+  }
+
+  //Hasonló címkével rendelkező eseményekből kiszűrjük az aktuális eseményt + a duplikációkat
+  sameEventTagsWithoutDuplication() {
+    if (!this.sameEventTags || this.sameEventTags.length === 0) {
+      this.relatedEventsByTags = []
+      return
+    }
+
+    const seen = new Set()
+    this.relatedEventsByTags = this.sameEventTags
+      .filter((tag: any) => tag.eventId !== this.detailedEventId) // kizárjuk a jelenlegi eseményt
+      .filter((tag: any) => {
+        if (seen.has(tag.eventId)) {
+          return false; // duplikáció kiszűrése
+        }
+        seen.add(tag.eventId)
+        return true
+      })
+    console.log("Kapcsolódó események (duplikáció nélkül, kizárva az aktuálisat):", this.relatedEventsByTags)
+  }
+
+
+  fullDatasRelatedEvents: any[] = []
+
+  //Sajnos megszivattam magunkat, így kellett egy összehasonlítás, hogy megkapjuk a hasonló események összes adatát
+  mapRelatedEventDetails() {
+    if (!this.relatedEventsByTags || !this.events) return
+
+    const relatedIds = new Set(this.relatedEventsByTags.map((tag: any) => tag.eventId))
+
+    this.fullDatasRelatedEvents = this.events.filter((event: any) =>
+      relatedIds.has(event.id)
+    )
+
+    console.log("Kapcsolódó események teljes adatokkal:", this.fullDatasRelatedEvents)
+  }
+
+
+  //weblinkek lerövidítése, hogy ne olyan hosszan, csúnyán jelenjenek meg:
+  getShortUrl(url: string): string {
+    try {
+      let parsedUrl = new URL(url)
+      return parsedUrl.origin // Csak az alap URL-t adja vissza (pl. https://www.termeszetjaro.hu)
+    } catch (error) {
+      return url // Ha valami hiba van, marad az eredeti URL
+    }
+  }
 
 }
 

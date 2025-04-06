@@ -132,7 +132,7 @@
                           <div class="section-inner">
                             <div class="section-content filter-item">
                               <h5 class="section-header">Címkék</h5>
-                              <div *ngFor="let tag of tags" class="form-check">
+                              <div *ngFor="let tag of tagsOfEvents" class="form-check">
                                 <input [value]="tag" (change)="onTagSelect(tag, $event)"
                                   (keydown.enter)="searchOnPress()" class="form-check-input" type="checkbox"
                                   id="flexCheckDefault">
@@ -176,7 +176,7 @@
                           </div>
                         </div>
                         <!--Dátumválasztó-->
-                        <div class="section">
+                        <!-- <div class="section">
                           <div class="section-inner">
                             <div class="section-content">
                               <h5 class="section-header date">Dátum</h5>
@@ -185,7 +185,7 @@
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
                       </div>
                     </div>
                   </div>
@@ -205,7 +205,7 @@
               <div class="section-inner">
                 <div class="section-content filter-item">
                   <h5 class="section-header">Címkék</h5>
-                  <div *ngFor="let tag of tags" class="form-check">
+                  <div *ngFor="let tag of tagsOfEvents" class="form-check">
                     <input [value]="tag" (change)="onTagSelect(tag, $event)" (keydown.enter)="searchOnPress()"
                       class="form-check-input" type="checkbox" id="flexCheckDefault">
                     <label class="form-check-label">
@@ -240,7 +240,7 @@
               </div>
             </div>
             <!--Dátumválasztó-->
-            <div class="section">
+            <!-- <div class="section">
               <div class="section-inner">
                 <div class="section-content">
                   <h5 class="section-header date">Dátum</h5>
@@ -249,7 +249,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -316,7 +316,7 @@
                     <i class="bi bi-plus-lg"></i>
                   </button> -->
                   <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)"
-                    class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent">
+                    class="btn btn-primary" type="button" [disabled]="hasUserExperience(event.id)" title="Leiratkozás az eseményről" id="unsubscribeEvent">
                     <i class="bi bi-dash-lg"></i>
                   </button>
                 </div>
@@ -404,10 +404,10 @@
 
 
 
-      <div
-        *ngIf=" (isSearch ==true && commonSearchResults.length == 0 )|| (tagSearch ==true && commonSearchResults.length == 0 )">
-        <h1>Nincs találat</h1>
-      </div>
+      <div *ngIf=" (isSearch ==true && commonSearchResults.length == 0 )|| ((isSearch == true && tagSearch ==true) && (commonSearchResults.length == 0))">
+        <h4>Nincs találat</h4>
+        <p>Sajnos a megadott feltételek, nem hoztak eredményt. Kérlek, a szabadszavas keresést és a címkékre szűrést ne használt egyszerre.</p>
+    </div>
 
 
 

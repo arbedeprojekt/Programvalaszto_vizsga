@@ -121,10 +121,10 @@
               <div class="split">
                 <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
                 <div *ngIf="user" class="into-bucket-list">
-                  <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Bakancslistára tesz" id="subscribeEvent">  <!--*ngIf="!isEventSubscribed(event.id)"-->
+                  <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Feliratkozás az eseményre" id="subscribeEvent">  <!--*ngIf="!isEventSubscribed(event.id)"-->
                     <i class="bi bi-plus-lg"></i>
                   </button>
-                    <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" title="Törlés a bakancslistáról" id="unsubscribeEvent">  <!--*ngIf="isEventSubscribed(event.id)"-->
+                    <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" [disabled]="hasUserExperience(event.id)" type="button" title="Leiratkozás az eseményről" id="unsubscribeEvent">  <!--*ngIf="isEventSubscribed(event.id)"-->
                       <i class="bi bi-dash-lg"></i>
                   </button>
                 </div>

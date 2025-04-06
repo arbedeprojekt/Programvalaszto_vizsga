@@ -55,7 +55,7 @@
                 <i *ngIf="(editModeId !== user.id) && (user.admin != '2')" (click)="editRow(user)" class="bi bi-pencil-fill" style="font-size: 1.2rem;"></i>
                 <button *ngIf="editModeId === user.id" class="btn btn-secondary" (click)="updateData(user)">Módosítás</button>
                 <button *ngIf="editModeId === user.id" class="btn btn-outline-secondary" (click)="cancelEdit()">Mégsem</button>
-                <!-- <button *ngIf="editModeId !== user.id" class="btn btn-outline-secondary" (click)="deleteData(user)">Törlés</button> -->
+                <button *ngIf="(editModeId !== user.id) && (user.admin != '2')" class="btn btn-outline-secondary" (click)="deleteData(user)">Törlés</button>
               </div>
             </td>
             <td *ngIf="localStorage.getItem('admin') === '1'">
@@ -63,7 +63,6 @@
                 <i *ngIf="(editModeId !== user.id) && (user.admin == '0')" (click)="editRow(user)" class="bi bi-pencil-fill" style="font-size: 1.2rem;"></i>
                 <button *ngIf="editModeId === user.id" class="btn btn-secondary" (click)="updateData(user)">Módosítás</button>
                 <button *ngIf="editModeId === user.id" class="btn btn-outline-secondary" (click)="cancelEdit()">Mégsem</button>
-                <!-- <button *ngIf="editModeId !== user.id" class="btn btn-outline-secondary" (click)="deleteData(user)">Törlés</button> -->
               </div>
             </td>
             <td>{{user.id}}</td>

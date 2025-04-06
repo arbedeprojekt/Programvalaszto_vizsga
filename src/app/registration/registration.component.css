@@ -73,12 +73,12 @@ h4 {
     margin-top: 3rem;
 }
 
-#nameInput, #emailInput {
-    margin-bottom: 1.5rem;
+.validation {
+  font-size: .875rem;
 }
 
-#passwordInput, #passwordInput2 {
-    margin-bottom: 1.5rem;
+.validation p {
+  margin-bottom: .2rem;
 }
 
 .buttons-block {

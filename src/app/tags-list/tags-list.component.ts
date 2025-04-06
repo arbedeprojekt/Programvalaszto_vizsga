@@ -12,15 +12,21 @@ export class TagsListComponent {
   tags: any
   groups: any
 
-
   //errorok tárolása
   newTagErrorMessage = ""
   newTagErrorBool = false
   updateTagErrorMessage=""
   updateTagErrorBool=false
 
-  //csoportok dropdownhoz
-  //groups = ["típus", "jelleg", "időtartam", "részvétel módja", "belépés"]
+  name = ""
+  group = ""
+
+  newTagSuccess = false
+  erName: any
+  erGroup: any
+  tagModSuccess = false
+  erModName: any
+  erModGroup: any
 
   //form használatához
   newTagItem = {name: '', group: ''}
@@ -58,20 +64,26 @@ export class TagsListComponent {
         console.log("res az updateDataban: ",res)
         if(res.error){
           console.log("hiba")
-          this.updateTagErrorMessage = res.error.name
-          this.updateTagErrorBool = true
-
+          this.erModName = ""
+          this.erModGroup = ""
+          this.erModName = res.error["name"]
+          this.erModGroup = res.error["group"]
+          //this.updateTagErrorMessage = res.error.name
+          //this.updateTagErrorBool = true
+          this.base.show(res.message || "A címke módosítása sikertelen!", "danger")
         }
         else{
-          console.log("siker")
-          this.updateTagErrorMessage = ""
-          this.updateTagErrorBool = false
+          //console.log("siker")
+          //this.updateTagErrorMessage = ""
+          //this.updateTagErrorBool = false
+          this.tagModSuccess = true
           this.editModeId = null
+          this.base.show(res.message || "Sikeres módosítás!", "success")
           this.base.downloadAllTags()
         }
       }
     )
-    console.log("data" + data);
+    console.log("data" + data)
   }
 
   deleteData(data: any) {
@@ -80,9 +92,15 @@ export class TagsListComponent {
     }
     this.base.deleteTagWeb(body).subscribe(
       (res:any)=>{
-        console.log("body tartalma: ",body)
-        console.log("valami történik: ",res)
-        this.base.downloadAllTags();
+        if(res.error) {
+          this.base.show(res.message || "A címke törlése sikertelen!", "danger")
+        }
+        else {
+        //console.log("body tartalma: ",body)
+        //console.log("valami történik: ",res)
+        this.base.show(res.message || "A címke törlése sikeres!", "success")
+        this.base.downloadAllTags()
+        }
       }
     )
 
@@ -93,25 +111,32 @@ export class TagsListComponent {
       {
         next: (res: any) => {
 
-          this.newTagErrorBool = false
-          this.newTagErrorMessage = ""
+          //this.newTagErrorBool = false
+          //this.newTagErrorMessage = ""
 
           if (res.success == true) {
             console.log("res", res)
             console.log(res.success)
-            this.newTagErrorBool = res.success
-            alert("sikeres címke felvétel!")
+            //this.newTagErrorBool = res.success
+            this.newTagSuccess = true
+            this.base.show(res.message || "Sikeres rögzítés!", "success")
             this.base.downloadAllTags()
           }
           else {
             console.log("res", res)
-            this.newTagErrorMessage = res.error.name
-            this.newTagErrorBool = res.success
+            this.erName = ""
+            this.erGroup = ""
+            this.erName = res.error["name"]
+            this.erGroup = res.error["group"]
+            //this.newTagErrorMessage = res.error.name
+            //this.newTagErrorBool = res.success
+            this.base.show(res.message || "A címke rögzítése sikertelen!", "danger")
           }
         },
         error: (error: any) => {
-          this.newTagErrorBool = true
-          this.newTagErrorMessage = error.error.name
+          //this.newTagErrorBool = true
+          //this.newTagErrorMessage = error.error.name
+          this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       }
     )

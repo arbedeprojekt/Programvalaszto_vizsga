@@ -6,21 +6,22 @@
         <div class="card-body">
           <h4 class="card-title">Regisztráció</h4>
 
-          <div class="name-input">
+          <div class="name-input mb-3">
             <label class="form-label">Felhasználónév</label>
             <input type="email" (keydown.enter)="userRegistration()" [(ngModel)]="name" class="form-control" id="nameInput" placeholder="Teszt Eleonóra">
-          </div>
-          <div *ngFor="let errorMessage of erName">
-            <div *ngIf="erName != null && registrationSuccess == false" class="alert alert-danger" role="alert">
-              {{errorMessage}}
+            <div *ngFor="let errorMessage of erName" class="validation">
+              <div *ngIf="erName != null && registrationSuccess == false" class="text-danger" role="alert">
+                {{errorMessage}}
+              </div>
             </div>
           </div>
 
-          <div class="email-input">
+
+          <div class="email-input mb-3">
             <label class="form-label">Email cím</label>
             <input type="email" (keydown.enter)="userRegistration()" [(ngModel)]="email" class="form-control" id="emailInput" placeholder="name@example.com">
-            <div *ngFor="let errormessage of erEmail">
-              <div *ngIf="erEmail != null && registrationSuccess == false ," class="alert alert-danger" role="alert" >
+            <div *ngFor="let errormessage of erEmail" class="validation">
+              <div *ngIf="erEmail != null && registrationSuccess == false ," class="text-danger" role="alert" >
                 {{errormessage}}
               </div>
             </div>
@@ -28,35 +29,33 @@
 
 
           <label class="form-label">Jelszó</label>
-          <div class="input-group" id="passwordInput">
+          <div class="input-group mb-3" id="passwordInput">
             <input [type]="visiblePassword()" (keydown.enter)="userRegistration()" [(ngModel)]="password" class="form-control" placeholder="Password12" aria-label="Recipient's username" aria-describedby="basic-addon2">
             <span class="input-group-text" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
+            <div class="validation">
+              <div *ngIf="erPassword != null && registrationSuccess == false" class="text-danger" role="alert">
+                <p *ngFor="let errorMessage of erPassword">{{errorMessage}}</p>
+              </div>
+            </div>
           </div>
 
           <label class="form-label">Jelszó megerősítése</label>
-          <div class="input-group" id="passwordInput2">
+          <div class="input-group mb-3" id="passwordInput2">
             <input [type]="visiblePassword()" (keydown.enter)="userRegistration()" [(ngModel)]="confirmPassword" class="form-control" placeholder="Password12" aria-label="Recipient's username" aria-describedby="basic-addon2">
             <span class="input-group-text" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
-          </div>
-
-          <div class="input-group">
-            <div *ngIf="erPassword != null && registrationSuccess == false" class="alert alert-danger" role="alert">
+            <div class="validation">
+              <div *ngIf="erPassword != null && registrationSuccess == false" class="text-danger" role="alert">
               <p *ngFor="let errorMessage of erPassword">{{errorMessage}}</p>
             </div>
           </div>
+          </div>
+
 
           <div class="buttons-block">
             <button [disabled]="isNotValidSignUp()" type="button" (click)="userRegistration()" class="btn btn-primary">Regisztráció</button>
           </div>
-          <div *ngIf="mailRegError" class="alert alert-danger" role="alert">
+          <div *ngIf="mailRegError" class="text-danger" role="alert">
             {{mailRegText}}
-          </div>
-
-
-          <!-- <button type="button" (click)="googleAuth()" class="btn btn-primary">Regisztráció a  Google-vel</button> -->
-
-          <div *ngIf="registrationSuccess" class="SuccessMess">
-            <h1>Sikeres Regisztráció.</h1>
           </div>
         </div>
       </div>

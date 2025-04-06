@@ -20,6 +20,10 @@ export class UserSettingsComponent {
 
   user: any
 
+
+  //EZ A TELJES KOMPONENS FEJLESZTÉS ALATT, NE TÖRÖLD!!
+
+
   constructor(private http: HttpClient, localStorage: LocalStorageService, private base: BaseService, private auth:AuthService, private router:Router) {
     this.getTags()
     this.base.downloadAllTags()

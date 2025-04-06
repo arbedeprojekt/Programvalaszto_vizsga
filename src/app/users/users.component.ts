@@ -63,14 +63,16 @@ export class UsersComponent {
           next:(res:any)=>{
             if(res.success == false){
               console.log("hibaüzenetek: ",res.error)
+              this.base.show(res.message || "A módosítás sikertelen!", "danger")
             }
             console.log("Sikeres módosítás", res)
-            alert("Sikeres módosítás!")
+            this.base.show(res.message || "Sikeres módosítás!", "success")
             this.editModeId = null
             this.base.downloadAllUsers()
           },
           error:(error:any)=>{
-            console.log("Valami hiba: ",error)
+            //console.log("Valami hiba: ",error)
+            this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
           }
         }
       )
@@ -93,12 +95,13 @@ export class UsersComponent {
     this.base.deleteUser(data).subscribe(
       {
         next: (res: any) => {
-          //console.log("sikeres tőrlés: ", res)
+          //console.log("sikeres törlés: ", res)
+          this.base.show(res.message || "Sikeres törlés!", "success")
           this.base.downloadAllUsers()
         },
         error: (error: any) => {
           //console.log("Valami hiba: ", error)
-          alert("Szuperadmint nem lehet törölni/módosítani!")
+          this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       }
     )

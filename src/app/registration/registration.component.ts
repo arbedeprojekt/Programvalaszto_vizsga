@@ -36,20 +36,28 @@ export class RegistrationComponent {
   //user regisztrációja a backend-en
   userRegistration() {
 
-    this.auth.registrationUserOnlaravel(this.name, this.email, this.password, this.confirmPassword).subscribe(
+    this.auth.registrationUserOnlaravel(this.name, this.email, this.password, this.confirmPassword)
+    
+    this.auth.saveBackendMessage.subscribe(
       {
         next: (res: any) => {
           // console.log("új esemény felvétele: ",res)
-          if (res.success == false) {
+          if (res.error) {
             console.log("hibaüzenetek: ", res.error)
-            this.auth.showToast(res.message || "Hiba történt!", "danger")
+            this.erEmail = ""
+            this.erName = ""
+            this.erPassword = ""
+            this.erEmail = res.error["email"]
+            this.erName = res.error["name"]
+            this.erPassword = res.error["password"]
+            this.auth.showToast( "Hiba történt!", "danger")
           }
           else {
             //console.log("Sikeres új esemény felvétel: ", res)
             this.auth.showToast(res.message || "Sikeres regisztráció!", "success")
             this.registrationSuccess = true
 
-            // Ha az e-mail küldés sikertelen, arról külön visszajelzést adunk
+            //Ha az e-mail küldés sikertelen, arról külön visszajelzést adunk
             // if (res.email_error) {
             //   this.auth.showToast("Regisztráció sikeres, de az e-mail küldés sikertelen!", "warning");
             //   console.error("E-mail küldési hiba: ", res.email_error);
@@ -57,50 +65,15 @@ export class RegistrationComponent {
           }
         },
         error: (error: any) => {
-          //console.log("Valami hiba történt az új esemény felvétele során: ",error)
+          console.log("Valami hiba történt az új esemény felvétele során: ",error)
+          this.auth.showToast("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       }
     )
-  
   }
 
   visiblePassword() {
     return this.tomb[Number(this.szem)]
   }
-
-    // this.auth.saveBackendMessage.subscribe(
-    //   {
-    //     next: (res: any) => {
-    //       if (res) {
-    //         if (res.error) {
-    //           this.erEmail = ""
-    //           this.erName = ""
-    //           this.erPassword = ""
-    //           this.erEmail = res.error["email"]
-    //           this.erName = res.error["name"]
-    //           this.erPassword = res.error["password"]
-    //         }
-    //         else {
-              //console.log("Sikeres Bejelentkezés!")
-          //     this.auth.showToast(res.message || "Sikeres regisztráció!", "success");
-          //     this.registrationSuccess = true
-          //   }
-          // }
-          // else {
-        //     //console.log("A regisztrációban nincs res")
-        //   }
-        // },
-        // error: (error: any) => {
-        //   this.auth.showToast("Hálózati hiba vagy szerverhiba történt!", "danger");
-          //console.log("hiba", error)
-  //       }
-  //     }
-  //   )
-
-  // }
-
-//   visiblePassword() {
-//     return this.tomb[Number(this.szem)]
-//   }
 
 }

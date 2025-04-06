@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { GoogleAuthProvider } from '@angular/fire/auth';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -29,12 +27,32 @@ export class AuthService {
   // public userAdminAccessCode: Observable<any | null> = this.saveUserAdminBehaveSub.asObservable()
   saveLoginData = new BehaviorSubject<any>(null)
 
-
+  //#region rendszerüzenetek (toastMessages) kezelése
+  private messages = new BehaviorSubject<{ text: string; type: string }[]>([])
+  messages$ = this.messages.asObservable()
 
   private token: any
 
   constructor(private router: Router, private http: HttpClient, private base: BaseService,
     private localStorage: LocalStorageService) { }
+
+
+  //#region rendszerüzenetek (toastMessages) kezelése
+
+  showToast(message: string, type: 'success' | 'danger' | 'warning' | 'info' = 'success') {
+    const currentMessages = this.messages.getValue()
+    this.messages.next([...currentMessages, { text: message, type: `toast-${type}` }])
+
+    // Automatikus eltüntetés 3 másodperc után
+    setTimeout(() => {
+      this.removeToast(message)
+    }, 5000)
+  }
+
+  removeToast(message: string) {
+    this.messages.next(this.messages.getValue().filter(m => m.text !== message))
+  }
+
 
   getLoggedUser() {
     return this.userSub
@@ -52,26 +70,55 @@ export class AuthService {
 
   getUsers() {
     const token = this.localStorage.getItem("token") // Mindig a localStorage-ből vesszük ki
-  
+
     if (!token) {
       console.warn("Token nem található!")
       return
     }
-  
+
     const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
     return this.http.get(this.backendUrl + "users", { headers })
   }
 
-  registrationUserOnlaravel(nameArg: string, emailArg: string, passwordArg: string, confirm_passwordArg: string) {
+  registrationUserOnlaravel(nameArg: string, emailArg: string, passwordArg: string
+    , confirm_passwordArg: string
+  ) {
     let body = {
       name: nameArg,
       email: emailArg,
       password: passwordArg,
       confirm_password: confirm_passwordArg
     }
-    return this.http.post(this.backendUrl + "register", body)
-  }
+    this.http.post(this.backendUrl + "register", body).subscribe(
+      {
+        next: (res: any) => {
 
+          // console.log("res: ",res['success'])
+          if (res['success']) {
+            // console.log("Token: ",this.token)
+            //console.log("res: ", res)
+            this.saveBackendMessage.next(res)   //sikeres regisztráció üzenet; Beának kell a felugró ablakhoz
+          }
+          else {
+            // console.log("hiba",res)
+            if (res.error) {
+              this.saveBackendMessage.next(res)  //sikertelen regisztrációs üzenetek; Beának kell a felugró ablakhoz
+            }
+            else {
+              //console.log("másik", res.data)
+              this.saveBackendMessage.next(res)
+            }
+            // console.log("res: ",res)
+          }
+        },
+        error: (res) => {
+          // console.log("Hiba",res)
+          this.saveBackendMessage.next(res)
+        }
+      }
+    )
+    // this.router.navigate(['registration'])
+  }
 
 
   loginWithLaravel(nameArg: string, passwordArg: string) {
@@ -79,7 +126,7 @@ export class AuthService {
       name: nameArg,
       password: passwordArg,
     }
-    return this.http.post(this.backendUrl +"login", body)
+    return this.http.post(this.backendUrl + "login", body)
   }
 
   getUserNameToDisplay() {
@@ -123,24 +170,5 @@ export class AuthService {
 
     this.localStorage.clear()
 
-  }
-
-
-  //#region rendszerüzenetek (toastMessages) kezelése
-  private messages = new BehaviorSubject<{ text: string; type: string }[]>([]);
-  messages$ = this.messages.asObservable()
-
-  showToast(message: string, type: 'success' | 'danger' | 'warning' | 'info' = 'success') {
-    const currentMessages = this.messages.getValue()
-    this.messages.next([...currentMessages, { text: message, type: `toast-${type}` }])
-
-    // Automatikus eltüntetés 3 másodperc után
-    setTimeout(() => {
-      this.removeToast(message)
-    }, 5000);
-  }
-
-  removeToast(message: string) {
-    this.messages.next(this.messages.getValue().filter(m => m.text !== message))
   }
 }

@@ -534,7 +534,7 @@ export class BaseService {
     return this.http.get(`${this.backendUrl}searchevents/?query=${query}`, { headers }).pipe(
       map((response: any) => {
         res = response.data
-        //console.log("res",res)
+        console.log("res",res)
         return res
       })
 
@@ -551,7 +551,7 @@ export class BaseService {
     let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
 
     if (tagIds.length === 0) {
-      return of([]); // Ha nincs kiválasztott tag, üres tömböt ad vissza
+      return of([]) // Ha nincs kiválasztott tag, üres tömböt ad vissza
     }
 
     else {

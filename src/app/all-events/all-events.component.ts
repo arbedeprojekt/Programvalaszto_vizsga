@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { BaseService } from '../base.service';
-import { BehaviorSubject, debounceTime, distinctUntilChanged, forkJoin, map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, forkJoin, map, Observable, switchMap } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { LocalStorageService } from '../local-storage.service';
 import { Offcanvas } from 'bootstrap';
@@ -23,8 +23,8 @@ export class AllEventsComponent {
 
   eventDetails = new BehaviorSubject<any>(null)
 
-  clickedEventDetails: any = {};
-  events: any[] = [];
+  clickedEventDetails: any = {}
+  events: any[] = []
   galleries: any
 
   //oldal lapozóhoz kapcsolódik
@@ -49,16 +49,21 @@ export class AllEventsComponent {
   groups: any
 
   //Dezső: A felhasználó által kiválasztott tegek
-  selectedTags: any[] = [];
+  selectedTags: any[] = []
 
-  searchTagResults: any[] = [];
+  searchTagResults: any[] = []
   tagSearch = false;
+
   //Dezső: tárolja a tegek és események közötti kapcsolatot
   eventsAndTagConnection: any
 
+  //azokat a címkéket tárolja, amelyek kapcsolódnak eseményekhez
+  tagsOfEvents: any[] = []
+  attachedDatas: any[] = []
+
   //A szabadszavas kereséshez
-  searchControl = new FormControl();
-  searchResults: any[] = [];
+  searchControl = new FormControl()
+  searchResults: any[] = []
   backendUrl = "http://127.0.0.1:8000/api/"
   isSearch = false;
 
@@ -68,72 +73,37 @@ export class AllEventsComponent {
   // Feliratkozások megtekintése
   userEvents: any
 
-
+  //Az adatbázisban lévő komment
+  userExperience: any
 
   constructor(private http: HttpClient, private auth: AuthService, private base: BaseService, public localStorage: LocalStorageService) {
-    // user lecsekkolása
-    //   this.auth.getLoggedUser().subscribe(
-    //     (u)=>this.user=u
-    //   )
 
 
-    this.getTags()
     this.base.downloadAllTags()
-    // this.toSort("ascByABC");
     this.base.getAllMyEvents()
-    this.getEventsAndTagsConnection()
-
-
-    this.searchControl.valueChanges
-      .pipe(
-        debounceTime(300), // Vár 300ms-t, hogy ne indítson keresést minden billentyűleütésnél
-        distinctUntilChanged(), // Csak akkor indít új keresést, ha változott az input érték
-        switchMap(value => {
-          if (value === null || value.trim() === '') {
-            this.isSearch = false;
-            this.searchResults = [];
-
-            if (this.searchControl.value.length < 1) {
-              const offcanvasElement = document.getElementById('offcanvasWithBothOptions');
-              if (offcanvasElement) {
-                const offcanvasInstance = Offcanvas.getInstance(offcanvasElement);
-                if (offcanvasInstance) {
-                  offcanvasInstance.hide();
-
-                }
-                const closeButton = document.getElementById('offcanvasCloseButton');
-                if (closeButton) {
-                  closeButton.click(); // Programozott kattintás
-                }
-              }
-
-            }
-
-            return []; // üres tömböt adunk vissza
-          }
-
-          return []
-        }
-        )
-      )
-      .subscribe(results => {
-        this.searchResults = results;
-        this.base.toSort(this.selectedOption, this.searchResults)
-      })
-
+    this.base.getEventsWithTags()
+    this.base.getMyExperience()
 
   }
 
   ngOnInit() {
-    this.getUserEvents(); // MyEvents betöltése
+    this.getUserEvents() // MyEvents betöltése
     this.getDataFromApi() // Az összes esemény betöltése
+    this.getEventsTags()
+    this.getUserExperience()
     this.toSort()
+
+    this.searchControl.valueChanges.subscribe(value => {
+      if (value === '') {
+        this.resetSearch()
+      }
+    })
   }
 
   getDataFromApi() {
     this.base.eventsAllSub.subscribe(
       (res: any) => {
-        console.log("res a getDataFromApi-ból: ", res)
+        //console.log("res a getDataFromApi-ból: ", res)
         this.events = res.data
         this.eventsArray = res.data
         this.sortedEventsArray = this.eventsArray
@@ -144,19 +114,19 @@ export class AllEventsComponent {
 
   // Oldalszám beállítása
   changePage(page: number) {
-    this.currentPage = page;
+    this.currentPage = page
   }
 
 
   get paginatedEvents(): any[] {
     if (!this.events || !Array.isArray(this.events)) {
       // console.log("az events üres vót, tartalma: ", this.events);
-      return [];
+      return []
     }
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
+    const start = (this.currentPage - 1) * this.itemsPerPage
+    const end = start + this.itemsPerPage
 
-    return this.events.slice(start, end);
+    return this.events.slice(start, end)
   }
 
 
@@ -166,24 +136,11 @@ export class AllEventsComponent {
       // console.log("az events üres vót, tartalma: ", this.searchResults);
       return [];
     }
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
+    const start = (this.currentPage - 1) * this.itemsPerPage
+    const end = start + this.itemsPerPage
 
-    return this.commonSearchResults.slice(start, end);
-
-    // const dataSource = this.isSearch ? this.commonSearchResults : this.events;
-
-    // if (!dataSource || !Array.isArray(dataSource) || dataSource.length === 0) {
-    //   console.warn("HIBA: Az adatok tömbje üres vagy nem létezik!", dataSource);
-    //   return [];
-    // }
-
-    // const start = (this.currentPage - 1) * this.itemsPerPage;
-    // const end = start + this.itemsPerPage;
-    // return dataSource.slice(start, end);
+    return this.commonSearchResults.slice(start, end)
   }
-
-
 
 
   toSort() {
@@ -198,13 +155,21 @@ export class AllEventsComponent {
 
   }
 
-  getTags() {
-    this.base.tagsSub.subscribe(
-      (tag: any) => {
-        this.tags = tag.data
-        //console.log("res a tag componensből: ", tag)
-      }
-    )
+  getEventsTags() {
+    //ez azt csinálja, hogy csak akkor végzi el a new Set-et, ha mind a két kapcsolódó halmaz betöltésre került.
+    combineLatest([
+      this.base.tagsSub,
+      this.base.eventsWithTags]).subscribe(([tagsRes, eventsRes]) => {
+        this.tags = tagsRes.data
+        this.attachedDatas = eventsRes
+        console.log("címkék: ", tagsRes.data)
+        console.log("kapcsolt címkék: ", eventsRes)
+
+        const usedTagIds = new Set(this.attachedDatas.map((item: any) => item.tagId))
+        this.tagsOfEvents = this.tags.filter((tag: any) => usedTagIds.has(tag.id))
+
+        console.log("Szűrt címkék:", this.tagsOfEvents)
+      })
   }
 
 
@@ -213,135 +178,95 @@ export class AllEventsComponent {
   //-reagál arra, hogy ki van e töltve mindkettő
   searchOnPress() {
 
-    //ha van keresőmezőben érték, és teg is ki van választva
-    if (!!this.searchControl.value && this.selectedTags.length > 0) {
-      this.tagSearch = true
-      this.isSearch = true
-
-
-      //
-      forkJoin({
-        searchResults: this.base.search(this.searchControl.value),
-        tagResults: this.base.filterByTag(this.selectedTags)
-      }).subscribe(({ searchResults, tagResults }) => {
-        this.searchResults = searchResults || [];
-        this.searchTagResults = tagResults.flatMap((item: any) => item.data || []);
-        // this.commonSearchResults = [...this.searchTagResults]; // Kezdőérték
-        console.log("searchResults a szabadszavas keresésben: ", this.searchResults);
-        console.log("searchTagResults a teges keresésben: ", this.searchTagResults);
-
-        // Összefésülés elméletileg csak akkor fut le, ha az adatok már rendelkezésre állnak
-        this.filterCommonSearchResultsOnTagFilter();
-
-
-        // Offcanvas bezárása
-        const offcanvasElement = document.getElementById('offcanvasWithBothOptions');
-        if (offcanvasElement) {
-          const offcanvasInstance = Offcanvas.getInstance(offcanvasElement);
-          if (offcanvasInstance) {
-            offcanvasInstance.hide();
-          }
-          const closeButton = document.getElementById('offcanvasCloseButton');
-          if (closeButton) {
-            closeButton.click();
-          }
-        }
-      })
-
-      return
-
-    }
-
-
-    //ha ki van tölteve a searchcontrole
-
-    //!! segítségével igaz-hamis értékké alakítjuk a value-t.
-    //null, '', undefined → false lesz.
-    //Ha van érték (pl. "szöveg"), akkor true.
-    if (!!this.searchControl.value) {
-      console.log("searchControl", this.searchControl.value)
+    // Ha először szabadszavas keresés van, és nincs tag szűrés
+    if ((this.searchControl.value) || (this.selectedTags.length != 0 && this.searchControl.value)) {
+      //console.log("searchControl", this.searchControl.value)
       this.tagSearch = false
       this.isSearch = true
       this.base.search(this.searchControl.value).subscribe(
         (data: any) => {
-          this.searchResults = data; // Adatok beállítása
-          this.commonSearchResults = data; // Adatok beállítása
+          this.searchResults = data // Adatok beállítása
+          this.commonSearchResults = data // Adatok beállítása
 
+          //console.log("commonSearchResults a szabadszavas keresésben: ", this.commonSearchResults)
 
+          this.commonSearchResults = this.removeDuplicateEvents(this.commonSearchResults)
+
+          //console.log("szabadszavas, majd tag szűrés eredménye: ", this.commonSearchResults)
           this.base.toSort(this.selectedOption, this.commonSearchResults)
-          console.log("commonSearchResults a szabadszavas keresésben: ", this.commonSearchResults);
 
-          //Ez azért kell, hogyha a szűrés ablak meg van jelenve, akkor bezárja magát.
-          const offcanvasElement = document.getElementById('offcanvasWithBothOptions');
-          if (offcanvasElement) {
-            const offcanvasInstance = Offcanvas.getInstance(offcanvasElement);
-            if (offcanvasInstance) {
-              offcanvasInstance.hide();
-
-            }
-            const closeButton = document.getElementById('offcanvasCloseButton');
-            if (closeButton) {
-              closeButton.click(); // Programozott kattintás
-            }
-          }
+          // Offcanvas bezárása
+          this.closeOffcanvas()
         }
       )
-
     }
 
-    //ha csak a tegek vannak kijelőlve, akkor ez fut le
-    else if (this.selectedTags.length != 0) {
-      console.log("Teg alapú keresés")
-      this.isSearch = true
+    // Ha csak tag szűrés van, majd esetleg szabadszavas keresés
+    else if ((this.selectedTags.length != 0) || (this.selectedTags.length != 0 && this.searchControl.value)) {
+      //console.log("Teg alapú keresés")
+      this.isSearch = false
       this.tagSearch = true
       this.base.filterByTag(this.selectedTags).subscribe(
         (res: any) => {
+          //console.log("res a tegszűrőből", res)
+          this.searchTagResults = res.flatMap((item: any) => item.data || [])
+          this.commonSearchResults = res.flatMap((item: any) => item.data || [])
 
-          console.log("res a tegszűrőből", res)
-          // this.searchTagResults = res
-          this.searchTagResults = res.flatMap((item: any) => item.data || []);
-          this.commonSearchResults = res.flatMap((item: any) => item.data || []);
+          this.commonSearchResults = this.removeDuplicateEvents(this.commonSearchResults)
 
-          console.log("commonSearchResults a teges keresésben: ", this.commonSearchResults)
+          this.base.toSort(this.selectedOption, this.commonSearchResults)
 
-          //Ez azért kell, hogyha a szűrés ablak meg van jelenve, akkor bezárja magát.
-          const offcanvasElement = document.getElementById('offcanvasWithBothOptions');
-          if (offcanvasElement) {
-            const offcanvasInstance = Offcanvas.getInstance(offcanvasElement);
-            if (offcanvasInstance) {
-              offcanvasInstance.hide();
+          //console.log("commonSearchResults a teges keresésben: ", this.commonSearchResults)
 
-            }
-            const closeButton = document.getElementById('offcanvasCloseButton');
-            if (closeButton) {
-              closeButton.click(); // Programozott kattintás
-            }
-          }
+          // Offcanvas bezárása
+          this.closeOffcanvas()
         }
       )
     }
 
-    //ha a keresőbe a felhasználó nem ír semmit és nincs semmi teg kiválasztva
-    else if (this.selectedTags.length == 0) {
-
+    // Ha nincs keresés és nincs tag szűrés
+    else if (this.selectedTags.length == 0 && !this.searchControl.value) {
       this.tagSearch = false
       this.isSearch = false
       this.commonSearchResults = []
-
     }
 
+    //console.log("isSearch = ", this.isSearch)
+    //console.log("tagSearch = ", this.tagSearch)
+    //console.log("commonSearchResults: ", this.commonSearchResults)
+  }
 
 
 
+  // Események duplikálásának eltávolítása id-name páros alapján
+  removeDuplicateEvents(events: any[]) {
+    const seen = new Set() // Egy új Set a már látott eseményekhez
+    const uniqueEvents: any[] = [] // Új tömb az egyedi eseményekhez
 
-    console.log("isSearch = ", this.isSearch)
-    console.log("tagSearch = ", this.tagSearch)
-    console.log("commonSearchResults: ", this.commonSearchResults)
+    events.forEach((event: any) => {
+      // Az id és name kombinációjával hozunk létre egy egyedi kulcsot
+      const key = `${event.id}-${event.name}`
 
+      // Ha az esemény még nem szerepel a Set-ben, hozzáadjuk a listához
+      if (!seen.has(key)) {
+        seen.add(key) // hozzáadjuk a kulcsot a Set-hez
+        uniqueEvents.push(event) // hozzáadjuk az egyedi eseményt a listához
+      }
+    })
 
+    return uniqueEvents // Visszaadjuk az egyedi események tömbjét
+  }
 
-
-  }//vége a searchOnPress metódusnak
+  resetSearch() {
+    this.searchResults = []
+    this.commonSearchResults = []
+    this.isSearch = false
+    this.tagSearch = this.selectedTags.length > 0
+    // Ha kell, itt újra lekérheted a tag alapú találatokat is
+    if (this.tagSearch) {
+      this.searchOnPress() // csak ha azt akarod, hogy tag szűrés újra fusson
+    }
+  }
 
 
   //feliratkozás adott eseményre
@@ -363,12 +288,13 @@ export class AllEventsComponent {
 
             // Frissítsük a komponens változóját:
             this.base.myEvents.subscribe(events => {
-              this.userEvents = events;
+              this.userEvents = events
             })
           }
         },
         error: (error: any) => {
-          //console.log("Valami hiba történt az új esemény felvétele során: ",error)
+          console.log("Valami hiba történt az új esemény felvétele során: ", error)
+          this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       }
     )
@@ -412,32 +338,54 @@ export class AllEventsComponent {
 
   isEventSubscribed(eventId: number): boolean {
     if (!Array.isArray(this.userEvents)) {
-      return false; // Ha myEvents undefined, akkor hamis
+      return false // Ha myEvents undefined, akkor hamis
     }
 
     for (let i = 0; i < this.userEvents.length; i++) {
       if (this.userEvents[i].id === eventId) {
-        return true; // Ha találunk egyezést, rögtön visszatérünk
+        return true // Ha találunk egyezést, rögtön visszatérünk
       }
     }
-    return false; // Ha végigmentünk és nem találtunk, akkor false
+    return false // Ha végigmentünk és nem találtunk, akkor false
+  }
+
+  getUserExperience() {
+    this.base.myExperiences.subscribe((res: any) => {
+      const filteredExperiences = res.filter((experience: any) => experience.comment !== null)
+
+      if (filteredExperiences.length > 0) {
+        this.userExperience = filteredExperiences
+        console.log("Ezek a bejegyzézei a felhasználónak: ", this.userExperience)
+      } else {
+        console.log("Nincs bejegyzés a felhasználótól.")
+      }
+    })
+
+  }
+
+  hasUserExperience(eventId: number): boolean {
+    if (!Array.isArray(this.userExperience)) {
+      return false  // Ha myExperiences undefined, akkor hamis
+    }
+
+    return this.userExperience.some(experience => experience.eventId === eventId)
+
   }
 
   onTagSelect(tag: any, event: Event): void {
 
-
-
     // this.tagSearch = true
-    console.log("tag: ", tag)
-    const isChecked = (event.target as HTMLInputElement).checked;
+    //console.log("tag: ", tag)
+    const isChecked = (event.target as HTMLInputElement).checked
     if (isChecked) {
-      this.selectedTags.push(tag); // Ha be van pipálva, hozzáadjuk a tömbhöz
+      this.selectedTags.push(tag) // Ha be van pipálva, hozzáadjuk a tömbhöz
+      //console.log("kiválasztott címke Id-k: ", this.selectedTags)
     } else {
       // Ha nincs kipipálva, eltávolítjuk a tömbből
       if (!isChecked) {
-        let indexOftag = this.selectedTags.indexOf(tag);
+        let indexOftag = this.selectedTags.indexOf(tag)
         if (indexOftag !== -1) {
-          this.selectedTags.splice(indexOftag, 1);
+          this.selectedTags.splice(indexOftag, 1)
         }
         if (this.selectedTags.length == 0) {
           this.isSearch = false
@@ -452,52 +400,28 @@ export class AllEventsComponent {
   //gombnyomásra eltűnteti a felhaszáló a kijelölt tegeket
   clearTagSelections() {
     if (this.selectedTags.length == 0) {
-      console.log("nincs kejlölt teg")
+      //console.log("nincs kejlölt teg")
+      this.tagSearch = false
       return
     }
     else {
-      this.selectedTags = []; // Kijelölt címkék listáját töröljük
-      const checkboxes = document.querySelectorAll('.form-check-input');
+      this.selectedTags = [] // Kijelölt címkék listáját töröljük
+      const checkboxes = document.querySelectorAll('.form-check-input')
       checkboxes.forEach((checkbox: any) => {
         checkbox.checked = false// A DOM-ban is frissítjük
       })
-      this.searchOnPress(); // Frissítjük a keresést
+      this.searchOnPress() // Frissítjük a keresést
     }
-
-  }
-
-  //dezső: Tegek és events kapcsolat betöltése
-  getEventsAndTagsConnection() {
-    this.base.getTagEvents().subscribe(
-      (res: any) => {
-        console.log("events and tags connection: ", res)
-        this.eventsAndTagConnection = res
-        console.log("eventsAndTagConnection: ", this.eventsAndTagConnection)
-        console.log("res: ", res.data)
-      }
-    )
   }
 
 
-  filterCommonSearchResultsOnTagFilter() {
-    console.log("Checking commonSearchResults...");
-
-    this.commonSearchResults = this.searchResults.filter((item1: any) => {
-      const match = this.searchTagResults.some((item2: any) => {
-        const isMatch = item1.id == item2.id; // `==` biztosítja a típuskonverziót
-        return isMatch;
-      });
-
-      return match;
-    });
-
-    console.log("Final commonSearchResults:", this.commonSearchResults);
+  // Offcanvas bezárásához
+  closeOffcanvas() {
     const offcanvasElement = document.getElementById('offcanvasWithBothOptions');
     if (offcanvasElement) {
       const offcanvasInstance = Offcanvas.getInstance(offcanvasElement);
       if (offcanvasInstance) {
         offcanvasInstance.hide();
-
       }
       const closeButton = document.getElementById('offcanvasCloseButton');
       if (closeButton) {
@@ -505,5 +429,4 @@ export class AllEventsComponent {
       }
     }
   }
-
 }

@@ -8,35 +8,37 @@
 
           <p class="information-block" *ngIf="setVisible()">A megtekintéshez kérlek jelentkezz be, vagy regisztrálj!</p>
 
-          <div class="name-input">
+          <div class="name-input mb-3">
             <label class="form-label">Felhasználónév</label>
             <input type="email" (keydown.enter)="loginUserOnLaravel()" [(ngModel)]="name" class="form-control" id="nameInput" placeholder="tesztelek">
-          </div>
-          <!-- hibaüzenet kiíratása -->
-          <div *ngIf="errorNameMessage != null && loginError == true ," class="alert alert-danger" role="alert">
-            <p *ngFor="let errorMessage of errorNameMessage"> {{errorMessage}}</p>
+            <!-- hibaüzenet kiíratása -->
+            <div *ngIf="errorNameMessage != null && loginError == true ," class="text-danger" role="alert">
+              <p class="validation" *ngFor="let errorMessage of errorNameMessage"> {{errorMessage}}</p>
+            </div>
+            <div >
+              <p class="validation" ></p>
+            </div>
           </div>
 
+
           <label class="form-label">Jelszó</label>
-          <div class="input-group" id="passwordInput">
-            <input [type]="visiblePassword()" (keydown.enter)="loginUserOnLaravel()" [(ngModel)]="password" class="form-control" placeholder="Password12">
-            <span class="input-group-text" id="" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
-          </div>
-          <!-- hibaüzenet kiíratása -->
-          <div *ngIf="errorPasswordMessage != null && loginError == true ," class="alert alert-danger" role="alert">
-            <p *ngFor="let errorMessage of errorPasswordMessage"> {{errorMessage}}</p>
+          <div class="mb-3">
+            <div class="input-group" id="passwordInput">
+              <input [type]="visiblePassword()" (keydown.enter)="loginUserOnLaravel()" [(ngModel)]="password" class="form-control" placeholder="Password12">
+              <span class="input-group-text" id="" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
+            </div>
+            <!-- hibaüzenet kiíratása -->
+            <div *ngIf="errorPasswordMessage != null && loginError == true ," class="text-danger" role="alert">
+              <p class="validation" *ngFor="let errorMessage of errorPasswordMessage"> {{errorMessage}}</p>
+            </div>
           </div>
 
           <div class="buttons-block">
             <button type="button" (click)="loginUserOnLaravel()" class="btn btn-primary">Bejelentkezés</button>
             <button type="button" routerLink="/registration" class="btn btn-outline-primary">Regisztráció</button>
-            <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-              routerLink="/forgotpassword">Elfelejtett jelszó</a>
-          </div>
-
-
-          <div *ngIf="mailRegError" class="alert alert-danger" role="alert">
-            {{mailRegText}}
+            <!--FEJLESZTÉS ALATT-->
+            <!-- <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+              routerLink="/forgotpassword">Elfelejtett jelszó</a> -->
           </div>
 
         </div>
@@ -46,7 +48,7 @@
 </div>
 <!-- <div *ngIf="loginError == false && errorNameMessage =='' && errorPasswordMessage ==''">
   <h1>Sikeres Bejelentkezés</h1>
-</div>
+</div> -->
 <div *ngIf="unknownErrorMessageBool" class="alert alert-danger" role="alert">
   {{unknownErrorMessage}}
-</div> -->
+</div>

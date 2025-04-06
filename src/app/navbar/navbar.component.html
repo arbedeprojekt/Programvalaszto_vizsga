@@ -10,10 +10,6 @@
             </a>
           </div>
         </div>
-        <!--átkerült a user name a jobb oldalra!!-->
-        <!-- <div class="hello-user">
-          <a class="navbar-brand"><span *ngIf="user">Hello {{user.name}}!</span></a>
-        </div> -->
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,16 +23,6 @@
             <li *ngIf="user && (user.admin== 0)" class="nav-item">
               <a routerLink="/all-events" class="nav-link">Események</a>
             </li>
-            <!-- <li *ngIf="user" class="nav-item">
-              <a routerLink="/detailed-event" class="nav-link">Részletes esemény oldal</a>
-            </li> -->
-            <!--ÁTKERÜLT A JOBB OLDALRA A USER IKONHOZ!!! TÖRÖLHETŐ, HA MINDENKI MEGJEGYEZTE-->
-            <!-- <li *ngIf="!loggedIn" class="nav-item">
-              <a routerLink="/login" class="nav-link">Bejelentkezés</a>
-            </li> -->
-            <!-- <li *ngIf="!user" class="nav-item">
-              <a routerLink="/registration" class="nav-link">Regisztráció</a>
-            </li> -->
             <li *ngIf="user && (user.admin == 1 || user.admin == 2)" class="nav-item">
               <a routerLink="/events-admin" class="nav-link">Események</a>
             </li>
@@ -52,22 +38,17 @@
             </li>
           </ul>
           <!--Navbar közép-->
-          <div class="navbar-middle">
+          <!--KÉSŐBB KERÜL BEKÖTÉSRE-->
+          <!-- <div class="navbar-middle">
             <div *ngIf="user && (user.admin== 0)" class="input-group">
               <input type="text" class="form-control" placeholder="Keresés..." aria-label="Keresés..." aria-describedby="button-addon2">
               <a href="" class="btn btn-outline-secondary" type="button" id="search-button" >
                 <i class="bi bi-search" style="cursor:pointer"></i>
               </a>
             </div>
-          </div>
+          </div> -->
           <!--Navbar jobb oldal-->
           <div class="navbar-right">
-            <!-- <div class="input-group">
-              <input type="text" class="form-control" placeholder="Keresés..." aria-label="Keresés..." aria-describedby="button-addon2">
-              <a href="" class="btn btn-outline-secondary" type="button" id="search-button" >
-                <i class="bi bi-search" style="cursor:pointer"></i>
-              </a>
-            </div> -->
             <div class="navbar-right-icons">
               <div *ngIf="!user" class="user-login">
                 <button routerLink="/login" class="btn btn-outline-primary" title="Bejelentkezés">
@@ -83,7 +64,7 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                   <!--Ezt majd úgy kell megcsinálni, hogy csak "szimpla" felhasználónak jelenjen meg-->
                   <li><a *ngIf="(user.admin== 0)" routerLink="/events-subscribed" class="dropdown-item" href="#" title="Feliratkozásaim">Feliratkozásaim</a></li> <!--vissza kell adnia a bejelentkezett fejhasználó feliratkozott eseményeinek számát-->
-                  <li><a class="dropdown-item" routerLink="/user-settings" href="#" title="Beállításaim">Beállításaim</a></li>
+                  <li class="hidden"><a class="dropdown-item" routerLink="/user-settings" href="#" title="Beállításaim">Beállításaim</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a routerLink="/home" (click)="this.auth.logoutUserFromLaravel()" class="dropdown-item" href="#" title="Kijelentkezés">Kijelentkezés</a></li>
                 </ul>

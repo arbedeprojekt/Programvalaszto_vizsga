@@ -11,6 +11,11 @@
             <label class="form-label">Címke neve</label>
             <input type="text" class="form-control" [(ngModel)]="newTagItem.name" name="name" id=""
               placeholder="Pl.: Sport">
+            <div *ngFor="let errormessage of erName" class="validation">
+              <div *ngIf="erName != null && newTagSuccess == false," class="text-danger" role="alert" >
+                {{errormessage}}
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-6 col-md-3">
@@ -25,6 +30,11 @@
                 <option value="részvétel módja">Részvétel módja</option>
                 <option value="belépés">Belépés</option>
               </select>
+            </div>
+            <div *ngFor="let errormessage of erGroup" class="validation">
+              <div *ngIf="erGroup != null && newTagSuccess == false," class="text-danger" role="alert" >
+                {{errormessage}}
+              </div>
             </div>
           </div>
         </div>
@@ -59,6 +69,13 @@
             <td>
               <span *ngIf="editModeId !== tag.id">{{tag.name}}</span>
               <input *ngIf="editModeId === tag.id" [(ngModel)]="tag.name" class="form-control">
+              <div *ngIf="editModeId === tag.id">
+                <div *ngFor="let errormessage of erGroup" class="validation">
+                  <div *ngIf="erGroup != null && tagModSuccess == false," class="text-danger" role="alert" >
+                    {{errormessage}}
+                  </div>
+                </div>
+              </div>
             </td>
             <td>
               <span *ngIf="editModeId !== tag.id">{{tag.group}}</span>
@@ -70,6 +87,13 @@
                   <option value="részvétel módja">Részvétel módja</option>
                   <option value="belépés">Belépés</option>
                 </select>
+              </div>
+              <div *ngIf="editModeId === tag.id">
+                <div *ngFor="let errormessage of erGroup" class="validation">
+                  <div *ngIf="erGroup != null && tagModSuccess == false," class="text-danger" role="alert" >
+                    {{errormessage}}
+                  </div>
+                </div>
               </div>
             </td>
           </tr>

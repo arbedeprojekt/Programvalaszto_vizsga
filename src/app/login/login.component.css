@@ -81,12 +81,8 @@ h4 {
     margin-top: 3rem;
 }
 
-#nameInput{
-    margin-bottom: 1.5rem;
-}
-
-#passwordInput {
-    margin-bottom: 1.75rem;
+.validation {
+  font-size: .875rem;
 }
 
 .buttons-block {

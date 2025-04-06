@@ -33,17 +33,23 @@ export class HomeComponent implements OnInit {
   // Feliratkozások megtekintése
   userEvents: any
 
+  //Az adatbázisban lévő komment
+  userExperience: any
+
   constructor(private http:HttpClient, private base:BaseService, public auth:AuthService, private localStorage: LocalStorageService, private router: Router, private route: ActivatedRoute) {
     this.base.getAllMyEvents()
     this.auth.getLoggedUser().subscribe(
       (user) => {
         this.user = user})
 
+    this.base.getMyExperience()
+
   }
 
   ngOnInit(): void {
     this.getDataFromApi()
     this.getUserEvents(); // MyEvents betöltése
+    this.getUserExperience()
   }
 
   getDataFromApi(){
@@ -161,6 +167,29 @@ export class HomeComponent implements OnInit {
       }
     }
     return false; // Ha végigmentünk és nem találtunk, akkor false
+  }
+
+  getUserExperience() {
+    this.base.myExperiences.subscribe((res: any) => {
+      const filteredExperiences = res.filter((experience: any) => experience.comment !== null)
+
+      if (filteredExperiences.length > 0) {
+        this.userExperience = filteredExperiences
+        console.log("Ezek a bejegyzézei a felhasználónak: ", this.userExperience)
+      } else {
+        console.log("Nincs bejegyzés a felhasználótól.")
+      }
+    })
+
+  }
+
+  hasUserExperience(eventId: number): boolean {
+    if (!Array.isArray(this.userExperience)) {
+      return false  // Ha myExperiences undefined, akkor hamis
+    }
+
+    return this.userExperience.some(experience => experience.eventId === eventId)
+
   }
 
 

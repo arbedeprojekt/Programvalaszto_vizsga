@@ -115,3 +115,7 @@
 #superadminLogoutButton {
     margin-left: .5rem;
 }
+
+.hidden {
+    display: none;
+  }

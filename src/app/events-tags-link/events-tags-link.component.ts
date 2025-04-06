@@ -170,29 +170,30 @@ export class EventsTagsLinkComponent {
   newAttach(eventId: number, selectedTags: number[]) {
     if (!eventId || selectedTags.length === 0) {
       console.error("Hiba: Hiányzó adatok!", { eventId, selectedTags })
-      alert("Hiba: Az esemény vagy a címke nincs kiválasztva!")
-      return;
+      //alert("Hiba: Az esemény vagy a címke nincs kiválasztva!")
+      this.base.show("A címke nincs kiválasztva!", "warning")
+      return
     }
 
     this.newAttachTagToEvent = {
       eventId: eventId,
-      tagId: selectedTags // Most már a backendnek megfelelő ID-kat küldjük
+      tagId: selectedTags
     }
     //console.log("Összekapcsolásra küldött adatok:", this.newAttachTagToEvent)
 
     this.base.attachTagToEvent(this.newAttachTagToEvent).subscribe({
       next: (res: any) => {
         if (res.success === false) {
-          this.base.show(res.message || "Az összekapcsolás sikertelen!", "danger");
+          this.base.show(res.message || "Az összekapcsolás sikertelen!", "danger")
         } else {
-          this.base.show(res.message || "Sikeres összekapcsolás!", "success");
+          this.base.show(res.message || "Sikeres összekapcsolás!", "success")
           //this.closeAfterSave = true        //JAVÍTANI KELL
           this.base.getEventsWithTags()
           
         }
       },
       error: (error: any) => {
-        this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger");
+        this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
       }
     });
 

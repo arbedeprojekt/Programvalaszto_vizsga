@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BaseService } from '../base.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-toast-messages',
@@ -8,6 +9,7 @@ import { BaseService } from '../base.service';
 })
 export class ToastMessagesComponent {
 
-  constructor(public base: BaseService) {}
+
+  constructor(public base: BaseService, public auth: AuthService) {}
 
 }

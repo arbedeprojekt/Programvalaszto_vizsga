@@ -56,9 +56,8 @@ export class LoginComponent {
     this.auth.loginWithLaravel(this.name, this.password).subscribe(
       {
         next: (res: any) => {
-          if (res) {
-            console.log("A login eleje")
-            if (res.data && res.data.token) {
+          if (res.data) {
+            if (res.data.token) {
               this.auth.setLoggedUser(res.data)
 
               this.loginError = false
@@ -76,7 +75,6 @@ export class LoginComponent {
               // console.log(this.auth.saveLoginData)
 
               //a név megjelenítéséhez...
-
               this.auth.getUserNameToDisplay()
               this.auth.getUserToken()
               this.unknownErrorMessageBool = false
@@ -87,37 +85,36 @@ export class LoginComponent {
               // Ha nincs returnUrl, vagy ha maga a login oldalra mutat, akkor a főoldalra navigálunk
               if (!returnUrl || returnUrl.includes('/login')) {
                 returnUrl = '/home'
-                
-                if((localStorage.getItem('admin') === '2') || (localStorage.getItem('admin') === '1')) {
+
+                if ((localStorage.getItem('admin') === '2') || (localStorage.getItem('admin') === '1')) {
                   returnUrl = '/events-admin'
                 }
               }
               this.router.navigateByUrl(returnUrl)
             }
-            else {
-              this.loginError = true
 
-              this.errorNameMessage = res.error['name']
-              this.errorPasswordMessage = res.error['password']
-              this.unknownErrorMessageBool = false
-
-              console.log("hiba", res.data)
-            }
           }
           else {
-            console.log("nincsen resdata ",res)
-            this.unknownErrorMessage = "Hibás felhasználónév/jelszó"
-            this.unknownErrorMessageBool = true
-
-
+            this.loginError = true
+            this.errorNameMessage = res.error['name']
+            this.errorPasswordMessage = res.error['password']
+            this.unknownErrorMessageBool = false
+            console.log("hiba", res.data)
           }
-
         },
         // console.log("Token: " ,this.token)},
         error: (res: any) => {
-          this.mailRegError = true
-          //console.log("Hiba", res)
+          this.loginError = false
 
+          const status = res.status;
+        
+          if (status === 404) {
+            this.auth.showToast("A megadott felhasználónévvel regisztráció nem található", "danger")
+          } else if (status === 401) {
+            this.auth.showToast("A felhasználónév vagy jelszó nem megfelelő", "danger")
+          } else {
+            this.auth.showToast("Hálózati vagy szerverhiba történt!", "danger")
+          }
         }
       }
     )
@@ -131,12 +128,12 @@ export class LoginComponent {
   //jelenjen meg egy blokk a bejelentkezés oldalon, ha máshonnan irányítjuk ide a felhasználót (pl, ha olyan oldalt akar megnézni url birtokában, amit kijelentkezve nem lehet elérni)
   setVisible(): boolean {
     // Ellenőrizzük, hogy van-e returnUrl
-    let returnUrl = this.route.snapshot.queryParams['returnUrl'];
+    let returnUrl = this.route.snapshot.queryParams['returnUrl']
     if (returnUrl) {
-      return true;
+      return true
     }
     else {
-      return false;
+      return false
     }
   }
 

@@ -58,6 +58,10 @@ h5 {
     align-items: end;
 }
 
+.validation {
+    font-size: .875rem;
+}
+
 
 /*TÁBLÁZAT*/
 th {
