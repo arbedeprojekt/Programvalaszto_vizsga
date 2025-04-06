@@ -1,46 +1,11 @@
-@media (min-width: 992px) {
-    .p-lg-0 {
-        padding: 0 !important;
-    }
-  }
 
-@media (min-width: 0px) {
-  .container-sm, .container {
-      max-width: 450px;
-  }
-}
 
-@media (min-width: 576px) {
-  .container-sm, .container {
-      max-width: 540px;
-  }
-}
-
-@media (min-width: 768px) {
-  .container-md, .container-sm, .container {
-      max-width: 720px;
-  }
-}
-
-@media (min-width: 992px) {
-  .container-lg, .container-md, .container-sm, .container {
-      max-width: 960px;
-  }
-}
-
-@media only screen and (min-width: 1260px) {
-  :root {
-      --container: $container-xl;
-  }
-}
-
-@media (min-width: 1260px) {
-  .container-xl, .container-lg, .container-md, .container-sm, .container {
-      max-width: 1232px;
-  }
-}
-
-.container, .container-fluid, .container-xl, .container-lg, .container-md, .container-sm {
+.container,
+.container-fluid,
+.container-xl,
+.container-lg,
+.container-md,
+.container-sm {
     width: 100%;
     /* padding-right: .75rem;
     padding-left: .75rem; */
@@ -89,7 +54,6 @@
     white-space: nowrap;
 }
 
-
 .user-menu {
     display: flex;
     flex-wrap: nowrap;
@@ -118,4 +82,4 @@
 
 .hidden {
     display: none;
-  }
+}

@@ -16,7 +16,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mb-2 mb-lg-0">
+          <ul class="navbar-nav mb-2 mb-lg-0" (click)="collapseNavbar()">
             <li *ngIf="!user || (user.admin== 0)" class="nav-item">
               <a routerLink="/home" class="nav-link active" aria-current="page" href="#">Főoldal</a>
             </li>
@@ -51,7 +51,7 @@
           <div class="navbar-right">
             <div class="navbar-right-icons">
               <div *ngIf="!user" class="user-login">
-                <button routerLink="/login" class="btn btn-outline-primary" title="Bejelentkezés">
+                <button routerLink="/login" class="btn btn-outline-primary" title="Bejelentkezés" (click)="collapseNavbar()">
                   <i class="bi bi-person-fill" style="font-size: 1.2rem;"></i>Bejelentkezés
                 </button>
               </div>
@@ -61,7 +61,7 @@
                     <span *ngIf="user" id="userName">{{user.name}}</span>
                   </a>
 
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" (click)="collapseNavbar()">
                   <!--Ezt majd úgy kell megcsinálni, hogy csak "szimpla" felhasználónak jelenjen meg-->
                   <li><a *ngIf="(user.admin== 0)" routerLink="/events-subscribed" class="dropdown-item" href="#" title="Feliratkozásaim">Feliratkozásaim</a></li> <!--vissza kell adnia a bejelentkezett fejhasználó feliratkozott eseményeinek számát-->
                   <li class="hidden"><a class="dropdown-item" routerLink="/user-settings" href="#" title="Beállításaim">Beállításaim</a></li>
