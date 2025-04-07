@@ -21,9 +21,9 @@ export class RegistrationComponent {
   erName: any
   erPassword: any
 
-  //A jelszónál a password-nél a betűk megjelenítéséhez
-  tomb = ['password', 'text']
-  szem = false
+  //Dezső: ez a változó ahhoz kell, hogy a mezőnél lévő szem ikonra kattintva a jelszó látható legyen
+  toSwitchPasswordInputTypeDynamic = ['password', 'text']
+  eyeIconToShowPassword = false
 
   constructor(private auth:AuthService, private router:Router){}
 
@@ -37,7 +37,7 @@ export class RegistrationComponent {
   userRegistration() {
 
     this.auth.registrationUserOnlaravel(this.name, this.email, this.password, this.confirmPassword)
-    
+
     this.auth.saveBackendMessage.subscribe(
       {
         next: (res: any) => {
@@ -73,7 +73,7 @@ export class RegistrationComponent {
   }
 
   visiblePassword() {
-    return this.tomb[Number(this.szem)]
+    return this.toSwitchPasswordInputTypeDynamic[Number(this.eyeIconToShowPassword)]
   }
 
 }

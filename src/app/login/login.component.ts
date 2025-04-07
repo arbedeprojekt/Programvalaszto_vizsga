@@ -16,8 +16,9 @@ export class LoginComponent {
 
   mailRegError = false
   mailRegText = ""
-  szem = false
-  tomb = ['password', 'text']
+  //Dezső: ez a változó ahhoz kell, hogy a mezőnél lévő szem ikonra kattintva a jelszó látható legyen
+  eyeIconToShowPassword = false
+  toSwitchPasswordInputTypeDynamic = ['password', 'text']
 
   //hogyha bepróbál jelentkezni, de nem tudja pontosan a saját felhasználónevét vagy jelszavát
   errorNameMessage: any
@@ -44,7 +45,7 @@ export class LoginComponent {
   constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute, private localStorage: LocalStorageService) { }
 
   visiblePassword() {
-    return this.tomb[Number(this.szem)]
+    return this.toSwitchPasswordInputTypeDynamic[Number(this.eyeIconToShowPassword)]
   }
 
   isNotValidSignUp() {
@@ -107,7 +108,7 @@ export class LoginComponent {
           this.loginError = false
 
           const status = res.status;
-        
+
           if (status === 404) {
             this.auth.showToast("A megadott felhasználónévvel regisztráció nem található", "danger")
           } else if (status === 401) {

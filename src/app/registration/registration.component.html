@@ -31,7 +31,7 @@
           <label class="form-label">Jelszó</label>
           <div class="input-group mb-3" id="passwordInput">
             <input [type]="visiblePassword()" (keydown.enter)="userRegistration()" [(ngModel)]="password" class="form-control" placeholder="Password12" aria-label="Recipient's username" aria-describedby="basic-addon2">
-            <span class="input-group-text" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
+            <span class="input-group-text" type="button"><i (click)="eyeIconToShowPassword=!eyeIconToShowPassword" class="bi bi-eye"></i></span>
             <div class="validation">
               <div *ngIf="erPassword != null && registrationSuccess == false" class="text-danger" role="alert">
                 <p *ngFor="let errorMessage of erPassword">{{errorMessage}}</p>
@@ -42,7 +42,7 @@
           <label class="form-label">Jelszó megerősítése</label>
           <div class="input-group mb-3" id="passwordInput2">
             <input [type]="visiblePassword()" (keydown.enter)="userRegistration()" [(ngModel)]="confirmPassword" class="form-control" placeholder="Password12" aria-label="Recipient's username" aria-describedby="basic-addon2">
-            <span class="input-group-text" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
+            <span class="input-group-text" type="button"><i (click)="eyeIconToShowPassword=!eyeIconToShowPassword" class="bi bi-eye"></i></span>
             <div class="validation">
               <div *ngIf="erPassword != null && registrationSuccess == false" class="text-danger" role="alert">
               <p *ngFor="let errorMessage of erPassword">{{errorMessage}}</p>
