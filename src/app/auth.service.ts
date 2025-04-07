@@ -18,9 +18,7 @@ export class AuthService {
   //Ezt a Regisztrációnál fellépő hibák tárolására használom
   saveBackendMessage = new BehaviorSubject<any>(null)
   //A felhasználó bejelentkezésénél használom
-  public saveUserNameBehaveSub = new BehaviorSubject<any>(null)
-  public saveUserTokenBehaveSub = new BehaviorSubject<any>(null)
-  public saveUserAdminBehaveSub = new BehaviorSubject<any>(null)
+  
 
   
   // saveLoginData = new BehaviorSubject<any>(null)
@@ -60,11 +58,7 @@ export class AuthService {
     this.userSub.next(user)
   }
 
-  // getUsers() {
-
-  //   const headers = new HttpHeaders().set("Authorization", this.token)
-  //   return this.http.get(this.base.backendUrl + "users", { headers })
-  // }
+  
 
   getUsers() {
     const token = this.localStorage.getItem("token") // Mindig a localStorage-ből vesszük ki
@@ -152,9 +146,7 @@ export class AuthService {
       }
 
     )
-    this.saveUserNameBehaveSub.next(null)
-    this.saveUserAdminBehaveSub.next(null)
-    this.saveUserTokenBehaveSub.next(null)
+    
 
     this.userSub.next(null)
 
