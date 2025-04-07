@@ -19,13 +19,13 @@ import { Offcanvas } from 'bootstrap';
 // }
 export class AllEventsComponent {
 
-  // allEventUrl = "http://localhost:3000/esemenyek/";
+  
 
-  eventDetails = new BehaviorSubject<any>(null)
+  
 
-  clickedEventDetails: any = {}
+  
   events: any[] = []
-  galleries: any
+  
 
   //oldal lapozóhoz kapcsolódik
   currentPage = 1;
@@ -35,9 +35,8 @@ export class AllEventsComponent {
   eventStartDateNull = "Állandó"
   eventEndDateNull = ""
 
-  //user tárolása
-  user: any
-  dataFromApi: any
+ 
+ 
 
   //Az ábc sorrend megvalósításához
   selectedOption = "ascByABC"
