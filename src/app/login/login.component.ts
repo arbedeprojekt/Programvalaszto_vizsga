@@ -30,14 +30,7 @@ export class LoginComponent {
   unknownErrorMessageBool = false
   //visszajelez, ha hibás a login
   loginError = false
-  //bejelentkezés után token
-  token: any
-  loginName: any
-  //bejelentkezés utáni név elmentése
-  nameAfterLogin: any
-
-  //bejelentkezés utáni jogosultság elmentése (0-nem admin, 1-admin, 2-superadmin)
-  adminAccessCode: any
+ 
 
   //setVisible-höz tartozik
   noPermission = true;
@@ -65,14 +58,12 @@ export class LoginComponent {
               this.errorNameMessage = ""
               this.errorPasswordMessage = ""
               this.mailRegError = false
-              this.token = res.data.token
-              this.adminAccessCode = res.data.admin
-              this.nameAfterLogin = res.data.name
-              this.localStorage.setItem("token", this.token)
-              this.localStorage.setItem("user", this.nameAfterLogin)
-              this.localStorage.setItem("admin", this.adminAccessCode)
-              //this.localStorage.setItem("userID",res.data.id)
-              this.auth.saveLoginData = res.data
+              
+              this.localStorage.setItem("token", res.data.token)
+              this.localStorage.setItem("user", res.data.name)
+              this.localStorage.setItem("admin", res.data.admin)
+              
+              
               // console.log(this.auth.saveLoginData)
 
               //a név megjelenítéséhez...

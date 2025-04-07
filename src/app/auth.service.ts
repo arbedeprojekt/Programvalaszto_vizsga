@@ -22,10 +22,8 @@ export class AuthService {
   public saveUserTokenBehaveSub = new BehaviorSubject<any>(null)
   public saveUserAdminBehaveSub = new BehaviorSubject<any>(null)
 
-  // public userName: Observable<any | null> = this.saveUserNameBehaveSub.asObservable()
-  // public userToken: Observable<any | null> = this.saveUserTokenBehaveSub.asObservable()
-  // public userAdminAccessCode: Observable<any | null> = this.saveUserAdminBehaveSub.asObservable()
-  saveLoginData = new BehaviorSubject<any>(null)
+  
+  // saveLoginData = new BehaviorSubject<any>(null)
 
   //#region rendszerüzenetek (toastMessages) kezelése
   private messages = new BehaviorSubject<{ text: string; type: string }[]>([])
