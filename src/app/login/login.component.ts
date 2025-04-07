@@ -66,9 +66,7 @@ export class LoginComponent {
               
               // console.log(this.auth.saveLoginData)
 
-              //a név megjelenítéséhez...
-              this.auth.getUserNameToDisplay()
-              this.auth.getUserToken()
+              
               this.unknownErrorMessageBool = false
 
               // Ellenőrizzük, hogy van-e returnUrl

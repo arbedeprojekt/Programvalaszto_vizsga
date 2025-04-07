@@ -127,17 +127,9 @@ export class AuthService {
     return this.http.post(this.backendUrl + "login", body)
   }
 
-  getUserNameToDisplay() {
-    this.saveUserNameBehaveSub.next(this.localStorage.getItem("user"))
-  }
+ 
 
-  getUserToken() {
-    this.saveUserTokenBehaveSub.next(this.localStorage.getItem("token"))
-  }
-
-  getUserAdminAccessCode() {
-    this.saveUserAdminBehaveSub.next(this.localStorage.getItem("admin"))
-  }
+  
 
   //elfeledtetem a felhasználó nevét és törlöm a localstorage-ból is.
   logoutUserFromLaravel() {
