@@ -11,10 +11,10 @@ import { BaseService } from '../base.service';
 export class EventsAdminListComponent {
   // albums:any=[]
   // szortirozottAdatok = new Subject()
-  addAddColumn:any
-  addEditColumn:any
-  addDeleteColumn:any
-  errMessage:any
+  // addAddColumn:any
+  // addEditColumn:any
+  // addDeleteColumn:any
+  // errMessage:any
 
   name = ""
   startDate = ""
@@ -74,7 +74,7 @@ export class EventsAdminListComponent {
   cancelEdit() {
     this.editModeId = null
     this.base.downloadAll()
-  } 
+  }
 
   updateData(data:any){
     this.base.updateDataWeb(data).subscribe(

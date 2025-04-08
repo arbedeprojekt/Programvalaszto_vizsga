@@ -241,13 +241,17 @@ export class EventsSubscribedComponent {
 
 
   toSort() {
-    if (!this.commonSearchResults || this.commonSearchResults.length == 0 ) {
+    // if (!this.commonSearchResults || this.commonSearchResults.length == 0 || this.selectedTags.length == 0 && this.searchControl.value =="") {
 
+    //   this.base.toSort(this.selectedOption, this.userEvents)
+    // }
+    // else {
+    //   this.base.toSort(this.selectedOption, this.commonSearchResults)
+    // }
       this.base.toSort(this.selectedOption, this.userEvents)
-    }
-    else {
       this.base.toSort(this.selectedOption, this.commonSearchResults)
-    }
+
+
   }
 
   navigateToEvent(eventId: number) {
@@ -406,7 +410,6 @@ export class EventsSubscribedComponent {
     }
 
 
-
   }
 
   //gombnyomásra eltűnteti a felhaszáló a kijelölt tegeket
@@ -426,7 +429,7 @@ export class EventsSubscribedComponent {
 
   }
 
-  //dezső: Csak a felíratkozott esmények megjelenítése, amikor a felhasználó a szabadszavas keresést és/vagy a teg szűrést használja
+  //dezső: Csak a felíratkozott esmények megjelenítése, amikor a felhasználó a szabadszavas vagy teg keresést végzi
   showSubscribedEventsAfterSearch(searchedEvents:any){
     let income = new Set(searchedEvents.map((event: any) => event.id))
     let res = this.userEvents.filter((event: any) => income.has(event.id))

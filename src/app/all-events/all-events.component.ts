@@ -144,13 +144,19 @@ export class AllEventsComponent {
 
   toSort() {
 
-    if (!this.commonSearchResults || this.commonSearchResults.length == 0 || this.selectedTags.length == 0 && this.searchControl.value =='') {
+    // if (!this.commonSearchResults || this.commonSearchResults.length == 0 || this.selectedTags.length == 0 && this.searchControl.value =='') {
 
-      this.base.toSort(this.selectedOption, this.eventsArray)
-    }
-    else {
-      this.base.toSort(this.selectedOption, this.commonSearchResults)
-    }
+    //   this.base.toSort(this.selectedOption, this.eventsArray)
+    // }
+    // else {
+    //   this.base.toSort(this.selectedOption, this.commonSearchResults)
+    // }
+
+    this.base.toSort(this.selectedOption, this.eventsArray)
+    this.base.toSort(this.selectedOption, this.commonSearchResults)
+
+
+
 
   }
 
@@ -176,7 +182,7 @@ export class AllEventsComponent {
   //-figyeli, hogy a searchConsole vagy a teg van kitöltve
   //-reagál arra, hogy ki van e töltve mindkettő
   searchOnPress() {
-
+    console.log("searchOnPress()")
     // Ha először szabadszavas keresés van, és nincs tag szűrés
     if ((this.searchControl.value) || (this.selectedTags.length != 0 && this.searchControl.value)) {
       //console.log("searchControl", this.searchControl.value)
@@ -224,7 +230,13 @@ export class AllEventsComponent {
     }
 
     // Ha nincs keresés és nincs tag szűrés
-    else if (this.selectedTags.length == 0 && !this.searchControl.value) {
+    // else if (this.selectedTags.length == 0 && !this.searchControl.value) {
+    //   this.tagSearch = false
+    //   this.isSearch = false
+    //   this.commonSearchResults = []
+    // }
+
+    else if (this.selectedTags.length == 0 && this.searchControl.value =="") {
       this.tagSearch = false
       this.isSearch = false
       this.commonSearchResults = []
@@ -404,6 +416,8 @@ export class AllEventsComponent {
       return
     }
     else {
+      this.commonSearchResults = [] // Keresési eredmények törlése
+      this.tagSearch = false // Teg keresési mód kikapcsolása
       this.selectedTags = [] // Kijelölt címkék listáját töröljük
       const checkboxes = document.querySelectorAll('.form-check-input')
       checkboxes.forEach((checkbox: any) => {
