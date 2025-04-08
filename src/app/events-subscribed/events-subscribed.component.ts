@@ -241,7 +241,7 @@ export class EventsSubscribedComponent {
 
 
   toSort() {
-    if (!this.commonSearchResults || this.commonSearchResults.length == 0) {
+    if (!this.commonSearchResults || this.commonSearchResults.length == 0 ) {
 
       this.base.toSort(this.selectedOption, this.userEvents)
     }
@@ -277,6 +277,9 @@ export class EventsSubscribedComponent {
 
           this.commonSearchResults = this.removeDuplicateEvents(this.commonSearchResults)
 
+          //dezső: Hogy csak a feliratkozott események jelenjenek meg
+          this.commonSearchResults = this.showSubscribedEventsAfterSearch(this.commonSearchResults)
+
           //console.log("szabadszavas, majd tag szűrés eredménye: ", this.commonSearchResults)
           this.base.toSort(this.selectedOption, this.commonSearchResults)
 
@@ -299,6 +302,9 @@ export class EventsSubscribedComponent {
 
           this.commonSearchResults = this.removeDuplicateEvents(this.commonSearchResults)
 
+          //dezső: Hogy csak a feliratkozott események jelenjenek meg
+          this.commonSearchResults = this.showSubscribedEventsAfterSearch(this.commonSearchResults)
+
           this.base.toSort(this.selectedOption, this.commonSearchResults)
 
           //console.log("commonSearchResults a teges keresésben: ", this.commonSearchResults)
@@ -307,6 +313,12 @@ export class EventsSubscribedComponent {
           this.closeOffcanvas()
         }
       )
+    }
+
+    //dezső: Ha a felhasználó a teg kijelölést teljesen megszüneteti.
+    if(this.selectedTags.length == 0){
+      this.tagSearch = false
+
     }
 
     // Ha nincs keresés és nincs tag szűrés
@@ -394,6 +406,7 @@ export class EventsSubscribedComponent {
     }
 
 
+
   }
 
   //gombnyomásra eltűnteti a felhaszáló a kijelölt tegeket
@@ -411,6 +424,14 @@ export class EventsSubscribedComponent {
       this.searchOnPress(); // Frissítjük a keresést
     }
 
+  }
+
+  //dezső: Csak a felíratkozott esmények megjelenítése, amikor a felhasználó a szabadszavas keresést és/vagy a teg szűrést használja
+  showSubscribedEventsAfterSearch(searchedEvents:any){
+    let income = new Set(searchedEvents.map((event: any) => event.id))
+    let res = this.userEvents.filter((event: any) => income.has(event.id))
+    console.log("showSubscribedEventsAfterSearch", res)
+    return res;
   }
 
 

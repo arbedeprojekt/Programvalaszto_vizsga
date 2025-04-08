@@ -395,7 +395,7 @@ export class BaseService {
 
   //DezsŐ:szűrés ábc,dátum szerint
   toSort(terms: string, events: any) {
-    //console.log("events: ",events)
+    console.log("bemenetkor az events: ",events)
     //console.log("terms: ",terms)
 
     // let sortedEventsArray = []
@@ -406,7 +406,7 @@ export class BaseService {
 
 
     if (terms === "ascByABC") {
-      // console.log("ascByABC")
+       console.log("ascByABC")
 
       sortedEventsArray = eventsArray
       console.log("sortedEventsArray tartalma: " ,sortedEventsArray)
@@ -419,21 +419,10 @@ export class BaseService {
         }
       )
 
-      //a keresett tartalmak szűréséhez
-      // if (this.isSearch == true) {
-      //   this.searchResults = this.searchResults.sort(
-      //     (a: any, b: any) => {
-
-      // console.log("a értéke: ", a)
-      // console.log("b értéke: ", b)
-      //       return a.name.localeCompare(b.name)
-      //     }
-      //   )
-      // }
     }
 
     else if (terms === "descByABC") {
-      // console.log("descByABC")
+      console.log("descByABC")
       sortedEventsArray = eventsArray
       console.log("sortedEventsArray tartalma: " ,sortedEventsArray)
 
@@ -447,22 +436,10 @@ export class BaseService {
         }
       )
 
-      //a keresett tartalmak szűréséhez
-
-      // if (this.isSearch == true) {
-      //   this.searchResults = this.searchResults.sort(
-      //     (a: any, b: any) => {
-
-      // console.log("a értéke: ", a)
-      // console.log("b értéke: ", b)
-      //       return b.name.localeCompare(a.name)
-      //     }
-      //   )
-      // }
     }
 
     else if (terms === "ascByDate") {
-      // console.log("ascByDate")
+      console.log("ascByDate")
       sortedEventsArray = eventsArray
       console.log("sortedEventsArray tartalma: " ,sortedEventsArray)
 
@@ -475,22 +452,10 @@ export class BaseService {
         }
       )
 
-      //a keresett tartalmak szűréséhez
-
-      // if (this.isSearch == true) {
-      //   this.searchResults = this.searchResults.sort(
-      //     (a: any, b: any) => {
-
-      // console.log("a értéke: ", a)
-      // console.log("b értéke: ", b)
-      //       return new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
-      //     }
-      //   )
-      // }
     }
 
     else if (terms === "descByDate") {
-      // console.log("descByDate")
+      console.log("descByDate")
       sortedEventsArray = eventsArray
       console.log("sortedEventsArray tartalma: " ,sortedEventsArray)
 
@@ -500,26 +465,9 @@ export class BaseService {
           return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
         }
       )
-
-      //a keresett tartalmak szűréséhez
-
-      // if (this.isSearch == true) {
-      //   this.searchResults = this.searchResults.sort(
-      //     (a: any, b: any) => {
-
-      // console.log("a értéke: ", a)
-      // console.log("b értéke: ", b)
-      //       return new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
-      //     }
-      //   )
-      // }
-
     }
 
-    // console.log("szortírozás után : ", sortedEventsArray)
-    // if (this.searchControl.value === '') {
-    //   this.searchResults = []
-    // }
+
   }
 
 

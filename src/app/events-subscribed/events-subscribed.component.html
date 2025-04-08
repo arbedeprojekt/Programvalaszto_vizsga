@@ -75,9 +75,7 @@
             <div *ngIf="isSearch == true || tagSearch == true" class="count" id="pagerCount">
               {{commonSearchResults.length}} találat</div>
 
-            <!-- A teg alapú szűrés találatszámának megjelenítése -->
-            <div *ngIf="tagSearch == true && isSearch == false" class="count" id="pagerCount">
-              {{searchTagResults.length}} találat</div>
+
 
 
             <!--itt vissza kell adnia, hogy hány db aktív státuszú eseményt talált az adatbázisban (vagyis hány darabot lehet megnézni az oldalon)-->

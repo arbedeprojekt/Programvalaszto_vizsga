@@ -19,13 +19,13 @@ import { Offcanvas } from 'bootstrap';
 // }
 export class AllEventsComponent {
 
-  
 
-  
 
-  
+
+
+
   events: any[] = []
-  
+
 
   //oldal lapozóhoz kapcsolódik
   currentPage = 1;
@@ -35,8 +35,8 @@ export class AllEventsComponent {
   eventStartDateNull = "Állandó"
   eventEndDateNull = ""
 
- 
- 
+
+
 
   //Az ábc sorrend megvalósításához
   selectedOption = "ascByABC"
@@ -144,7 +144,7 @@ export class AllEventsComponent {
 
   toSort() {
 
-    if (!this.commonSearchResults || this.commonSearchResults.length == 0) {
+    if (!this.commonSearchResults || this.commonSearchResults.length == 0 || this.selectedTags.length == 0 && this.searchControl.value =='') {
 
       this.base.toSort(this.selectedOption, this.eventsArray)
     }
