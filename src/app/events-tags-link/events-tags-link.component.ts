@@ -188,6 +188,7 @@ export class EventsTagsLinkComponent {
         } else {
           this.base.show(res.message || "Sikeres összekapcsolás!", "success")
           //this.closeAfterSave = true        //JAVÍTANI KELL
+          this.selectedTags = []
           this.base.getEventsWithTags()
           
         }

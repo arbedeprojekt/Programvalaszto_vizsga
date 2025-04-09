@@ -18,9 +18,9 @@ export class HomeComponent implements OnInit {
   // allEventUrl="http://localhost:3000/esemenyek/"
 
   //A fake Api adatainak tárolása
-  eventDetails=new BehaviorSubject<any>(null)
+  eventDetails = new BehaviorSubject<any>(null)
   //Az eventDetails által megszerzett adatok tárolása, hogy a weboldalon megjelenhessen
-  events:any
+  events: any
   //oszlopok neveinek megjelenítéséhez
   //cols =["name", "description", "locationName", "locationcountry", "address", "gpsLink", "weblink", "startDate", "endDate", "startTime", "endTime"]
 
@@ -36,11 +36,13 @@ export class HomeComponent implements OnInit {
   //Az adatbázisban lévő komment
   userExperience: any
 
-  constructor(private http:HttpClient, private base:BaseService, public auth:AuthService, private localStorage: LocalStorageService, private router: Router, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, private base: BaseService, public auth: AuthService, private localStorage: LocalStorageService, private router: Router, private route: ActivatedRoute) {
     this.base.getAllMyEvents()
     this.auth.getLoggedUser().subscribe(
       (user) => {
-        this.user = user})
+        this.user = user
+        console.log("usersub tartalma", user)
+      })
 
     this.base.getMyExperience()
 
@@ -48,13 +50,30 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDataFromApi()
-    this.getUserEvents(); // MyEvents betöltése
-    this.getUserExperience()
+    
+    if (this.localStorage.getItem("token") != null) {
+      this.getUserEvents() // MyEvents betöltése
+      this.getUserExperience()
+      
+      
+    }
+    
+
   }
 
-  getDataFromApi(){
+  getDataFromApi() {
+    // this.base.getAll().subscribe(
+    //   (res: any) => {
+    //     this.events = res.data
+    //   }
+    // )
+
     this.base.getAll().subscribe(
-      (res:any) => {
+      (res: any) => {
+        if(res == null) {
+          console.log("Nincs elérhető esemény.")
+          return 
+        }
         this.events = res.data
       }
     )
@@ -93,7 +112,7 @@ export class HomeComponent implements OnInit {
   }
 
   //feliratkozás adott eseményre
-  subscribeToEvent(event:any){
+  subscribeToEvent(event: any) {
     this.base.subscribeEvent(event).subscribe(
       {
         next: (res: any) => {
@@ -123,7 +142,7 @@ export class HomeComponent implements OnInit {
   }
 
   //leiratkozás adott eseményről
-  unsubscribeFromEvent(data:any){
+  unsubscribeFromEvent(data: any) {
     this.base.unsubscribeEvent(data).subscribe(
       {
         next: (res: any) => {
@@ -153,7 +172,7 @@ export class HomeComponent implements OnInit {
       (res: any) => {
         //console.log("userEvents", res)       
         this.userEvents = res
-    })
+      })
   }
 
   isEventSubscribed(eventId: number): boolean {
@@ -194,3 +213,5 @@ export class HomeComponent implements OnInit {
 
 
 }
+
+

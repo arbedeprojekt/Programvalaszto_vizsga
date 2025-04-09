@@ -402,10 +402,10 @@ export class EventsSubscribedComponent {
         if (indexOftag !== -1) {
           this.selectedTags.splice(indexOftag, 1);
         }
-        if (this.selectedTags.length == 0) {
-          this.isSearch = false
-          this.tagSearch = false
-        }
+        // if (this.selectedTags.length == 0) {
+        //   this.isSearch = false
+        //   this.tagSearch = false
+        // }
       }
     }
 
@@ -416,6 +416,7 @@ export class EventsSubscribedComponent {
   clearTagSelections() {
     if (this.selectedTags.length == 0) {
       console.log("nincs kejlölt teg")
+      this.tagSearch = false
       return
     }
     else {

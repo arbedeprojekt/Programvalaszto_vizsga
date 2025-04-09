@@ -11,6 +11,7 @@ import { BaseService } from './base.service';
 export class AuthService {
   private userSub = new BehaviorSubject<any>(null)
 
+
   //Backend elérése
   backendUrl = "http://127.0.0.1:8000/api/"
 
@@ -30,7 +31,19 @@ export class AuthService {
   private token: any
 
   constructor(private router: Router, private http: HttpClient, private base: BaseService,
-    private localStorage: LocalStorageService) { }
+    private localStorage: LocalStorageService) {
+      //dezső: ellenőrzöm, hogy valaki belépett e már.
+      if(this.localStorage.getItem("token") != null) {
+        //dezső: Azért csinálom, mert ha a felhasználó újratölti az oldalt, akkor a localstorage-ból ki tudom olvasni a felhasználó nevét és token-jét.
+        this.setLoggedUser(
+          {
+            name: this.localStorage.getItem("user"),
+            token: this.localStorage.getItem("token"),
+            admin:this.localStorage.getItem("admin"),
+          }
+        )
+      }
+     }
 
 
   //#region rendszerüzenetek (toastMessages) kezelése
