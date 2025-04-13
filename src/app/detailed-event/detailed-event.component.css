@@ -70,10 +70,91 @@
   }*/
 }
 
+@media (min-width: 0px), (max-width:768px) {
+
+  .part-right.-desktop {
+    display: none;
+  }
+
+  .part-right.-mobile {
+    display: block;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .other-data-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 768px) {
+  .information-navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+    width: 100%;
+    height: 3.5rem;
+    background: #fff;
+    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  }
+
+  .nav.sticky-navbar {
+    display: flex;
+    overflow-y: hidden;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    position: relative;
+    scrollbar-color: #d1d1d1 #f3f3f2;
+    scrollbar-width: thin;
+    align-items: center;
+    justify-content: flex-start;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    width: 768px;
+    max-width: 100%;
+  }
+
+  .nav-item {
+    flex: 0 0 auto;
+    padding: 0 1rem;
+  }
+
+  .nav-link {
+    font-size: .875rem;
+  }
+
+  .nav-item-separator {
+    font-size: 1rem;
+  }
+
+  .hidden-navbar {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
 @media (min-width: 768px) {
   .col-md-4 {
     flex: 0 0 50%;
     max-width: 50%;
+  }
+
+  .col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  #fullContent {
+    padding: 1.5rem 1.5rem;
+  }
+
+  .information-unit-inner {
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -82,12 +163,43 @@
     flex: 0 0 33.3333333333%;
     max-width: 33.3333333333%;
   }
+
+  #fullContent {
+    padding: 1.5rem 2rem;
+  }
+
+  .information-unit-inner {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .part-left {
+    flex: 0 0 70%;
+    width: 70%;
+    padding: 2rem 1rem;
+  }
+
+  .part-right.-desktop {
+    flex: 0 0 30%;
+    width: 30%;
+    padding: 2rem 1rem;
+    display: block;
+  }
+
+  .part-right.-mobile {
+    display: none;
+  }
+
 }
 
 @media only screen and (min-width: 1260px) {
   .g10-xl-2 {
     flex: 0 0 25%;
     max-width: 25%;
+  }
+
+  .gallery-inner {
+    height: 600px;
   }
 }
 
@@ -158,14 +270,10 @@
 #fullContent {
   background: #fff;
   border-radius: .375rem;
-  padding: 1.5rem 2rem;
 }
 
 .col-12 {
-  flex: 0 0 100%;
-  max-width: 100%;
   position: relative;
-  width: 100%;
   padding-right: .75rem;
   padding-left: .75rem;
 }
@@ -178,23 +286,13 @@ h4 {
   text-align: start;
 }
 
-.nav {
-  margin-bottom: 1rem;
-}
-
 .row {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  margin-right: -.75rem;
-  margin-left: -.75rem;
-  width: 100%;
-}
-
-.information-unit-inner {
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: row;
+  /* margin-right: -.75rem;
+  margin-left: -.75rem; */
+  /* width: 100%; */
 }
 
 /*Yahoobar*/
@@ -240,7 +338,6 @@ h4 {
 }
 
 .gallery-inner {
-  height: 600px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -288,12 +385,6 @@ h4 {
 
 
 /*Bal oldali blokk*/
-.part-left {
-  padding: 2rem 1rem;
-  flex: 0 0 70%;
-  width: 70%;
-}
-
 .nav {
   display: flex;
   width: 100%;
@@ -301,16 +392,14 @@ h4 {
   text-align: center;
   gap: .5rem;
   align-items: center;
+  flex-direction: row;
+  margin-bottom: 1rem;
 }
 
 .nav-link {
-  padding: 0;
+  padding: 0 .5rem;
   vertical-align: middle;
   color: #919191;
-}
-
-.self-experience {
-  color: #0d6efd;
 }
 
 .nav-link:hover {
@@ -431,24 +520,33 @@ ul .group-value, ul .other-data-value {
   margin-left: 1.5rem;
 }
 
+.other-data-value-inner a {
+  display: inline-block; /* vagy block, ha kell teljes szélesség */
+  max-width: 100%; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /*Bal oldali blokk vége*/
 
 /*Jobb oldali blokk*/
 .part-right {
   padding: 2rem 1rem;
-  flex: 0 0 30%;
-  width: 30%;
 }
 
 .dates, .times {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
 .dates, .location-name {
   font-size: 1.5rem;
   font-weight: 600;
+}
+
+.start-date, .end-date {
+  white-space: nowrap;
 }
 
 .times, .event-address {
@@ -460,7 +558,7 @@ ul .group-value, ul .other-data-value {
 }
 
 .time-location {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .tags-unit {

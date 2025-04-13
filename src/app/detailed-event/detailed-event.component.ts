@@ -65,6 +65,9 @@ export class DetailedEventComponent {
   sameEventTags: any
   relatedEventsByTags: any[] = []
 
+  //sticky navbar
+  hideNavbar = false
+
 
   constructor(private http: HttpClient, private base: BaseService, private route: ActivatedRoute, public auth: AuthService, private router: Router, public localStorage: LocalStorageService) {
 
@@ -100,6 +103,22 @@ export class DetailedEventComponent {
       //console.log('Detailed Event ID:', this.detailedEventId)
     })
     //console.log('Events:', this.events)
+  }
+
+  //ez a sticky navbar működéséhez szükséges
+  @ViewChild('similarSection') similarSection!: ElementRef
+
+  ngAfterViewInit(): void {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        console.log(entry)
+        this.hideNavbar = entry.isIntersecting;
+      });
+    }, { threshold: 0.1 });
+  
+    if (this.similarSection) {
+      observer.observe(this.similarSection.nativeElement);
+    }
   }
 
   detailedEvent(id: number | null) {
@@ -370,14 +389,14 @@ export class DetailedEventComponent {
       return true
     }
     else {
-    
+
       const today = new Date()
       const startDate = new Date(startDateStr)
-    
+
       // mindkettőt csak YYYY-MM-DD-re állítjuk (nullázzuk az időt)
       today.setHours(0, 0, 0, 0)
       startDate.setHours(0, 0, 0, 0)
-    
+
       return today > startDate
     }
   }

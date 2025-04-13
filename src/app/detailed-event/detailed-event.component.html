@@ -1,5 +1,3 @@
-
-
 <!--Beltartalom alap befoglaló-->
 <div *ngFor="let event of events" class="container p-lg-0">
     <div *ngIf="event.id === detailedEventId" class="pg">
@@ -9,45 +7,52 @@
                     <i class="bi bi-house"></i>Kezdőoldal
                 </a>
                 <span>/</span>
-                <a routerLink="/all-events" class="nav-link" aria-current="page" href="#" title="Események">Események</a>
+                <a routerLink="/all-events" class="nav-link" aria-current="page" href="#"
+                    title="Események">Események</a>
                 <span>/</span>
                 <a class="nav-link" aria-current="page" href="#" title="Adott program neve">{{event.name}}</a>
             </div>
         </div>
-        <div class="row" data-eventid="" id="fullContent">
+        <div class="row g10" data-eventid="" id="fullContent">
             <div class="col-12 pg-top">
                 <h1 id="eventName">{{event.name}}</h1>
                 <div class="pg-top-inner">
                     <div class="rating visibility-hidden">
                         <ul class="list-unstyled list-inline mb-0">
                             <li class="list-inline-item">
-                            <i class="bi bi-star-fill text-warning"></i>    <!--bi-star, bi-star-fill, bi-star-half-->
+                                <i class="bi bi-star-fill text-warning"></i> <!--bi-star, bi-star-fill, bi-star-half-->
                             </li>
                             <li class="list-inline-item">
-                            <i class="bi bi-star-fill text-warning"></i>   <!--a csillagokat aszerint kell "teltté" változtatni, ahogy arányaiban kijön az értékelések alapján. Lényegében az átlag adja-->
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <!--a csillagokat aszerint kell "teltté" változtatni, ahogy arányaiban kijön az értékelések alapján. Lényegében az átlag adja-->
                             </li>
                             <li class="list-inline-item">
-                            <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
                             </li>
                             <li class="list-inline-item">
-                            <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
                             </li>
                             <li class="list-inline-item">
-                            <i class="bi bi-star-half text-warning"></i>
+                                <i class="bi bi-star-half text-warning"></i>
                             </li>
                             <li class="list-inline-item">
-                                <p class="text-muted">Értékeld elsőként</p>   
+                                <p class="text-muted">Értékeld elsőként</p>
                             </li>
-                            <li class="list-inline-item">   <!--*ngIf="isRating"-->
-                            <p class="text-muted">4.5 (413)</p>   <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
+                            <li class="list-inline-item"> <!--*ngIf="isRating"-->
+                                <p class="text-muted">4.5 (413)</p>
+                                <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
                             </li>
                         </ul>
                     </div>
                     <div class="buttons-right-side">
-                        <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Feliratkozás az eseményre" id="subscribeEventTop">
+                        <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)"
+                            class="btn btn-primary" type="button" title="Feliratkozás az eseményre"
+                            id="subscribeEventTop">
                             <i class="bi bi-plus-lg"></i>Feliratkozás
                         </button>
-                        <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" type="button" [disabled]="userCommentFromApi" title="Leiratkozás az eseményről" id="unsubscribeEventTop">
+                        <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)"
+                            class="btn btn-primary" type="button" [disabled]="userCommentFromApi"
+                            title="Leiratkozás az eseményről" id="unsubscribeEventTop">
                             <i class="bi bi-dash"></i>Leiratkozás
                         </button>
                     </div>
@@ -57,52 +62,86 @@
             <div class="col-12 gallery-preview">
                 <div class="gallery-inner">
                     <div class="gallery-item">
-                        <img *ngIf="event.image; else noImage" src={{event.image}} class="d-block w-100" alt={{event.name}}>
-                    <ng-template #noImage>
-                        <img src="assets/Pictures/no-image.jpg" class="card-img-top" alt="No Image Available">
-                    </ng-template>
+                        <img *ngIf="event.image; else noImage" src={{event.image}} class="d-block w-100"
+                            alt={{event.name}}>
+                        <ng-template #noImage>
+                            <img src="assets/Pictures/no-image.jpg" class="card-img-top" alt="No Image Available">
+                        </ng-template>
                     </div>
                 </div>
             </div>
 
             <div class="col-12 event-informations-unit">
-                <div class="information-unit-inner">
+                <div class="part-right -mobile">
+                    <div class="time-location">
+                        <div class="time-datas">
+                            <div class="dates">
+                                <div class="start-date">{{event.startDate && event.startDate !== '0000-00-00' ?
+                                    event.startDate:eventStartDateNull}}</div>
+                                <span *ngIf="event.endDate && event.endDate !== '0000-00-00'"
+                                    class="date-separator">-</span>
+                                <div class="end-date">{{event.endDate && event.endDate !== '0000-00-00' ?
+                                    event.endDate:eventEndDateNull}}</div>
+                            </div>
+                            <div *ngIf="(event.endTime && event.endTime !== '00:00') && (event.startTime && event.startTime !== '00:00')"
+                                class="times">
+                                <div class="start-time">{{event.startTime && event.startTime !== '00:00' ?
+                                    event.startTime:eventStartTimeNull}}</div>
+                                <span *ngIf="event.endTime && event.endTime !== '00:00'">-</span>
+                                <div class="end-time">{{event.endTime && event.endTime !== '00:00' ?
+                                    event.endTime:eventEndTimeNull}}</div>
+                            </div>
+                        </div>
+                        <div class="location-datas">
+                            <div class="location-name">{{event.locationName}}</div>
+                            <div class="event-address">{{event.address}}</div>
+                        </div>
+                    </div>
+                    <div class="tags-unit">
+                        <!--NINCS MÉG LEKEZELVE, DE MARAD, MERT FEJLESZTÉS ALATT ÁLL-->
+                        <!-- <div class="tag-state col-6">
+                            <div class="event-state">aktív</div>
+                        </div> -->
+                        <div class="tag-item-box col-6">
+                            <div *ngIf="detailedEventTags[0]" class="tag-item">{{detailedEventTags[0].tagName}}</div>
+                            <div *ngIf="detailedEventTags[1]" class="tag-item">{{detailedEventTags[1].tagName}}</div>
+                            <div *ngIf="detailedEventTags[2]" class="tag-item">{{detailedEventTags[2].tagName}}</div>
+                            <div *ngIf="detailedEventTags[3]" class="tag-item">{{detailedEventTags[3].tagName}}</div>
+                            <div *ngIf="detailedEventTags[4]" class="tag-item">{{detailedEventTags[4].tagName}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="information-unit-inner ">
                     <div class="part-left">
-                        <div class="information-navbar col-12">
-                            <div class="nav justify-content-center">
+                        <div class="information-navbar" [ngClass]="{'hidden-navbar': hideNavbar}">
+                            <div class="nav sticky-navbar">
                                 <div class="nav-item">
-                                    <a (click)="setActiveSection('eventDescription')"
-                                        class="nav-link"
-                                        [class.active]="activeSection === 'eventDescription'"
-                                        aria-current="page"
+                                    <a (click)="setActiveSection('eventDescription')" class="nav-link"
+                                        [class.active]="activeSection === 'eventDescription'" aria-current="page"
                                         role="button">Leírás
                                     </a>
                                 </div>
                                 <span class="nav-item-separator">|</span>
                                 <div class="nav-item">
-                                    <a (click)="setActiveSection('eventDetails')"
-                                        class="nav-link"
-                                        [class.active]="activeSection === 'eventDetails'"
-                                        aria-current="page"
+                                    <a (click)="setActiveSection('eventDetails')" class="nav-link"
+                                        [class.active]="activeSection === 'eventDetails'" aria-current="page"
                                         role="button">Információk</a>
                                 </div>
 
                                 <!-- EGYELŐRE PARKOLÓPÁLYÁN, DE KÉSŐBB LESZ HASZNÁLVA, NE TÖRÖLD!!!! -->
                                 <span class="nav-item-separator hidden">|</span>
                                 <div class="nav-item hidden">
-                                    <a (click)="setActiveSection('eventReviews')"
-                                        class="nav-link"
-                                        [class.active]="activeSection === 'eventReviews'"
-                                        aria-current="page"
+                                    <a (click)="setActiveSection('eventReviews')" class="nav-link"
+                                        [class.active]="activeSection === 'eventReviews'" aria-current="page"
                                         role="button">Vélemények</a>
                                 </div>
 
                                 <span *ngIf="isEventSubscribed(event.id)" class="nav-item-separator">|</span>
-                                <div *ngIf="isEventSubscribed(event.id)" class="nav-item">                  <!--*ngIf="isEventSubscribed(event.id)"     Ez kell ide, hogy csak akkor jelenjen meg, ha az adott eseményre fel van iratkozva a felhasználó-->
+                                <div *ngIf="isEventSubscribed(event.id)" class="nav-item">
+                                    <!--*ngIf="isEventSubscribed(event.id)"     Ez kell ide, hogy csak akkor jelenjen meg, ha az adott eseményre fel van iratkozva a felhasználó-->
                                     <a (click)="setActiveSection('eventSelfExperience')"
                                         class="nav-link self-experience"
-                                        [class.active]="activeSection === 'eventSelfExperience'"
-                                        aria-current="page"
+                                        [class.active]="activeSection === 'eventSelfExperience'" aria-current="page"
                                         role="button">Élménybeszámoló</a>
                                 </div>
                             </div>
@@ -110,13 +149,14 @@
                         <div class="event-description" *ngIf="activeSection === 'eventDescription'">
                             <div class="event-description-inner" id="eventDescription">
                                 <h4 class="">Leírás</h4>
-                                    <p>{{event.description}}</p>
+                                <p>{{event.description}}</p>
                             </div>
                         </div>
                         <div class="event-details" *ngIf="activeSection === 'eventDetails'">
                             <div class="col-12 event-details-inner" id="eventDetails">
                                 <h4 class="parameters">Információk</h4>
-                                <ul *ngFor="let item of detailedEventTags" class="parameter-tag-list">   <!--itt úgy kell visszadni a tag-eket, hogy azok jelenjenek meg, amelyek az adott eseményhez tartoznak!!!-->
+                                <ul *ngFor="let item of detailedEventTags" class="parameter-tag-list">
+                                    <!--itt úgy kell visszadni a tag-eket, hogy azok jelenjenek meg, amelyek az adott eseményhez tartoznak!!!-->
                                     <li class="parameter-items">
                                         <div class="tag-items">
                                             <div class="tag-group">{{item.tagGroup}}</div>
@@ -133,8 +173,9 @@
                                         <div *ngIf="event.weblink" class="other-data-item">
                                             <div class="other-data-key">Weboldal</div>
                                             <ul class="other-data-value">
-                                                <li>
-                                                    <a [href]="formatUrl(event.weblink)" target="_blank" rel="noopener noreferrer">{{getShortUrl(formatUrl(event.weblink))}}</a>
+                                                <li class="other-data-value-inner">
+                                                    <a [href]="formatUrl(event.weblink)" target="_blank"
+                                                        rel="noopener noreferrer">{{getShortUrl(formatUrl(event.weblink))}}</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -142,7 +183,9 @@
                                             <div class="other-data-key">GPX</div>
                                             <ul class="other-data-value">
                                                 <li>
-                                                    <a [href]="event.gpx" [download]="event.gpx.substring(event.gpx.lastIndexOf('/') + 1)" target="_blank">Letöltés
+                                                    <a [href]="event.gpx"
+                                                        [download]="event.gpx.substring(event.gpx.lastIndexOf('/') + 1)"
+                                                        target="_blank">Letöltés
                                                         <i class="bi bi-download"></i>
                                                     </a>
                                                 </li>
@@ -152,7 +195,7 @@
                                 </ul>
                             </div>
                         </div>
-                        
+
                         <!-- EGYELŐRE PARKOLÓPÁLYÁN, DE KÉSŐBB LESZ HASZNÁLVA, NE TÖRÖLD!!!! -->
                         <!--Vélemények kezdet-->
                         <div class="event-user-reviews hidden" *ngIf="activeSection === 'eventReviews'">
@@ -165,11 +208,13 @@
                                         <div class="no-review-inner">
                                             <p>Ezt a programot még senki nem értékelte. Értékeld elsőként!</p>
                                             <div class="write-review mt-4">
-                                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ratingModal" id="reviewButton">Értékelés írása</button>
+                                                <button class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#ratingModal" id="reviewButton">Értékelés
+                                                    írása</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="rating-card">       
+                                    <div class="rating-card">
                                         <div class="rating-card-body">
                                             <div class="row nowrap">
                                                 <div class="col-md-4 text-center">
@@ -186,55 +231,72 @@
                                                 <div class="col-md-8">
                                                     <div class="rating-bars">
                                                         <div class="rating-bar mb-3">
-                                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <div
+                                                                class="d-flex justify-content-between align-items-center mb-1">
                                                                 <span class="small">5 csillag</span>
                                                                 <small class="text-muted">70%</small>
                                                             </div>
                                                             <div class="progress" style="height: 10px;">
-                                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                <div class="progress-bar bg-warning" role="progressbar"
+                                                                    style="width: 70%;" aria-valuenow="70"
+                                                                    aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
                                                         </div>
                                                         <div class="rating-bar mb-3">
-                                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <div
+                                                                class="d-flex justify-content-between align-items-center mb-1">
                                                                 <span class="small">4 csillag</span>
                                                                 <small class="text-muted">20%</small>
                                                             </div>
                                                             <div class="progress" style="height: 10px;">
-                                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                <div class="progress-bar bg-warning" role="progressbar"
+                                                                    style="width: 20%;" aria-valuenow="20"
+                                                                    aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
                                                         </div>
                                                         <div class="rating-bar mb-3">
-                                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <div
+                                                                class="d-flex justify-content-between align-items-center mb-1">
                                                                 <span class="small">3 csillag</span>
                                                                 <small class="text-muted">5%</small>
                                                             </div>
                                                             <div class="progress" style="height: 10px;">
-                                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 5%;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                <div class="progress-bar bg-warning" role="progressbar"
+                                                                    style="width: 5%;" aria-valuenow="5"
+                                                                    aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
                                                         </div>
                                                         <div class="rating-bar mb-3">
-                                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <div
+                                                                class="d-flex justify-content-between align-items-center mb-1">
                                                                 <span class="small">2 csillag</span>
                                                                 <small class="text-muted">3%</small>
                                                             </div>
                                                             <div class="progress" style="height: 10px;">
-                                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 3%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                <div class="progress-bar bg-warning" role="progressbar"
+                                                                    style="width: 3%;" aria-valuenow="3"
+                                                                    aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
                                                         </div>
                                                         <div class="rating-bar">
-                                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <div
+                                                                class="d-flex justify-content-between align-items-center mb-1">
                                                                 <span class="small">1 csillag</span>
                                                                 <small class="text-muted">2%</small>
                                                             </div>
                                                             <div class="progress" style="height: 10px;">
-                                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 2%;" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                <div class="progress-bar bg-warning" role="progressbar"
+                                                                    style="width: 2%;" aria-valuenow="2"
+                                                                    aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="write-review mt-4">
-                                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ratingModal" id="reviewButton">Értékelés írása</button>
+                                                <button class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#ratingModal" id="reviewButton">Értékelés
+                                                    írása</button>
                                             </div>
                                         </div>
                                     </div>
@@ -250,7 +312,8 @@
                                             <div class="modal-body">
                                                 <form>
                                                     <div class="mb-3">
-                                                        <label for="rating" class="form-label">Add meg értékelésed</label>
+                                                        <label for="rating" class="form-label">Add meg
+                                                            értékelésed</label>
                                                         <div class="star-rating">
                                                             <i class="bi bi-star rating-star" data-rating="1"></i>
                                                             <i class="bi bi-star rating-star" data-rating="2"></i>
@@ -261,14 +324,18 @@
                                                         <input type="hidden" id="rating" name="rating" value="0">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="review" class="form-label">Mondd el véleményed</label>
-                                                        <textarea class="form-control" id="review" rows="3" required></textarea>
+                                                        <label for="review" class="form-label">Mondd el
+                                                            véleményed</label>
+                                                        <textarea class="form-control" id="review" rows="3"
+                                                            required></textarea>
                                                     </div>
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégsem</button>
-                                                <button type="button" class="btn btn-primary" id="saveReviewButton">Mentés</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Mégsem</button>
+                                                <button type="button" class="btn btn-primary"
+                                                    id="saveReviewButton">Mentés</button>
                                             </div>
                                         </div>
                                     </div>
@@ -293,32 +360,45 @@
                                             <div class="time-value">2025.03.29</div>
                                         </div>
                                         <div class="given-text-review">
-                                            <p>Szerintem nagyon szép ez az útvonal. Kutyával, nagyobb gyerekkel is simán járható. Van egy-két szakasz, ahol jobban kell figyelni, és mindenképp ajánlott a túracipő! Viszont télen, nyáron is csodaszép! Mindenképpen ajánlom.</p>
+                                            <p>Szerintem nagyon szép ez az útvonal. Kutyával, nagyobb gyerekkel is simán
+                                                járható. Van egy-két szakasz, ahol jobban kell figyelni, és mindenképp
+                                                ajánlott a túracipő! Viszont télen, nyáron is csodaszép! Mindenképpen
+                                                ajánlom.</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!--Élménybeszámóló blokk-->
-                        <div class="event-self-experience" *ngIf="activeSection === 'eventSelfExperience' && isEventSubscribed(event.id)">
+                        <div class="event-self-experience"
+                            *ngIf="activeSection === 'eventSelfExperience' && isEventSubscribed(event.id)">
                             <div class="event-experience-inner" id="eventSelfExperience">
                                 <div class="title-row">
                                     <h4 class="">Élménybeszámoló</h4>
 
-                                    <i *ngIf="(this.userCommentFromApi != null)" (click)="editExperience()" [ngClass]="{ desabled: pencilIconDesabled === true }" class="bi bi-pencil-fill" style="font-size: 1.2rem;"></i>
+                                    <i *ngIf="(this.userCommentFromApi != null)" (click)="editExperience()"
+                                        [ngClass]="{ desabled: pencilIconDesabled === true }" class="bi bi-pencil-fill"
+                                        style="font-size: 1.2rem;"></i>
                                 </div>
 
-                                
-                                <div *ngIf="!isNewExperienceVisible && (this.userCommentFromApi == null)" class="add-experience">
+
+                                <div *ngIf="!isNewExperienceVisible && (this.userCommentFromApi == null)"
+                                    class="add-experience">
                                     <div class="textarea-explanation">
-                                        <p>Ez a blokk azért jelent meg számodra, mert feliratkoztál az eseményre. Lehetőséged van rögzíteni az eseményen szerzett élményeidet, kapcsolódó gondolataidat, hogy bármikor ismét felidézhesd emlékeidet. Amennyiben az esemény nem "állandó", az Élmény hozzáadása gomb az esemény kezdete utáni napon válik aktívvá.</p>
+                                        <p>Ez a blokk azért jelent meg számodra, mert feliratkoztál az eseményre.
+                                            Lehetőséged van rögzíteni az eseményen szerzett élményeidet, kapcsolódó
+                                            gondolataidat, hogy bármikor ismét felidézhesd emlékeidet. Amennyiben az
+                                            esemény nem "állandó", az Élmény hozzáadása gomb az esemény kezdete utáni
+                                            napon válik aktívvá.</p>
                                         <p>Jó szórakozást kívánunk!</p>
                                     </div>
-                                    <button (click)="showNewExprerience()" type="button" class="btn btn-secondary" [disabled]="!canActivateFeature(event.startDate)">Élmény hozzáadása</button>
+                                    <button (click)="showNewExprerience()" type="button" class="btn btn-secondary"
+                                        [disabled]="!canActivateFeature(event.startDate)">Élmény hozzáadása</button>
                                 </div>
-                                
-                                <div *ngIf="isNewExperienceVisible || (this.userCommentFromApi != null)" class="mb-3 experience-input">
+
+                                <div *ngIf="isNewExperienceVisible || (this.userCommentFromApi != null)"
+                                    class="mb-3 experience-input">
 
                                     <!--ez a dátumválasztó lehet egyelőre kimarad, mert csak még több megoldandó feladatot szül...-->
                                     <!-- <div class="date-picker">
@@ -346,37 +426,47 @@
 
                                     <!-- Az itt leírtakat el kell menteni az adatbázisba!! -->
 
-                                    <textarea
-                                        [(ngModel)]="userCommentFromInput"
-                                        class="form-control"
-                                        id="newExperience"
-                                        rows=""
-                                        maxlength="500"
-                                        style="width: 100%"
-                                        placeholder="Jegyezd fel élményeidet.."
-                                        [disabled]="newExperienceDesabled"
+                                    <textarea [(ngModel)]="userCommentFromInput" class="form-control" id="newExperience"
+                                        rows="" maxlength="500" style="width: 100%"
+                                        placeholder="Jegyezd fel élményeidet.." [disabled]="newExperienceDesabled"
                                         autofocus>{{userCommentFromApi}}</textarea>
-                                    <button *ngIf="isNewExperienceVisible && !editButtonVisible && (this.userCommentFromApi == null)" (click)="updateExperience()" type="button" class="btn btn-secondary" id="saveExperience">Mentés</button>
-                                    <button *ngIf="isNewExperienceVisible && !editButtonVisible && (this.userCommentFromApi == null)" (click)="cancelNewExperience()" type="button" class="btn btn-secondary">Mégsem</button>
+                                    <button
+                                        *ngIf="isNewExperienceVisible && !editButtonVisible && (this.userCommentFromApi == null)"
+                                        (click)="updateExperience()" type="button" class="btn btn-secondary"
+                                        id="saveExperience">Mentés</button>
+                                    <button
+                                        *ngIf="isNewExperienceVisible && !editButtonVisible && (this.userCommentFromApi == null)"
+                                        (click)="cancelNewExperience()" type="button"
+                                        class="btn btn-secondary">Mégsem</button>
                                     <!-- Csak akkor jelenjen meg a módosítás mentése gomb, ha a kis szerkesztés ikonra kattintanak. -->
-                                    <button *ngIf="(this.userCommentFromApi != null) && editButtonVisible" (click)="updateExperience()" type="button" class="btn btn-secondary" id="updateExperienceButton">Módosítás mentése</button>
-                                    <button *ngIf="(this.userCommentFromApi != null) && editButtonVisible" (click)="cancelUpdateExperience()" type="button" class="btn btn-secondary">Mégsem</button>
+                                    <button *ngIf="(this.userCommentFromApi != null) && editButtonVisible"
+                                        (click)="updateExperience()" type="button" class="btn btn-secondary"
+                                        id="updateExperienceButton">Módosítás mentése</button>
+                                    <button *ngIf="(this.userCommentFromApi != null) && editButtonVisible"
+                                        (click)="cancelUpdateExperience()" type="button"
+                                        class="btn btn-secondary">Mégsem</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="part-right">
+                    <div class="part-right -desktop">
                         <div class="time-location">
                             <div class="time-datas">
                                 <div class="dates">
-                                    <div class="start-date">{{event.startDate && event.startDate !== '0000-00-00' ? event.startDate:eventStartDateNull}}</div>
-                                    <span *ngIf="event.endDate && event.endDate !== '0000-00-00'" class="date-separator">-</span>
-                                    <div class="end-date">{{event.endDate && event.endDate !== '0000-00-00' ? event.endDate:eventEndDateNull}}</div>
+                                    <div class="start-date">{{event.startDate && event.startDate !== '0000-00-00' ?
+                                        event.startDate:eventStartDateNull}}</div>
+                                    <span *ngIf="event.endDate && event.endDate !== '0000-00-00'"
+                                        class="date-separator">-</span>
+                                    <div class="end-date">{{event.endDate && event.endDate !== '0000-00-00' ?
+                                        event.endDate:eventEndDateNull}}</div>
                                 </div>
-                                <div class="times">
-                                    <div class="start-time">{{event.startTime && event.startTime !== '00:00' ? event.startTime:eventStartTimeNull}}</div>
+                                <div *ngIf="(event.endTime && event.endTime !== '00:00') && (event.startTime && event.startTime !== '00:00')"
+                                    class="times">
+                                    <div class="start-time">{{event.startTime && event.startTime !== '00:00' ?
+                                        event.startTime:eventStartTimeNull}}</div>
                                     <span *ngIf="event.endTime && event.endTime !== '00:00'">-</span>
-                                    <div class="end-time">{{event.endTime && event.endTime !== '00:00' ? event.endTime:eventEndTimeNull}}</div>
+                                    <div class="end-time">{{event.endTime && event.endTime !== '00:00' ?
+                                        event.endTime:eventEndTimeNull}}</div>
                                 </div>
                             </div>
                             <div class="location-datas">
@@ -390,11 +480,16 @@
                                 <div class="event-state">aktív</div>
                             </div> -->
                             <div class="tag-item-box col-6">
-                                <div *ngIf="detailedEventTags[0]" class="tag-item">{{detailedEventTags[0].tagName}}</div>
-                                <div *ngIf="detailedEventTags[1]"class="tag-item">{{detailedEventTags[1].tagName}}</div>
-                                <div *ngIf="detailedEventTags[2]"class="tag-item">{{detailedEventTags[2].tagName}}</div>
-                                <div *ngIf="detailedEventTags[3]"class="tag-item">{{detailedEventTags[3].tagName}}</div>
-                                <div *ngIf="detailedEventTags[4]"class="tag-item">{{detailedEventTags[4].tagName}}</div>
+                                <div *ngIf="detailedEventTags[0]" class="tag-item">{{detailedEventTags[0].tagName}}
+                                </div>
+                                <div *ngIf="detailedEventTags[1]" class="tag-item">{{detailedEventTags[1].tagName}}
+                                </div>
+                                <div *ngIf="detailedEventTags[2]" class="tag-item">{{detailedEventTags[2].tagName}}
+                                </div>
+                                <div *ngIf="detailedEventTags[3]" class="tag-item">{{detailedEventTags[3].tagName}}
+                                </div>
+                                <div *ngIf="detailedEventTags[4]" class="tag-item">{{detailedEventTags[4].tagName}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -403,59 +498,76 @@
         </div>
         <!-- Hasonló programok -->
         <div class="same-events">
-            <div>
-            <h1>Hasonló programok</h1>
-            </div>
+            <section #similarSection id="similar-programs">
+                <div>
+                    <h1>Hasonló programok</h1>
+                </div>
+            </section>
             <div class="row g10">
-            <!--kártyák-->
-                <div *ngFor="let event of fullDatasRelatedEvents" class="e-item -box col-6 col-md-4 col-lg-3 g10-xl-2">  <!--ide be kell kötni a backendet. Olyan kártyákat kell hozni, amik legalább 3 címkében egyeznek azokkal, amik az adott eseményre vonatkoznak-->
-                    <div  class="card">
+                <!--kártyák-->
+                <div *ngFor="let event of fullDatasRelatedEvents" class="e-item -box col-6 col-md-4 col-lg-3 g10-xl-2">
+                    <div class="card">
                         <a [routerLink]="['/detailed-event/', event.id]" class="card-img-link">
-                        <div class="inner">
-                            <img *ngIf="event.image; else noImage" src={{event.image}} class="card-img-top" alt={{event.name}}>
-                            <ng-template #noImage>
-                            <img src="assets/Pictures/no-image.jpg" class="card-img-top" alt="No Image Available">
-                            </ng-template>
-                        </div>
+                            <div class="inner">
+                                <img *ngIf="event.image; else noImage" src={{event.image}} class="card-img-top"
+                                    alt={{event.name}}>
+                                <ng-template #noImage>
+                                    <img src="assets/Pictures/no-image.jpg" class="card-img-top"
+                                        alt="No Image Available">
+                                </ng-template>
+                            </div>
                         </a>
                         <div class="card-body">
                             <h5 class="card-title">{{event.name}}</h5>
                             <!--EL VANNAK REJTVE AZ ÉRTÉKELÉSHEZ KAPCSOLÓDÓ IKONOK, NE TÖRÖLD!!-->
                             <ul class="list-unstyled list-inline mb-0 visibility-hidden">
                                 <li class="list-inline-item">
-                                <i class="bi bi-star-fill text-warning"></i>    <!--bi-star, bi-star-fill, bi-star-half-->
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <!--bi-star, bi-star-fill, bi-star-half-->
                                 </li>
                                 <li class="list-inline-item">
-                                <i class="bi bi-star-fill text-warning"></i>   <!--a csillagokat aszerint kell "teltté" változtatni, ahogy arányaiban kijön az értékelések alapján. Lényegében az átlag adja-->
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <!--a csillagokat aszerint kell "teltté" változtatni, ahogy arányaiban kijön az értékelések alapján. Lényegében az átlag adja-->
                                 </li>
                                 <li class="list-inline-item">
-                                <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
                                 </li>
                                 <li class="list-inline-item">
-                                <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
                                 </li>
                                 <li class="list-inline-item">
-                                <i class="bi bi-star-half text-warning"></i>
+                                    <i class="bi bi-star-half text-warning"></i>
                                 </li>
                                 <li class="list-inline-item">
-                                <p class="text-muted">4.5 (413)</p>   <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
+                                    <p class="text-muted">4.5 (413)</p>
+                                    <!--itt kell visszaadni az átlagát az értékeléseknek az adott eseményre + hogy hány értékelés érkezett rá-->
                                 </li>
                             </ul>
                             <div class="start-end-date">
-                                <p class="card-text" style="display: inline-block">{{event.startDate && event.startDate !== '0000-00-00' ? event.startDate:eventStartDateNull}}</p>
-                                <span *ngIf="event.endDate && event.endDate !== '0000-00-00'" class="date-separator">-</span>
-                                <p class="card-text" style="display: inline-block">{{event.endDate && event.endDate !== '0000-00-00' ? event.endDate:eventEndDateNull}}</p>	<!--be kell állítani, hogy csak akkor jelenjen meg, ha van adat. Ha nincs dátum adat, akkor valami általános dolgot írjon ki..Pl: Állandó..vagy ilyesmi -->
+                                <p class="card-text" style="display: inline-block">{{event.startDate && event.startDate
+                                    !== '0000-00-00' ? event.startDate:eventStartDateNull}}</p>
+                                <span *ngIf="event.endDate && event.endDate !== '0000-00-00'"
+                                    class="date-separator">-</span>
+                                <p class="card-text" style="display: inline-block">{{event.endDate && event.endDate !==
+                                    '0000-00-00' ? event.endDate:eventEndDateNull}}</p>
+                                <!--be kell állítani, hogy csak akkor jelenjen meg, ha van adat. Ha nincs dátum adat, akkor valami általános dolgot írjon ki..Pl: Állandó..vagy ilyesmi -->
                             </div>
                             <!-- <p class="card-text" style="display: inline-block; padding-left: 3.8rem;">{{event.startTime}}-{{event.endTime}}</p> be kell állítani, hogy csak akkor jelenjen meg, ha van adat-->
-                            <p class="card-text" style="text-align: left; display: inline-block;">{{event.locationName}}</p>
+                            <p class="card-text" style="text-align: left; display: inline-block;">{{event.locationName}}
+                            </p>
                             <!-- <p class="card-text" style="text-align: left; display: inline-block;" ><small class="text-body-secondary">{{event.address}}</small></p> -->
                             <div class="split">
+                                <p class="card-text" style="display: inline-block;" id="description">
+                                    {{event.description}}</p>
                                 <div class="into-bucket-list">
-                                    <p class="card-text" style="display: inline-block;" id="description">{{event.description}}</p>
-                                    <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)" class="btn btn-primary" type="button" title="Feliratkozás az eseményre" id="subscribeEvent">
+                                    <button *ngIf="!isEventSubscribed(event.id)" (click)="subscribeToEvent(event)"
+                                        class="btn btn-primary" type="button" title="Feliratkozás az eseményre"
+                                        id="subscribeEvent">
                                         <i class="bi bi-plus-lg"></i>
                                     </button>
-                                    <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)" class="btn btn-primary" [disabled]="hasUserExperience(event.id)" type="button" title="Leiratkozás az eseményről" id="unsubscribeEvent">
+                                    <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)"
+                                        class="btn btn-primary" [disabled]="hasUserExperience(event.id)" type="button"
+                                        title="Leiratkozás az eseményről" id="unsubscribeEvent">
                                         <i class="bi bi-dash-lg"></i>
                                     </button>
                                 </div>

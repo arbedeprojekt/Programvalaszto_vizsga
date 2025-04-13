@@ -68,21 +68,17 @@
           <div class="pager" id="pager-lapozo-top">
 
             <div
-              *ngIf="(isSearch == false && searchControl.value ==null && tagSearch == false)||(isSearch == false && searchControl.value =='' && tagSearch == false)|| (searchControl.value == '' && isSearch == true && tagSearch == false) ||(isSearch == true && searchControl.value ==null && tagSearch == false) || (isSearch == true && !searchResults && tagSearch == false) || (isSearch == false && !searchResults && tagSearch == false || (isSearch == false && tagSearch == false && commonSearchResults.length == 0)) "
-              class="count" id="pagerCount">{{userEvents.length}} találat</div>
+              *ngIf="(isSearch == false && searchControl.value ==null && tagSearch == false)||(isSearch == false && searchControl.value =='' && tagSearch == false)|| (searchControl.value == '' && isSearch == true && tagSearch == false) ||(isSearch == true && searchControl.value ==null && tagSearch == false) || (isSearch == true && !commonSearchResults && tagSearch == false) || (isSearch == false && !commonSearchResults && tagSearch == false || (isSearch == false && tagSearch == false && commonSearchResults.length == 0)) "
+              class="count -hidden" id="pagerCount">{{userEvents.length}} találat</div>
 
 
-            <div *ngIf="isSearch == true || tagSearch == true" class="count" id="pagerCount">
+            <div *ngIf="isSearch == true || tagSearch == true" class="count -hidden" id="pagerCount">
               {{commonSearchResults.length}} találat</div>
-
-            <!-- A teg alapú szűrés találatszámának megjelenítése -->
-            <div *ngIf="tagSearch == true && isSearch == false" class="count" id="pagerCount">
-              {{searchTagResults.length}} találat</div>
 
 
             <!--itt vissza kell adnia, hogy hány db aktív státuszú eseményt talált az adatbázisban (vagyis hány darabot lehet megnézni az oldalon)-->
           </div>
-          <div class="separator">|</div>
+          <div class="separator -hidden">|</div>
           <div class="pl-sorter">
             <span>Rendezés:</span>
             <div class="select-wrapper">
@@ -141,7 +137,7 @@
                                 </label>
                               </div>
                               <div class="d-flex gap-2">
-                                <button class="btn btn-secondary" (click)="searchOnPress()">Szűrés indítása</button>
+                                <button class="btn btn-secondary" (click)="searchOnPress()">Szűrés</button>
                                 <button class="btn btn-secondary" (click)="clearTagSelections()">Kijelölések
                                   törlése</button>
                               </div>
@@ -213,7 +209,7 @@
                     </label>
                   </div>
                   <div class="d-flex gap-2">
-                    <button class="btn btn-secondary" (click)="searchOnPress()">Szűrés indítása</button>
+                    <button class="btn btn-secondary" (click)="searchOnPress()">Szűrés</button>
                     <button class="btn btn-secondary" (click)="clearTagSelections()">Kijelölések
                       törlése</button>
                   </div>

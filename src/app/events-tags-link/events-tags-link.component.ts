@@ -154,7 +154,7 @@ export class EventsTagsLinkComponent {
       }
     )
   }
-  
+
   //Ez kezeli, hogy a checkboxok kiválasztott tartalma frissüljön
   updateSelectedTags(event: Event, tagId: number) {
     const isChecked = (event.target as HTMLInputElement).checked
@@ -188,8 +188,9 @@ export class EventsTagsLinkComponent {
         } else {
           this.base.show(res.message || "Sikeres összekapcsolás!", "success")
           //this.closeAfterSave = true        //JAVÍTANI KELL
+          this.selectedTags = []
           this.base.getEventsWithTags()
-          
+
         }
       },
       error: (error: any) => {
@@ -209,39 +210,42 @@ export class EventsTagsLinkComponent {
         this.attachedDatas = res
         //console.log("Összekapcsolt adatok jönnek: ", res)
 
-        if(this.attachedDatas) 
-          {
-            this.showWithTag = true
-          } 
-          else {
-            this.showWithTag = false
-          }
-        
+        if (this.attachedDatas) {
+          this.showWithTag = true
+        }
+        else {
+          this.showWithTag = false
+        }
+
         this.getEventsWithoutTag()
       }
     )
   }
 
   deleteTagFromEvent(data: any) {
-    this.base.detachTagFromEvent(data).subscribe(
-      {
-        next: (res: any) => {
-          //console.log("Sikeres törlés: ", res)
-          this.base.show(res.message || "Sikeres törlés!", "success")
-          this.base.getEventsWithTags()
-        },
-        error: (error: any) => {
-          // console.log("Valami hiba történt a törlés során: ", error)
-          this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
+    const confirmDelete = window.confirm('Biztosan törlöd ezt a címkét az eseményről?')
+
+    if (confirmDelete) {
+      this.base.detachTagFromEvent(data).subscribe(
+        {
+          next: (res: any) => {
+            //console.log("Sikeres törlés: ", res)
+            this.base.show(res.message || "Sikeres törlés!", "success")
+            this.base.getEventsWithTags()
+          },
+          error: (error: any) => {
+            // console.log("Valami hiba történt a törlés során: ", error)
+            this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
+          }
         }
-      }
-    )
+      )
+    }
   }
 
   //címke nélküli események listája:
   getEventsWithoutTag() {
-    this.eventsWithoutTags = this.events.filter((event:any) => 
-      !this.attachedDatas.some((taggedEvent:any) => taggedEvent.eventId === event.id)
+    this.eventsWithoutTags = this.events.filter((event: any) =>
+      !this.attachedDatas.some((taggedEvent: any) => taggedEvent.eventId === event.id)
     )
     //console.log("Események címke nélkül: ", this.eventsWithoutTags)
   }

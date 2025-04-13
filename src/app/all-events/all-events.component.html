@@ -1,5 +1,3 @@
-
-
 <!--Beltartalom alap befoglaló-->
 <div class="container p-lg-0">
   <!-- <div class="yahoobar">
@@ -22,17 +20,17 @@
           <div class="pager" id="pager-lapozo-top">
 
 
-              <div
-              *ngIf="(isSearch == false && searchControl.value ==null && tagSearch == false)||(isSearch == false && searchControl.value =='' && tagSearch == false)|| (searchControl.value == '' && isSearch == true && tagSearch == false) ||(isSearch == true && searchControl.value ==null && tagSearch == false) || (isSearch == true && !searchResults && tagSearch == false) || (isSearch == false && !searchResults && tagSearch == false) ||(isSearch == false && tagSearch == false && commonSearchResults.length == 0) "
-              class="count" id="pagerCount">{{events.length}} találat</div>
+            <div
+              *ngIf="(isSearch == false && searchControl.value ==null && tagSearch == false)||(isSearch == false && searchControl.value =='' && tagSearch == false)|| (searchControl.value == '' && isSearch == true && tagSearch == false) ||(isSearch == true && searchControl.value ==null && tagSearch == false) || (isSearch == true && !commonSearchResults && tagSearch == false) || (isSearch == false && !commonSearchResults && tagSearch == false) ||(isSearch == false && tagSearch == false && commonSearchResults.length == 0) "
+              class="count -hidden" id="pagerCount">{{events.length}} találat</div>
             <!-- Szabad szavas keresésnél a találatok száma -->
-            <div *ngIf="isSearch == true || tagSearch == true" class="count" id="pagerCount">
+            <div *ngIf="isSearch == true || tagSearch == true" class="count -hidden" id="pagerCount">
               {{commonSearchResults.length}} találat</div>
 
 
             <!--itt vissza kell adnia, hogy hány db aktív státuszú eseményt talált az adatbázisban (vagyis hány darabot lehet megnézni az oldalon)-->
           </div>
-          <div class="separator">|</div>
+          <div class="separator -hidden">|</div>
           <div class="pl-sorter">
             <span>Rendezés:</span>
             <div class="select-wrapper">
@@ -199,9 +197,7 @@
     <div class="col-12 g10-xl-8 order-2">
       <!--kártyák-->
       <!-- <div class="content-cards" *ngIf="(searchControl.value === '' ||searchControl.value ==null)&& isSearch == false"> -->
-      <div class="content-cards" *ngIf="(tagSearch == false && isSearch == false  ) ">
-
-
+      <div class="content-cards" *ngIf="(tagSearch == false && isSearch == false  )">
         <div class="row g10 events -grid">
           <div *ngFor="let event of paginatedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
             <div class="card">
@@ -258,7 +254,8 @@
                       <i class="bi bi-plus-lg"></i>
                     </button>
                     <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)"
-                      class="btn btn-primary" type="button" [disabled]="hasUserExperience(event.id)" title="Leiratkozás az eseményről" id="unsubscribeEvent">
+                      class="btn btn-primary" type="button" [disabled]="hasUserExperience(event.id)"
+                      title="Leiratkozás az eseményről" id="unsubscribeEvent">
                       <!--*ngIf="isEventSubscribed(event.id)"-->
                       <i class="bi bi-dash-lg"></i>
                     </button>
@@ -353,7 +350,8 @@
       <div
         *ngIf=" (isSearch ==true && commonSearchResults.length == 0 )|| ((isSearch == true && tagSearch ==true) && (commonSearchResults.length == 0))">
         <h4>Nincs találat</h4>
-        <p>Sajnos a megadott feltételek, nem hoztak eredményt. Kérlek, a szabadszavas keresést és a címkékre szűrést ne használt egyszerre.</p>
+        <p>Sajnos a megadott feltételek, nem hoztak eredményt. Kérlek, a szabadszavas keresést és a címkékre szűrést ne
+          használt egyszerre.</p>
       </div>
 
       <!--Navigációs sáv-->

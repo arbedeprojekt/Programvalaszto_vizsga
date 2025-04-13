@@ -1,16 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-//import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
-// import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { BehaviorSubject, concatMap, from, map, Observable, of, Subject, toArray } from 'rxjs';
-// import { ProductsListComponent } from './products-list/products-list.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BaseService {
-
-  //IMGUrl = "http://localhost:3000/galleries/"    //galériához kapcsolódik lásd all-events.component.ts
 
   //Backend elérése
   backendUrl = "http://127.0.0.1:8000/api/"
@@ -61,12 +56,6 @@ export class BaseService {
   }
 
 
-
-
-
-  //lekéri a backendről az adatokat, majd megszűrve betölti az adatSub változóba
-
-
   //lekéri a backendről az adatokat, majd megszűrve betölti az adatSub változóba
   downloadAllUsers() {
     let token = localStorage.getItem("token")
@@ -90,35 +79,7 @@ export class BaseService {
     }
   }
 
-  //lekéri az eseményt id alapján; ezt a részletes oldalhoz használjuk
-  getEventById(id: number) {
-    let token = localStorage.getItem("token")
-    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-
-    return this.http.get(this.backendUrl + "events" + `${id}`, { headers })
-  }
-
   //Userek módosítása
-  // updateUser(data: any) {
-  //   let admin = localStorage.getItem("admin")
-  //   let token = localStorage.getItem("token")
-  //   let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-  //   if (admin === "2") {
-
-  //     this.http.put(this.backendUrl + "updateusers", data, { headers }).subscribe(
-  //       (res: any) => { this.dataUsersSub = res.data }
-
-  //     )
-  //   }
-  //   else if (admin === "1") {
-  //     this.http.put(this.backendUrl + "updateusers", data, { headers }).subscribe(
-  //       (res: any) => {
-  //         this.dataUsersSub = res.data
-  //         alert("Sikeres Módosítás")
-  //       })
-  //   }
-  // }
-
   updateUser(data: any) {
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
@@ -132,12 +93,11 @@ export class BaseService {
   }
 
 
-
   getAllUsers() {
     return this.dataUsersSub
   }
 
-  //---------------------------------------------------
+
   //#region Események kezelése
   //visszatér az adatSub metódussal, ami a backendből kinyert adatokat tartalmazza
   getAll() {
@@ -154,6 +114,14 @@ export class BaseService {
         this.eventsAllSub.next(res)
       }
     )
+  }
+
+  //lekéri az eseményt id alapján; ezt a részletes oldalhoz használjuk
+  getEventById(id: number) {
+    let token = localStorage.getItem("token")
+    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+
+    return this.http.get(this.backendUrl + "events" + `${id}`, { headers })
   }
 
   getAllMyEvents() {
@@ -201,8 +169,6 @@ export class BaseService {
     return this.http.delete(this.backendUrl + `unsubscribe/${data.id}`, { headers })
   }
 
-
-
   //új esemény felvétele
   newDataWeb(data: any) {
     let token = localStorage.getItem("token")
@@ -226,7 +192,7 @@ export class BaseService {
   }
   //#endregion
 
-  //---------------------------------------------------
+
   //#region tegek (címkék) kezelése
   //backend tegek lekérése
   downloadAllTags() {
@@ -266,16 +232,6 @@ export class BaseService {
     return this.http.put(this.backendUrl + "updatetags", data, { headers })
   }
   //#endregion
-
-  searchEvent(data: any) {
-    let header = {
-    }
-    this.http.get(this.backendUrl + "searchevents", data)
-  }
-
-  getDateFromDatePicker(date: any) {
-    this.dateBehaveSub.next(date)
-  }
 
 
   //#region tagek és események összekapcsolása
@@ -330,8 +286,6 @@ export class BaseService {
   }
 
 
-
-
   //#region rendszerüzenetek (toastMessages) kezelése
   private messages = new BehaviorSubject<{ text: string; type: string }[]>([]);
   messages$ = this.messages.asObservable()
@@ -350,6 +304,8 @@ export class BaseService {
     this.messages.next(this.messages.getValue().filter(m => m.text !== message))
   }
 
+
+  //#region felhasználói élménybeszámolók kezelése
   updateUserExperience(data: any) {
     let body = {
       events_id: data.id,
@@ -393,7 +349,8 @@ export class BaseService {
     }
   }
 
-  //DezsŐ:szűrés ábc,dátum szerint
+
+  //#region szűrés ábc,dátum szerint (Dezső)
   toSort(terms: string, events: any) {
     //console.log("events: ",events)
     //console.log("terms: ",terms)
@@ -409,7 +366,7 @@ export class BaseService {
       // console.log("ascByABC")
 
       sortedEventsArray = eventsArray
-      console.log("sortedEventsArray tartalma: " ,sortedEventsArray)
+      console.log("sortedEventsArray tartalma: ", sortedEventsArray)
       sortedEventsArray = sortedEventsArray.sort(
         (a: any, b: any) => {
 
@@ -435,7 +392,7 @@ export class BaseService {
     else if (terms === "descByABC") {
       // console.log("descByABC")
       sortedEventsArray = eventsArray
-      console.log("sortedEventsArray tartalma: " ,sortedEventsArray)
+      console.log("sortedEventsArray tartalma: ", sortedEventsArray)
 
       //console.log("sortedEventsArray:",sortedEventsArray)
       sortedEventsArray = sortedEventsArray.sort(
@@ -464,7 +421,7 @@ export class BaseService {
     else if (terms === "ascByDate") {
       // console.log("ascByDate")
       sortedEventsArray = eventsArray
-      console.log("sortedEventsArray tartalma: " ,sortedEventsArray)
+      console.log("sortedEventsArray tartalma: ", sortedEventsArray)
 
       sortedEventsArray = sortedEventsArray.sort(
         (a: any, b: any) => {
@@ -492,7 +449,7 @@ export class BaseService {
     else if (terms === "descByDate") {
       // console.log("descByDate")
       sortedEventsArray = eventsArray
-      console.log("sortedEventsArray tartalma: " ,sortedEventsArray)
+      console.log("sortedEventsArray tartalma: ", sortedEventsArray)
 
       sortedEventsArray = sortedEventsArray.sort(
         (a: any, b: any) => {
@@ -523,6 +480,7 @@ export class BaseService {
   }
 
 
+  //#region szűrés
   search(query: string): Observable<any> {
     let res: any
     let token = localStorage.getItem("token")
@@ -534,7 +492,7 @@ export class BaseService {
     return this.http.get(`${this.backendUrl}searchevents/?query=${query}`, { headers }).pipe(
       map((response: any) => {
         res = response.data
-        console.log("res",res)
+        console.log("res", res)
         return res
       })
 
@@ -545,8 +503,19 @@ export class BaseService {
     // GET kérés küldése a backendnek
   }
 
+  searchEvent(data: any) {
+    let header = {
+    }
+    this.http.get(this.backendUrl + "searchevents", data)
+  }
+
+  //EZ KELL?? HASZNÁLVA VAN VALAHOL????
+  // getDateFromDatePicker(date: any) {
+  //   this.dateBehaveSub.next(date)
+  // }
+
   //Teg alapú szűrés
-  filterByTag(tagIds: any[]):Observable<any[]> {
+  filterByTag(tagIds: any[]): Observable<any[]> {
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
 

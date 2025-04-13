@@ -92,20 +92,23 @@ export class UsersComponent {
   }
 
   deleteData(data: any) {
-    this.base.deleteUser(data).subscribe(
-      {
-        next: (res: any) => {
-          //console.log("sikeres törlés: ", res)
-          this.base.show(res.message || "Sikeres törlés!", "success")
-          this.base.downloadAllUsers()
-        },
-        error: (error: any) => {
-          //console.log("Valami hiba: ", error)
-          this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
+    const confirmDelete = window.confirm('Biztosan törlöd ezt a felhasználót?')
+
+    if (confirmDelete) {
+      this.base.deleteUser(data).subscribe(
+        {
+          next: (res: any) => {
+            //console.log("sikeres törlés: ", res)
+            this.base.show(res.message || "Sikeres törlés!", "success")
+            this.base.downloadAllUsers()
+          },
+          error: (error: any) => {
+            //console.log("Valami hiba: ", error)
+            this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
+          }
         }
-      }
-    )
-    //console.log("data" + data);
+      )
+    }
   }
 
   editRow(user: any) {

@@ -87,23 +87,26 @@ export class TagsListComponent {
   }
 
   deleteData(data: any) {
-    let body ={
-      id:data.id
-    }
-    this.base.deleteTagWeb(body).subscribe(
-      (res:any)=>{
-        if(res.error) {
-          this.base.show(res.message || "A címke törlése sikertelen!", "danger")
-        }
-        else {
-        //console.log("body tartalma: ",body)
-        //console.log("valami történik: ",res)
-        this.base.show(res.message || "A címke törlése sikeres!", "success")
-        this.base.downloadAllTags()
-        }
-      }
-    )
+    const confirmDelete = window.confirm('Biztosan törlöd ezt a címkét?')
 
+    if (confirmDelete) {
+      let body ={
+        id:data.id
+      }
+      this.base.deleteTagWeb(body).subscribe(
+        (res:any)=>{
+          if(res.error) {
+            this.base.show(res.message || "A címke törlése sikertelen!", "danger")
+          }
+          else {
+          //console.log("body tartalma: ",body)
+          //console.log("valami történik: ",res)
+          this.base.show(res.message || "A címke törlése sikeres!", "success")
+          this.base.downloadAllTags()
+          }
+        }
+      )
+    }
   }
 
   newData() {

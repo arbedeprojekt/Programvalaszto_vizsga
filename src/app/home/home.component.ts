@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   eventDetails=new BehaviorSubject<any>(null)
   //Az eventDetails által megszerzett adatok tárolása, hogy a weboldalon megjelenhessen
   events:any
+  randomEvents: any
   //oszlopok neveinek megjelenítéséhez
   //cols =["name", "description", "locationName", "locationcountry", "address", "gpsLink", "weblink", "startDate", "endDate", "startTime", "endTime"]
 
@@ -48,14 +49,17 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDataFromApi()
-    this.getUserEvents(); // MyEvents betöltése
-    this.getUserExperience()
+    if (this.localStorage.getItem("token") != null) {
+      this.getUserEvents() // MyEvents betöltése
+      this.getUserExperience()
+    }
   }
 
   getDataFromApi(){
     this.base.getAll().subscribe(
       (res:any) => {
         this.events = res.data
+        this.getRandomEvents()
       }
     )
   }
@@ -74,21 +78,13 @@ export class HomeComponent implements OnInit {
   }
 
 
-  //most csak az összes eseményből vesz 8 db-ot, de itt meg kell írni, hogy a legnépszerűbb programokból adja vissza a top8-at
-  get bestEvents() {
-    if (this.events) { // Ellenőrizzük, hogy az events létezik-e
-      return this.events.slice(0, 8); // Az első 8 elemet adjuk vissza
+  // az összes eseményből vesz 12 db-ot, ez csak egy kis bemutató az oldalon megtalálható események közül
+  getRandomEvents() {
+    if (this.events && this.events.length > 0) {
+      const shuffledEvents = [...this.events].sort(() => Math.random() - 0.5) // Új tömb, véletlenszerű sorrend
+      this.randomEvents = shuffledEvents.slice(0, 12)  // Az első 8 random elem
     } else {
-      return []; // Ha nincs adat, akkor egy üres tömböt adunk vissza
-    }
-  }
-
-  //most csak az összes eseményből vesz 4 db-ot, de itt meg kell írni, hogy a legújabb programokból adja vissza a legújabb 4-et
-  get newEvents() {
-    if (this.events) { // Ellenőrizzük, hogy az events létezik-e
-      return this.events.slice(0, 4); // Az első 4 elemet adjuk vissza
-    } else {
-      return []; // Ha nincs adat, akkor egy üres tömböt adunk vissza
+      this.randomEvents = []
     }
   }
 
