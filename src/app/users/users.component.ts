@@ -20,7 +20,7 @@ export class UsersComponent {
 
   // adatok módosításához
   editModeId: number | null = null
-  
+
   //módosításkor fellépő hibaüzenetek elmentése
   errModfyMsg: any
 
@@ -30,12 +30,10 @@ export class UsersComponent {
     // private config:ConfigService,
     private http: HttpClient,
     public localStorage: LocalStorageService) {
-    this.base.dataUsersObs.subscribe(
-      (res:any) => this.users = res
-    )
+
     this.base.downloadAllUsers()
     this.getAllUsers()
-    this.isUserSuperadmin() 
+    this.isUserSuperadmin()
 
   }
 

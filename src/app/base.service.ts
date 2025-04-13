@@ -10,7 +10,7 @@ export class BaseService {
   //Backend elérése
   backendUrl = "http://127.0.0.1:8000/api/"
 
-  token: any
+  // token: any
   // Ebben az objektum típusú változóban tároljuk a downloadAll metódusban megszerzett adatokat
   eventsAllSub = new BehaviorSubject<any>(null)
   myEvents = new BehaviorSubject<any>(null)
@@ -39,7 +39,7 @@ export class BaseService {
 
   // Ebben az objektum típusú változóban tároljuk a downloadAllUsers metódusban megszerzett adatokat
   dataUsersSub = new BehaviorSubject<any>(null)
-  dataUsersObs: Observable<any | null> = this.dataUsersSub.asObservable()
+
 
   //Ebben tároljuk a kommenteket
   myExperiences = new BehaviorSubject<any>(null)
