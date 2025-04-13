@@ -47,7 +47,7 @@ export class TagsListComponent {
     this.base.tagsSub.subscribe(
       (tag: any) => {
         this.tags = tag.data
-        console.log("res a tag componensből: ", tag)
+        //console.log("res a tag componensből: ", tag)
       }
     )
   }
@@ -61,9 +61,9 @@ export class TagsListComponent {
     }
     this.base.updateTagWeb(body).subscribe(
       (res:any)=>{
-        console.log("res az updateDataban: ",res)
+        //console.log("res az updateDataban: ",res)
         if(res.error){
-          console.log("hiba")
+          //console.log("hiba")
           this.erModName = ""
           this.erModGroup = ""
           this.erModName = res.error["name"]
@@ -83,7 +83,7 @@ export class TagsListComponent {
         }
       }
     )
-    console.log("data" + data)
+    //console.log("data" + data)
   }
 
   deleteData(data: any) {
@@ -118,15 +118,15 @@ export class TagsListComponent {
           //this.newTagErrorMessage = ""
 
           if (res.success == true) {
-            console.log("res", res)
-            console.log(res.success)
+            //console.log("res", res)
+            //console.log(res.success)
             //this.newTagErrorBool = res.success
             this.newTagSuccess = true
             this.base.show(res.message || "Sikeres rögzítés!", "success")
             this.base.downloadAllTags()
           }
           else {
-            console.log("res", res)
+            //console.log("res", res)
             this.erName = ""
             this.erGroup = ""
             this.erName = res.error["name"]

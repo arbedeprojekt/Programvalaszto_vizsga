@@ -140,8 +140,10 @@ export class EventsTagsLinkComponent {
   getTags() {
     this.base.tagsSub.subscribe(
       (tag: any) => {
-        this.tags = tag.data
-        //console.log("Jönnek a címkék: ", tag)
+        if (tag) {
+          this.tags = tag.data
+          //console.log("Jönnek a címkék: ", tag)
+        }
       }
     )
   }
@@ -149,8 +151,10 @@ export class EventsTagsLinkComponent {
   getDataFromApi() {
     this.base.getAll().subscribe(
       (res: any) => {
-        this.events = res.data
-        //console.log("Jönnek az események: ", res.data)
+        if(res) {
+          this.events = res.data
+          //console.log("Jönnek az események: ", res.data)
+        }
       }
     )
   }
@@ -207,17 +211,17 @@ export class EventsTagsLinkComponent {
   getEventsTags() {
     this.base.eventsWithTags.subscribe(
       (res: any) => {
-        this.attachedDatas = res
-        //console.log("Összekapcsolt adatok jönnek: ", res)
-
-        if (this.attachedDatas) {
-          this.showWithTag = true
+        if(res) {
+          this.attachedDatas = res
+          //console.log("Összekapcsolt adatok jönnek: ", res)
+          if (this.attachedDatas) {
+            this.showWithTag = true
+          }
+          else {
+            this.showWithTag = false
+          }
+          this.getEventsWithoutTag()
         }
-        else {
-          this.showWithTag = false
-        }
-
-        this.getEventsWithoutTag()
       }
     )
   }

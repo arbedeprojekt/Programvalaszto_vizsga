@@ -17,16 +17,6 @@ export class EventsSubscribedComponent {
 
   @Input() data: any
 
-  //backend elérése
-  backendUrl = "http://127.0.0.1:8000/api/"
-
-  // A táblázat megjelenítéséhez
-  // oszlopok = ["events_id", "comment"]
-  oszlopok = ["image", "name", "description", "startDate", "endDate", "startTime", "endTime", "locationName", "locationcountry", "address", "state", "gpx", "weblink"]
-  //A fejléc magyar megjelenítéséhez
-  columnName = ["Esemény azonosítója", "Kommentek"]
-
-
   subscribedEvents: any
   // cikkekObs: Observable<any | null> = this.cikkek.asObservable()
 
@@ -149,14 +139,14 @@ export class EventsSubscribedComponent {
         //console.log("userEvents", res)
         this.userEvents = res
         this.eventsArray = res
-        console.log("userEvents: ", res)
+        //console.log("userEvents: ", res)
 
         const commonEvents = this.attachedDatas.filter((event: any) =>
           this.userEvents.some((userEvent: any) => userEvent.id === event.eventId)
           
         )
         this.userEventsWithTags = commonEvents
-        console.log("ezek a user címkével kapcsolt eseményei: ", commonEvents)
+        //console.log("ezek a user címkével kapcsolt eseményei: ", commonEvents)
         this.getUserEventsTags()
       })
 
@@ -171,7 +161,7 @@ export class EventsSubscribedComponent {
         const usedTagIds = new Set(this.userEventsWithTags.map((item: any) => item.tagId))
         this.tagsOfEvents = this.tags.filter((tag: any) => usedTagIds.has(tag.id))
 
-        console.log("Szűrt címkék:", this.tagsOfEvents)
+        //console.log("Szűrt címkék:", this.tagsOfEvents)
       })
   }
 
@@ -195,9 +185,9 @@ export class EventsSubscribedComponent {
 
       if (filteredExperiences.length > 0) {
         this.userExperience = filteredExperiences
-        console.log("Ezek a bejegyzézei a felhasználónak: ", this.userExperience)
+        //console.log("Ezek a bejegyzézei a felhasználónak: ", this.userExperience)
       } else {
-        console.log("Nincs bejegyzés a felhasználótól.")
+        //console.log("Nincs bejegyzés a felhasználótól.")
       }
     })
 
@@ -207,9 +197,7 @@ export class EventsSubscribedComponent {
     if (!Array.isArray(this.userExperience)) {
       return false  // Ha myExperiences undefined, akkor hamis
     }
-
     return this.userExperience.some(experience => experience.eventId === eventId)
-
   }
 
   // Oldalszám beállítása
@@ -243,7 +231,7 @@ export class EventsSubscribedComponent {
 
 
   toSort() {
-    if (!this.commonSearchResults || this.commonSearchResults.length == 0) {
+    if (!this.commonSearchResults || this.commonSearchResults.length == 0 || this.selectedTags.length == 0 && this.searchControl.value =="") {
 
       this.base.toSort(this.selectedOption, this.userEvents)
     }
@@ -308,8 +296,6 @@ export class EventsSubscribedComponent {
 
           this.base.toSort(this.selectedOption, this.commonSearchResults)
 
-          //console.log("commonSearchResults a teges keresésben: ", this.commonSearchResults)
-
           // Offcanvas bezárása
           this.closeOffcanvas()
         }
@@ -322,10 +308,6 @@ export class EventsSubscribedComponent {
       this.isSearch = false
       this.commonSearchResults = []
     }
-
-    //console.log("isSearch = ", this.isSearch)
-    //console.log("tagSearch = ", this.tagSearch)
-    //console.log("commonSearchResults: ", this.commonSearchResults)
   }
 
 
@@ -389,7 +371,7 @@ export class EventsSubscribedComponent {
       if (!isChecked) {
         let indexOftag = this.selectedTags.indexOf(tag)
         if (indexOftag !== -1) {
-          this.selectedTags.splice(indexOftag, 1)
+          this.selectedTags.splice(indexOftag, 1);
         }
       }
     }
@@ -398,7 +380,8 @@ export class EventsSubscribedComponent {
   //gombnyomásra eltűnteti a felhaszáló a kijelölt tegeket
   clearTagSelections() {
     if (this.selectedTags.length == 0) {
-      console.log("nincs kejlölt teg")
+      //console.log("nincs kejlölt teg")
+      this.tagSearch = false
       return this.searchOnPress()
     }
     else {
@@ -413,11 +396,10 @@ export class EventsSubscribedComponent {
 
   }
 
-  //dezső: Csak a felíratkozott esmények megjelenítése, amikor a felhasználó a szabadszavas vagy teg keresést végzi
   showSubscribedEventsAfterSearch(searchedEvents: any) {
     let income = new Set(searchedEvents.map((event: any) => event.id))
     let res = this.userEvents.filter((event: any) => income.has(event.id))
-    console.log("showSubscribedEventsAfterSearch", res)
+    //console.log("showSubscribedEventsAfterSearch", res)
     return res
   }
 

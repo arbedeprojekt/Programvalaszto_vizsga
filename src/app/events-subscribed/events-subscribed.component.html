@@ -55,11 +55,17 @@
     </div>
   </div> -->
   <!--Beltartalom befoglaló-->
-  <div class="none-subscription" *ngIf="userEvents.length===0">Nincsenek Feliratkozásaid.</div>
-  <div *ngIf="userEvents.length !=0" class="row g10">
-    <div>
-      <h1>Feliratkozott programjaid</h1>
+  <div>
+    <h1>Feliratkozott programjaid</h1>
+  </div>
+  <div class="none-subscription" *ngIf="userEvents.length === 0">
+    <div class="none-subscription-inner">
+      <h4>Nincsenek feliratkozásaid</h4>
+      <p>Böngéssz az események között, kattints a feliratkozás gombra, és nézd meg bármikor feliratkozott eseményeidet az itt megjelenő listában.</p>
+      <p>Jó böngészést!</p>
     </div>
+  </div>
+  <div *ngIf="userEvents.length != 0" class="row g10">
     <!--kártyák feletti sáv-->
     <div class="pg-top">
       <div class="pg-2 order-1"></div>
@@ -70,11 +76,8 @@
             <div
               *ngIf="(isSearch == false && searchControl.value ==null && tagSearch == false)||(isSearch == false && searchControl.value =='' && tagSearch == false)|| (searchControl.value == '' && isSearch == true && tagSearch == false) ||(isSearch == true && searchControl.value ==null && tagSearch == false) || (isSearch == true && !commonSearchResults && tagSearch == false) || (isSearch == false && !commonSearchResults && tagSearch == false || (isSearch == false && tagSearch == false && commonSearchResults.length == 0)) "
               class="count -hidden" id="pagerCount">{{userEvents.length}} találat</div>
-
-
-            <div *ngIf="isSearch == true || tagSearch == true" class="count -hidden" id="pagerCount">
-              {{commonSearchResults.length}} találat</div>
-
+              <div *ngIf="isSearch == true || tagSearch == true" class="count -hidden" id="pagerCount">
+                {{commonSearchResults.length}} találat</div>
 
             <!--itt vissza kell adnia, hogy hány db aktív státuszú eseményt talált az adatbázisban (vagyis hány darabot lehet megnézni az oldalon)-->
           </div>
@@ -96,7 +99,7 @@
                 <option value="descByABC">ABC szerint csökkenő</option>
                 <option value="ascByDate">Dátum szerint növekvő</option>
                 <option value="descByDate">Dátum szerint csökkenő</option>
-                <option value="">Népszerűség</option>
+                <!-- <option value="">Népszerűség</option> -->
                 <!--ha marad időnk, lehetne egy népszerűség szerint növekvő is: a legtöbb felhasználó által feliratkozott; aktív státuszú események;-->
 
               </select>

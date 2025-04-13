@@ -42,8 +42,10 @@ export class UsersComponent {
   getAllUsers() {
     this.base.dataUsersSub.subscribe(
       (user: any) => {
-        //console.log("res a users-ben:", res)
-        this.users = user.data
+          if(user) {
+          //console.log("res a users-ben:", res)
+          this.users = user.data
+        }
       }
     )
   }
@@ -62,10 +64,10 @@ export class UsersComponent {
         {
           next:(res:any)=>{
             if(res.success == false){
-              console.log("hibaüzenetek: ",res.error)
+              //console.log("hibaüzenetek: ",res.error)
               this.base.show(res.message || "A módosítás sikertelen!", "danger")
             }
-            console.log("Sikeres módosítás", res)
+            //console.log("Sikeres módosítás", res)
             this.base.show(res.message || "Sikeres módosítás!", "success")
             this.editModeId = null
             this.base.downloadAllUsers()
@@ -76,7 +78,7 @@ export class UsersComponent {
           }
         }
       )
-      console.log("data" + data);
+      //console.log("data" + data);
     }
   }
 
@@ -88,7 +90,7 @@ export class UsersComponent {
       this.selectDisabled = true
 
     }
-    console.log("isUserSuperadmin lefutott!!")
+    //console.log("isUserSuperadmin lefutott!!")
   }
 
   deleteData(data: any) {

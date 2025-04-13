@@ -111,7 +111,7 @@ export class DetailedEventComponent {
   ngAfterViewInit(): void {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        console.log(entry)
+        //console.log(entry)
         this.hideNavbar = entry.isIntersecting;
       });
     }, { threshold: 0.1 });
@@ -308,9 +308,9 @@ export class DetailedEventComponent {
 
       if (filteredExperiences.length > 0) {
         this.userAllExperience = filteredExperiences
-        console.log("Ezek a bejegyzézei a felhasználónak: ", this.userAllExperience)
+        //console.log("Ezek a bejegyzézei a felhasználónak: ", this.userAllExperience)
       } else {
-        console.log("Nincs bejegyzés a felhasználótól.")
+        //console.log("Nincs bejegyzés a felhasználótól.")
       }
     })
   }
@@ -429,7 +429,7 @@ export class DetailedEventComponent {
 
         if (eventTags) {
           this.detailedEventTags = eventTags
-          console.log("Ezek az ehhez az eseményhez kapcsolt címkék: ", this.detailedEventTags)
+          //console.log("Ezek az ehhez az eseményhez kapcsolt címkék: ", this.detailedEventTags)
         }
         else {
           //console.log("Nincs még esemény-címke kapcsolat!")
@@ -445,7 +445,7 @@ export class DetailedEventComponent {
           this.sameEventTags = sameTags
           this.sameEventTagsWithoutDuplication()
           this.mapRelatedEventDetails()
-          console.log("Ezek a hasonló címkék: ", this.sameEventTags)
+          //console.log("Ezek a hasonló címkék: ", this.sameEventTags)
         } else {
           this.sameEventTags = []
         }
@@ -470,7 +470,7 @@ export class DetailedEventComponent {
         seen.add(tag.eventId)
         return true
       })
-    console.log("Kapcsolódó események (duplikáció nélkül, kizárva az aktuálisat):", this.relatedEventsByTags)
+    //console.log("Kapcsolódó események (duplikáció nélkül, kizárva az aktuálisat):", this.relatedEventsByTags)
   }
 
 
@@ -486,7 +486,7 @@ export class DetailedEventComponent {
       relatedIds.has(event.id)
     )
 
-    console.log("Kapcsolódó események teljes adatokkal:", this.fullDatasRelatedEvents)
+    //console.log("Kapcsolódó események teljes adatokkal:", this.fullDatasRelatedEvents)
   }
 
 

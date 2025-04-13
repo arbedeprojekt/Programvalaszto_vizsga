@@ -19,13 +19,13 @@ import { Offcanvas } from 'bootstrap';
 // }
 export class AllEventsComponent {
 
-  // allEventUrl = "http://localhost:3000/esemenyek/";
 
-  eventDetails = new BehaviorSubject<any>(null)
 
-  clickedEventDetails: any = {}
+
+
+
   events: any[] = []
-  galleries: any
+
 
   //oldal lapozóhoz kapcsolódik
   currentPage = 1;
@@ -35,9 +35,8 @@ export class AllEventsComponent {
   eventStartDateNull = "Állandó"
   eventEndDateNull = ""
 
-  //user tárolása
-  user: any
-  dataFromApi: any
+
+
 
   //Az ábc sorrend megvalósításához
   selectedOption = "ascByABC"
@@ -102,11 +101,12 @@ export class AllEventsComponent {
   getDataFromApi() {
     this.base.eventsAllSub.subscribe(
       (res: any) => {
-        //console.log("res a getDataFromApi-ból: ", res)
-        this.events = res.data
-        this.eventsArray = res.data
-        this.sortedEventsArray = this.eventsArray
-
+        if (res) {
+          //console.log("res a getDataFromApi-ból: ", res)
+          this.events = res.data
+          this.eventsArray = res.data
+          this.sortedEventsArray = this.eventsArray
+        }
       }
     )
   }
@@ -138,21 +138,19 @@ export class AllEventsComponent {
     const start = (this.currentPage - 1) * this.itemsPerPage
     const end = start + this.itemsPerPage
 
-    console.log("szűrt lista: ", this.commonSearchResults)
+    //console.log("szűrt lista: ", this.commonSearchResults)
     return this.commonSearchResults.slice(start, end)
   }
 
 
   toSort() {
 
-    if (!this.commonSearchResults || this.commonSearchResults.length == 0) {
-
+    if (!this.commonSearchResults || this.commonSearchResults.length == 0 || this.selectedTags.length == 0 && this.searchControl.value =='') {
       this.base.toSort(this.selectedOption, this.eventsArray)
     }
     else {
       this.base.toSort(this.selectedOption, this.commonSearchResults)
     }
-
   }
 
   getEventsTags() {
@@ -160,15 +158,18 @@ export class AllEventsComponent {
     combineLatest([
       this.base.tagsSub,
       this.base.eventsWithTags]).subscribe(([tagsRes, eventsRes]) => {
+
+        if (tagsRes?.data?.length != null && !eventsRes?.length != null) {
         this.tags = tagsRes.data
-        this.attachedDatas = eventsRes
-        console.log("címkék: ", tagsRes.data)
-        console.log("kapcsolt címkék: ", eventsRes)
+          this.attachedDatas = eventsRes
+          //console.log("címkék: ", tagsRes.data)
+          //console.log("kapcsolt címkék: ", eventsRes)
 
-        const usedTagIds = new Set(this.attachedDatas.map((item: any) => item.tagId))
-        this.tagsOfEvents = this.tags.filter((tag: any) => usedTagIds.has(tag.id))
+          const usedTagIds = new Set(this.attachedDatas.map((item: any) => item.tagId))
+          this.tagsOfEvents = this.tags.filter((tag: any) => usedTagIds.has(tag.id))
 
-        console.log("Szűrt címkék:", this.tagsOfEvents)
+          //console.log("Szűrt címkék:", this.tagsOfEvents)
+        }
       })
   }
 
@@ -226,6 +227,12 @@ export class AllEventsComponent {
     }
 
     // Ha nincs keresés és nincs tag szűrés
+    // else if (this.selectedTags.length == 0 && !this.searchControl.value) {
+    //   this.tagSearch = false
+    //   this.isSearch = false
+    //   this.commonSearchResults = []
+    // }
+
     else if (this.selectedTags.length == 0 && !this.searchControl.value) {
       this.tagSearch = false
       this.isSearch = false
@@ -292,16 +299,18 @@ export class AllEventsComponent {
     if (this.selectedTags.length == 0) {
       //console.log("nincs kejlölt teg")
       this.tagSearch = false
-      return
+      return this.searchOnPress()
     }
     else {
       this.selectedTags = [] // Kijelölt címkék listáját töröljük
-      const checkboxes = document.querySelectorAll('.form-check-input')
+      const checkboxes = document.querySelectorAll('.form-check-input');
       checkboxes.forEach((checkbox: any) => {
         checkbox.checked = false// A DOM-ban is frissítjük
       })
       this.searchOnPress() // Frissítjük a keresést
     }
+    this.closeOffcanvas()
+
   }
 
 
@@ -328,7 +337,7 @@ export class AllEventsComponent {
         next: (res: any) => {
           // console.log("új esemény felvétele: ",res)
           if (res.success == false) {
-            console.log("hibaüzenetek: ", res.error)
+            //console.log("hibaüzenetek: ", res.error)
             this.base.show(res.message || "Hiba történt!", "danger")
           }
           //ahoz hogy az oldal újrafrissüljön.
@@ -345,7 +354,7 @@ export class AllEventsComponent {
           }
         },
         error: (error: any) => {
-          console.log("Valami hiba történt az új esemény felvétele során: ", error)
+          //console.log("Valami hiba történt az új esemény felvétele során: ", error)
           this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       }
@@ -403,13 +412,15 @@ export class AllEventsComponent {
 
   getUserExperience() {
     this.base.myExperiences.subscribe((res: any) => {
-      const filteredExperiences = res.filter((experience: any) => experience.comment !== null)
+      if(res) {
+        const filteredExperiences = res.filter((experience: any) => experience.comment !== null)
 
-      if (filteredExperiences.length > 0) {
-        this.userExperience = filteredExperiences
-        console.log("Ezek a bejegyzézei a felhasználónak: ", this.userExperience)
-      } else {
-        console.log("Nincs bejegyzés a felhasználótól.")
+        if (filteredExperiences.length > 0) {
+          this.userExperience = filteredExperiences
+          //console.log("Ezek a bejegyzézei a felhasználónak: ", this.userExperience)
+        } else {
+          //console.log("Nincs bejegyzés a felhasználótól.")
+        }
       }
     })
 

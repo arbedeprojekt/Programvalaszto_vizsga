@@ -50,8 +50,7 @@ export class BaseService {
     this.downloadAll()
 
     //userek lekérése
-    this.downloadAllUsers()
-    //this.refData=db.list("adatok")
+    //this.downloadAllUsers()       BEA: ezt kikommenteltem, így már nem dob a console hibaüzenetet. Az volt a baj, hogy ezt mindig lehúzta minden egyes oldal betöltésnél.
 
   }
 
@@ -60,22 +59,15 @@ export class BaseService {
   downloadAllUsers() {
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-    if (token != null) {
+    if (token) {
       this.http.get(this.backendUrl + "getusers", { headers }).subscribe(
         (res: any) => {
           this.dataUsersSub.next(res)
         }
-
       )
     }
-    // this.http.get(this.backendUrl + "getusers", { headers }).subscribe(
-    //   (res: any) => {
-    //     this.dataUsersSub.next(res)
-    //   }
-
-    // )
     else {
-      console.log("Nincs senki se bejelentkezve!")
+      //console.log("Nincs senki se bejelentkezve!")
     }
   }
 
@@ -350,9 +342,9 @@ export class BaseService {
   }
 
 
-  //#region szűrés ábc,dátum szerint (Dezső)
+  //#region rendezés ábc,dátum szerint (Dezső)
   toSort(terms: string, events: any) {
-    //console.log("events: ",events)
+    //console.log("bemenetkor az events: ",events)
     //console.log("terms: ",terms)
 
     // let sortedEventsArray = []
@@ -363,10 +355,10 @@ export class BaseService {
 
 
     if (terms === "ascByABC") {
-      // console.log("ascByABC")
+      //console.log("ascByABC")
 
       sortedEventsArray = eventsArray
-      console.log("sortedEventsArray tartalma: ", sortedEventsArray)
+      //console.log("sortedEventsArray tartalma: ", sortedEventsArray)
       sortedEventsArray = sortedEventsArray.sort(
         (a: any, b: any) => {
 
@@ -376,23 +368,12 @@ export class BaseService {
         }
       )
 
-      //a keresett tartalmak szűréséhez
-      // if (this.isSearch == true) {
-      //   this.searchResults = this.searchResults.sort(
-      //     (a: any, b: any) => {
-
-      // console.log("a értéke: ", a)
-      // console.log("b értéke: ", b)
-      //       return a.name.localeCompare(b.name)
-      //     }
-      //   )
-      // }
     }
 
     else if (terms === "descByABC") {
-      // console.log("descByABC")
+      //console.log("descByABC")
       sortedEventsArray = eventsArray
-      console.log("sortedEventsArray tartalma: ", sortedEventsArray)
+      //console.log("sortedEventsArray tartalma: ", sortedEventsArray)
 
       //console.log("sortedEventsArray:",sortedEventsArray)
       sortedEventsArray = sortedEventsArray.sort(
@@ -404,24 +385,12 @@ export class BaseService {
         }
       )
 
-      //a keresett tartalmak szűréséhez
-
-      // if (this.isSearch == true) {
-      //   this.searchResults = this.searchResults.sort(
-      //     (a: any, b: any) => {
-
-      // console.log("a értéke: ", a)
-      // console.log("b értéke: ", b)
-      //       return b.name.localeCompare(a.name)
-      //     }
-      //   )
-      // }
     }
 
     else if (terms === "ascByDate") {
-      // console.log("ascByDate")
+      //console.log("ascByDate")
       sortedEventsArray = eventsArray
-      console.log("sortedEventsArray tartalma: ", sortedEventsArray)
+      //console.log("sortedEventsArray tartalma: ", sortedEventsArray)
 
       sortedEventsArray = sortedEventsArray.sort(
         (a: any, b: any) => {
@@ -432,24 +401,12 @@ export class BaseService {
         }
       )
 
-      //a keresett tartalmak szűréséhez
-
-      // if (this.isSearch == true) {
-      //   this.searchResults = this.searchResults.sort(
-      //     (a: any, b: any) => {
-
-      // console.log("a értéke: ", a)
-      // console.log("b értéke: ", b)
-      //       return new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
-      //     }
-      //   )
-      // }
     }
 
     else if (terms === "descByDate") {
-      // console.log("descByDate")
+      //console.log("descByDate")
       sortedEventsArray = eventsArray
-      console.log("sortedEventsArray tartalma: ", sortedEventsArray)
+      //console.log("sortedEventsArray tartalma: ", sortedEventsArray)
 
       sortedEventsArray = sortedEventsArray.sort(
         (a: any, b: any) => {
@@ -457,26 +414,9 @@ export class BaseService {
           return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
         }
       )
-
-      //a keresett tartalmak szűréséhez
-
-      // if (this.isSearch == true) {
-      //   this.searchResults = this.searchResults.sort(
-      //     (a: any, b: any) => {
-
-      // console.log("a értéke: ", a)
-      // console.log("b értéke: ", b)
-      //       return new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
-      //     }
-      //   )
-      // }
-
     }
 
-    // console.log("szortírozás után : ", sortedEventsArray)
-    // if (this.searchControl.value === '') {
-    //   this.searchResults = []
-    // }
+
   }
 
 
@@ -492,7 +432,7 @@ export class BaseService {
     return this.http.get(`${this.backendUrl}searchevents/?query=${query}`, { headers }).pipe(
       map((response: any) => {
         res = response.data
-        console.log("res", res)
+        //console.log("res", res)
         return res
       })
 

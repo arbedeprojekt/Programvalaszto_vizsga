@@ -15,8 +15,8 @@ export class UserSettingsComponent {
   tags: any
 
   //Jelszó láthatósága
-  szem=false
-  tomb=['password','text']
+  eyeIconToShowPassword=false
+  toSwitchPasswordInputTypeDynamic=['password','text']
 
   user: any
 
@@ -36,7 +36,7 @@ export class UserSettingsComponent {
   }
 
   visiblePassword(){
-    return this.tomb[Number(this.szem)]
+    return this.toSwitchPasswordInputTypeDynamic[Number(this.eyeIconToShowPassword)]
   }
 
   updatePasswordChanges() {

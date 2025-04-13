@@ -15,7 +15,7 @@ import { UserSettingsComponent } from './user-settings/user-settings.component';
 
 const routes: Routes = [
   {path:"home",component:HomeComponent},
-  {path:"",component:HomeComponent},        //azért kommenteltem ki ideiglenesen, mert a lapozó valamiért hibát dob és emiatt nem lehet megtalálni (Bea)
+  //{path:"",component:HomeComponent},        //azért kommenteltem ki ideiglenesen, mert a lapozó valamiért hibát dob és emiatt nem lehet megtalálni (Bea)
   {path:"login",component:LoginComponent},
   {path:"registration",component:RegistrationComponent},
   {path:"all-events",component:AllEventsComponent, canActivate: [AuthGuard] },

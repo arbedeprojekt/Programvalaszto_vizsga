@@ -11,6 +11,7 @@ import { BaseService } from './base.service';
 export class AuthService {
   private userSub = new BehaviorSubject<any>(null)
 
+
   //Backend elérése
   backendUrl = "http://127.0.0.1:8000/api/"
 
@@ -18,14 +19,10 @@ export class AuthService {
   //Ezt a Regisztrációnál fellépő hibák tárolására használom
   saveBackendMessage = new BehaviorSubject<any>(null)
   //A felhasználó bejelentkezésénél használom
-  public saveUserNameBehaveSub = new BehaviorSubject<any>(null)
-  public saveUserTokenBehaveSub = new BehaviorSubject<any>(null)
-  public saveUserAdminBehaveSub = new BehaviorSubject<any>(null)
+  
 
-  // public userName: Observable<any | null> = this.saveUserNameBehaveSub.asObservable()
-  // public userToken: Observable<any | null> = this.saveUserTokenBehaveSub.asObservable()
-  // public userAdminAccessCode: Observable<any | null> = this.saveUserAdminBehaveSub.asObservable()
-  saveLoginData = new BehaviorSubject<any>(null)
+  
+  // saveLoginData = new BehaviorSubject<any>(null)
 
   //#region rendszerüzenetek (toastMessages) kezelése
   private messages = new BehaviorSubject<{ text: string; type: string }[]>([])
@@ -34,7 +31,19 @@ export class AuthService {
   private token: any
 
   constructor(private router: Router, private http: HttpClient, private base: BaseService,
-    private localStorage: LocalStorageService) { }
+    private localStorage: LocalStorageService) {
+      //dezső: ellenőrzöm, hogy valaki belépett e már.
+      if(this.localStorage.getItem("token") != null) {
+        //dezső: Azért csinálom, mert ha a felhasználó újratölti az oldalt, akkor a localstorage-ból ki tudom olvasni a felhasználó nevét és token-jét.
+        this.setLoggedUser(
+          {
+            name: this.localStorage.getItem("user"),
+            token: this.localStorage.getItem("token"),
+            admin:this.localStorage.getItem("admin"),
+          }
+        )
+      }
+     }
 
 
   //#region rendszerüzenetek (toastMessages) kezelése
@@ -62,20 +71,14 @@ export class AuthService {
     this.userSub.next(user)
   }
 
-  // getUsers() {
-
-  //   const headers = new HttpHeaders().set("Authorization", this.token)
-  //   return this.http.get(this.base.backendUrl + "users", { headers })
-  // }
+  
 
   getUsers() {
     const token = this.localStorage.getItem("token") // Mindig a localStorage-ből vesszük ki
-
     if (!token) {
-      console.warn("Token nem található!")
+      //console.warn("Token nem található!")
       return
     }
-
     const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
     return this.http.get(this.backendUrl + "users", { headers })
   }
@@ -129,17 +132,9 @@ export class AuthService {
     return this.http.post(this.backendUrl + "login", body)
   }
 
-  getUserNameToDisplay() {
-    this.saveUserNameBehaveSub.next(this.localStorage.getItem("user"))
-  }
+ 
 
-  getUserToken() {
-    this.saveUserTokenBehaveSub.next(this.localStorage.getItem("token"))
-  }
-
-  getUserAdminAccessCode() {
-    this.saveUserAdminBehaveSub.next(this.localStorage.getItem("admin"))
-  }
+  
 
   //elfeledtetem a felhasználó nevét és törlöm a localstorage-ból is.
   logoutUserFromLaravel() {
@@ -162,10 +157,6 @@ export class AuthService {
       }
 
     )
-    this.saveUserNameBehaveSub.next(null)
-    this.saveUserAdminBehaveSub.next(null)
-    this.saveUserTokenBehaveSub.next(null)
-
     this.userSub.next(null)
 
     this.localStorage.clear()

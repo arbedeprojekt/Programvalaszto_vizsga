@@ -21,9 +21,9 @@ export class RegistrationComponent {
   erName: any
   erPassword: any
 
-  //A jelszónál a password-nél a betűk megjelenítéséhez
-  tomb = ['password', 'text']
-  szem = false
+  //Dezső: ez a változó ahhoz kell, hogy a mezőnél lévő szem ikonra kattintva a jelszó látható legyen
+  toSwitchPasswordInputTypeDynamic = ['password', 'text']
+  eyeIconToShowPassword = false
 
   constructor(private auth:AuthService, private router:Router){}
 
@@ -37,13 +37,13 @@ export class RegistrationComponent {
   userRegistration() {
 
     this.auth.registrationUserOnlaravel(this.name, this.email, this.password, this.confirmPassword)
-    
+
     this.auth.saveBackendMessage.subscribe(
       {
         next: (res: any) => {
           // console.log("új esemény felvétele: ",res)
           if (res.error) {
-            console.log("hibaüzenetek: ", res.error)
+            //console.log("hibaüzenetek: ", res.error)
             this.erEmail = ""
             this.erName = ""
             this.erPassword = ""
@@ -65,7 +65,7 @@ export class RegistrationComponent {
           }
         },
         error: (error: any) => {
-          console.log("Valami hiba történt az új esemény felvétele során: ",error)
+          //console.log("Valami hiba történt az új esemény felvétele során: ",error)
           this.auth.showToast("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       }
@@ -73,7 +73,7 @@ export class RegistrationComponent {
   }
 
   visiblePassword() {
-    return this.tomb[Number(this.szem)]
+    return this.toSwitchPasswordInputTypeDynamic[Number(this.eyeIconToShowPassword)]
   }
 
 }

@@ -16,8 +16,9 @@ export class LoginComponent {
 
   mailRegError = false
   mailRegText = ""
-  szem = false
-  tomb = ['password', 'text']
+  //Dezső: ez a változó ahhoz kell, hogy a mezőnél lévő szem ikonra kattintva a jelszó látható legyen
+  eyeIconToShowPassword = false
+  toSwitchPasswordInputTypeDynamic = ['password', 'text']
 
   //hogyha bepróbál jelentkezni, de nem tudja pontosan a saját felhasználónevét vagy jelszavát
   errorNameMessage: any
@@ -29,14 +30,7 @@ export class LoginComponent {
   unknownErrorMessageBool = false
   //visszajelez, ha hibás a login
   loginError = false
-  //bejelentkezés után token
-  token: any
-  loginName: any
-  //bejelentkezés utáni név elmentése
-  nameAfterLogin: any
-
-  //bejelentkezés utáni jogosultság elmentése (0-nem admin, 1-admin, 2-superadmin)
-  adminAccessCode: any
+ 
 
   //setVisible-höz tartozik
   noPermission = true;
@@ -44,7 +38,7 @@ export class LoginComponent {
   constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute, private localStorage: LocalStorageService) { }
 
   visiblePassword() {
-    return this.tomb[Number(this.szem)]
+    return this.toSwitchPasswordInputTypeDynamic[Number(this.eyeIconToShowPassword)]
   }
 
   isNotValidSignUp() {
@@ -64,19 +58,15 @@ export class LoginComponent {
               this.errorNameMessage = ""
               this.errorPasswordMessage = ""
               this.mailRegError = false
-              this.token = res.data.token
-              this.adminAccessCode = res.data.admin
-              this.nameAfterLogin = res.data.name
-              this.localStorage.setItem("token", this.token)
-              this.localStorage.setItem("user", this.nameAfterLogin)
-              this.localStorage.setItem("admin", this.adminAccessCode)
-              //this.localStorage.setItem("userID",res.data.id)
-              this.auth.saveLoginData = res.data
+              
+              this.localStorage.setItem("token", res.data.token)
+              this.localStorage.setItem("user", res.data.name)
+              this.localStorage.setItem("admin", res.data.admin)
+              
+              
               // console.log(this.auth.saveLoginData)
 
-              //a név megjelenítéséhez...
-              this.auth.getUserNameToDisplay()
-              this.auth.getUserToken()
+              
               this.unknownErrorMessageBool = false
 
               // Ellenőrizzük, hogy van-e returnUrl
@@ -99,7 +89,7 @@ export class LoginComponent {
             this.errorNameMessage = res.error['name']
             this.errorPasswordMessage = res.error['password']
             this.unknownErrorMessageBool = false
-            console.log("hiba", res.data)
+            //console.log("hiba", res.data)
           }
         },
         // console.log("Token: " ,this.token)},
@@ -107,7 +97,7 @@ export class LoginComponent {
           this.loginError = false
 
           const status = res.status;
-        
+
           if (status === 404) {
             this.auth.showToast("A megadott felhasználónévvel regisztráció nem található", "danger")
           } else if (status === 401) {

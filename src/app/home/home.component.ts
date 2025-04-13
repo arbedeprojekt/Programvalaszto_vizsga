@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   // allEventUrl="http://localhost:3000/esemenyek/"
 
   //A fake Api adatainak tárolása
-  eventDetails=new BehaviorSubject<any>(null)
+  eventDetails = new BehaviorSubject<any>(null)
   //Az eventDetails által megszerzett adatok tárolása, hogy a weboldalon megjelenhessen
   events:any
   randomEvents: any
@@ -37,13 +37,15 @@ export class HomeComponent implements OnInit {
   //Az adatbázisban lévő komment
   userExperience: any
 
-  constructor(private http:HttpClient, private base:BaseService, public auth:AuthService, private localStorage: LocalStorageService, private router: Router, private route: ActivatedRoute) {
-    this.base.getAllMyEvents()
+  constructor(private http: HttpClient, private base: BaseService, public auth: AuthService, private localStorage: LocalStorageService, private router: Router, private route: ActivatedRoute) {
     this.auth.getLoggedUser().subscribe(
       (user) => {
-        this.user = user})
-
-    this.base.getMyExperience()
+        this.user = user
+        //console.log("usersub tartalma", user)
+      })
+      this.base.getAllMyEvents()
+      this.base.getMyExperience()
+    // this.base.getMyExperience()
 
   }
 
@@ -55,9 +57,19 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  getDataFromApi(){
+  getDataFromApi() {
+    // this.base.getAll().subscribe(
+    //   (res: any) => {
+    //     this.events = res.data
+    //   }
+    // )
+
     this.base.getAll().subscribe(
-      (res:any) => {
+      (res: any) => {
+        if(res == null) {
+          //console.log("Nincs elérhető esemény.")
+          return 
+        }
         this.events = res.data
         this.getRandomEvents()
       }
@@ -89,7 +101,7 @@ export class HomeComponent implements OnInit {
   }
 
   //feliratkozás adott eseményre
-  subscribeToEvent(event:any){
+  subscribeToEvent(event: any) {
     this.base.subscribeEvent(event).subscribe(
       {
         next: (res: any) => {
@@ -119,7 +131,7 @@ export class HomeComponent implements OnInit {
   }
 
   //leiratkozás adott eseményről
-  unsubscribeFromEvent(data:any){
+  unsubscribeFromEvent(data: any) {
     this.base.unsubscribeEvent(data).subscribe(
       {
         next: (res: any) => {
@@ -149,7 +161,7 @@ export class HomeComponent implements OnInit {
       (res: any) => {
         //console.log("userEvents", res)       
         this.userEvents = res
-    })
+      })
   }
 
   isEventSubscribed(eventId: number): boolean {
@@ -167,13 +179,15 @@ export class HomeComponent implements OnInit {
 
   getUserExperience() {
     this.base.myExperiences.subscribe((res: any) => {
-      const filteredExperiences = res.filter((experience: any) => experience.comment !== null)
+      if(res){
+        const filteredExperiences = res.filter((experience: any) => experience.comment !== null)
 
-      if (filteredExperiences.length > 0) {
-        this.userExperience = filteredExperiences
-        console.log("Ezek a bejegyzézei a felhasználónak: ", this.userExperience)
-      } else {
-        console.log("Nincs bejegyzés a felhasználótól.")
+        if (filteredExperiences.length > 0) {
+          this.userExperience = filteredExperiences
+          //console.log("Ezek a bejegyzézei a felhasználónak: ", this.userExperience)
+        } else {
+          //console.log("Nincs bejegyzés a felhasználótól.")
+        }
       }
     })
 
@@ -183,10 +197,10 @@ export class HomeComponent implements OnInit {
     if (!Array.isArray(this.userExperience)) {
       return false  // Ha myExperiences undefined, akkor hamis
     }
-
     return this.userExperience.some(experience => experience.eventId === eventId)
-
   }
 
 
 }
+
+

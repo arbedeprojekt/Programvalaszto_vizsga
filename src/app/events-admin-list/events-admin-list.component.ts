@@ -11,10 +11,10 @@ import { BaseService } from '../base.service';
 export class EventsAdminListComponent {
   // albums:any=[]
   // szortirozottAdatok = new Subject()
-  addAddColumn: any
-  addEditColumn: any
-  addDeleteColumn: any
-  errMessage: any
+  // addAddColumn:any
+  // addEditColumn:any
+  // addDeleteColumn:any
+  // errMessage:any
 
   name = ""
   startDate = ""
@@ -81,7 +81,7 @@ export class EventsAdminListComponent {
       {
         next: (res: any) => {
           if (res.success == false) {
-            console.log("hibaüzenetek: ", res.error)
+            //console.log("hibaüzenetek: ", res.error)
             this.errModfyMsg = res.error
             this.erModName = ""
             this.erModName = res.error["name"]
@@ -92,7 +92,7 @@ export class EventsAdminListComponent {
             this.base.show(res.message || "Hiba történt!", "danger")
           }
           else {
-            console.log("Sikeres módosítás", res)
+            //console.log("Sikeres módosítás", res)
             this.eventModifySuccess = true
             this.base.show(res.message || "Sikeres módosítás!", "success")
             this.editModeId = null
@@ -100,12 +100,12 @@ export class EventsAdminListComponent {
           }
         },
         error: (error: any) => {
-          console.log("Valami hiba: ", error)
+          //console.log("Valami hiba: ", error)
           this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       }
     )
-    console.log("data" + data);
+    //console.log("data" + data);
   }
 
   deleteData(data: any) {
@@ -136,7 +136,7 @@ export class EventsAdminListComponent {
         next: (res: any) => {
           //console.log("új esemény felvétele: ",res)
           if (res.success == false) {
-            console.log("hibaüzenetek: ", res.error)
+            //console.log("hibaüzenetek: ", res.error)
             this.errNewEventMsg = res.error
             this.erName = ""
             this.erName = res.error["name"]

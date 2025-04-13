@@ -25,7 +25,7 @@
           <div class="mb-3">
             <div class="input-group" id="passwordInput">
               <input [type]="visiblePassword()" (keydown.enter)="loginUserOnLaravel()" [(ngModel)]="password" class="form-control" placeholder="Password12">
-              <span class="input-group-text" id="" type="button"><i (click)="szem=!szem" class="bi bi-eye"></i></span>
+              <span class="input-group-text" id="" type="button"><i (click)="eyeIconToShowPassword=!eyeIconToShowPassword" class="bi bi-eye"></i></span>
             </div>
             <!-- hibaüzenet kiíratása -->
             <div *ngIf="errorPasswordMessage != null && loginError == true ," class="text-danger" role="alert">
