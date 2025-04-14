@@ -44,7 +44,7 @@ export class AllEventsComponent {
 
   //tegeknek
   tags: any
-  groups: any
+
 
   //Dezső: A felhasználó által kiválasztott tegek
   selectedTags: any[] = []
