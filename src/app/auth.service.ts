@@ -19,31 +19,28 @@ export class AuthService {
   //Ezt a Regisztrációnál fellépő hibák tárolására használom
   saveBackendMessage = new BehaviorSubject<any>(null)
   //A felhasználó bejelentkezésénél használom
-  
-
-  
   // saveLoginData = new BehaviorSubject<any>(null)
 
   //#region rendszerüzenetek (toastMessages) kezelése
   private messages = new BehaviorSubject<{ text: string; type: string }[]>([])
   messages$ = this.messages.asObservable()
 
-  private token: any
+  // private token: any
 
   constructor(private router: Router, private http: HttpClient, private base: BaseService,
     private localStorage: LocalStorageService) {
-      //dezső: ellenőrzöm, hogy valaki belépett e már.
-      if(this.localStorage.getItem("token") != null) {
-        //dezső: Azért csinálom, mert ha a felhasználó újratölti az oldalt, akkor a localstorage-ból ki tudom olvasni a felhasználó nevét és token-jét.
-        this.setLoggedUser(
-          {
-            name: this.localStorage.getItem("user"),
-            token: this.localStorage.getItem("token"),
-            admin:this.localStorage.getItem("admin"),
-          }
-        )
-      }
-     }
+    //dezső: ellenőrzöm, hogy valaki belépett e már.
+    if (this.localStorage.getItem("token") != null) {
+      //dezső: Azért csinálom, mert ha a felhasználó újratölti az oldalt, akkor a localstorage-ból ki tudom olvasni a felhasználó nevét és token-jét.
+      this.setLoggedUser(
+        {
+          name: this.localStorage.getItem("user"),
+          token: this.localStorage.getItem("token"),
+          admin: this.localStorage.getItem("admin"),
+        }
+      )
+    }
+  }
 
 
   //#region rendszerüzenetek (toastMessages) kezelése
@@ -62,27 +59,24 @@ export class AuthService {
     this.messages.next(this.messages.getValue().filter(m => m.text !== message))
   }
 
+  //#endregion rendszerüzenetek (toastMessages) VÉGE
 
-  getLoggedUser() {
-    return this.userSub
-  }
 
-  setLoggedUser(user: any) {
-    this.userSub.next(user)
-  }
 
-  
 
-  getUsers() {
-    const token = this.localStorage.getItem("token") // Mindig a localStorage-ből vesszük ki
-    if (!token) {
-      //console.warn("Token nem található!")
-      return
-    }
-    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-    return this.http.get(this.backendUrl + "users", { headers })
-  }
 
+
+  // getUsers() {
+  //   const token = this.localStorage.getItem("token") // Mindig a localStorage-ből vesszük ki
+  //   if (!token) {
+  //     //console.warn("Token nem található!")
+  //     return
+  //   }
+  //   const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+  //   return this.http.get(this.backendUrl + "users", { headers })
+  // }
+
+  //#region Felhasználó regisztrációja
   registrationUserOnlaravel(nameArg: string, emailArg: string, passwordArg: string
     , confirm_passwordArg: string
   ) {
@@ -123,7 +117,9 @@ export class AuthService {
     // this.router.navigate(['registration'])
   }
 
+  //#endregion Felhasználó regisztrációja VÉGE
 
+//#region Felhasználó bejelentkezése, és kijelentkezése, valamint az adatainak a tárolása
   loginWithLaravel(nameArg: string, passwordArg: string) {
     let body = {
       name: nameArg,
@@ -132,9 +128,6 @@ export class AuthService {
     return this.http.post(this.backendUrl + "login", body)
   }
 
- 
-
-  
 
   //elfeledtetem a felhasználó nevét és törlöm a localstorage-ból is.
   logoutUserFromLaravel() {
@@ -162,4 +155,13 @@ export class AuthService {
     this.localStorage.clear()
 
   }
+
+  getLoggedUser() {
+    return this.userSub
+  }
+
+  setLoggedUser(user: any) {
+    this.userSub.next(user)
+  }
+  //#endregion Felhasználó bejelentkezése, és kijelentkezése, valamint az adatainak a tárolása VÉGE
 }
