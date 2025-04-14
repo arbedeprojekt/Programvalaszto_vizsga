@@ -15,7 +15,7 @@ import { LocalStorageService } from '../local-storage.service';
 })
 export class DetailedEventComponent {
 
-  backendUrl = "http://127.0.0.1:8000/api/"
+  // backendUrl = "http://127.0.0.1:8000/api/"
 
   events: any
   tags: any
@@ -36,7 +36,7 @@ export class DetailedEventComponent {
   // Feliratkozások megtekintése
   userEvents: any
   //Felíratkozók megszerzése
-  subscriptions: any
+  // subscriptions: any
 
   //belépés ellenőrzése
   user: any
@@ -47,7 +47,7 @@ export class DetailedEventComponent {
   userCommentFromApi: any
 
   //összekapcsolt esemény-tag adatok
-  attachedDatas: any
+
   detailedEventTags: any[] = []
 
   //tab
@@ -115,7 +115,7 @@ export class DetailedEventComponent {
         this.hideNavbar = entry.isIntersecting;
       });
     }, { threshold: 0.1 });
-  
+
     if (this.similarSection) {
       observer.observe(this.similarSection.nativeElement);
     }
@@ -383,7 +383,7 @@ export class DetailedEventComponent {
     this.pencilIconDesabled = false
   }
 
-  //csak akkor legyen aktív az élmény hozzáadása gomb, ha a mai dátum késpbbi, mint a kezdő dátum (korábban ne lehessen rögzíteni, hiszen akkor még tuti nem vett réstz rajta)
+  //csak akkor legyen aktív az élmény hozzáadása gomb, ha a mai dátum későbbi, mint a kezdő dátum (korábban ne lehessen rögzíteni, hiszen akkor még tuti nem vett részt rajta)
   canActivateFeature(startDateStr: string): boolean {
     if (!startDateStr || startDateStr === '0000-00-00') {
       return true
