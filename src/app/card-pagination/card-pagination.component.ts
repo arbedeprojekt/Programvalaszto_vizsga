@@ -19,17 +19,6 @@ export class CardPaginationComponent implements OnInit {
 
   constructor(private http: HttpClient, private base:BaseService, private route: ActivatedRoute, private router: Router) {}
 
-  // ngOnInit(): void {
-  //   if (this.totalItems) {
-  //     this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage)
-  //     this.pages = Array.from({length: this.totalPages}, (_, i) => i + 1)
-  //   }
-  // }
-
-  // pageClicked(page: number) {
-  //   if(page<=this.totalPages)
-  //     this.onClick.emit(page)
-  // }
 
   ngOnInit(): void {
     this.calculatePages()
