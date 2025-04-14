@@ -9,18 +9,9 @@ import { BaseService } from '../base.service';
   styleUrl: './events-admin-list.component.css'
 })
 export class EventsAdminListComponent {
-  // albums:any=[]
-  // szortirozottAdatok = new Subject()
-  // addAddColumn:any
-  // addEditColumn:any
-  // addDeleteColumn:any
-  // errMessage:any
 
-  name = ""
-  startDate = ""
-  endDate = ""
-  startTime = ""
-  endTime = ""
+
+
 
   newEventSuccess = false
   eventModifySuccess = false
@@ -85,7 +76,7 @@ export class EventsAdminListComponent {
       {
         next: (res: any) => {
           if (res.success == false) {
-            //console.log("hibaüzenetek: ", res.error)
+            console.log("hibaüzenetek: ", res.error)
             this.errModfyMsg = res.error
             this.erModName = ""
             this.erModName = res.error["name"]
@@ -140,7 +131,7 @@ export class EventsAdminListComponent {
         next: (res: any) => {
           //console.log("új esemény felvétele: ",res)
           if (res.success == false) {
-            //console.log("hibaüzenetek: ", res.error)
+            // console.log("hibaüzenetek: ", res.error)
             this.errNewEventMsg = res.error
             this.erName = ""
             this.erName = res.error["name"]
