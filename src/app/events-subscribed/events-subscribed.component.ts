@@ -45,7 +45,7 @@ export class EventsSubscribedComponent {
 
   //Dezső: A felhasználó által kiválasztott tegek
   selectedTags: any[] = []
-  // searchTagResults: any[] = []
+
   tagSearch = false
 
   //azokat a címkéket tárolja, amelyek kapcsolódnak eseményekhez
@@ -137,7 +137,7 @@ export class EventsSubscribedComponent {
 
         )
         this.userEventsWithTags = commonEvents
-        //console.log("ezek a user címkével kapcsolt eseményei: ", commonEvents)
+        // console.log("ezek a user címkével kapcsolt eseményei: ", commonEvents)
         this.getUserEventsTags()
       })
 
