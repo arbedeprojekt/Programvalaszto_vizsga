@@ -57,7 +57,7 @@ export class EventsAdminListComponent {
     this.getDataFromApi()
     this.base.downloadAll()
   }
-
+//#region Összes esemény lekérdezése
   getDataFromApi() {
     this.base.getAll().subscribe(
       (res: any) => {
@@ -65,8 +65,9 @@ export class EventsAdminListComponent {
       }
     )
   }
+//#endregion Összes esemény lekérdezéseVÉGE
 
-
+//#region Szerkesztést segítő függvények
   editRow(event: any) {
     this.editModeId = event.id // A sor szerkesztésének megkezdése
   }
@@ -75,6 +76,9 @@ export class EventsAdminListComponent {
     this.editModeId = null
     this.base.downloadAll()
   }
+  //#endregion Szerkesztést segítő függvények VÉGE
+
+  //#region Szerkesztési műveletek (új esemény felvétele, módosítás, törlés)
 
   updateData(data: any) {
     this.base.updateDataWeb(data).subscribe(
@@ -163,5 +167,5 @@ export class EventsAdminListComponent {
     )
     this.newEvent = { image: '', name: '', description: '', startDate: '', endDate: '', startTime: '', endTime: '', locationName: '', locationcountry: '', address: '', gpx: '', weblink: '' }
   }
-
+//#endregion Szerkesztési műveletek (új esemény felvétele, módosítás, törlés) VÉGE
 }
