@@ -27,17 +27,17 @@ export class BaseService {
 
   //errorüzenetek:
   //hibaüzenet új tag sikertelen felvétele esetén
-  newTagErrorMessage: any
+  // newTagErrorMessage: any
   //bool az uj tag felvétele esetén
-  newTagErrorBool = false
-  newTagErrorSub = new BehaviorSubject<any>(null)
-  newTagErrorObs: Observable<any | null> = this.newTagErrorSub.asObservable()
+  // newTagErrorBool = false
+  // newTagErrorSub = new BehaviorSubject<any>(null)
+  // newTagErrorObs: Observable<any | null> = this.newTagErrorSub.asObservable()
 
-  //dátum kimentése a dátumválasztóból
+  //dátum kimentése a dátumválasztóból, tovább fejlesztési lehetőség
   dateBehaveSub = new BehaviorSubject<any>(null)
   dateObs: Observable<any | null> = this.dateBehaveSub.asObservable()
 
-  // Ebben az objektum típusú változóban tároljuk a downloadAllUsers metódusban megszerzett adatokat
+  // Ebben a változóban tároljuk a downloadAllUsers metódusban megszerzett adatokat
   dataUsersSub = new BehaviorSubject<any>(null)
 
 
@@ -54,8 +54,8 @@ export class BaseService {
 
   }
 
-
-  //lekéri a backendről az adatokat, majd megszűrve betölti az adatSub változóba
+  //#region felhasználókkal kapcsolatos metódusok
+  //lekéri a backendről a felhasználókat, majd betölti az dataUsersSub változóba
   downloadAllUsers() {
     let token = localStorage.getItem("token")
     let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
@@ -89,6 +89,7 @@ export class BaseService {
     return this.dataUsersSub
   }
 
+  //#endregion
 
   //#region Események kezelése
   //visszatér az adatSub metódussal, ami a backendből kinyert adatokat tartalmazza
@@ -277,6 +278,7 @@ export class BaseService {
     return this.http.delete(this.backendUrl + `events/${data.eventId}/tags/${data.tagId}`, { headers })
   }
 
+  //#endregion
 
   //#region rendszerüzenetek (toastMessages) kezelése
   private messages = new BehaviorSubject<{ text: string; type: string }[]>([]);
@@ -296,6 +298,7 @@ export class BaseService {
     this.messages.next(this.messages.getValue().filter(m => m.text !== message))
   }
 
+  //#endregion
 
   //#region felhasználói élménybeszámolók kezelése
   updateUserExperience(data: any) {
@@ -340,7 +343,7 @@ export class BaseService {
       )
     }
   }
-
+  //#endregion
 
   //#region rendezés ábc,dátum szerint (Dezső)
   toSort(terms: string, events: any) {
@@ -418,9 +421,10 @@ export class BaseService {
 
 
   }
+  //#endregion
 
 
-  //#region szűrés
+  //#region Címke alapú szűrés és szabad szavas keresés
   search(query: string): Observable<any> {
     let res: any
     let token = localStorage.getItem("token")
@@ -473,11 +477,12 @@ export class BaseService {
       //this.http.get(`${this.backendUrl}tags/${tagId}/events`, { headers })
     }
   }
+  //#endregion
 
-  // dezső: Teg esemény kapcsolat betöltése
-  getTagEvents() {
-    let token = localStorage.getItem("token")
-    let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
-    return this.http.get(this.backendUrl + "events-with-tags", { headers })
-  }
+  // // dezső: Teg esemény kapcsolat betöltése
+  // getTagEvents() {
+  //   let token = localStorage.getItem("token")
+  //   let headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+  //   return this.http.get(this.backendUrl + "events-with-tags", { headers })
+  // }
 }

@@ -13,7 +13,7 @@ export class TagsListComponent {
   groups: any
 
   //errorok tárolása
-  newTagErrorMessage = ""
+  // newTagErrorMessage = ""
   newTagErrorBool = false
   updateTagErrorMessage=""
   updateTagErrorBool=false
@@ -37,7 +37,7 @@ export class TagsListComponent {
   constructor(private base: BaseService, public localStorage : LocalStorageService) {
     this.getTags()
     this.base.downloadAllTags()
-    this.newTagErrorMessage = this.base.newTagErrorMessage
+    // this.newTagErrorMessage = this.base.newTagErrorMessage
     //this.getGroups()
   }
 
