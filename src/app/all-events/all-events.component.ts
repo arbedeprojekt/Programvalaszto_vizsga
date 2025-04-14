@@ -40,8 +40,7 @@ export class AllEventsComponent {
 
   //Az ábc sorrend megvalósításához
   selectedOption = "ascByABC"
-  eventsArray = []
-  sortedEventsArray: any
+
 
   //tegeknek
   tags: any
@@ -50,11 +49,10 @@ export class AllEventsComponent {
   //Dezső: A felhasználó által kiválasztott tegek
   selectedTags: any[] = []
 
-  searchTagResults: any[] = []
+  // searchTagResults: any[] = []
   tagSearch = false;
 
-  //Dezső: tárolja a tegek és események közötti kapcsolatot
-  eventsAndTagConnection: any
+
 
   //azokat a címkéket tárolja, amelyek kapcsolódnak eseményekhez
   tagsOfEvents: any[] = []
@@ -62,7 +60,7 @@ export class AllEventsComponent {
 
   //A szabadszavas kereséshez
   searchControl = new FormControl()
-  backendUrl = "http://127.0.0.1:8000/api/"
+  // backendUrl = "http://127.0.0.1:8000/api/"
   isSearch = false;
 
   //dezső: a két fajta keresés értékeinek összekapcsolása
@@ -98,19 +96,22 @@ export class AllEventsComponent {
     })
   }
 
+  //#region Összes esemény lekérése
   getDataFromApi() {
     this.base.eventsAllSub.subscribe(
       (res: any) => {
         if (res) {
           //console.log("res a getDataFromApi-ból: ", res)
           this.events = res.data
-          this.eventsArray = res.data
-          this.sortedEventsArray = this.eventsArray
+
         }
       }
     )
   }
 
+  //#endregion Összes esemény lekérése VÉGE
+
+  //#region Események oldalakra bontása
   // Oldalszám beállítása
   changePage(page: number) {
     this.currentPage = page
@@ -142,37 +143,19 @@ export class AllEventsComponent {
     return this.commonSearchResults.slice(start, end)
   }
 
+  //#endregion Események oldalakra bontása VÉGE
+
+  //#region Események szűrése(szabadszavas keresés, címkék alapján, ABC sorrend)
 
   toSort() {
 
-    if (!this.commonSearchResults || this.commonSearchResults.length == 0 || this.selectedTags.length == 0 && this.searchControl.value =='') {
-      this.base.toSort(this.selectedOption, this.eventsArray)
+    if (!this.commonSearchResults || this.commonSearchResults.length == 0 || this.selectedTags.length == 0 && this.searchControl.value == '') {
+      this.base.toSort(this.selectedOption, this.events)
     }
     else {
       this.base.toSort(this.selectedOption, this.commonSearchResults)
     }
   }
-
-  getEventsTags() {
-    //ez azt csinálja, hogy csak akkor végzi el a new Set-et, ha mind a két kapcsolódó halmaz betöltésre került.
-    combineLatest([
-      this.base.tagsSub,
-      this.base.eventsWithTags]).subscribe(([tagsRes, eventsRes]) => {
-
-        if (tagsRes?.data?.length != null && !eventsRes?.length != null) {
-        this.tags = tagsRes.data
-          this.attachedDatas = eventsRes
-          //console.log("címkék: ", tagsRes.data)
-          //console.log("kapcsolt címkék: ", eventsRes)
-
-          const usedTagIds = new Set(this.attachedDatas.map((item: any) => item.tagId))
-          this.tagsOfEvents = this.tags.filter((tag: any) => usedTagIds.has(tag.id))
-
-          //console.log("Szűrt címkék:", this.tagsOfEvents)
-        }
-      })
-  }
-
 
   //Működési terve:
   //-figyeli, hogy a searchConsole vagy a teg van kitöltve
@@ -193,7 +176,7 @@ export class AllEventsComponent {
           this.commonSearchResults = this.removeDuplicateEvents(this.commonSearchResults)
 
           //console.log("szabadszavas, majd tag szűrés eredménye: ", this.commonSearchResults)
-          //this.base.toSort(this.selectedOption, this.commonSearchResults)
+
           this.toSort()
 
           // Offcanvas bezárása
@@ -210,12 +193,12 @@ export class AllEventsComponent {
       this.base.filterByTag(this.selectedTags).subscribe(
         (res: any) => {
           //console.log("res a tegszűrőből", res)
-          this.searchTagResults = res.flatMap((item: any) => item.data || [])
+
           this.commonSearchResults = res.flatMap((item: any) => item.data || [])
 
           this.commonSearchResults = this.removeDuplicateEvents(this.commonSearchResults)
 
-          // this.base.toSort(this.selectedOption, this.commonSearchResults)
+
           this.toSort()
 
           //console.log("commonSearchResults a teges keresésben: ", this.commonSearchResults)
@@ -226,12 +209,7 @@ export class AllEventsComponent {
       )
     }
 
-    // Ha nincs keresés és nincs tag szűrés
-    // else if (this.selectedTags.length == 0 && !this.searchControl.value) {
-    //   this.tagSearch = false
-    //   this.isSearch = false
-    //   this.commonSearchResults = []
-    // }
+
 
     else if (this.selectedTags.length == 0 && !this.searchControl.value) {
       this.tagSearch = false
@@ -245,7 +223,45 @@ export class AllEventsComponent {
   }
 
 
-  // Események duplikálásának eltávolítása id-name páros alapján
+  resetSearch() {
+    this.commonSearchResults = []
+    this.isSearch = false
+    this.tagSearch = this.selectedTags.length > 0
+    // Ha kell, itt újra lekérheted a tag alapú találatokat is
+    if (this.tagSearch) {
+      this.searchOnPress()
+    }
+  }
+  //#endregion  VÉGE
+
+  //#region Címkék összekötése eseményekkel
+  getEventsTags() {
+    //ez azt csinálja, hogy csak akkor végzi el a new Set-et, ha mind a két kapcsolódó halmaz betöltésre került.
+    combineLatest([
+      this.base.tagsSub,
+      this.base.eventsWithTags]).subscribe(([tagsRes, eventsRes]) => {
+
+        if (tagsRes?.data?.length != null && !eventsRes?.length != null) {
+          this.tags = tagsRes.data
+          this.attachedDatas = eventsRes
+          //console.log("címkék: ", tagsRes.data)
+          //console.log("kapcsolt címkék: ", eventsRes)
+
+          const usedTagIds = new Set(this.attachedDatas.map((item: any) => item.tagId))
+          this.tagsOfEvents = this.tags.filter((tag: any) => usedTagIds.has(tag.id))
+
+          //console.log("Szűrt címkék:", this.tagsOfEvents)
+        }
+      })
+  }
+  //#endregion Címkék összekötése eseményekkel VÉGE
+
+
+
+
+
+
+  //#region  Események duplikálásának eltávolítása id-name páros alapján
   removeDuplicateEvents(events: any[]) {
     const seen = new Set() // Egy új Set a már látott eseményekhez
     const uniqueEvents: any[] = [] // Új tömb az egyedi eseményekhez
@@ -263,17 +279,9 @@ export class AllEventsComponent {
 
     return uniqueEvents // Visszaadjuk az egyedi események tömbjét
   }
+  //#endregion Események duplikálásának eltávolítása VÉGE
 
-  resetSearch() {
-    this.commonSearchResults = []
-    this.isSearch = false
-    this.tagSearch = this.selectedTags.length > 0
-    // Ha kell, itt újra lekérheted a tag alapú találatokat is
-    if (this.tagSearch) {
-      this.searchOnPress()
-    }
-  }
-
+  //#region Teg alapú szűréshez a tegek kiválasztásának logikája
   onTagSelect(tag: any, event: Event): void {
     //console.log("tag: ", tag)
     const isChecked = (event.target as HTMLInputElement).checked
@@ -312,9 +320,9 @@ export class AllEventsComponent {
     this.closeOffcanvas()
 
   }
+  //#endregion Teg alapú szűréshez a tegek kiválasztásának logikája VÉGE
 
-
-  // Offcanvas bezárásához
+  //#region Offcanvas bezárásához
   closeOffcanvas() {
     const offcanvasElement = document.getElementById('offcanvasWithBothOptions')
     if (offcanvasElement) {
@@ -328,8 +336,9 @@ export class AllEventsComponent {
       }
     }
   }
+  //#endregion Offcanvas bezárásához VÉGE
 
-
+  //#region Felhasználó általi feliratkozás és leiratkozás kezelése
   //feliratkozás adott eseményre
   subscribeToEvent(event: any) {
     this.base.subscribeEvent(event).subscribe(
@@ -367,7 +376,7 @@ export class AllEventsComponent {
       {
         next: (res: any) => {
           //console.log("sikeres leiratkozás: ", res)
-          //window.location.reload();             //törlendő
+
           this.base.show(res.message || "Sikeres leiratkozás!", "success")
           // Események újratöltése az API-ból, hogy az UI frissüljön!
           this.base.getAllMyEvents();
@@ -385,18 +394,6 @@ export class AllEventsComponent {
       })
   }
 
-
-  //Ez és a következő azért kell, hogy a feliratkozás gomb akkor jelenjen meg, ha az adott felhasználó még nincs feliratkozva
-  //A leiratkozás gomb pedig akkor, ha már fel van.
-  //le kell kérni az adott bejelentkezett user feliratkozott eseményeit
-  getUserEvents() {
-    this.base.myEvents.subscribe(
-      (res: any) => {
-        //console.log("userEvents", res)
-        this.userEvents = res
-      })
-  }
-
   isEventSubscribed(eventId: number): boolean {
     if (!Array.isArray(this.userEvents)) {
       return false // Ha myEvents undefined, akkor hamis
@@ -410,9 +407,25 @@ export class AllEventsComponent {
     return false // Ha végigmentünk és nem találtunk, akkor false
   }
 
+  //#endregion Felhasználó általi feliratkozás és leiratkozás kezelése VÉGE
+
+  //#region Az eseményhez tartozó kommentek kezelése, és a felhasználó által feliratkozott események lekérése.
+  //Ez és a következő azért kell, hogy a feliratkozás gomb akkor jelenjen meg, ha az adott felhasználó még nincs feliratkozva
+  //A leiratkozás gomb pedig akkor, ha már fel van.
+  //le kell kérni az adott bejelentkezett user feliratkozott eseményeit
+  getUserEvents() {
+    this.base.myEvents.subscribe(
+      (res: any) => {
+        //console.log("userEvents", res)
+        this.userEvents = res
+      })
+  }
+
+
+
   getUserExperience() {
     this.base.myExperiences.subscribe((res: any) => {
-      if(res) {
+      if (res) {
         const filteredExperiences = res.filter((experience: any) => experience.comment !== null)
 
         if (filteredExperiences.length > 0) {
@@ -435,4 +448,5 @@ export class AllEventsComponent {
 
   }
 
+  //#endregion Az eseményhez tartozó kommentek kezelése, és a felhasználó által feliratkozott események lekérése. VÉGE
 }

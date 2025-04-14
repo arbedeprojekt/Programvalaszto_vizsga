@@ -1,12 +1,6 @@
 <!--Beltartalom alap befoglaló-->
 <div class="container p-lg-0">
-  <!-- <div class="yahoobar">
-    <div>
-      <a routerLink="/home" class="nav-link active" aria-current="page" href="#" title="Kezdőoldal">
-        <i class="bi bi-house"></i>Kezdőoldal
-      </a>
-    </div>
-  </div> -->
+
   <!--Beltartalom befoglaló-->
   <div class="row g10">
     <div>
@@ -93,7 +87,7 @@
                             <div class="section-content">
                               <div class="filter-item -search">
                                 <div class="input-group rounded">
-                                  <!-- <input type="search" class="form-control rounded" placeholder="Keresés" aria-label="Search" aria-describedby="search-addon" /> -->
+
                                   <input type="search" (keydown.enter)="searchOnPress()" [formControl]="searchControl"
                                     class="form-control rounded" placeholder="Keresés" aria-label="Search"
                                     aria-describedby="search-addon" />
@@ -104,11 +98,9 @@
                                   </span>
                                   <!-- <p>A keresés megerősítéséhez nyomjon rá a nagyító ikonra</p> -->
                                 </div>
-                                <!-- <ul>
-                                  <li *ngFor="let result of searchResults">{{ result|json }}</li>
-                                </ul> -->
+
                                 <ul>
-                                  <!-- <li *ngFor="let result of searchResults">{{result|json}} -->
+
                                 </ul>
                               </div>
                             </div>
@@ -196,7 +188,7 @@
     <!--fő tartalom - jobb oldal-->
     <div class="col-12 g10-xl-8 order-2">
       <!--kártyák-->
-      <!-- <div class="content-cards" *ngIf="(searchControl.value === '' ||searchControl.value ==null)&& isSearch == false"> -->
+
       <div class="content-cards" *ngIf="(tagSearch == false && isSearch == false  )">
         <div class="row g10 events -grid">
           <div *ngFor="let event of paginatedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
@@ -270,7 +262,7 @@
 
       <!-- Keresés eredményeinek megjelenítése -->
       <div class="content-cards" *ngIf=" isSearch == true || tagSearch == true">
-        <!--       <div class="content-cards" *ngIf="searchControl.value != '' && isSearch == true"> -->
+
         <div class="row g10 events -grid">
           <div *ngFor="let event of paginatedSearchedEvents" class="e-item -box col-6 col-md-4 col-lg-3">
             <div class="card">
@@ -335,8 +327,7 @@
 
               </div>
             </div>
-            <!-- <button (click)="subscribeEvent(event)">Felíratkozás</button> -->
-            <!-- <button (click)="unsubscribeEvent(event)">Leiratkozás</button> -->
+
 
           </div>
         </div>
