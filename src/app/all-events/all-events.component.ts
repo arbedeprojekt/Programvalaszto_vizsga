@@ -49,7 +49,7 @@ export class AllEventsComponent {
   //Dezső: A felhasználó által kiválasztott tegek
   selectedTags: any[] = []
 
-  // searchTagResults: any[] = []
+
   tagSearch = false;
 
 
@@ -60,7 +60,7 @@ export class AllEventsComponent {
 
   //A szabadszavas kereséshez
   searchControl = new FormControl()
-  // backendUrl = "http://127.0.0.1:8000/api/"
+
   isSearch = false;
 
   //dezső: a két fajta keresés értékeinek összekapcsolása
