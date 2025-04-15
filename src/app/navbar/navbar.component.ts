@@ -16,10 +16,7 @@ export class NavbarComponent {
   //a sikeres belépését.
   user: any
 
-  userName$: any
-  userToken: any
-  userAdmin: any
-  loggedIn = false
+
   constructor(public auth: AuthService, private localStorage: LocalStorageService) {
     this.auth.getLoggedUser().subscribe(
       (u) => {

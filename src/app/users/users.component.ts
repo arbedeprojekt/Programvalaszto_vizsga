@@ -11,23 +11,18 @@ import { LocalStorageService } from '../local-storage.service';
 })
 export class UsersComponent {
 
-  addAddColumn: any
-  addEditColumn: any
-  addDeleteColumn: any
-  errMessage: any
+
 
   users: any
 
   // adatok módosításához
   editModeId: number | null = null
 
-  //módosításkor fellépő hibaüzenetek elmentése
-  errModfyMsg: any
+
 
   selectDisabled = true
 
   constructor(public base: BaseService,
-    // private config:ConfigService,
     private http: HttpClient,
     public localStorage: LocalStorageService) {
 
@@ -40,7 +35,7 @@ export class UsersComponent {
   getAllUsers() {
     this.base.dataUsersSub.subscribe(
       (user: any) => {
-          if(user) {
+        if (user) {
           //console.log("res a users-ben:", res)
           this.users = user.data
         }
@@ -48,20 +43,15 @@ export class UsersComponent {
     )
   }
 
-  // updateData(data: any) {
-  //   let admin = localStorage.getItem("admin")
-  //   this.base.updateUser(data)
-  //   this.base.dataUsersSub.subscribe()
-  // }
 
-  updateData(data:any){
+  updateData(data: any) {
     let admin = localStorage.getItem("admin")
 
-    if( admin === "2" || admin === "1") {
+    if (admin === "2" || admin === "1") {
       this.base.updateUser(data).subscribe(
         {
-          next:(res:any)=>{
-            if(res.success == false){
+          next: (res: any) => {
+            if (res.success == false) {
               //console.log("hibaüzenetek: ",res.error)
               this.base.show(res.message || "A módosítás sikertelen!", "danger")
             }
@@ -70,7 +60,7 @@ export class UsersComponent {
             this.editModeId = null
             this.base.downloadAllUsers()
           },
-          error:(error:any)=>{
+          error: (error: any) => {
             //console.log("Valami hiba: ",error)
             this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
           }
@@ -81,10 +71,10 @@ export class UsersComponent {
   }
 
   isUserSuperadmin() {
-    if(this.localStorage.getItem("admin") === "2"){
+    if (this.localStorage.getItem("admin") === "2") {
       this.selectDisabled = false
     }
-    else{
+    else {
       this.selectDisabled = true
 
     }

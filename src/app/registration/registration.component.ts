@@ -57,11 +57,7 @@ export class RegistrationComponent {
             this.auth.showToast(res.message || "Sikeres regisztráció!", "success")
             this.registrationSuccess = true
 
-            //Ha az e-mail küldés sikertelen, arról külön visszajelzést adunk
-            // if (res.email_error) {
-            //   this.auth.showToast("Regisztráció sikeres, de az e-mail küldés sikertelen!", "warning");
-            //   console.error("E-mail küldési hiba: ", res.email_error);
-            // }
+
           }
         },
         error: (error: any) => {

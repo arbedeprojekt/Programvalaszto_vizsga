@@ -15,7 +15,7 @@ export class LoginComponent {
   email = ""
 
   mailRegError = false
-  mailRegText = ""
+  // mailRegText = ""
   //Dezső: ez a változó ahhoz kell, hogy a mezőnél lévő szem ikonra kattintva a jelszó látható legyen
   eyeIconToShowPassword = false
   toSwitchPasswordInputTypeDynamic = ['password', 'text']
@@ -30,10 +30,9 @@ export class LoginComponent {
   unknownErrorMessageBool = false
   //visszajelez, ha hibás a login
   loginError = false
- 
 
-  //setVisible-höz tartozik
-  noPermission = true;
+
+
 
   constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute, private localStorage: LocalStorageService) { }
 
@@ -41,9 +40,7 @@ export class LoginComponent {
     return this.toSwitchPasswordInputTypeDynamic[Number(this.eyeIconToShowPassword)]
   }
 
-  isNotValidSignUp() {
-    return !this.email || !this.password
-  }
+
 
 
   loginUserOnLaravel() {
@@ -58,15 +55,15 @@ export class LoginComponent {
               this.errorNameMessage = ""
               this.errorPasswordMessage = ""
               this.mailRegError = false
-              
+
               this.localStorage.setItem("token", res.data.token)
               this.localStorage.setItem("user", res.data.name)
               this.localStorage.setItem("admin", res.data.admin)
-              
-              
+
+
               // console.log(this.auth.saveLoginData)
 
-              
+
               this.unknownErrorMessageBool = false
 
               // Ellenőrizzük, hogy van-e returnUrl

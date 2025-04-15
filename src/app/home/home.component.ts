@@ -14,16 +14,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  //A fake api-n lévő adatok eléréséhez szükségs
-  // allEventUrl="http://localhost:3000/esemenyek/"
 
-  //A fake Api adatainak tárolása
-  eventDetails = new BehaviorSubject<any>(null)
   //Az eventDetails által megszerzett adatok tárolása, hogy a weboldalon megjelenhessen
-  events:any
+  events: any
   randomEvents: any
-  //oszlopok neveinek megjelenítéséhez
-  //cols =["name", "description", "locationName", "locationcountry", "address", "gpsLink", "weblink", "startDate", "endDate", "startTime", "endTime"]
 
   user: any
 
@@ -43,8 +37,8 @@ export class HomeComponent implements OnInit {
         this.user = user
         //console.log("usersub tartalma", user)
       })
-      this.base.getAllMyEvents()
-      this.base.getMyExperience()
+    this.base.getAllMyEvents()
+    this.base.getMyExperience()
     // this.base.getMyExperience()
 
   }
@@ -58,17 +52,12 @@ export class HomeComponent implements OnInit {
   }
 
   getDataFromApi() {
-    // this.base.getAll().subscribe(
-    //   (res: any) => {
-    //     this.events = res.data
-    //   }
-    // )
 
     this.base.getAll().subscribe(
       (res: any) => {
-        if(res == null) {
+        if (res == null) {
           //console.log("Nincs elérhető esemény.")
-          return 
+          return
         }
         this.events = res.data
         this.getRandomEvents()
@@ -84,8 +73,7 @@ export class HomeComponent implements OnInit {
     } else {
       // Ha nincs bejelentkezve, akkor a login oldalra irányítjuk, és elmentjük a returnUrl-t
       this.router.navigate(['/login'], { queryParams: { returnUrl: `/detailed-event/${eventId}` } });
-      //this.router.navigate(['/login']); // Ha nincs bejelentkezve
-      //alert("A funkcióhoz bejelentkezés szükséges")
+
     }
   }
 
@@ -159,7 +147,7 @@ export class HomeComponent implements OnInit {
   getUserEvents() {
     this.base.myEvents.subscribe(
       (res: any) => {
-        //console.log("userEvents", res)       
+        //console.log("userEvents", res)
         this.userEvents = res
       })
   }
@@ -179,7 +167,7 @@ export class HomeComponent implements OnInit {
 
   getUserExperience() {
     this.base.myExperiences.subscribe((res: any) => {
-      if(res){
+      if (res) {
         const filteredExperiences = res.filter((experience: any) => experience.comment !== null)
 
         if (filteredExperiences.length > 0) {
