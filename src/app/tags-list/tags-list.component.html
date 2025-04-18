@@ -70,8 +70,8 @@
               <span *ngIf="editModeId !== tag.id">{{tag.name}}</span>
               <input *ngIf="editModeId === tag.id" [(ngModel)]="tag.name" class="form-control">
               <div *ngIf="editModeId === tag.id">
-                <div *ngFor="let errormessage of erGroup" class="validation">
-                  <div *ngIf="erGroup != null && tagModSuccess == false," class="text-danger" role="alert" >
+                <div *ngFor="let errormessage of erModName" class="validation">
+                  <div *ngIf="erModName != null && tagModSuccess == false," class="text-danger" role="alert" >
                     {{errormessage}}
                   </div>
                 </div>
@@ -89,8 +89,8 @@
                 </select>
               </div>
               <div *ngIf="editModeId === tag.id">
-                <div *ngFor="let errormessage of erGroup" class="validation">
-                  <div *ngIf="erGroup != null && tagModSuccess == false," class="text-danger" role="alert" >
+                <div *ngFor="let errormessage of erModGroup" class="validation">
+                  <div *ngIf="erModGroup != null && tagModSuccess == false," class="text-danger" role="alert" >
                     {{errormessage}}
                   </div>
                 </div>

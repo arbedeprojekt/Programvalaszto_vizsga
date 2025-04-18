@@ -9,18 +9,9 @@ import { BaseService } from '../base.service';
   styleUrl: './events-admin-list.component.css'
 })
 export class EventsAdminListComponent {
-  // albums:any=[]
-  // szortirozottAdatok = new Subject()
-  // addAddColumn:any
-  // addEditColumn:any
-  // addDeleteColumn:any
-  // errMessage:any
 
-  name = ""
-  startDate = ""
-  endDate = ""
-  startTime = ""
-  endTime = ""
+
+
 
   newEventSuccess = false
   eventModifySuccess = false
@@ -59,7 +50,7 @@ export class EventsAdminListComponent {
     this.getDataFromApi()
     this.base.downloadAll()
   }
-
+//#region Összes esemény lekérdezése
   getDataFromApi() {
     this.base.getAll().subscribe(
       (res: any) => {
@@ -67,8 +58,9 @@ export class EventsAdminListComponent {
       }
     )
   }
+//#endregion Összes esemény lekérdezéseVÉGE
 
-
+//#region Szerkesztést segítő függvények
   editRow(event: any) {
     this.editModeId = event.id // A sor szerkesztésének megkezdése
   }
@@ -77,13 +69,16 @@ export class EventsAdminListComponent {
     this.editModeId = null
     this.base.downloadAll()
   }
+  //#endregion Szerkesztést segítő függvények VÉGE
+
+  //#region Szerkesztési műveletek (új esemény felvétele, módosítás, törlés)
 
   updateData(data: any) {
     this.base.updateDataWeb(data).subscribe(
       {
         next: (res: any) => {
           if (res.success == false) {
-            //console.log("hibaüzenetek: ", res.error)
+            console.log("hibaüzenetek: ", res.error)
             this.errModfyMsg = res.error
             this.erModName = ""
             this.erModName = res.error["name"]
@@ -139,7 +134,7 @@ export class EventsAdminListComponent {
         next: (res: any) => {
           //console.log("új esemény felvétele: ",res)
           if (res.success == false) {
-            //console.log("hibaüzenetek: ", res.error)
+            // console.log("hibaüzenetek: ", res.error)
             this.errNewEventMsg = res.error
             this.erName = ""
             this.erName = res.error["name"]
@@ -167,5 +162,5 @@ export class EventsAdminListComponent {
     )
     this.newEvent = { image: '', name: '', description: '', startDate: '', endDate: '', startTime: '', endTime: '', locationName: '', locationcountry: '', address: '', gpx: '', weblink: '' }
   }
-
+//#endregion Szerkesztési műveletek (új esemény felvétele, módosítás, törlés) VÉGE
 }

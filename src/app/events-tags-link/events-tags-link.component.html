@@ -10,13 +10,13 @@
             <div class="col-6 col-mb-4">
                 <div class="mb-3">
                     <label class="form-label">Esemény azonosító</label>
-                    <input type="text" class="form-control" [formControl]="searchIdControl" id="" placeholder="">
+                    <input type="text" class="form-control" (keydown.enter)="searchEvent()" [formControl]="searchIdControl" id="" placeholder="">
                 </div>
             </div>
             <div class="col-6 col-mb-3">
                 <div class="mb-3">
                     <label  class="form-label">Esemény neve</label>
-                    <input type="text" class="form-control" [formControl]="searchNameControl" id="" placeholder="">
+                    <input type="text" class="form-control" (keydown.enter)="searchEvent()" [formControl]="searchNameControl" id="" placeholder="">
                 </div>
             </div>
             <div class="col-6 col-mb-5">
@@ -24,7 +24,7 @@
             </div>
         </div>
         <!--Találat-->
-        <div *ngIf=" isEventSearch == true" class="attach-block hidden">    <!--&& !closeAfterSave                  JAVÍTANI KELL-->
+        <div *ngIf=" isEventSearch == true" class="attach-block hidden">
             <div class="separator col-12">
                 <hr>
             </div>

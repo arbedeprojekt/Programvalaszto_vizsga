@@ -11,11 +11,6 @@ import { LocalStorageService } from '../local-storage.service';
 })
 export class UsersComponent {
 
-  addAddColumn: any
-  addEditColumn: any
-  addDeleteColumn: any
-  errMessage: any
-
   name = ""
   email = ""
 
@@ -29,18 +24,14 @@ export class UsersComponent {
   // adatok módosításához
   editModeId: number | null = null
 
-  //módosításkor fellépő hibaüzenetek elmentése
-  errModfyMsg: any
+
 
   selectDisabled = true
 
   constructor(public base: BaseService,
-    // private config:ConfigService,
     private http: HttpClient,
     public localStorage: LocalStorageService) {
-    this.base.dataUsersObs.subscribe(
-      (res: any) => this.users = res
-    )
+
     this.base.downloadAllUsers()
     this.getAllUsers()
     this.isUserSuperadmin()
@@ -58,11 +49,7 @@ export class UsersComponent {
     )
   }
 
-  // updateData(data: any) {
-  //   let admin = localStorage.getItem("admin")
-  //   this.base.updateUser(data)
-  //   this.base.dataUsersSub.subscribe()
-  // }
+
 
   updateData(data: any) {
     let admin = localStorage.getItem("admin")

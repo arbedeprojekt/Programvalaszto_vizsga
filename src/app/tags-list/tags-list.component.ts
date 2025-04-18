@@ -10,16 +10,7 @@ import { LocalStorageService } from '../local-storage.service';
 export class TagsListComponent {
 
   tags: any
-  groups: any
 
-  //errorok tárolása
-  newTagErrorMessage = ""
-  newTagErrorBool = false
-  updateTagErrorMessage=""
-  updateTagErrorBool=false
-
-  name = ""
-  group = ""
 
   newTagSuccess = false
   erName: any
@@ -37,8 +28,7 @@ export class TagsListComponent {
   constructor(private base: BaseService, public localStorage : LocalStorageService) {
     this.getTags()
     this.base.downloadAllTags()
-    this.newTagErrorMessage = this.base.newTagErrorMessage
-    //this.getGroups()
+
   }
 
 
@@ -68,14 +58,12 @@ export class TagsListComponent {
           this.erModGroup = ""
           this.erModName = res.error["name"]
           this.erModGroup = res.error["group"]
-          //this.updateTagErrorMessage = res.error.name
-          //this.updateTagErrorBool = true
+
           this.base.show(res.message || "A címke módosítása sikertelen!", "danger")
         }
         else{
           //console.log("siker")
-          //this.updateTagErrorMessage = ""
-          //this.updateTagErrorBool = false
+
           this.tagModSuccess = true
           this.editModeId = null
           this.base.show(res.message || "Sikeres módosítás!", "success")
@@ -114,13 +102,12 @@ export class TagsListComponent {
       {
         next: (res: any) => {
 
-          //this.newTagErrorBool = false
-          //this.newTagErrorMessage = ""
+
 
           if (res.success == true) {
             //console.log("res", res)
             //console.log(res.success)
-            //this.newTagErrorBool = res.success
+
             this.newTagSuccess = true
             this.base.show(res.message || "Sikeres rögzítés!", "success")
             this.base.downloadAllTags()
@@ -131,14 +118,12 @@ export class TagsListComponent {
             this.erGroup = ""
             this.erName = res.error["name"]
             this.erGroup = res.error["group"]
-            //this.newTagErrorMessage = res.error.name
-            //this.newTagErrorBool = res.success
+
             this.base.show(res.message || "A címke rögzítése sikertelen!", "danger")
           }
         },
         error: (error: any) => {
-          //this.newTagErrorBool = true
-          //this.newTagErrorMessage = error.error.name
+
           this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
         }
       }

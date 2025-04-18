@@ -1,50 +1,3 @@
-<!-- Adatok a szülőtől: {{data|json}}
-<button (click)="subscribeEvent(data)">Felíratkozás</button> -->
-
-<!-- Adatsub tartalma {{cikkek|json}} -->
-<!-- {{errNewEventMsg|json}}--> <!--hibaüzenetek megleséséhez új esemény felvétele esetén-->
-<!-- {{errModfyMsg|json}} --> <!--hibaüzenetek megleséséhez esemény módosítása esetén-->
-<!-- {{events|json}}
-
-<div class="container" > -->
-<!-- subscribeEvents:{{  subscribedEvents[0].event|json
-}} -->
-<!-- <div style="background-color: aquamarine;"> -->
-<!-- allEvents: {{events|json}} -->
-<!-- </div>
-
-  <h1 class="">Program feliratkozásaid</h1>
-
-
- <div class="table-container">
-  <div *ngIf="events.length===0">Nincsenek Feliratkozásaid.</div>
-   <div *ngIf="events.length !=0" class="scrollable-content"> -->
-<!-- Fejléc Kiíratás -->
-<!-- <div class="row header-row">
-       <div *ngFor="let oszlop of columnName" class="col" id="fejlec">
-           {{oszlop}}
-       </div>
-       <div class="col-actions" id="ures"></div>
-     </div> -->
-
-<!-- Táblázat megjelenítése -->
-
-<!-- <div *ngFor="let event of events; let i = index" class="row align-items-center">
-       <div *ngFor="let oszlop of oszlopok" class="col word-wrap" id="eventsDataCol">
-         <textarea [(ngModel)]="event[oszlop]" type="text" class="form-control form-control-sm" id="eventsData"></textarea>
-       </div>
-       <div class="col-actions sticky-actions">
-         <div class="button-group" id="updateDelete">
-           <button class="btn btn-secondary btn-sm ms-2" (click)="unsubscribe(event)" >Leiratkozás</button>
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
-
-</div> -->
-
-
 <!--Beltartalom alap befoglaló-->
 <div class="container p-lg-0">
   <!-- <div class="yahoobar">
@@ -61,7 +14,8 @@
   <div class="none-subscription" *ngIf="userEvents.length === 0">
     <div class="none-subscription-inner">
       <h4>Nincsenek feliratkozásaid</h4>
-      <p>Böngéssz az események között, kattints a feliratkozás gombra, és nézd meg bármikor feliratkozott eseményeidet az itt megjelenő listában.</p>
+      <p>Böngéssz az események között, kattints a feliratkozás gombra, és nézd meg bármikor feliratkozott eseményeidet
+        az itt megjelenő listában.</p>
       <p>Jó böngészést!</p>
     </div>
   </div>
@@ -76,8 +30,8 @@
             <div
               *ngIf="(isSearch == false && searchControl.value ==null && tagSearch == false)||(isSearch == false && searchControl.value =='' && tagSearch == false)|| (searchControl.value == '' && isSearch == true && tagSearch == false) ||(isSearch == true && searchControl.value ==null && tagSearch == false) || (isSearch == true && !commonSearchResults && tagSearch == false) || (isSearch == false && !commonSearchResults && tagSearch == false || (isSearch == false && tagSearch == false && commonSearchResults.length == 0)) "
               class="count -hidden" id="pagerCount">{{userEvents.length}} találat</div>
-              <div *ngIf="isSearch == true || tagSearch == true" class="count -hidden" id="pagerCount">
-                {{commonSearchResults.length}} találat</div>
+            <div *ngIf="isSearch == true || tagSearch == true" class="count -hidden" id="pagerCount">
+              {{commonSearchResults.length}} találat</div>
 
             <!--itt vissza kell adnia, hogy hány db aktív státuszú eseményt talált az adatbázisban (vagyis hány darabot lehet megnézni az oldalon)-->
           </div>
@@ -85,12 +39,7 @@
           <div class="pl-sorter">
             <span>Rendezés:</span>
             <div class="select-wrapper">
-              <!-- <select class="form-select">
-                <option value="">ABC szerint növekvő</option>
-                <option value="">ABC szerint csökkenő</option>
-                <option value="">Dátum szerint növekvő</option>
-                <option value="">Dátum szerint csökkenő</option>
-                <option value="">Népszerűség</option> -->
+
               <!--ha marad időnk, lehetne egy népszerűség szerint növekvő is: a legtöbb felhasználó által feliratkozott; aktív státuszú események;-->
               <!--</select> -->
 
@@ -153,7 +102,7 @@
                             <div class="section-content">
                               <div class="filter-item -search">
                                 <div class="input-group rounded">
-                                  <!-- <input type="search" class="form-control rounded" placeholder="Keresés" aria-label="Search" aria-describedby="search-addon" /> -->
+
                                   <input type="search" (keydown.enter)="searchOnPress()" [formControl]="searchControl"
                                     class="form-control rounded" placeholder="Keresés" aria-label="Search"
                                     aria-describedby="search-addon" />
@@ -162,13 +111,11 @@
                                         (click)="searchOnPress()" class="bi bi-search"></i></button>
 
                                   </span>
-                                  <!-- <p>A keresés megerősítéséhez nyomjon rá a nagyító ikonra</p> -->
+
                                 </div>
-                                <!-- <ul>
-                                  <li *ngFor="let result of searchResults">{{ result|json }}</li>
-                                </ul> -->
+
                                 <ul>
-                                  <!-- <li *ngFor="let result of searchResults">{{result|json}} -->
+
                                 </ul>
                               </div>
                             </div>
@@ -232,7 +179,7 @@
                             class="bi bi-search"></i></button>
 
                       </span>
-                      <!-- <p>A keresés megerősítéséhez nyomjon rá a nagyító ikonra</p> -->
+
                     </div>
                   </div>
                 </div>
@@ -258,7 +205,6 @@
     <!--fő tartalom - jobb oldal-->
     <div class="col-12 g10-xl-8 order-2">
       <!--kártyák-->
-      <!-- <div class="content-cards" *ngIf="isSearch == false || searchControl.value == '' || searchControl.value == null"> -->
 
       <div class="content-cards" *ngIf="(tagSearch == false && isSearch == false )">
         <div class="row events -grid">
@@ -315,7 +261,8 @@
                     <i class="bi bi-plus-lg"></i>
                   </button> -->
                   <button *ngIf="isEventSubscribed(event.id)" (click)="unsubscribeFromEvent(event)"
-                    class="btn btn-primary" type="button" [disabled]="hasUserExperience(event.id)" title="Leiratkozás az eseményről" id="unsubscribeEvent">
+                    class="btn btn-primary" type="button" [disabled]="hasUserExperience(event.id)"
+                    title="Leiratkozás az eseményről" id="unsubscribeEvent">
                     <i class="bi bi-dash-lg"></i>
                   </button>
                 </div>
@@ -403,7 +350,8 @@
 
 
 
-      <div *ngIf=" (isSearch ==true && commonSearchResults.length == 0 )|| ((isSearch == true && tagSearch ==true) && (commonSearchResults.length == 0))">
+      <div
+        *ngIf=" (isSearch ==true && commonSearchResults.length == 0 )|| ((isSearch == true && tagSearch ==true) && (commonSearchResults.length == 0))">
         <h4>Nincs találat</h4>
         <p>Sajnos a megadott feltételek, nem hoztak eredményt. Nem található adatbázisunkban olyan esemény, amely adatai tartalmaznák a megadott kifejezést.</p>
     </div>

@@ -15,16 +15,7 @@ import { Offcanvas } from 'bootstrap';
 })
 export class EventsSubscribedComponent {
 
-  @Input() data: any
 
-  subscribedEvents: any
-  // cikkekObs: Observable<any | null> = this.cikkek.asObservable()
-
-  eventDetails = new BehaviorSubject<any>(null)
-
-  clickedEventDetails: any = {};
-  events: any
-  galleries: any
 
   //oldal lapozóhoz kapcsolódik
   currentPage = 1;
@@ -36,16 +27,15 @@ export class EventsSubscribedComponent {
 
   //user tárolása
   user: any
-  dataFromApi: any
+
 
   //Az ábc sorrend megvalósításához
   selectedOption = "ascByABC"
-  eventsArray = []
-  sortedEventsArray: any
+
 
   //tegeknek
   tags: any
-  groups: any
+
   //dezső: a két fajta keresés értékeinek összekapcsolása
   commonSearchResults: any[] = []
 
@@ -55,7 +45,7 @@ export class EventsSubscribedComponent {
 
   //Dezső: A felhasználó által kiválasztott tegek
   selectedTags: any[] = []
-  searchTagResults: any[] = []
+
   tagSearch = false
 
   //azokat a címkéket tárolja, amelyek kapcsolódnak eseményekhez
@@ -73,8 +63,9 @@ export class EventsSubscribedComponent {
   constructor(private http: HttpClient, private localStorage: LocalStorageService, private base: BaseService, private auth: AuthService, private router: Router) {
     this.auth.getLoggedUser().subscribe(
       (user) => {
-        this.user = user})
-        
+        this.user = user
+      })
+
     this.base.getEventsWithTags()
     this.base.downloadAllTags()
     this.getEventsTags()
@@ -132,21 +123,21 @@ export class EventsSubscribedComponent {
     )
   }
 
-  
+  //ez a függvény az összes eseményt lekéri, amire a felhasználó feliratkozott
   getUserEvents() {
     this.base.myEvents.subscribe(
       (res: any) => {
         //console.log("userEvents", res)
         this.userEvents = res
-        this.eventsArray = res
+
         //console.log("userEvents: ", res)
 
         const commonEvents = this.attachedDatas.filter((event: any) =>
           this.userEvents.some((userEvent: any) => userEvent.id === event.eventId)
-          
+
         )
         this.userEventsWithTags = commonEvents
-        //console.log("ezek a user címkével kapcsolt eseményei: ", commonEvents)
+        // console.log("ezek a user címkével kapcsolt eseményei: ", commonEvents)
         this.getUserEventsTags()
       })
 
@@ -200,6 +191,7 @@ export class EventsSubscribedComponent {
     return this.userExperience.some(experience => experience.eventId === eventId)
   }
 
+  //#region Oldal lapozás megvalósítása
   // Oldalszám beállítása
   changePage(page: number) {
     this.currentPage = page
@@ -229,9 +221,12 @@ export class EventsSubscribedComponent {
     return this.commonSearchResults.slice(start, end)
   }
 
+  //#endregion oldal lapozás megvalósítása VÉGE
+
+  //#region Szabad szavas keresés és címke szűrés
 
   toSort() {
-    if (!this.commonSearchResults || this.commonSearchResults.length == 0 || this.selectedTags.length == 0 && this.searchControl.value =="") {
+    if (!this.commonSearchResults || this.commonSearchResults.length == 0 || this.selectedTags.length == 0 && this.searchControl.value == "") {
 
       this.base.toSort(this.selectedOption, this.userEvents)
     }
@@ -239,17 +234,6 @@ export class EventsSubscribedComponent {
       this.base.toSort(this.selectedOption, this.commonSearchResults)
     }
   }
-
-  navigateToEvent(eventId: number) {
-    if (this.user) {
-      this.router.navigate(['/detailed-event', eventId]); // Ha be van jelentkezve
-    } else {
-      this.router.navigate(['/login']); // Ha nincs bejelentkezve
-      alert("A funkcióhoz bejelentkezés szükséges")
-    }
-  }
-
-
 
   searchOnPress() {
 
@@ -286,7 +270,7 @@ export class EventsSubscribedComponent {
       this.base.filterByTag(this.selectedTags).subscribe(
         (res: any) => {
           //console.log("res a tegszűrőből", res)
-          this.searchTagResults = res.flatMap((item: any) => item.data || [])
+
           this.commonSearchResults = res.flatMap((item: any) => item.data || [])
 
           this.commonSearchResults = this.removeDuplicateEvents(this.commonSearchResults)
@@ -309,28 +293,6 @@ export class EventsSubscribedComponent {
       this.commonSearchResults = []
     }
   }
-
-
-
-  // Események duplikálásának eltávolítása id-name páros alapján
-  removeDuplicateEvents(events: any[]) {
-    const seen = new Set() // Egy új Set a már látott eseményekhez
-    const uniqueEvents: any[] = [] // Új tömb az egyedi eseményekhez
-
-    events.forEach((event: any) => {
-      // Az id és name kombinációjával hozunk létre egy egyedi kulcsot
-      const key = `${event.id}-${event.name}`
-
-      // Ha az esemény még nem szerepel a Set-ben, hozzáadjuk a listához
-      if (!seen.has(key)) {
-        seen.add(key) // hozzáadjuk a kulcsot a Set-hez
-        uniqueEvents.push(event) // hozzáadjuk az egyedi eseményt a listához
-      }
-    })
-
-    return uniqueEvents // Visszaadjuk az egyedi események tömbjét
-  }
-
   resetSearch() {
     this.commonSearchResults = []
     this.isSearch = false
@@ -341,21 +303,17 @@ export class EventsSubscribedComponent {
     }
     this.closeOffcanvas()
   }
-
-  // Offcanvas bezárásához
-  closeOffcanvas() {
-    const offcanvasElement = document.getElementById('offcanvasWithBothOptions')
-    if (offcanvasElement) {
-      const offcanvasInstance = Offcanvas.getInstance(offcanvasElement)
-      if (offcanvasInstance) {
-        offcanvasInstance.hide()
-      }
-      const closeButton = document.getElementById('offcanvasCloseButton')
-      if (closeButton) {
-        closeButton.click() // Programozott kattintás
-      }
-    }
+  //Csak azoknak az eseményeknek a megjelenítése, amelyekre a felhasználó feliratkozott
+  showSubscribedEventsAfterSearch(searchedEvents: any) {
+    let income = new Set(searchedEvents.map((event: any) => event.id))
+    let res = this.userEvents.filter((event: any) => income.has(event.id))
+    //console.log("showSubscribedEventsAfterSearch", res)
+    return res
   }
+
+  //#endregion Szabad szavas keresés és címke szűrés VÉGE
+
+  //#region Tegek kiválasztásának és megszűntetésének megvalósítása
 
   onTagSelect(tag: any, event: Event): void {
     //console.log("tag: ", tag)
@@ -395,13 +353,55 @@ export class EventsSubscribedComponent {
     this.closeOffcanvas()
 
   }
+  //#endregion Tegek kiválasztásának és megszűntetésének megvalósítása VÉGE
 
-  showSubscribedEventsAfterSearch(searchedEvents: any) {
-    let income = new Set(searchedEvents.map((event: any) => event.id))
-    let res = this.userEvents.filter((event: any) => income.has(event.id))
-    //console.log("showSubscribedEventsAfterSearch", res)
-    return res
+  //Ha az oldal látogatója bejelentkezés nélkül próbálkozik az események részleteivel, akkor átirányítja a bejelentkezési oldalra
+  navigateToEvent(eventId: number) {
+    if (this.user) {
+      this.router.navigate(['/detailed-event', eventId]); // Ha be van jelentkezve
+    } else {
+      this.router.navigate(['/login']); // Ha nincs bejelentkezve
+      alert("A funkcióhoz bejelentkezés szükséges")
+    }
   }
 
+
+
+
+  // Események duplikálásának eltávolítása id-name páros alapján
+  removeDuplicateEvents(events: any[]) {
+    const seen = new Set() // Egy új Set a már látott eseményekhez
+    const uniqueEvents: any[] = [] // Új tömb az egyedi eseményekhez
+
+    events.forEach((event: any) => {
+      // Az id és name kombinációjával hozunk létre egy egyedi kulcsot
+      const key = `${event.id}-${event.name}`
+
+      // Ha az esemény még nem szerepel a Set-ben, hozzáadjuk a listához
+      if (!seen.has(key)) {
+        seen.add(key) // hozzáadjuk a kulcsot a Set-hez
+        uniqueEvents.push(event) // hozzáadjuk az egyedi eseményt a listához
+      }
+    })
+
+    return uniqueEvents // Visszaadjuk az egyedi események tömbjét
+  }
+
+
+
+  // Offcanvas bezárásához
+  closeOffcanvas() {
+    const offcanvasElement = document.getElementById('offcanvasWithBothOptions')
+    if (offcanvasElement) {
+      const offcanvasInstance = Offcanvas.getInstance(offcanvasElement)
+      if (offcanvasInstance) {
+        offcanvasInstance.hide()
+      }
+      const closeButton = document.getElementById('offcanvasCloseButton')
+      if (closeButton) {
+        closeButton.click() // Programozott kattintás
+      }
+    }
+  }
 
 }

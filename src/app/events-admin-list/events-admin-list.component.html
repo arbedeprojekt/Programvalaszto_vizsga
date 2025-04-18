@@ -1,6 +1,4 @@
-<!-- Adatsub tartalma {{cikkek|json}} -->
-<!-- {{errNewEventMsg|json}}--> <!--hibaüzenetek megleséséhez új esemény felvétele esetén-->
-<!-- {{errModfyMsg|json}} --> <!--hibaüzenetek megleséséhez esemény módosítása esetén-->
+
 
 <div *ngIf='localStorage.getItem("admin") != "0"' class="container p-lg-0">
   <h4>Események kezelése</h4>
@@ -28,10 +26,10 @@
                     {{errormessage}}
                   </div>
                 </div>
-              </div>  
+              </div>
             </div>
             <div class="col-6 col-md-4">
-              <div class="mb-3">  
+              <div class="mb-3">
                 <label class="form-label">Záró dátum</label>
                 <input type="text" class="form-control" [(ngModel)]="newEvent.endDate" name="endDate" id="" placeholder="Pl.: 2025-03-15">
                 <div *ngFor="let errormessage of erEndDate" class="validation">
@@ -39,7 +37,7 @@
                     {{errormessage}}
                   </div>
                 </div>
-              </div>  
+              </div>
             </div>
           </div>
           <div class="row g-3">
@@ -205,7 +203,7 @@
                       {{errormessage}}
                     </div>
                   </div>
-                </div> 
+                </div>
               </td>
               <td>
                 <span *ngIf="editModeId !== event.id">{{event.description}}</span>
@@ -226,9 +224,11 @@
               <td>
                 <span *ngIf="editModeId !== event.id">{{event.weblink}}</span>
                 <input *ngIf="editModeId === event.id" [(ngModel)]="event.weblink" class="form-control">
-                <div *ngFor="let errormessage of erModWeblink" class="validation">
-                  <div *ngIf="erModWeblink != null && eventModifySuccess == false ," class="text-danger" role="alert" >
-                    {{errormessage}}
+                <div *ngIf="editModeId === event.id">
+                  <div *ngFor="let errormessage of erModWeblink" class="validation">
+                    <div *ngIf="erModWeblink != null && eventModifySuccess == false ," class="text-danger" role="alert" >
+                      {{errormessage}}
+                    </div>
                   </div>
                 </div>
               </td>
@@ -246,4 +246,4 @@
       </table>
     </div>
   </div>
-</div>  
+</div>

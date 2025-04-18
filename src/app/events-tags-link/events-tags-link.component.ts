@@ -16,23 +16,21 @@ export class EventsTagsLinkComponent {
   searchIdControl = new FormControl()
   searchNameControl = new FormControl()
   searchEventResults: any
-  searchResults: any
+  searchId: any
+  searchName: any
+
   isEventSearch = false
-  isSearch = false
-  noSearchResults = false
+
   noEventSearchResults = false
 
   searchTerm: string = ''
   searchWithoutTagList: string = ''
 
-  //Az ábc sorrend megvalósításához
-  selectedOption = "ascByABC"
-  eventsArray = []
-  sortedEventsArray: any
+
 
   //tagek
   tags: any
-  groups: any
+
   selectedTags: number[] = []; // Az ID-kat fogjuk tárolni
 
   //események
@@ -44,7 +42,7 @@ export class EventsTagsLinkComponent {
   newAttachTagToEvent: any
   showWithTag = true
   eventsWithoutTags: any
-  closeAfterSave = false
+
 
   constructor(private http: HttpClient, private auth: AuthService, private base: BaseService, public localStorage: LocalStorageService) {
 
@@ -57,15 +55,7 @@ export class EventsTagsLinkComponent {
   }
 
 
-  //#region keresés
-  toSort() {
-    if (!this.searchResults) {
-      this.base.toSort(this.selectedOption, this.eventsArray)
-    }
-    else {
-      this.base.toSort(this.selectedOption, this.searchResults)
-    }
-  }
+
 
   //szabadszavas keresés, csak FE, nem kommunikál a BE-el!!
   searchWithTagsTable() {
@@ -95,10 +85,10 @@ export class EventsTagsLinkComponent {
 
 
   searchEvent() {
-    const searchId = this.searchIdControl.value
-    const searchName = this.searchNameControl.value
+    this.searchId = this.searchIdControl.value
+    this.searchName = this.searchNameControl.value
 
-    if (!searchId && !searchName) {
+    if (!this.searchId && !this.searchName) {
       //console.log("Nincs keresési feltétel")
       this.isEventSearch = false
       return
@@ -111,15 +101,15 @@ export class EventsTagsLinkComponent {
       let filteredResults = data
       //console.log("filterResult: ", data)
 
-      if (searchId) {
+      if (this.searchId) {
         filteredResults = filteredResults.filter((event: any) =>
-          event.id.toString() === searchId.toString()
+          event.id.toString() === this.searchId.toString()
         )
       }
 
-      if (searchName) {
+      if (this.searchName) {
         filteredResults = filteredResults.filter((event: any) =>
-          event.name.toLowerCase().includes(searchName.toLowerCase())
+          event.name.toLowerCase().includes(this.searchName.toLowerCase())
         )
       }
 
@@ -131,7 +121,6 @@ export class EventsTagsLinkComponent {
       }
 
       this.searchEventResults = filteredResults
-      this.base.toSort(this.selectedOption, this.searchEventResults)
       //console.log("searchResults: ", this.searchEventResults);
     })
   }
@@ -151,7 +140,7 @@ export class EventsTagsLinkComponent {
   getDataFromApi() {
     this.base.getAll().subscribe(
       (res: any) => {
-        if(res) {
+        if (res) {
           this.events = res.data
           //console.log("Jönnek az események: ", res.data)
         }
@@ -174,7 +163,7 @@ export class EventsTagsLinkComponent {
   newAttach(eventId: number, selectedTags: number[]) {
     if (!eventId || selectedTags.length === 0) {
       console.error("Hiba: Hiányzó adatok!", { eventId, selectedTags })
-      //alert("Hiba: Az esemény vagy a címke nincs kiválasztva!")
+
       this.base.show("A címke nincs kiválasztva!", "warning")
       return
     }
@@ -191,19 +180,21 @@ export class EventsTagsLinkComponent {
           this.base.show(res.message || "Az összekapcsolás sikertelen!", "danger")
         } else {
           this.base.show(res.message || "Sikeres összekapcsolás!", "success")
-          //this.closeAfterSave = true        //JAVÍTANI KELL
+
           this.selectedTags = []
           this.base.getEventsWithTags()
-
+          this.searchIdControl.reset()
+          this.searchNameControl.reset()
+          this.searchEventResults = []
+          this.isEventSearch = false
         }
       },
       error: (error: any) => {
         this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
       }
-    });
+    })
 
-    this.newAttachTagToEvent = {}
-    //this.closeAfterSave = false       //JAVÍTANI KELL
+    this.newAttachTagToEvent = []
     //console.log("Új összekapcsolás: ", this.newAttachTagToEvent)
   }
 
@@ -211,7 +202,7 @@ export class EventsTagsLinkComponent {
   getEventsTags() {
     this.base.eventsWithTags.subscribe(
       (res: any) => {
-        if(res) {
+        if (res) {
           this.attachedDatas = res
           //console.log("Összekapcsolt adatok jönnek: ", res)
           if (this.attachedDatas) {

@@ -29,5 +29,13 @@ class DatabaseSeeder extends Seeder
             'admin' => 2,
             'email_verified_at' => now(),
         ]);
+
+        DB::table('users')->insert([
+            'name' => 'testuser',
+            'email' => 'testuser@email.com',
+            'password' => bcrypt('Almafa12'),
+            'admin' => 0,
+            'email_verified_at' => now(),
+        ]);
     }
 }
