@@ -69,10 +69,24 @@
             <td>
               <span *ngIf="editModeId !== user.id">{{user.name}}</span>
               <input *ngIf="(editModeId === user.id)" [(ngModel)]="user.name" class="form-control">
+              <div *ngIf="editModeId === user.id">
+                <div *ngFor="let errormessage of erModName" class="validation">
+                  <div *ngIf="erModName != null && userModifySuccess == false," class="text-danger" role="alert" >
+                    {{errormessage}}
+                  </div>
+                </div>
+              </div> 
             </td>
             <td>
               <span *ngIf="editModeId !== user.id">{{user.email}}</span>
               <input *ngIf="(editModeId === user.id)" [(ngModel)]="user.email" class="form-control">
+              <div *ngIf="editModeId === user.id">
+                <div *ngFor="let errormessage of erModEmail" class="validation">
+                  <div *ngIf="erModEmail != null && userModifySuccess == false," class="text-danger" role="alert" >
+                    {{errormessage}}
+                  </div>
+                </div>
+              </div> 
             </td>
             
             <td>

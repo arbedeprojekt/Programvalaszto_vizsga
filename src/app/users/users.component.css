@@ -66,6 +66,10 @@ td {
   cursor: pointer;
 }
 
+.validation {
+    font-size: .875rem;
+}
+
 /*Fix szélességek beállítása*/
 .button-container {
     display: inline-flex;
@@ -83,3 +87,4 @@ td:nth-child(1) {
     min-width: 150px;
     max-width: 200px;
 }
+

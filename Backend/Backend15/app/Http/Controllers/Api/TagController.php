@@ -30,7 +30,7 @@ class TagController extends ResponseController
         $tag->group = $request[ "group" ];
         $tag->save();
 
-        return $this->sendResponse( new TagResource( $tag ), "Címke kiírva");
+        return $this->sendResponse( new TagResource( $tag ), "Sikeres rögzítés");
     }
 
     public function modifyTag( TagRequest $request ) {

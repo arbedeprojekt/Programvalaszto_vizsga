@@ -54,18 +54,18 @@ class EventRequest extends FormRequest
 
         return [
             "name.required" => "Esemény neve elvárt.",
-            "name.unique" => "Esemény már létezik ezzel a megnevezéssel",
+            //"name.unique" => "Esemény már létezik ezzel a megnevezéssel",
             "name.min" => "Túl rövid esemény név.",
             "name.max" => "Túl hosszú esemény név.",
             "startDate.date" => "Érvényes kezdeti dátum szükséges.",
             "startDate.date_format" => "Kezdeti dátum formátuma helytelen.",
-            "startDate.before_or_equal" => "Kezdeti dátum a befejezési dátumnál nem lehet korábban.",
+            "startDate.before_or_equal" => "Kezdeti dátum a befejezési dátumnál nem lehet később.",
             "endDate.date" => "Érvényes befejezési dátum szükséges.",
             "endDate.date_format" => "Befejezési dátum formátuma helytelen.",
             "endDate.after_or_equal" => "Befejezési dátum a kezdeti dátumnál nem lehet korábban.",
             "startTime.date_format" => "Kezdeti idő formátuma helytelen.",
             "endTime.date_format" => "Befejezési idő formátuma helytelen.",
-            
+            "weblink.url" => "A weblink formátuma https:// kezdetű legyen"
             
         ];
     }

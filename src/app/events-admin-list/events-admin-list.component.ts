@@ -29,12 +29,14 @@ export class EventsAdminListComponent {
   erEndDate: any
   erStartTime: any
   erEndTime: any
+  erWeblink: any
 
   erModName: any
   erModStartDate: any
   erModEndDate: any
   erModStartTime: any
   erModEndTime: any
+  erModWeblink: any
 
   //A táblázat megjelenítéséhez
   newEvent = { image: '', name: '', description: '', startDate: '', endDate: '', startTime: '', endTime: '', locationName: '', locationcountry: '', address: '', gpx: '', weblink: '' }
@@ -89,6 +91,7 @@ export class EventsAdminListComponent {
             this.erModEndDate = res.error["endDate"]
             this.erModStartTime = res.error["startTime"]
             this.erModEndTime = res.error["endTime"]
+            this.erModWeblink = res.error["weblink"]
             this.base.show(res.message || "Hiba történt!", "danger")
           }
           else {
@@ -144,6 +147,7 @@ export class EventsAdminListComponent {
             this.erEndDate = res.error["endDate"]
             this.erStartTime = res.error["startTime"]
             this.erEndTime = res.error["endTime"]
+            this.erWeblink = res.error["weblink"]
             this.base.show("Hiba történt!", "danger")
           }
           //ahoz hogy az oldal újrafrissüljön.

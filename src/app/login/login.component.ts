@@ -30,7 +30,7 @@ export class LoginComponent {
   unknownErrorMessageBool = false
   //visszajelez, ha hibás a login
   loginError = false
- 
+
 
   //setVisible-höz tartozik
   noPermission = true;
@@ -58,15 +58,15 @@ export class LoginComponent {
               this.errorNameMessage = ""
               this.errorPasswordMessage = ""
               this.mailRegError = false
-              
+
               this.localStorage.setItem("token", res.data.token)
               this.localStorage.setItem("user", res.data.name)
               this.localStorage.setItem("admin", res.data.admin)
-              
-              
+
+
               // console.log(this.auth.saveLoginData)
 
-              
+
               this.unknownErrorMessageBool = false
 
               // Ellenőrizzük, hogy van-e returnUrl
@@ -99,9 +99,11 @@ export class LoginComponent {
           const status = res.status;
 
           if (status === 404) {
-            this.auth.showToast("A megadott felhasználónévvel regisztráció nem található", "danger")
+            this.auth.showToast("A felhasználónév vagy jelszó nem megfelelő", "danger")
           } else if (status === 401) {
             this.auth.showToast("A felhasználónév vagy jelszó nem megfelelő", "danger")
+          } else if (status === 403) {
+            this.auth.showToast("Igazolja vissza az e-mail címét a bejelentkezés előtt.", "danger")
           } else {
             this.auth.showToast("Hálózati vagy szerverhiba történt!", "danger")
           }

@@ -92,6 +92,11 @@
           <div class="mb-3">
             <label class="form-label">Weboldal</label>
             <input type="text" class="form-control" [(ngModel)]="newEvent.weblink" name="weblink" id="" placeholder="Pl.: https://www.szalajkaliget.hu/">
+            <div *ngFor="let errormessage of erWeblink" class="validation">
+              <div *ngIf="erWeblink != null && newEventSuccess == false ," class="text-danger" role="alert" >
+                {{errormessage}}
+              </div>
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label">Kép</label>
@@ -221,6 +226,11 @@
               <td>
                 <span *ngIf="editModeId !== event.id">{{event.weblink}}</span>
                 <input *ngIf="editModeId === event.id" [(ngModel)]="event.weblink" class="form-control">
+                <div *ngFor="let errormessage of erModWeblink" class="validation">
+                  <div *ngIf="erModWeblink != null && eventModifySuccess == false ," class="text-danger" role="alert" >
+                    {{errormessage}}
+                  </div>
+                </div>
               </td>
               <td>
                 <span *ngIf="editModeId !== event.id">{{event.gpx}}</span>

@@ -16,11 +16,19 @@ export class UsersComponent {
   addDeleteColumn: any
   errMessage: any
 
+  name = ""
+  email = ""
+
+  erModName: any
+  erModEmail: any
+
+  userModifySuccess = false
+
   users: any
 
   // adatok módosításához
   editModeId: number | null = null
-  
+
   //módosításkor fellépő hibaüzenetek elmentése
   errModfyMsg: any
 
@@ -31,18 +39,18 @@ export class UsersComponent {
     private http: HttpClient,
     public localStorage: LocalStorageService) {
     this.base.dataUsersObs.subscribe(
-      (res:any) => this.users = res
+      (res: any) => this.users = res
     )
     this.base.downloadAllUsers()
     this.getAllUsers()
-    this.isUserSuperadmin() 
+    this.isUserSuperadmin()
 
   }
 
   getAllUsers() {
     this.base.dataUsersSub.subscribe(
       (user: any) => {
-          if(user) {
+        if (user) {
           //console.log("res a users-ben:", res)
           this.users = user.data
         }
@@ -56,23 +64,29 @@ export class UsersComponent {
   //   this.base.dataUsersSub.subscribe()
   // }
 
-  updateData(data:any){
+  updateData(data: any) {
     let admin = localStorage.getItem("admin")
 
-    if( admin === "2" || admin === "1") {
+    if (admin === "2" || admin === "1") {
       this.base.updateUser(data).subscribe(
         {
-          next:(res:any)=>{
-            if(res.success == false){
+          next: (res: any) => {
+            if (res.success == false) {
               //console.log("hibaüzenetek: ",res.error)
+              console.log("hibaüzenet: ", res.error)
+              this.erModName = ""
+              this.erModEmail = ""
+              this.erModName = res.error["name"]
+              this.erModEmail = res.error["email"]
               this.base.show(res.message || "A módosítás sikertelen!", "danger")
             }
             //console.log("Sikeres módosítás", res)
             this.base.show(res.message || "Sikeres módosítás!", "success")
+            this.userModifySuccess = true
             this.editModeId = null
             this.base.downloadAllUsers()
           },
-          error:(error:any)=>{
+          error: (error: any) => {
             //console.log("Valami hiba: ",error)
             this.base.show("Hálózati hiba vagy szerverhiba történt!", "danger")
           }
@@ -83,10 +97,10 @@ export class UsersComponent {
   }
 
   isUserSuperadmin() {
-    if(this.localStorage.getItem("admin") === "2"){
+    if (this.localStorage.getItem("admin") === "2") {
       this.selectDisabled = false
     }
-    else{
+    else {
       this.selectDisabled = true
 
     }

@@ -92,7 +92,7 @@ class SubscriptionController extends ResponseController
                 $subscription->save();
             }
         
-            return $this->sendResponse($subscription, 'Sikeresen frissített feliratkozás.');
+            return $this->sendResponse($subscription, 'Sikeres rögzítés.');
     }
 
 
